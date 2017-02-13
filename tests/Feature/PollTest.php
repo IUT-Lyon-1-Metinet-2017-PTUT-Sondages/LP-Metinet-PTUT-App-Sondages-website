@@ -2,14 +2,12 @@
 
 namespace Tests\Feature;
 
+use App\AnswerCheckbox;
 use App\Poll;
 use App\User;
-use Illuminate\Support\Facades\Artisan;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Support\Facades\Hash;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class PollTest extends TestCase
 {
