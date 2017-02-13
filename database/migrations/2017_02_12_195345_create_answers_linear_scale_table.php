@@ -19,7 +19,7 @@ class CreateAnswersLinearScaleTable extends Migration
             $table->integer('count')->unsigned()->default(0);
 
             $table->integer('value');
-            $table->string('text');
+            $table->string('text')->nullable();
 
             $table->foreign('question_id')->references('id')->on('questions')->onDelete('cascade');
         });
