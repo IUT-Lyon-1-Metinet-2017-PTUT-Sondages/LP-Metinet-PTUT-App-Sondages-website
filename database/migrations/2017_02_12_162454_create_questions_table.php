@@ -13,14 +13,17 @@ class CreateQuestionsTable extends Migration
      */
     public function up()
     {
-        Schema::table('questions', function (Blueprint $table) {
+        Schema::create('questions', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('page_id')->unsigned();
             $table->string('title');
-            $table->enum('type', ['checkbox', 'radio', 'linear_scale']);
+            $table->enum('type', [
+                \App\AnswerCheckbox::class,
+                \App\AnswerRadio::class,
+                \App\AnswerLinearScale::class
+            ]);
             $table->timestamps();
 
-            $table->create();
             $table->foreign('page_id')->references('id')->on('pages')->onDelete('cascade');
         });
     }
