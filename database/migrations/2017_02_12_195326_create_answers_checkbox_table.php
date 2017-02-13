@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateAnswersCheckboxTable extends Migration
 {
@@ -14,11 +14,13 @@ class CreateAnswersCheckboxTable extends Migration
     public function up()
     {
         Schema::create('answers_checkbox', function (Blueprint $table) {
-            $table->integer('answer_id')->unsigned(); // this field should not be auto-incrementable
+            $table->increments('id');
+            $table->integer('question_id')->unsigned();
+            $table->integer('count')->unsigned()->default(0);
+
             $table->string('value');
 
-            $table->primary('answer_id');
-            $table->foreign('answer_id')->references('id')->on('answers');
+            $table->foreign('question_id')->references('id')->on('questions')->onDelete('cascade');
         });
     }
 
