@@ -15,7 +15,14 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'first_name', 'last_name',
+        'email', 'password',
+        'is_active', 'is_admin'
+    ];
+
+    protected $casts = [
+        'is_active' => 'bool',
+        'is_admin' => 'bool',
     ];
 
     /**
@@ -26,4 +33,9 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function polls()
+    {
+        return $this->hasMany(Poll::class);
+    }
 }
