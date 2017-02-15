@@ -18,9 +18,10 @@ class CreateQuestionsTable extends Migration
             $table->integer('page_id')->unsigned();
             $table->string('title');
             $table->enum('type', [
-                \App\AnswerCheckbox::class,
-                \App\AnswerRadio::class,
-                \App\AnswerLinearScale::class
+                // Backslash should be escaped
+                str_replace('\\', '\\\\', \App\AnswerCheckbox::class),
+                str_replace('\\', '\\\\', \App\AnswerRadio::class),
+                str_replace('\\', '\\\\', \App\AnswerLinearScale::class)
             ]);
             $table->timestamps();
 
