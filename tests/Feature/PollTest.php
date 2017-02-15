@@ -6,30 +6,20 @@ use App\AnswerCheckbox;
 use App\Poll;
 use App\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Support\Facades\Hash;
+use Tests\HelperTrait;
 use Tests\TestCase;
 
 class PollTest extends TestCase
 {
     use DatabaseMigrations;
+    use HelperTrait;
 
-    private function createUser($firstname)
-    {
-        return User::create([
-            'first_name' => $firstname,
-            'last_name' => 'Smith',
-            'email' => strtolower($firstname) . '@smi.th',
-            'password' => Hash::make('foo'),
-            'is_active' => false,
-            'is_admin' => true,
-        ]);
-    }
 
     public function testPollsCreationWithUsers()
     {
         // Création des utilisateurs
-        $user_john = $this->createUser('John');
-        $user_nick = $this->createUser('Nick');
+        $user_john = factory(User::class)->create(['first_name' => 'John']);
+        $user_nick = factory(User::class)->create(['first_name' => 'Nick']);
 
         // On vérifie s'il n'y a pas de sondage
         $this->assertEquals($user_john->polls()->count(), 0);
@@ -67,5 +57,93 @@ class PollTest extends TestCase
         $this->assertArraySubset([
             'title' => 'Le sondage de Nick'
         ], $user_nick->polls()->first()->toArray());
+    }
+
+    public function testPollToArray()
+    {
+        $poll = $this->bootstrapPoll($now);
+
+        $this->assertArraySubset([
+            'title' => 'My title',
+            'description' => 'My description',
+            'user_id' => 1,
+            'updated_at' => (string)$now,
+            'created_at' => (string)$now,
+            'id' => 1,
+        ], $poll->toArray());
+    }
+
+    public function testPollWithUserToArray()
+    {
+        $poll = $this->bootstrapPoll($now);
+
+        $this->assertArraySubset([
+            'title' => 'My title',
+            'description' => 'My description',
+            'user_id' => 1,
+            'updated_at' => (string)$now,
+            'created_at' => (string)$now,
+            'id' => 1,
+            'user' => [
+                'first_name' => 'John'
+            ],
+        ], $poll->with('user')->first()->toArray());
+
+    }
+
+    public function testPollWithUserAndPagesToArray()
+    {
+        $poll = $this->bootstrapPoll($now);
+        $this->attachPages($poll);
+
+        $this->assertArraySubset([
+            'title' => 'My title',
+            'description' => 'My description',
+            'user_id' => 1,
+            'updated_at' => (string)$now,
+            'created_at' => (string)$now,
+            'id' => 1,
+            'user' => [
+                'first_name' => 'John'
+            ],
+            'pages' => [
+                [
+                    'title' => 'My 1st page'
+                ],
+                [
+                    'title' => 'My 2nd page'
+                ]
+            ]
+        ], $poll->with('user', 'pages')->first()->toArray());
+    }
+
+    public function testPollWithUserAndPagesAndQuestionsToArray()
+    {
+        $poll = $this->bootstrapPoll($now);
+        $this->attachPages($poll);
+        $this->attachQuestions($poll);
+
+        $this->assertArraySubset([
+            'title' => 'My title',
+            'description' => 'My description',
+            'user_id' => 1,
+            'updated_at' => (string)$now,
+            'created_at' => (string)$now,
+            'id' => 1,
+            'user' => [
+                'first_name' => 'John'
+            ],
+            'pages' => [
+                [
+                    'title' => 'My 1st page',
+                    'questions' => [
+                        [
+                            'title' => 'Question 1.1',
+                            'type' => AnswerCheckbox::class,
+                        ]
+                    ]
+                ]
+            ]
+        ], $poll->with('user', 'pages', 'pages.questions')->first()->toArray());
     }
 }
