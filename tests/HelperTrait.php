@@ -17,16 +17,13 @@ use Carbon\Carbon;
 
 trait HelperTrait
 {
-    public function bootstrapPoll(&$now)
+    public function bootstrapPoll()
     {
-        $now = Carbon::now();
         $user = factory(User::class)->create(['first_name' => 'John']);
 
         return $user->polls()->create([
             'title' => 'My title',
             'description' => 'My description',
-            'created_at' => $now,
-            'updated_at' => $now
         ]);
     }
 

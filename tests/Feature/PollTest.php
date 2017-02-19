@@ -61,28 +61,24 @@ class PollTest extends TestCase
 
     public function testPollToArray()
     {
-        $poll = $this->bootstrapPoll($now);
+        $poll = $this->bootstrapPoll();
 
         $this->assertArraySubset([
             'title' => 'My title',
             'description' => 'My description',
             'user_id' => 1,
-            'updated_at' => (string)$now,
-            'created_at' => (string)$now,
             'id' => 1,
         ], $poll->toArray());
     }
 
     public function testPollWithUserToArray()
     {
-        $poll = $this->bootstrapPoll($now);
+        $poll = $this->bootstrapPoll();
 
         $this->assertArraySubset([
             'title' => 'My title',
             'description' => 'My description',
             'user_id' => 1,
-            'updated_at' => (string)$now,
-            'created_at' => (string)$now,
             'id' => 1,
             'user' => [
                 'first_name' => 'John'
@@ -93,15 +89,13 @@ class PollTest extends TestCase
 
     public function testPollWithUserAndPagesToArray()
     {
-        $poll = $this->bootstrapPoll($now);
+        $poll = $this->bootstrapPoll();
         $this->attachPages($poll);
 
         $this->assertArraySubset([
             'title' => 'My title',
             'description' => 'My description',
             'user_id' => 1,
-            'updated_at' => (string)$now,
-            'created_at' => (string)$now,
             'id' => 1,
             'user' => [
                 'first_name' => 'John'
@@ -119,7 +113,7 @@ class PollTest extends TestCase
 
     public function testPollWithUserAndPagesAndQuestionsToArray()
     {
-        $poll = $this->bootstrapPoll($now);
+        $poll = $this->bootstrapPoll();
         $this->attachPages($poll);
         $this->attachQuestions($poll);
 
@@ -127,8 +121,6 @@ class PollTest extends TestCase
             'title' => 'My title',
             'description' => 'My description',
             'user_id' => 1,
-            'updated_at' => (string)$now,
-            'created_at' => (string)$now,
             'id' => 1,
             'user' => [
                 'first_name' => 'John'
@@ -145,5 +137,101 @@ class PollTest extends TestCase
                 ]
             ]
         ], $poll->with('user', 'pages', 'pages.questions')->first()->toArray());
+    }
+
+    public function testPollWithAllRelationToArray()
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessageRegExp('/^Impossible de faire la relation avec l\'une des tables de réponses.*$/');
+
+        $poll = $this->bootstrapPoll();
+        $this->attachPages($poll);
+        $this->attachQuestions($poll);
+        $this->attachAnswers($poll);
+
+        $poll->with('user', 'pages', 'pages.questions', 'pages.questions.answers')->first()->toArray();
+    }
+
+    public function testPollWithAllRelationToCustomArray()
+    {
+        /** @var Poll $poll */
+        $poll = $this->bootstrapPoll();
+        $this->attachPages($poll);
+        $this->attachQuestions($poll);
+        $this->attachAnswers($poll);
+
+        $pollAsArray = $poll->toArrayWithAllRelations();
+
+        $this->assertArraySubset([
+            'title' => 'My title',
+            'description' => 'My description',
+            'user_id' => 1,
+            'id' => 1,
+            'user' => [
+                'first_name' => 'John'
+            ],
+            'pages' => [
+                [
+                    'title' => 'My 1st page',
+                    'questions' => [
+                        [
+                            'id' => 1,
+                            'title' => 'Question 1.1',
+                            'type' => AnswerCheckbox::class,
+                            'answers' => [
+                                [
+                                    'value' => '1st answer'
+                                ],
+                                [
+                                    'value' => '2nd answer'
+                                ]
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ], $pollAsArray);
+    }
+
+    public function testPollWithAllRelationToCustomJson()
+    {
+        /** @var Poll $poll */
+        $poll = $this->bootstrapPoll();
+        $this->attachPages($poll);
+        $this->attachQuestions($poll);
+        $this->attachAnswers($poll);
+
+        $pollAsJson = $poll->toJsonWithAllRelations();
+        $decodedJsonPoll = json_decode($pollAsJson, true);
+
+        $this->assertArraySubset([
+            'title' => 'My title',
+            'description' => 'My description',
+            'user_id' => 1,
+            'id' => 1,
+            'user' => [
+                'first_name' => 'John'
+            ],
+            'pages' => [
+                [
+                    'title' => 'My 1st page',
+                    'questions' => [
+                        [
+                            'id' => 1,
+                            'title' => 'Question 1.1',
+                            'type' => AnswerCheckbox::class,
+                            'answers' => [
+                                [
+                                    'value' => '1st answer'
+                                ],
+                                [
+                                    'value' => '2nd answer'
+                                ]
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ], $decodedJsonPoll);
     }
 }
