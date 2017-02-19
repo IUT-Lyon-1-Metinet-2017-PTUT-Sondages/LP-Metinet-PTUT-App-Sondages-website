@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class AnswerRadio extends Model
+class AnswerRadio extends Model implements AnswerInterface
 {
     use AnswerTrait;
 

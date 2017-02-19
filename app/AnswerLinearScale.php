@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class AnswerLinearScale extends Model
+class AnswerLinearScale extends Model implements AnswerInterface
 {
     use AnswerTrait;
 
