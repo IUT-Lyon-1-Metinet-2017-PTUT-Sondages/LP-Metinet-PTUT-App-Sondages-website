@@ -21,8 +21,24 @@ class Question extends Model
         });
     }
 
-    public function answers()
+    /**
+     * @param string|null $type
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function answers($type = null)
     {
-        return $this->hasMany($this->type);
+        if (!is_string($type)) {
+            $type = $this->type;
+        }
+
+        if (!$type) {
+            throw new \InvalidArgumentException(
+                "Impossible de faire la relation avec l'une des tables de réponses,"
+                . " car cette relation doit se faire  avec la valeur de `questions`.`type`,"
+                . " et le model Question n'est pas instancié."
+            );
+        }
+
+        return $this->hasMany($type);
     }
 }
