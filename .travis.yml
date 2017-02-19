@@ -1,0 +1,21 @@
+language: php
+
+php:
+  - 5.6
+  - 7.0
+  - 7.1
+
+services:
+  - mysql
+
+before_install:
+  - mysql -e 'CREATE DATABASE travis;'
+
+before_script:
+  - cp .env.travis .env
+  - composer self-update
+  - composer install --no-interaction
+  - php artisan key:generate
+
+script:
+  - ./vendor/bin/phpunit
