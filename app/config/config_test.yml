@@ -14,3 +14,10 @@ web_profiler:
 
 swiftmailer:
     disable_delivery: true
+
+doctrine:
+    dbal:
+        host: localhost
+        dbname: ptut_sondages_testing
+        user: ptut_sondages_testing
+        password: ptut_sondages_testing
