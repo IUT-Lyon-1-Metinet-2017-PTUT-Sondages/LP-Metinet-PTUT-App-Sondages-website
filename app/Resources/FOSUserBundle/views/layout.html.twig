@@ -1,8 +1,9 @@
 
-{% extends "AppBundle/AdminUI/base.html.twig" %}
-
-{% block body %}
-        <div> 
+{% extends "adminbase.html.twig" %}
+{% block title %}Kodastran Admin Login{% endblock %}
+{% block bodyclass %}app header-fixed footer-fixed{% endblock %}
+{% block navbarelement %}
+    <li> 
 
             {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
                 {{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }} |
@@ -12,7 +13,14 @@
             {% else %}
                 <a href="{{ path('fos_user_security_login') }}">{{ 'layout.login'|trans({}, 'FOSUserBundle') }}</a>
             {% endif %}
-        </div>
+    </li>
+{% endblock %}
+{% block body %}
+        <br>
+        <br>
+        <br>
+        <br>
+        <!-- à modifier en css -->
 
         {% for type, messages in app.session.flashBag.all %}
             {% for message in messages %}
