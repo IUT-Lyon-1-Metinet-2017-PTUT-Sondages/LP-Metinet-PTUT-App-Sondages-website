@@ -15,9 +15,12 @@ web_profiler:
 swiftmailer:
     disable_delivery: true
 
+liip_functional_test: ~
+
 doctrine:
     dbal:
-        host: localhost
-        dbname: ptut_sondages_testing
-        user: ptut_sondages_testing
-        password: ptut_sondages_testing
+        default_connection: default
+        connections:
+            default:
+                driver: pdo_sqlite
+                path: "%kernel.cache_dir%/test.db"
