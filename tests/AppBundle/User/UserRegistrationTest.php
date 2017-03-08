@@ -78,8 +78,8 @@ class UserRegistrationTest extends WebTestCase
             'fos_user_registration_form[plainPassword][first]' => 'foobar',
             'fos_user_registration_form[plainPassword][second]' => 'foobar',
         ));
-
         $client->submit($form);
+
         $responseContent = $client->getResponse()->getContent();
 
         $this->assertContains($this->quote("L'adresse e-mail est déjà utilisée."), $responseContent);
@@ -96,8 +96,8 @@ class UserRegistrationTest extends WebTestCase
             'fos_user_registration_form[plainPassword][first]' => 'foobar',
             'fos_user_registration_form[plainPassword][second]' => 'foobar',
         ));
-
         $client->submit($form);
+
         $responseContent = $client->getResponse()->getContent();
 
         $this->assertContains($this->quote("L'adresse e-mail n'est pas associée à l'Université Lyon 1."), $responseContent);
@@ -107,6 +107,7 @@ class UserRegistrationTest extends WebTestCase
     public function test_with_valid_email_university_domain()
     {
         $client = $this->createClient();
+        $client->enableProfiler();
         $crawler = $client->request('GET', self::REGISTRATION_ROUTE);
         $form = $crawler->selectButton(self::REGISTRATION_BUTTON)->form(array(
             'fos_user_registration_form[email]' => 'john@univ-lyon1.fr',
@@ -114,12 +115,35 @@ class UserRegistrationTest extends WebTestCase
             'fos_user_registration_form[plainPassword][first]' => 'foobar',
             'fos_user_registration_form[plainPassword][second]' => 'foobar',
         ));
-
         $client->submit($form);
+
+        // Register user & send confirmation mail
+
+        $profiler = $client->getProfile();
+        $client->followRedirect();
         $responseContent = $client->getResponse()->getContent();
+        $john = $this->userRepository->findUserByUsername('John');
 
         $this->assertNotContains($this->quote("L'adresse e-mail n'est pas associée à l'Université Lyon 1."), $responseContent);
+        $this->assertContains($this->quote("Un e-mail a été envoyé à l'adresse john@univ-lyon1.fr."), $responseContent);
         $this->assertCount(1, $this->userRepository->findUsers());
-        $this->assertEquals('john@univ-lyon1.fr', $this->userRepository->findUserByUsername('John')->getEmail());
+        $this->assertEquals('john@univ-lyon1.fr', $john->getEmail());
+        $this->assertEquals('John', $john->getUsername());
+        $this->assertFalse($john->isEnabled());
+
+        // Confirm by requesting the confirmation link
+
+        $email = $profiler->getCollector('swiftmailer')->getMessages()[0];
+        preg_match('/(https?:\/\/[^\s]+)/', $email->getBody(), $matches);
+        $accountConfirmationLink = $matches[0];
+
+        $client->request('GET', $accountConfirmationLink);
+        $client->followRedirect();
+
+        $this->userRepository->reloadUser($john);
+        $responseContent = $client->getResponse()->getContent();
+
+        $this->assertContains($this->quote("Félicitations John, votre compte est maintenant activé."), $responseContent);
+        $this->assertTrue($john->isEnabled());
     }
 }
