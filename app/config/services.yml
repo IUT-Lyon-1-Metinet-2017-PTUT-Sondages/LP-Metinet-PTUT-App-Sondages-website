@@ -4,6 +4,11 @@ parameters:
 #    parameter_name: value
 
 services:
+    app.repository.poll:
+        class: AppBundle\Repository\PollRepository
+
+    app.repository.page:
+        class: AppBundle\Repository\PageRepository
 #    service_name:
 #        class: AppBundle\Directory\ClassName
 #        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
