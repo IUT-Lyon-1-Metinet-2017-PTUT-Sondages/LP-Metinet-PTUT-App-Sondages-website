@@ -10,6 +10,7 @@ namespace Tests\AppBundle\Repository;
 
 
 use AppBundle\Entity\User;
+use FOS\UserBundle\Model\UserManager;
 use Liip\FunctionalTestBundle\Test\WebTestCase;
 
 class UserRegistrationTest extends WebTestCase
@@ -22,10 +23,16 @@ class UserRegistrationTest extends WebTestCase
      */
     private $em;
 
+    /**
+     * @var UserManager
+     */
+    private $userRepository;
+
     protected function setUp()
     {
         $this->em = $this->getContainer()->get('doctrine')->getManager();
-        $this->runCommand('doctrine:schema:update', ['--force' => true], true);
+        $this->userRepository = $this->getContainer()->get('fos_user.user_manager');
+
         $this->runCommand('doctrine:schema:create', [], true);
         $this->runCommand('doctrine:schema:validate', [], true);
     }
@@ -94,6 +101,7 @@ class UserRegistrationTest extends WebTestCase
         $responseContent = $client->getResponse()->getContent();
 
         $this->assertContains($this->quote("L'adresse e-mail n'est pas associée à l'Université Lyon 1."), $responseContent);
+        $this->assertCount(0, $this->userRepository->findUsers());
     }
 
     public function test_with_valid_email_university_domain()
@@ -111,5 +119,7 @@ class UserRegistrationTest extends WebTestCase
         $responseContent = $client->getResponse()->getContent();
 
         $this->assertNotContains($this->quote("L'adresse e-mail n'est pas associée à l'Université Lyon 1."), $responseContent);
+        $this->assertCount(1, $this->userRepository->findUsers());
+        $this->assertEquals('john@univ-lyon1.fr', $this->userRepository->findUserByUsername('John')->getEmail());
     }
 }
