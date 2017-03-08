@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 21.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 841.9 595.3" style="enable-background:new 0 0 841.9 595.3;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:#1B75BC;}
+	.st1{font-family:'MyriadPro-Regular';}
+	.st2{font-size:100px;}
+	.st3{fill:none;stroke:#27AAE1;stroke-width:10;stroke-miterlimit:10;}
+	.st4{fill:#1B75BC;stroke:#1B75BC;stroke-width:10;stroke-miterlimit:10;}
+	.st5{fill:#00AEEF;stroke:#27AAE1;stroke-miterlimit:10;}
+	.st6{fill:#1B75BC;stroke:#1B75BC;stroke-miterlimit:10;}
+	.st7{fill:none;stroke:#1B75BC;stroke-width:10;stroke-miterlimit:10;}
+</style>
+<g id="title">
+	<text transform="matrix(1 0 0 1 213.0769 517.2658)" class="st0 st1 st2">Kodrastan</text>
+</g>
+<g id="left">
+	<polygon class="st3" points="393,360.1 393,241.9 444,212.4 380.9,176 278.5,235.1 278.5,353.4 380.9,412.5 432.3,382.8 	"/>
+</g>
+<g id="right">
+	<polygon class="st4" points="564.8,412.9 564.8,383.6 539.4,398.2 	"/>
+	<polygon class="st5" points="425.5,313.7 425.5,383.2 436,383.2 436,310.9 	"/>
+	<polygon class="st5" points="480.3,299.1 480.3,415.7 490.8,415.7 490.8,296.2 	"/>
+	<polygon class="st6" points="453.1,306.4 453.1,398.2 463.6,398.2 463.6,303.5 	"/>
+	<polygon class="st7" points="495.6,182.8 393.2,241.9 393.2,360.1 495.6,419.3 598.1,360.1 598.1,241.9 	"/>
+</g>
+</svg>

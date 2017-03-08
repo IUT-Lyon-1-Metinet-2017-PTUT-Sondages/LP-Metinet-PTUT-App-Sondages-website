@@ -42,27 +42,15 @@
     -->
 
     <body class="{% block bodyclass %}{% endblock %}">
-        <header class="app-header navbar">
-          <button class="navbar-toggler mobile-sidebar-toggler hidden-lg-up" type="button">☰</button>
-          <a class="navbar-brand" href="#"></a>
-          <ul class="nav navbar-nav hidden-md-down">
-
-              {% block navbarelement %}
-                  
-              {% endblock %}
-
-          </ul>
-        </header>
+        {% include '@App/AdminUI/partial/_header.html.twig'%}
         {% block body %}{% endblock %}
-        <footer class="app-footer">
-          {% block footer %}{% endblock%}
-        </footer>
-        
+        {% include '@App/AdminUI/partial/_footer.html.twig' %}
+
          <!-- Bootstrap and necessary plugins -->
           <script src="{{ asset('CoreUI/bower_components/jquery/dist/jquery.min.js') }}"></script>
           <script src="{{ asset('CoreUI/bower_components/tether/dist/js/tether.min.js') }}"></script>
           <script src="{{ asset('CoreUI/bower_components/bootstrap/dist/js/bootstrap.min.js') }}"></script>
-          
+
 
 
 
@@ -76,7 +64,7 @@
 
           <!-- Plugins and scripts required by this views -->
 
-          <!-- Custom scripts required by this view 
+          <!-- Custom scripts required by this view
           <script src="{{ asset('CoreUI/js/views/main.js') }}"></script>-->
         {% block javascripts %}{% endblock %}
     </body>
