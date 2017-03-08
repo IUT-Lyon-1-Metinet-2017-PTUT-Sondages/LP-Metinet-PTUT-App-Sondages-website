@@ -22,5 +22,6 @@ doctrine:
         default_connection: default
         connections:
             default:
-                driver: pdo_sqlite
-                memory: true
+                driver: pdo_mysql
+                dbname: "%database_name%_testing"
+

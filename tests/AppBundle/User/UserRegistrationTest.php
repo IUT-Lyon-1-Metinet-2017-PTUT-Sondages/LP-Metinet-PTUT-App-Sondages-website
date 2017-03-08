@@ -25,13 +25,14 @@ class UserRegistrationTest extends WebTestCase
     protected function setUp()
     {
         $this->em = $this->getContainer()->get('doctrine')->getManager();
-        $this->runCommand('doctrine:database:create', ['--force' => true], true);
         $this->runCommand('doctrine:schema:update', ['--force' => true], true);
+        $this->runCommand('doctrine:schema:create', [], true);
+        $this->runCommand('doctrine:schema:validate', [], true);
     }
 
     protected function tearDown()
     {
-        $this->runCommand('doctrine:database:drop', ['--force' => true], true);
+        $this->runCommand('doctrine:schema:drop', ['--force' => true], true);
     }
 
     private function quote($msg)
