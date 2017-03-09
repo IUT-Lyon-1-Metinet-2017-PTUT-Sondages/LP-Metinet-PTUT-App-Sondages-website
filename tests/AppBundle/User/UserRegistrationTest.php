@@ -11,11 +11,11 @@ namespace Tests\AppBundle\Repository;
 
 use AppBundle\Entity\User;
 use FOS\UserBundle\Model\UserManager;
-use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Symfony\Bundle\SwiftmailerBundle\DataCollector\MessageDataCollector;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Tests\AppBundle\DomainTestCase;
 
-class UserRegistrationTest extends WebTestCase
+class UserRegistrationTest extends DomainTestCase
 {
     const REGISTRATION_ROUTE = '/register/';
     const REGISTRATION_BUTTON = 'Créer un compte';
@@ -33,12 +33,6 @@ class UserRegistrationTest extends WebTestCase
     const INPUT_PASSWORD_FIRST = 'fos_user_registration_form[plainPassword][first]';
     const INPUT_PASSWORD_SECOND = 'fos_user_registration_form[plainPassword][second]';
 
-
-    /**
-     * @var \Doctrine\Common\Persistence\ObjectManager
-     */
-    private $em;
-
     /**
      * @var UserManager
      */
@@ -46,21 +40,8 @@ class UserRegistrationTest extends WebTestCase
 
     protected function setUp()
     {
-        $this->em = $this->getContainer()->get('doctrine')->getManager();
+        parent::setUp();
         $this->userRepository = $this->getContainer()->get('fos_user.user_manager');
-
-        $this->runCommand('doctrine:schema:create', [], true);
-        $this->runCommand('doctrine:schema:validate', [], true);
-    }
-
-    protected function tearDown()
-    {
-        $this->runCommand('doctrine:schema:drop', ['--force' => true], true);
-    }
-
-    private function quote($msg)
-    {
-        return htmlspecialchars($msg, ENT_QUOTES);
     }
 
     public function test_with_empty_values()
