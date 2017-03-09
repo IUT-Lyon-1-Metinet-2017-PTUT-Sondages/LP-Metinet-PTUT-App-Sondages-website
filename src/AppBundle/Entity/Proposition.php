@@ -40,6 +40,13 @@ class Proposition
      */
     private $question;
 
+    /**
+     * Many propositions have One variant.
+     * @ORM\ManyToOne(targetEntity="variant", inversedBy="propositions")
+     * @ORM\JoinColumn(name="variant_id", referencedColumnName="id")
+     */
+    private $variant;
+
 
     /**
      * Get id
@@ -86,7 +93,7 @@ class Proposition
     }
 
     /**
-     * Sets the Many propostions have One question.
+     * Sets question
      *
      * @param mixed $question the question
      *
@@ -98,5 +105,31 @@ class Proposition
 
         return $this;
     }
+
+    /**
+     * Gets the Many propositions have One variant.
+     *
+     * @return mixed
+     */
+    public function getVariant()
+    {
+        return $this->variant;
+    }
+
+    /**
+     * Sets the Many propositions have One variant.
+     *
+     * @param mixed $variant the variant
+     *
+     * @return self
+     */
+    public function setVariant($variant)
+    {
+        $this->variant = $variant;
+
+        return $this;
+    }
+
+
 }
 

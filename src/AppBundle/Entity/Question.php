@@ -42,6 +42,13 @@ class Question
     private $poll;
 
     /**
+     * Many questions have One Page.
+     * @ORM\ManyToOne(targetEntity="Page", inversedBy="questions")
+     * @ORM\JoinColumn(name="page_id", referencedColumnName="id")
+     */
+    private $page;
+
+    /**
      * One question has Many propositions.
      * @ORM\OneToMany(targetEntity="Proposition", mappedBy="question")
      */
@@ -89,11 +96,11 @@ class Question
     /**
      * Add proposition.
      *
-     * @param \App\Entity\Proposition $proposition
+     * @param \AppBundle\Entity\Proposition $proposition
      *
      * @return Brand
      */
-    public function addProposition(\App\Entity\Proposition $proposition)
+    public function addProposition(\AppBundle\Entity\Proposition $proposition)
     {
         $this->propositions[] = $proposition;
         return $this;
@@ -101,9 +108,9 @@ class Question
     /**
      * Remove proposition.
      *
-     * @param \App\Entity\Proposition $proposition
+     * @param \AppBundle\Entity\Proposition $proposition
      */
-    public function removeProposition(\App\Entity\Proposition $proposition)
+    public function removeProposition(\AppBundle\Entity\Proposition $proposition)
     {
         $this->propositions->removeElement($proposition);
     }
@@ -138,6 +145,30 @@ class Question
     public function setPoll($poll)
     {
         $this->poll = $poll;
+
+        return $this;
+    }
+
+    /**
+     * Gets the Page
+     *
+     * @return mixed
+     */
+    public function getPage()
+    {
+        return $this->page;
+    }
+
+    /**
+     * Sets the Page
+     *
+     * @param mixed $page the page
+     *
+     * @return self
+     */
+    public function setPage($page)
+    {
+        $this->page = $page;
 
         return $this;
     }

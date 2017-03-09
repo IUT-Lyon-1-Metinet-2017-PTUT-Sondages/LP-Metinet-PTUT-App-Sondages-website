@@ -9,7 +9,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Knp\DoctrineBehaviors\Model as ORMBehaviors;
 
 /**
- * @ORM\Table(name="Poll")
+ * @ORM\Table(name="poll")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\PollRepository")
  */
 class Poll
@@ -46,6 +46,12 @@ class Poll
      * @ORM\OneToMany(targetEntity="Question", mappedBy="poll")
      */
     private $questions;
+
+     /**
+     * One Poll has Many Pages.
+     * @ORM\OneToMany(targetEntity="Page", mappedBy="poll")
+     */
+    private $pages;
 
     /**
      * Many polls have One user.
@@ -124,11 +130,11 @@ class Poll
     /**
      * Add question.
      *
-     * @param \App\Entity\Question $question
+     * @param \AppBundle\Entity\Question $question
      *
-     * @return Brand
+     * @return question
      */
-    public function addQuestion(\App\Entity\Question $question)
+    public function addQuestion(\AppBundle\Entity\Question $question)
     {
         $this->questions[] = $question;
         return $this;
@@ -136,9 +142,9 @@ class Poll
     /**
      * Remove question.
      *
-     * @param \App\Entity\Question $question
+     * @param \AppBundle\Entity\Question $question
      */
-    public function removeQuestion(\App\Entity\Question $question)
+    public function removeQuestion(\AppBundle\Entity\Question $question)
     {
         $this->questions->removeElement($question);
     }
@@ -153,7 +159,40 @@ class Poll
     }
 
     /**
-     * Gets the Many polls have One user.
+     * Add page.
+     *
+     * @param \AppBundle\Entity\Page $page
+     *
+     * @return page
+     */
+    public function addPage(\AppBundle\Entity\Page $page)
+    {
+        $this->pages[] = $page;
+        return $this;
+    }
+    /**
+     * Remove page.
+     *
+     * @param \AppBundle\Entity\Page $page
+     */
+    public function removePage(\AppBundle\Entity\Page $page)
+    {
+        $this->pages->removeElement($page);
+    }
+    /**
+     * Get pages.
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getPages()
+    {
+        return $this->pages;
+    }
+
+
+
+    /**
+     * Gets user
      *
      * @return mixed
      */
@@ -163,7 +202,7 @@ class Poll
     }
 
     /**
-     * Sets the Many polls have One user.
+     * Sets user
      *
      * @param mixed $user the user
      *

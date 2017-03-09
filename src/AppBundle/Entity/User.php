@@ -4,6 +4,10 @@ namespace AppBundle\Entity;
 
 use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
+use Knp\DoctrineBehaviors\Model as ORMBehaviors;
 
 /**
  * @ORM\Entity
@@ -34,11 +38,11 @@ class User extends BaseUser
     /**
      * Add poll.
      *
-     * @param \App\Entity\Poll $poll
+     * @param \AppBundle\Entity\Poll $poll
      *
      * @return Brand
      */
-    public function addPoll(\App\Entity\Poll $poll)
+    public function addPoll(\AppBundle\Entity\Poll $poll)
     {
         $this->polls[] = $poll;
         return $this;
@@ -46,9 +50,9 @@ class User extends BaseUser
     /**
      * Remove poll.
      *
-     * @param \App\Entity\Poll $poll
+     * @param \AppBundle\Entity\Poll $poll
      */
-    public function removePoll(\App\Entity\Poll $poll)
+    public function removePoll(\AppBundle\Entity\Poll $poll)
     {
         $this->polls->removeElement($poll);
     }
