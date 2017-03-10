@@ -36,9 +36,7 @@ class UserLoginTest extends DomainTestCase
     protected function createUser($enabled = false)
     {
         $user = new User();
-        $user->setEmail('john@etu.univ-lyon1.fr');
-        $user->setFirstName('John');
-        $user->setLastName('Doe');
+        $user->setEmail('john.doe@etu.univ-lyon1.fr');
         $user->setPlainPassword('foobar');
         $user->setEnabled($enabled);
         $this->em->persist($user);
@@ -92,6 +90,6 @@ class UserLoginTest extends DomainTestCase
         $client->followRedirect();
         $responseContent = $client->getResponse()->getContent();
 
-        $this->assertContains('Connecté en tant que John', $responseContent);
+        $this->assertContains('Connecté en tant que john.doe', $responseContent);
     }
 }

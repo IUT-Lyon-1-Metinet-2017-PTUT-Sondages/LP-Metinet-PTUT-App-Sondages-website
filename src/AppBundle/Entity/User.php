@@ -34,7 +34,7 @@ class User extends BaseUser
         // your own logic
     }
 
-    protected function fillNamesByEmail($email)
+    private function fillNamesByEmail($email)
     {
         if (strpos($email, '@') === false) {
             return;
@@ -73,7 +73,7 @@ class User extends BaseUser
      * @param mixed $first_name
      * @return $this
      */
-    public function setFirstName($first_name)
+    private function setFirstName($first_name)
     {
         $this->first_name = $first_name;
         return $this;
@@ -91,7 +91,7 @@ class User extends BaseUser
      * @param mixed $last_name
      * @return $this
      */
-    public function setLastName($last_name)
+    private function setLastName($last_name)
     {
         $this->last_name = $last_name;
         return $this;
