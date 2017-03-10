@@ -36,8 +36,9 @@ class UserLoginTest extends DomainTestCase
     protected function createUser($enabled = false)
     {
         $user = new User();
-        $user->setUsername('John');
         $user->setEmail('john@etu.univ-lyon1.fr');
+        $user->setFirstName('John');
+        $user->setLastName('Doe');
         $user->setPlainPassword('foobar');
         $user->setEnabled($enabled);
         $this->em->persist($user);

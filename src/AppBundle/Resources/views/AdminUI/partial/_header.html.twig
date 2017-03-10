@@ -20,7 +20,8 @@
                 <li class="nav-item hidden-md-down">
 
                         {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-                            {{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }} |
+                            {{ 'salut' }}
+                            {{ 'layout.logged_in_as'|trans({'%user%': app.user}, 'FOSUserBundle') }} |
                             <a href="{{ path('fos_user_security_logout') }}">
                                 {{ 'layout.logout'|trans({}, 'FOSUserBundle') }}
                             </a>

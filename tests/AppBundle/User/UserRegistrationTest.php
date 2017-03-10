@@ -21,15 +21,16 @@ class UserRegistrationTest extends DomainTestCase
     const REGISTRATION_BUTTON = 'Créer un compte';
 
     const MESSAGE_ENTER_EMAIL = "Entrez une adresse e-mail";
-    const MESSAGE_ENTER_USERNAME = "Entrez un nom d'utilisateur";
+    const MESSAGE_ENTER_FIRST_NAME = "Entrez votre prénom";
+    const MESSAGE_ENTER_LAST_NAME = "Entrez votre nom";
     const MESSAGE_ENTER_PASSWORD = "Entrez un mot de passe";
 
     const ERROR_ALREADY_USED_EMAIL = "L'adresse e-mail est déjà utilisée.";
-    const ERROR_ALREADY_USED_USERNAME = "Le nom d'utilisateur est déjà utilisé.";
     const ERROR_INVALID_EMAIL_DOMAIN = "L'adresse e-mail n'est pas associée à l'Université Lyon 1.";
 
     const INPUT_EMAIL = 'fos_user_registration_form[email]';
-    const INPUT_USERNAME = 'fos_user_registration_form[username]';
+    const INPUT_FIRST_NAME = 'fos_user_registration_form[first_name]';
+    const INPUT_LAST_NAME = 'fos_user_registration_form[last_name]';
     const INPUT_PASSWORD_FIRST = 'fos_user_registration_form[plainPassword][first]';
     const INPUT_PASSWORD_SECOND = 'fos_user_registration_form[plainPassword][second]';
 
@@ -54,7 +55,8 @@ class UserRegistrationTest extends DomainTestCase
         $responseContent = $client->getResponse()->getContent();
 
         $this->assertContains($this->quote(self::MESSAGE_ENTER_EMAIL), $responseContent);
-        $this->assertContains($this->quote(self::MESSAGE_ENTER_USERNAME), $responseContent);
+        $this->assertContains($this->quote(self::MESSAGE_ENTER_FIRST_NAME), $responseContent);
+        $this->assertContains($this->quote(self::MESSAGE_ENTER_LAST_NAME), $responseContent);
         $this->assertContains($this->quote(self::MESSAGE_ENTER_PASSWORD), $responseContent);
     }
 
@@ -62,7 +64,8 @@ class UserRegistrationTest extends DomainTestCase
     {
         $user = new User();
         $user->setEmail('john@etu.univ-lyon1.fr');
-        $user->setUsername('John');
+        $user->setFirstName('John');
+        $user->setLastName('Doe');
         $user->setPlainPassword('foobar');
         $this->em->persist($user);
         $this->em->flush();
@@ -71,7 +74,8 @@ class UserRegistrationTest extends DomainTestCase
         $crawler = $client->request('GET', self::REGISTRATION_ROUTE);
         $form = $crawler->selectButton(self::REGISTRATION_BUTTON)->form(array(
             self::INPUT_EMAIL => 'john@etu.univ-lyon1.fr',
-            self::INPUT_USERNAME => 'John',
+            self::INPUT_FIRST_NAME => 'John',
+            self::INPUT_LAST_NAME => 'Doe',
             self::INPUT_PASSWORD_FIRST => 'foobar',
             self::INPUT_PASSWORD_SECOND => 'foobar',
         ));
@@ -80,7 +84,6 @@ class UserRegistrationTest extends DomainTestCase
         $responseContent = $client->getResponse()->getContent();
 
         $this->assertContains($this->quote(self::ERROR_ALREADY_USED_EMAIL), $responseContent);
-        $this->assertContains($this->quote(self::ERROR_ALREADY_USED_USERNAME), $responseContent);
     }
 
     public function test_with_invalid_email_university_domain()
@@ -89,7 +92,8 @@ class UserRegistrationTest extends DomainTestCase
         $crawler = $client->request('GET', self::REGISTRATION_ROUTE);
         $form = $crawler->selectButton(self::REGISTRATION_BUTTON)->form(array(
             self::INPUT_EMAIL => 'john@doe.com',
-            self::INPUT_USERNAME => 'John',
+            self::INPUT_FIRST_NAME => 'John',
+            self::INPUT_LAST_NAME => 'Doe',
             self::INPUT_PASSWORD_FIRST => 'foobar',
             self::INPUT_PASSWORD_SECOND => 'foobar',
         ));
@@ -108,7 +112,8 @@ class UserRegistrationTest extends DomainTestCase
         $crawler = $client->request('GET', self::REGISTRATION_ROUTE);
         $form = $crawler->selectButton(self::REGISTRATION_BUTTON)->form(array(
             self::INPUT_EMAIL => 'john@univ-lyon1.fr',
-            self::INPUT_USERNAME => 'John',
+            self::INPUT_FIRST_NAME => 'John',
+            self::INPUT_LAST_NAME => 'Doe',
             self::INPUT_PASSWORD_FIRST => 'foobar',
             self::INPUT_PASSWORD_SECOND => 'foobar',
         ));
@@ -119,15 +124,16 @@ class UserRegistrationTest extends DomainTestCase
         $profiler = $client->getProfile();
         /** @var MessageDataCollector $swiftMailerCollection */
         $swiftMailerCollection = $profiler->getCollector('swiftmailer');
+
         $client->followRedirect();
         $responseContent = $client->getResponse()->getContent();
-        $john = $this->userRepository->findUserByUsername('John');
+        $john = $this->userRepository->findUserByEmail('john@univ-lyon1.fr');
 
         $this->assertNotContains($this->quote(self::ERROR_INVALID_EMAIL_DOMAIN), $responseContent);
         $this->assertContains($this->quote("Un e-mail a été envoyé à l'adresse john@univ-lyon1.fr."), $responseContent);
         $this->assertCount(1, $this->userRepository->findUsers());
         $this->assertEquals('john@univ-lyon1.fr', $john->getEmail());
-        $this->assertEquals('John', $john->getUsername());
+        $this->assertEquals('john', $john->getUsername());
         $this->assertFalse($john->isEnabled());
         $this->assertNotNull($john->getConfirmationToken());
 

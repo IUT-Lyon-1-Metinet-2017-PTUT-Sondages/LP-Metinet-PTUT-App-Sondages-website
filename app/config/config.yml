@@ -43,7 +43,10 @@ fos_user:
         sender_name: "%mailer_user%"
     registration:
         confirmation:
-          enabled: true
+            enabled: true
+        form:
+            type: AppBundle\Form\RegistrationType
+
 
 # Twig Configuration
 twig:
