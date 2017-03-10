@@ -42,7 +42,7 @@ class Proposition
 
     /**
      * Many propositions have One variant.
-     * @ORM\ManyToOne(targetEntity="variant", inversedBy="propositions")
+     * @ORM\ManyToOne(targetEntity="Variant", inversedBy="propositions")
      * @ORM\JoinColumn(name="variant_id", referencedColumnName="id")
      */
     private $variant;

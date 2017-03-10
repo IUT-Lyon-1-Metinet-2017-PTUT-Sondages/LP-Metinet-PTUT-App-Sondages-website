@@ -10,6 +10,7 @@ class AdminController extends Controller
 {
     /**
      * @Route("/admin", name="admin_homepage")
+     * @Route("/admin/", name="admin_homepage_alt")
      */
     public function indexAction(Request $request)
     {

@@ -1,0 +1,60 @@
+
+{% extends "::adminbase.html.twig" %}
+{% block bodyclass %}app header-fixed sidebar-fixed aside-menu-fixed aside-menu-hidden{% endblock %}
+{% block body %}
+<div class="app-body">
+    <div class="sidebar">
+            <nav class="sidebar-nav">
+                <ul class="nav">
+                </ul>
+            </nav>
+        </div>
+
+        <!-- Main content -->
+        <main class="main">
+
+            <!-- Breadcrumb -->
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">Accueil</li>
+                <li class="breadcrumb-item"><a href="#">Admin</a>
+                </li>
+                <li class="breadcrumb-item active">Sondage</li>
+            </ol>
+
+
+
+            <div class="container-fluid">
+                <div class="row">
+                    <a href="#" class="col-md-12">
+                        <div class="btn btn-primary btn-lg btn-block ">
+                                            <div class="text-center"><i class="fa fa-plus-circle "></i>&nbsp; Créer un nouveau sondage</div>
+                        </div>
+                    </a>
+                </div>
+                <table class="table table-bordered table-striped table-condensed">
+                    <thead>
+                        <tr>
+                            <th>Titre</th>
+                            <th>Utilisateur</th>
+                            <th>Nb question</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for poll in polls %}
+                            <tr>
+                                <td>{{poll.title}}</td>
+                                <td>{{poll.user.email}}</td>
+                                <td></td>
+                                <td>
+                                    <button type="button" class="btn btn-primary"><i class="fa fa-pencil"></i>&nbsp; Editer</button>
+                                    <button type="button" class="btn btn-danger"><i class="fa fa-trash"></i>&nbsp; Supprimer</button>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.conainer-fluid -->
+        </main>
+    </div>
+{% endblock %}
