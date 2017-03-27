@@ -10,10 +10,13 @@ class AdminController extends Controller
 {
     /**
      * @Route("/admin", name="admin_homepage")
+     * @Route("/admin/", name="admin_homepage_alt")
      */
     public function indexAction(Request $request)
     {
         // replace this example code with whatever you need
         return $this->render('@App/AdminUI/index.html.twig');
     }
+
+
 }

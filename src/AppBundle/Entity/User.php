@@ -4,6 +4,10 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use FOS\UserBundle\Model\User as BaseUser;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
+use Knp\DoctrineBehaviors\Model as ORMBehaviors;
 
 /**
  * @ORM\Entity
@@ -19,6 +23,12 @@ class User extends BaseUser
     protected $id;
 
     /**
+     * One user has Many Polls.
+     * @ORM\OneToMany(targetEntity="Poll", mappedBy="user")
+     */
+    private $polls;
+
+    /**
      * @ORM\Column(type="string", length=100)
      */
     protected $first_name;
@@ -31,6 +41,7 @@ class User extends BaseUser
     public function __construct()
     {
         parent::__construct();
+        $this->polls = new ArrayCollection();
         // your own logic
     }
 
@@ -95,5 +106,36 @@ class User extends BaseUser
     {
         $this->last_name = $last_name;
         return $this;
+    }
+
+    /**
+     * Add poll.
+     *
+     * @param \AppBundle\Entity\Poll $poll
+     *
+     * @return Brand
+     */
+    public function addPoll(\AppBundle\Entity\Poll $poll)
+    {
+        $this->polls[] = $poll;
+        return $this;
+    }
+    /**
+     * Remove poll.
+     *
+     * @param \AppBundle\Entity\Poll $poll
+     */
+    public function removePoll(\AppBundle\Entity\Poll $poll)
+    {
+        $this->polls->removeElement($poll);
+    }
+    /**
+     * Get polls.
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getPolls()
+    {
+        return $this->polls;
     }
 }

@@ -1,17 +1,7 @@
 
 {% extends "::adminbase.html.twig" %}
 {% block bodyclass %}app header-fixed sidebar-fixed aside-menu-fixed aside-menu-hidden{% endblock %}
-{% block body %}
-<div class="app-body">
-	<div class="sidebar">
-            <nav class="sidebar-nav">
-                <ul class="nav">
-                </ul>
-            </nav>
-        </div>
-
-        <!-- Main content -->
-        <main class="main">
+{% block main %}
 
             <!-- Breadcrumb -->
             <ol class="breadcrumb">
@@ -121,6 +111,4 @@
 
             </div>
             <!-- /.conainer-fluid -->
-        </main>
-    </div>
 {% endblock %}
