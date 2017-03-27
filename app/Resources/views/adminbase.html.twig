@@ -42,8 +42,21 @@
     -->
 
     <body class="{% block bodyclass %}{% endblock %}">
-        {% include '@App/AdminUI/partial/_header.html.twig'%}
-        {% block body %}{% endblock %}
+        {% if is_granted('ROLE_USER') %}
+            {% include '@App/AdminUI/partial/_header.html.twig'%}
+        {% endif %}
+
+        <div class="app-body">
+            {% if is_granted('ROLE_USER')  %}
+                {% include '@App/AdminUI/partial/_sidebar.html.twig' %}
+            {% endif %}
+            <!-- Main content -->
+            <main class="main">
+                {% block main %}
+
+                {% endblock %}
+            </main>
+        </div>
         {% include '@App/AdminUI/partial/_footer.html.twig' %}
 
          <!-- Bootstrap and necessary plugins -->

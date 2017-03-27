@@ -11,8 +11,9 @@ class PollRepositoryService
         $this->em = $entityManager;
     }
 
-    public function createPoll($poll)
+    public function createPoll($poll, $user)
     {
+            $poll->setUser($user);
             $this->em->persist($poll);
             $this->em->flush();
 

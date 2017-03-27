@@ -17,4 +17,6 @@ class AdminController extends Controller
         // replace this example code with whatever you need
         return $this->render('@App/AdminUI/index.html.twig');
     }
+
+
 }
