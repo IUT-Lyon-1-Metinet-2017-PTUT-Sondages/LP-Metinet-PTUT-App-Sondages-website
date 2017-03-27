@@ -7,24 +7,33 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Entity\Poll;
 use AppBundle\Form\PollType;
+use Symfony\Component\HttpFoundation\Session\Session;
 
+/**
+ * Class PollController
+ * @package AppBundle\Controller
+ */
 class PollController extends Controller
 {
     /**
      * @Route("/admin/polls", name="admin_polls")
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function indexAction(Request $request)
+    public function indexAction(/** @noinspection PhpUnusedParameterInspection */  Request $request)
     {
         $service = $this->container->get('app.pollRepositoryService');
         $polls = $service->getPolls(array());
         // replace this example code with whatever you need
-        return $this->render('@App/AdminUI/Poll/index.html.twig',[
-                'polls' => $polls,
-            ]);
+        return $this->render('@App/AdminUI/Poll/index.html.twig', [
+            'polls' => $polls,
+        ]);
     }
 
     /**
      * @Route("/admin/add-poll", name="admin_add_poll")
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function addAction(Request $request)
     {
@@ -37,10 +46,10 @@ class PollController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $poll = $form->getData();
             $service->createPoll($poll, $user);
+            /** @var Session $session */
             $session = $request->getSession();
             $session->getFlashBag()->add('success', 'All your changes have been saved');
             return $this->redirect($this->generateUrl('admin_polls'));
-
         }
         return $this->render('@App/AdminUI/Poll/add.html.twig', array('form' => $form->createView(),
             ));
@@ -48,14 +57,16 @@ class PollController extends Controller
 
     /**
      * @Route("/admin/edit-poll", name="admin_edit_poll")
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function editAction(Request $request)
+    public function editAction(/** @noinspection PhpUnusedParameterInspection */  Request $request)
     {
         $service = $this->container->get('app.pollRepositoryService');
         $polls = $service->getPolls(array());
         // replace this example code with whatever you need
-        return $this->render('@App/AdminUI/Poll/index.html.twig',[
-                'polls' => $polls,
-            ]);
+        return $this->render('@App/AdminUI/Poll/index.html.twig', [
+            'polls' => $polls,
+        ]);
     }
 }

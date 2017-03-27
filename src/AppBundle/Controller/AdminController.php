@@ -11,12 +11,12 @@ class AdminController extends Controller
     /**
      * @Route("/admin", name="admin_homepage")
      * @Route("/admin/", name="admin_homepage_alt")
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function indexAction(Request $request)
+    public function indexAction(/** @noinspection PhpUnusedParameterInspection */  Request $request)
     {
         // replace this example code with whatever you need
         return $this->render('@App/AdminUI/index.html.twig');
     }
-
-
 }
