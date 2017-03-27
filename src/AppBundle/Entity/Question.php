@@ -2,10 +2,8 @@
 
 namespace AppBundle\Entity;
 
-
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 use Knp\DoctrineBehaviors\Model as ORMBehaviors;
 
@@ -54,7 +52,8 @@ class Question
      */
     private $propositions;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->propositions = new ArrayCollection();
     }
 
@@ -96,21 +95,22 @@ class Question
     /**
      * Add proposition.
      *
-     * @param \AppBundle\Entity\Proposition $proposition
+     * @param Proposition $proposition
      *
-     * @return Brand
+     * @return self
      */
-    public function addProposition(\AppBundle\Entity\Proposition $proposition)
+    public function addProposition(Proposition $proposition)
     {
         $this->propositions[] = $proposition;
+        
         return $this;
     }
     /**
      * Remove proposition.
      *
-     * @param \AppBundle\Entity\Proposition $proposition
+     * @param Proposition $proposition
      */
-    public function removeProposition(\AppBundle\Entity\Proposition $proposition)
+    public function removeProposition(Proposition $proposition)
     {
         $this->propositions->removeElement($proposition);
     }
@@ -173,4 +173,3 @@ class Question
         return $this;
     }
 }
-

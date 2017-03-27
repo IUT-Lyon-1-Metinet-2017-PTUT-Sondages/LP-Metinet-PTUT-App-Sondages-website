@@ -6,6 +6,10 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/**
+ * Class PageType
+ * @package AppBundle\Form
+ */
 class PageType extends AbstractType
 {
     /**
@@ -33,6 +37,4 @@ class PageType extends AbstractType
     {
         return 'appbundle_page';
     }
-
-
 }

@@ -4,7 +4,6 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 use Knp\DoctrineBehaviors\Model as ORMBehaviors;
 
@@ -60,7 +59,8 @@ class Poll
      */
     private $user;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->questions = new ArrayCollection();
     }
 
@@ -130,21 +130,22 @@ class Poll
     /**
      * Add question.
      *
-     * @param \AppBundle\Entity\Question $question
+     * @param Question $question
      *
-     * @return question
+     * @return self
      */
-    public function addQuestion(\AppBundle\Entity\Question $question)
+    public function addQuestion(Question $question)
     {
         $this->questions[] = $question;
+
         return $this;
     }
     /**
      * Remove question.
      *
-     * @param \AppBundle\Entity\Question $question
+     * @param Question $question
      */
-    public function removeQuestion(\AppBundle\Entity\Question $question)
+    public function removeQuestion(Question $question)
     {
         $this->questions->removeElement($question);
     }
@@ -161,21 +162,22 @@ class Poll
     /**
      * Add page.
      *
-     * @param \AppBundle\Entity\Page $page
+     * @param Page $page
      *
-     * @return page
+     * @return self
      */
-    public function addPage(\AppBundle\Entity\Page $page)
+    public function addPage(Page $page)
     {
         $this->pages[] = $page;
+
         return $this;
     }
     /**
      * Remove page.
      *
-     * @param \AppBundle\Entity\Page $page
+     * @param Page $page
      */
-    public function removePage(\AppBundle\Entity\Page $page)
+    public function removePage(Page $page)
     {
         $this->pages->removeElement($page);
     }
@@ -215,4 +217,3 @@ class Poll
         return $this;
     }
 }
-

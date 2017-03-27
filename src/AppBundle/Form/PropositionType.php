@@ -6,6 +6,10 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/**
+ * Class PropositionType
+ * @package AppBundle\Form
+ */
 class PropositionType extends AbstractType
 {
     /**
@@ -35,6 +39,4 @@ class PropositionType extends AbstractType
     {
         return 'appbundle_proposition';
     }
-
-
 }

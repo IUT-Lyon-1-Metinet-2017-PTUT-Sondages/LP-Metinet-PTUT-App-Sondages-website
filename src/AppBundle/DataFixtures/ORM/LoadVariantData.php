@@ -1,10 +1,16 @@
 <?php
-// src/App/DataFixtures/ORM/LoadUserData.php
+
 namespace App\DataFixtures\ORM;
+
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use AppBundle\Entity\Variant;
+
+/**
+ * Class LoadVariantData
+ * @package App\DataFixtures\ORM
+ */
 class LoadVariantData extends AbstractFixture implements OrderedFixtureInterface
 {
     public function load(ObjectManager $manager)
@@ -23,8 +29,6 @@ class LoadVariantData extends AbstractFixture implements OrderedFixtureInterface
 
     public function getOrder()
     {
-
         return 2;
     }
-
 }
