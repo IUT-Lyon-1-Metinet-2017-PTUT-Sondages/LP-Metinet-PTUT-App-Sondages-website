@@ -2,46 +2,46 @@
 
 namespace AppBundle\Services;
 
+use Doctrine\ORM\EntityManager;
+
+/**
+ * Class QuestionRepositoryService
+ * @package AppBundle\Services
+ */
 class QuestionRepositoryService
 {
     private $em;
 
-    public function __construct(\Doctrine\ORM\EntityManager $entityManager)
+    public function __construct(EntityManager $entityManager)
     {
         $this->em = $entityManager;
     }
 
     public function createQuestion($question)
     {
-            $this->em->persist($question);
-            $this->em->flush();
+        $this->em->persist($question);
+        $this->em->flush();
 
-            return true;
-
+        return true;
     }
 
     public function getQuestions($filter)
     {
-            return $this->em->getRepository('AppBundle:Question')->findBy($filter);
-
-
+        return $this->em->getRepository('AppBundle:Question')->findBy($filter);
     }
 
     public function getQuestion($filter)
     {
-            return $this->em->getRepository('AppBundle:Question')->findOneBy($filter);
-
+        return $this->em->getRepository('AppBundle:Question')->findOneBy($filter);
     }
 
 
     public function deleteById($id)
     {
-            $question = $this->em->getRepository('AppBundle:Question')->findOneBy(['id'=>$id]);
-            $this->em->remove($question);
-            $this->em->flush();
+        $question = $this->em->getRepository('AppBundle:Question')->findOneBy(['id'=>$id]);
+        $this->em->remove($question);
+        $this->em->flush();
 
-            return true;
-
+        return true;
     }
-
 }

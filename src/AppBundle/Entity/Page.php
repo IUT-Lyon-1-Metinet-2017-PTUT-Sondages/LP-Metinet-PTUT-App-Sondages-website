@@ -3,11 +3,8 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 use Knp\DoctrineBehaviors\Model as ORMBehaviors;
-
 
 /**
  * Page
@@ -81,21 +78,22 @@ class Page
     /**
      * Add question.
      *
-     * @param \AppBundle\Entity\Question $question
+     * @param Question $question
      *
-     * @return question
+     * @return self
      */
-    public function addQuestion(\AppBundle\Entity\Question $question)
+    public function addQuestion(Question $question)
     {
         $this->questions[] = $question;
+
         return $this;
     }
     /**
      * Remove question.
      *
-     * @param \AppBundle\Entity\Question $question
+     * @param Question $question
      */
-    public function removeQuestion(\AppBundle\Entity\Question $question)
+    public function removeQuestion(Question $question)
     {
         $this->questions->removeElement($question);
     }
@@ -133,4 +131,3 @@ class Page
         return $this;
     }
 }
-

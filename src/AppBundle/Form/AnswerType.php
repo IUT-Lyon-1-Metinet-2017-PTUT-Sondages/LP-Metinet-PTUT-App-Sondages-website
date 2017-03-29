@@ -6,6 +6,10 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/**
+ * Class AnswerType
+ * @package AppBundle\Form
+ */
 class AnswerType extends AbstractType
 {
     /**
@@ -33,6 +37,4 @@ class AnswerType extends AbstractType
     {
         return 'appbundle_answer';
     }
-
-
 }

@@ -2,11 +2,17 @@
 
 namespace AppBundle\Services;
 
+use Doctrine\ORM\EntityManager;
+
+/**
+ * Class PropositionRepositoryService
+ * @package AppBundle\Services
+ */
 class PropositionRepositoryService
 {
     private $em;
 
-    public function __construct(\Doctrine\ORM\EntityManager $entityManager)
+    public function __construct(EntityManager $entityManager)
     {
         $this->em = $entityManager;
     }

@@ -3,8 +3,6 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 use Knp\DoctrineBehaviors\Model as ORMBehaviors;
 
@@ -28,9 +26,9 @@ class Answer
     /**
      * @var string
      *
-     * @ORM\Column(name="sessionid", type="string", length=255)
+     * @ORM\Column(name="sessionId", type="string", length=255)
      */
-    private $sessionid;
+    private $sessionId;
 
     /**
      * Many answers have One variant.
@@ -50,27 +48,26 @@ class Answer
     }
 
     /**
-     * Set sessionid
+     * Set sessionIdd
      *
-     * @param string $sessionid
+     * @param string $sessionId
      *
      * @return Answer
      */
-    public function setSessionid($sessionid)
+    public function setSessionId($sessionId)
     {
-        $this->sessionid = $sessionid;
+        $this->sessionId = $sessionId;
 
         return $this;
     }
 
     /**
-     * Get sessionid
+     * Get sessionIdd
      *
      * @return string
      */
-    public function getSessionid()
+    public function getSessionId()
     {
-        return $this->sessionid;
+        return $this->sessionId;
     }
 }
-

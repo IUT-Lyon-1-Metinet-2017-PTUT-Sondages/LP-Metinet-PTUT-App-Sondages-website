@@ -7,6 +7,10 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
+/**
+ * Class PollType
+ * @package AppBundle\Form
+ */
 class PollType extends AbstractType
 {
     /**
@@ -36,6 +40,4 @@ class PollType extends AbstractType
     {
         return 'appbundle_poll';
     }
-
-
 }

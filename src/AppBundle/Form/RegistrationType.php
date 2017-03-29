@@ -1,21 +1,14 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: kocal
- * Date: 10/03/17
- * Time: 09:11
- */
 
 namespace AppBundle\Form;
 
-
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Form\Extension\Core\Type\PasswordType;
-use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 
+/**
+ * Class RegistrationType
+ * @package AppBundle\Form
+ */
 class RegistrationType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
