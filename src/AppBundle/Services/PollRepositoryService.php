@@ -39,7 +39,5 @@ class PollRepositoryService
         $poll = $this->em->getRepository('AppBundle:Poll')->findOneBy(['id'=>$id]);
         $this->em->remove($poll);
         $this->em->flush();
-
-        return true;
     }
 }
