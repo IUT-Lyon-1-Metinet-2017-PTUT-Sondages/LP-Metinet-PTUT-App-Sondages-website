@@ -16,8 +16,6 @@ class PageRepositoryService
             $this->em->persist($page);
             $this->em->flush();
 
-            return true;
-
     }
 
     public function getPages($filter)
@@ -39,8 +37,6 @@ class PageRepositoryService
             $page = $this->em->getRepository('AppBundle:Page')->findOneBy(['id'=>$id]);
             $this->em->remove($page);
             $this->em->flush();
-
-            return true;
 
     }
 

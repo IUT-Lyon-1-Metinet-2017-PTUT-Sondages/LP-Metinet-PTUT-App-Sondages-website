@@ -16,9 +16,6 @@ class PollRepositoryService
             $poll->setUser($user);
             $this->em->persist($poll);
             $this->em->flush();
-
-            return true;
-
     }
 
     public function getPolls($filter)
@@ -40,9 +37,6 @@ class PollRepositoryService
             $poll = $this->em->getRepository('AppBundle:Poll')->findOneBy(['id'=>$id]);
             $this->em->remove($poll);
             $this->em->flush();
-
-            return true;
-
     }
 
 }

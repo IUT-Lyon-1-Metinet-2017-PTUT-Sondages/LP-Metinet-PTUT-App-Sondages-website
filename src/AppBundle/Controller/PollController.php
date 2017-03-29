@@ -18,7 +18,7 @@ class PollController extends Controller
         $service = $this->container->get('app.pollRepositoryService');
         $polls = $service->getPolls(array());
         // replace this example code with whatever you need
-        return $this->render('@App/AdminUI/Poll/index.html.twig',[
+        return $this->render('@App/AdminUI/Poll/index.html.twig', [
                 'polls' => $polls,
             ]);
     }
@@ -47,14 +47,16 @@ class PollController extends Controller
     }
 
     /**
-     * @Route("/admin/edit-poll", name="admin_edit_poll")
+     * @Route("/admin/edit-poll/{id}", name="admin_edit_poll")
      */
-    public function editAction(Request $request)
+    public function editAction(Request $request, $id)
     {
         $service = $this->container->get('app.pollRepositoryService');
-        $polls = $service->getPolls(array());
+        $polls = $service->getPoll(['id'=>$id]);
+
         // replace this example code with whatever you need
-        return $this->render('@App/AdminUI/Poll/index.html.twig',[
+
+        return $this->render('@App/AdminUI/Poll/index.html.twig', [
                 'polls' => $polls,
             ]);
     }
