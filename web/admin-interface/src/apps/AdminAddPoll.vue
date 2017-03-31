@@ -31,6 +31,9 @@
 <script>
   import Bus from '../bus/admin-add-poll';
   import * as Event from '../bus/events';
+  import {
+    Id as VariantsId
+  } from '../variants';
   import Store from '../stores/admin-add-poll';
 
   export default {
@@ -43,14 +46,27 @@
       onSubmit () {
         console.log(this.poll);
       },
-      addPageBefore(index) {
+      addPageBefore(index = 0) {
         this._addPage(index);
       },
-      addPageAfter(index) {
+      addPageAfter(index = 0) {
         this._addPage(index, false);
       },
       removePage (index) {
         Store.poll.pages.splice(index, 1);
+      },
+      addQuestionToPage (index) {
+        Store.poll.pages[index].questions.push({
+          variant: {
+            name: VariantsId.CHECKBOX
+          },
+          question: {
+            title: 'Question sans titre',
+          }
+        });
+      },
+      removeQuestionFromPage(page, questionIndex) {
+        page.questions.splice(questionIndex, 1);
       },
       _addPage(index, before = true) {
         index += (before ? 0 : 1);
@@ -59,12 +75,27 @@
           description: '',
           questions: []
         });
+
+        this.addQuestionToPage(index);
       },
     },
     mounted () {
       Bus.$on(Event.ADD_PAGE_BEFORE, this.addPageBefore);
       Bus.$on(Event.ADD_PAGE_AFTER, this.addPageAfter);
       Bus.$on(Event.REMOVE_PAGE, this.removePage);
+      Bus.$on(Event.ADD_QUESTION_TO_PAGE, this.addQuestionToPage);
+      Bus.$on(Event.REMOVE_QUESTION_FROM_PAGE, this.removeQuestionFromPage);
+
+      this.addPageBefore();
+    },
+    destroyed () {
+      Store.poll.pages = [];
+
+      Bus.$off(Event.ADD_PAGE_BEFORE, this.addPageBefore);
+      Bus.$off(Event.ADD_PAGE_AFTER, this.addPageAfter);
+      Bus.$off(Event.REMOVE_PAGE, this.removePage);
+      Bus.$off(Event.ADD_QUESTION_TO_PAGE, this.addQuestionToPage);
+      Bus.$off(Event.REMOVE_QUESTION_FROM_PAGE, this.removeQuestionFromPage);
     }
   }
 </script>
@@ -74,8 +105,7 @@
         transition: opacity .3s
     }
 
-    .fade-enter, .fade-leave-to
-    {
+    .fade-enter, .fade-leave-to {
         opacity: 0
     }
 </style>

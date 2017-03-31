@@ -7,26 +7,30 @@
 
                 <div class="pull-right">
                     <button class="btn btn-danger btn-sm" @click="removePage"
-                            :disabled="totalPages <= 1">&times;</button>
+                            :disabled="totalPages <= 1">&times;
+                    </button>
                 </div>
             </div>
 
-            <div class="card-block page--meta">
-                <div class="form-group">
-                    <input :id="'page-title-' + index" v-model="page.title"
-                           class="form-control form-control-md">
+            <div class="card-block">
+                <div class="page--meta">
+                    <div class="form-group">
+                        <input :id="'page-title-' + index" v-model="page.title"
+                               class="form-control form-control-md">
+                    </div>
+
+                    <div class="form-group">
+                        <textarea :id="'page-description-' + index" v-model="page.description"
+                                  class="form-control" placeholder="Description (facultative)"></textarea>
+                    </div>
+                    <hr>
                 </div>
 
-                <div class="form-group">
-                <textarea :id="'page-description-' + index" v-model="page.description" class="form-control"
-                          placeholder="Description (facultative)"></textarea>
+                <div class="page--content">
+                    <button @click="addQuestion" class="btn">Ajouter une question</button>
+                    <question v-for="question, index in page.questions" :key="question"
+                              :page="page" :question="question" :index="index"></question>
                 </div>
-            </div>
-
-            <div class="card-block page--content">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Recusandae, sapiente, temporibus. Aliquid
-                cumque dolorem eius eveniet excepturi fugit nobis nostrum, placeat quaerat similique totam voluptate.
-                Alias beatae maiores quia repellendus?
             </div>
         </div>
         <aside-page :index="index" :before="false"></aside-page>
@@ -61,7 +65,10 @@
     methods: {
       removePage() {
         Bus.$emit(Event.REMOVE_PAGE, this.index);
-      }
+      },
+      addQuestion() {
+        Bus.$emit(Event.ADD_QUESTION_TO_PAGE, this.index);
+      },
     },
   }
 </script>
@@ -97,9 +104,5 @@
         top: auto;
         bottom: 0;
         transform: translate(-50%, 50%);
-    }
-
-    .page--content {
-        padding: 16px;
     }
 </style>
