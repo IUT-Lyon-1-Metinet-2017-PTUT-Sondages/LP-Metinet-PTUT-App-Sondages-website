@@ -35,14 +35,14 @@ class Question
     /**
      * Many questions have One Poll.
      * @ORM\ManyToOne(targetEntity="Poll", inversedBy="questions")
-     * @ORM\JoinColumn(name="poll_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="poll_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $poll;
 
     /**
      * Many questions have One Page.
      * @ORM\ManyToOne(targetEntity="Page", inversedBy="questions")
-     * @ORM\JoinColumn(name="page_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="page_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $page;
 
@@ -51,6 +51,8 @@ class Question
      * @ORM\OneToMany(targetEntity="Proposition", mappedBy="question")
      */
     private $propositions;
+
+
 
     public function __construct()
     {

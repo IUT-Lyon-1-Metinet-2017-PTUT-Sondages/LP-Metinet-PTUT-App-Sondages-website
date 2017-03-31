@@ -34,9 +34,15 @@ class Proposition
     /**
      * Many propostions have One question.
      * @ORM\ManyToOne(targetEntity="question", inversedBy="propositions")
-     * @ORM\JoinColumn(name="question_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="question_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $question;
+
+    /**
+     * One Proposition  has One Answer.
+     * @ORM\OneToOne(targetEntity="Answer", mappedBy="proposition")
+     */
+    private $answer;
 
     /**
      * Many propositions have One variant.
@@ -126,5 +132,20 @@ class Proposition
         $this->variant = $variant;
 
         return $this;
+    }
+    /**
+     * @return mixed
+     */
+    public function getAnswer()
+    {
+        return $this->answer;
+    }
+
+    /**
+     * @param mixed $answer
+     */
+    public function setAnswer($answer)
+    {
+        $this->answer = $answer;
     }
 }

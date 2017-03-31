@@ -15,37 +15,22 @@ use Knp\DoctrineBehaviors\Model as ORMBehaviors;
 class Answer
 {
     /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer")
+     * One answer has One proposition.
+     * @ORM\OneToOne(targetEntity="Proposition")
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\JoinColumn(name="proposition", referencedColumnName="id", onDelete="CASCADE")
      */
-    private $id;
+    private $proposition;
+
+
 
     /**
      * @var string
-     *
+     * @ORM\Id
      * @ORM\Column(name="sessionId", type="string", length=255)
+     * @Assert\NotBlank()
      */
     private $sessionId;
-
-    /**
-     * Many answers have One variant.
-     * @ORM\ManyToOne(targetEntity="variant", inversedBy="answers")
-     * @ORM\JoinColumn(name="variant_id", referencedColumnName="id")
-     */
-    private $variant;
-
-    /**
-     * Get id
-     *
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
 
     /**
      * Set sessionIdd
@@ -69,5 +54,20 @@ class Answer
     public function getSessionId()
     {
         return $this->sessionId;
+    }
+    /**
+     * @return mixed
+     */
+    public function getPropositionId()
+    {
+        return $this->propositionId;
+    }
+
+    /**
+     * @param mixed $propositionId
+     */
+    public function setPropositionId($propositionId)
+    {
+        $this->propositionId = $propositionId;
     }
 }

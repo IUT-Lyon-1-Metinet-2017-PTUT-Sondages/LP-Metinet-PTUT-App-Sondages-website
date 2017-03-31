@@ -37,7 +37,7 @@ class Page
     /**
      * Many pages have One Poll.
      * @ORM\ManyToOne(targetEntity="Poll", inversedBy="pages")
-     * @ORM\JoinColumn(name="poll_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="poll_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $poll;
 
