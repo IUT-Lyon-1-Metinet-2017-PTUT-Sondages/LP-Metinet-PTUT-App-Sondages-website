@@ -61,8 +61,8 @@ class User extends BaseUser
         list($first_name, $last_name) = explode('.', $username);
         $first_name = ucfirst(strtolower($first_name));
         $last_name = ucfirst(strtolower($last_name));
-        $this->setFirstName(ucfirst($first_name));
-        $this->setLastName(ucfirst($last_name));
+        $this->setFirstName($first_name);
+        $this->setLastName($last_name);
     }
 
     public function setEmail($email)
