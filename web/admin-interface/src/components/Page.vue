@@ -5,6 +5,7 @@
             <div class="card-header">
                 Page {{ index + 1 }} sur {{ totalPages }}
 
+
                 <div class="pull-right">
                     <button class="btn btn-danger btn-sm" @click="removePage"
                             :disabled="totalPages <= 1">&times;
@@ -27,9 +28,11 @@
                 </div>
 
                 <div class="page--content">
+                    <transition-group name="fade" tag="div">
+                        <question v-for="question, index in page.questions" :key="question"
+                                  :page="page" :question="question" :index="index"></question>
+                    </transition-group>
                     <button @click="addQuestion" class="btn">Ajouter une question</button>
-                    <question v-for="question, index in page.questions" :key="question"
-                              :page="page" :question="question" :index="index"></question>
                 </div>
             </div>
         </div>

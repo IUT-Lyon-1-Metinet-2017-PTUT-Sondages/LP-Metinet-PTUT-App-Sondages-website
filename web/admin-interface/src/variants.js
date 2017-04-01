@@ -6,8 +6,8 @@ const Id = {
 
 const Humanized = {
   CHECKBOX: 'Boutons à choix multiples',
-  LINEAR_SCALE: 'Échelle linéaire',
-  RADIO: 'Boutons à choix unique'
+  RADIO: 'Boutons à choix unique',
+  LINEAR_SCALE: 'Échelle linéaire'
 };
 
 export {

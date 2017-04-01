@@ -62,7 +62,12 @@
           },
           question: {
             title: 'Question sans titre',
-          }
+          },
+          propositions: [
+            {
+              title: ''
+            }
+          ]
         });
       },
       removeQuestionFromPage(page, questionIndex) {

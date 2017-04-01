@@ -23,7 +23,16 @@
                     </select>
                 </div>
             </div>
-            {{question}}
+            <button @click="question.propositions.push({title: 'qsd'})"
+                    class="btn btn-sm"
+                    :disabled="question.propositions.length >= 10">
+                Ajouter prop
+            </button>
+            <ol>
+                <li v-for="proposition in question.propositions">
+                    <input v-model="proposition.title" class="form-control">
+                </li>
+            </ol>
         </div>
     </div>
 </template>
