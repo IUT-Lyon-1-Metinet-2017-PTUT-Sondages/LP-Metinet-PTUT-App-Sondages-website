@@ -2,6 +2,7 @@
 
 namespace AppBundle\Services;
 
+use AppBundle\Repository\PollRepository;
 use Doctrine\ORM\EntityManager;
 
 /**
@@ -39,5 +40,12 @@ class PollRepositoryService
         $poll = $this->em->getRepository('AppBundle:Poll')->findOneBy(['id'=>$id]);
         $this->em->remove($poll);
         $this->em->flush();
+    }
+
+    public function getResults($id)
+    {
+        /** @var PollRepository $pollRepository */
+        $pollRepository = $this->em->getRepository('AppBundle:Poll');
+        return $pollRepository->findResultsFromPoll($id);
     }
 }
