@@ -37,22 +37,19 @@ class PollController extends Controller
      */
     public function addAction(Request $request)
     {
-        $service = $this->container->get('app.pollRepositoryService');
-
-        $poll = new Poll();
-        $form = $this->createForm(PollType::class, $poll);
-        $form->handleRequest($request);
+        $pollService = $this->container->get('app.pollRepositoryService');
+        $validationService = $this->container->get('app.validationService');
         $user = $this->get('security.token_storage')->getToken()->getUser();
-        if ($form->isSubmitted() && $form->isValid()) {
-            $poll = $form->getData();
-            $service->createPoll($poll, $user);
-            /** @var Session $session */
-            $session = $request->getSession();
-            $session->getFlashBag()->add('success', 'All your changes have been saved');
-            return $this->redirect($this->generateUrl('admin_polls'));
+        if ($request->getMethod() == 'POST') {
+
+            $errors = $validationService->validatePollRequest($request);
+            if(count($errors) > 0){
+                dump($errors);
+                die();
+            }
+
         }
-        return $this->render('@App/AdminUI/Poll/add.html.twig', array('form' => $form->createView(),
-            ));
+        return $this->render('@App/AdminUI/Poll/add.html.twig');
     }
 
     /**

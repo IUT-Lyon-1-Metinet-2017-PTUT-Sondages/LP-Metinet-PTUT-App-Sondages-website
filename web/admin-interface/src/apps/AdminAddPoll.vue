@@ -24,7 +24,6 @@
         <pre>{{ JSON.stringify(Store.poll, null, 2) }}</pre>
 
         <div class="text-center">
-            <button type="submit" class="btn btn-secondary btn-lg">Sauvegarder le brouillon</button>
             <button type="submit" class="btn btn-primary btn-lg">Créer</button>
         </div>
     </form>
