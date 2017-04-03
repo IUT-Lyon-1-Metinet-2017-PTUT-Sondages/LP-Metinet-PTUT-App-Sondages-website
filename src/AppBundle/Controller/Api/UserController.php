@@ -4,6 +4,7 @@ namespace AppBundle\Controller\Api;
 
 use AppBundle\Services\PollRepositoryService;
 use FOS\RestBundle\Controller\FOSRestController;
+use FOS\RestBundle\Controller\Annotations\View;
 
 /**
  * Class UserController
