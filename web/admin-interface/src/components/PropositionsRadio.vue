@@ -1,7 +1,7 @@
 <template>
-    <div>
-        <div v-for="proposition, index in question.propositions" class="row my-q no-gutters">
-           <div class="col col-auto kdt-radio col-form-label mr-h">
+    <transition-group name="fade">
+        <div v-for="proposition, index in question.propositions" :key="index" class="row my-q no-gutters">
+            <div class="col col-auto kdt-radio col-form-label mr-h">
                 <input type="radio" disabled="disabled">
                 <label></label>
             </div>
@@ -14,7 +14,7 @@
                         :disabled="question.propositions.length <= 1">&times;</button>
             </div>
         </div>
-    </div>
+    </transition-group>
 </template>
 
 <script>

@@ -1,13 +1,15 @@
 <template>
-    <div class="form-inline justify-content-center">
-        <select v-model="min" class="form-control">
-            <option v-for="v in [0, 1]" :value="v">{{v}}</option>
-        </select>
-        <span class="m-1">à</span>
-        <select v-model="max" class="form-control">
-            <option v-for="v in [2, 3, 4, 5, 6, 7, 8, 9, 10]" :value="v">{{v}}</option>
-        </select>
-    </div>
+    <transition name="fade" appear>
+        <div class="form-inline justify-content-center">
+            <select v-model="min" class="form-control">
+                <option v-for="v in [0, 1]" :value="v">{{v}}</option>
+            </select>
+            <span class="m-1">à</span>
+            <select v-model="max" class="form-control">
+                <option v-for="v in [2, 3, 4, 5, 6, 7, 8, 9, 10]" :value="v">{{v}}</option>
+            </select>
+        </div>
+    </transition>
 </template>
 
 <script>

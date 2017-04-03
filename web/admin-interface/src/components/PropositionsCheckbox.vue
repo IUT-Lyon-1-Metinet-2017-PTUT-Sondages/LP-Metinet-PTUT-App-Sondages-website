@@ -1,6 +1,6 @@
 <template>
-    <div>
-        <div v-for="proposition, index in question.propositions" class="row my-q no-gutters">
+    <transition-group name="fade">
+        <div v-for="proposition, index in question.propositions" :key="index" class="row my-q no-gutters">
             <span class="col col-auto kdt-checkbox col-form-label mr-h">
                 <input type="checkbox" disabled="disabled">
                 <label></label>
@@ -14,7 +14,7 @@
                         :disabled="question.propositions.length <= 1">&times;</button>
             </div>
         </div>
-    </div>
+    </transition-group>
 </template>
 
 <script>
