@@ -10,12 +10,10 @@
     </ol>
 
     <div class="container-fluid">
-        <div class="row">
-            <h1>
-                <div class="text-center">Création d'un nouveau sondage</div>
-            </h1>
-        </div>
-        <div>
+        <div id="app"></div>
+
+        <div style="display: none;">
+            {{ form(form) }}
             {{ form_start(form) }}
 
             {{ form_row(form.title) }}
@@ -23,9 +21,19 @@
 
             <button class="btn btn-success">{{ 'save'|trans }}</button>
             {{ form_end(form) }}
-
         </div>
-
     </div>
     <!-- /.conainer-fluid -->
+{% endblock %}
+{% block javascripts %}
+    <script src="https://unpkg.com/vue"></script>
+    <script>
+      // var, because it should be accessible in other JS files
+      var STRINGS = Object.freeze({
+        save: "{{ 'save'|trans }}"
+      });
+    </script>
+    <script src="{{ asset('admin-interface/dist/manifest.js') }}"></script>
+    <script src="{{ asset('admin-interface/dist/vendor.js') }}"></script>
+    <script src="{{ asset('admin-interface/dist/admin-add-poll.js') }}"></script>
 {% endblock %}
