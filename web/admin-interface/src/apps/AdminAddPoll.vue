@@ -1,5 +1,5 @@
 <template>
-    <form class="form-horizontal container" @submit.prevent="onSubmit">
+    <form class="form-horizontal container" method="post" :action="FORM_ACTION">
         <h1 class="text-center">Création du sondage</h1>
         <hr>
 
@@ -37,6 +37,7 @@
     data () {
       return {
         Store,
+        FORM_ACTION,
       }
     },
     methods: {

@@ -11,6 +11,12 @@ use FOS\RestBundle\Controller\FOSRestController;
  */
 class UserController extends FOSRestController
 {
+
+    /**
+     * @View(serializerGroups={"Default", "Details"})
+     * @param $id
+     * @return array
+     */
     public function getUserPollsAction($id)
     {
         /** @var PollRepositoryService $pollRepository */

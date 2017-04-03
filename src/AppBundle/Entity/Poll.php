@@ -6,10 +6,14 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 use Knp\DoctrineBehaviors\Model as ORMBehaviors;
+use JMS\Serializer\Annotation\Groups;
+use JMS\Serializer\Annotation\ExclusionPolicy;
+use JMS\Serializer\Annotation\Expose;
 
 /**
  * @ORM\Table(name="poll")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\PollRepository")
+ * @ExclusionPolicy("all")
  */
 class Poll
 {
@@ -19,7 +23,8 @@ class Poll
     ;
     /**
      * @var int
-     *
+     * @Expose
+     * @Groups({"Default"})
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -27,6 +32,8 @@ class Poll
     private $id;
 
     /**
+     * @Expose
+     * @Groups({"Default"})
      * @ORM\Column(type="string", length = 120, name="title", nullable = false)
      * @Assert\NotBlank()
      * @var string
@@ -34,6 +41,8 @@ class Poll
     private $title;
 
     /**
+     * @Expose
+     * @Groups({"Default"})
      * @ORM\Column(type="text", length = 255, name="description", nullable = false)
      * @Assert\NotBlank()
      * @var string
@@ -42,18 +51,24 @@ class Poll
 
     /**
      * One Poll has Many Questions.
+     * @Expose
+     * @Groups({"Details"})
      * @ORM\OneToMany(targetEntity="Question", mappedBy="poll")
      */
     private $questions;
 
      /**
      * One Poll has Many Pages.
+     * @Expose
+     * @Groups({"Details"})
      * @ORM\OneToMany(targetEntity="Page", mappedBy="poll")
      */
     private $pages;
 
     /**
      * Many polls have One user.
+     * @Expose
+     * @Groups({"Details"})
      * @ORM\ManyToOne(targetEntity="user", inversedBy="polls")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */

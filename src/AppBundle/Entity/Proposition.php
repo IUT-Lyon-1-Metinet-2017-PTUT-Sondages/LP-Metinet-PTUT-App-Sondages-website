@@ -5,10 +5,13 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Knp\DoctrineBehaviors\Model as ORMBehaviors;
+use JMS\Serializer\Annotation\ExclusionPolicy;
+use JMS\Serializer\Annotation\Expose;
 
 /**
  * Proposition
  *
+ * @ExclusionPolicy("all")
  * @ORM\Table(name="proposition")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\PropositionRepository")
  */
@@ -16,7 +19,7 @@ class Proposition
 {
     /**
      * @var int
-     *
+     * @Expose
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -25,7 +28,7 @@ class Proposition
 
     /**
      * @var string
-     *
+     * @Expose
      * @ORM\Column(name="title", type="string", length=255, nullable=false)
      * @Assert\NotBlank()
      */
@@ -33,6 +36,7 @@ class Proposition
 
     /**
      * Many propostions have One question.
+     * @Expose
      * @ORM\ManyToOne(targetEntity="question", inversedBy="propositions")
      * @ORM\JoinColumn(name="question_id", referencedColumnName="id", onDelete="CASCADE")
      */
@@ -40,6 +44,7 @@ class Proposition
 
     /**
      * One Proposition  has One Answer.
+     * @Expose
      * @ORM\OneToOne(targetEntity="Answer", mappedBy="proposition")
      */
     private $answer;
@@ -54,7 +59,6 @@ class Proposition
 
     /**
      * Get id
-     *
      * @return int
      */
     public function getId()
@@ -64,7 +68,6 @@ class Proposition
 
     /**
      * Set title
-     *
      * @param string $title
      *
      * @return Proposition
@@ -78,7 +81,6 @@ class Proposition
 
     /**
      * Get title
-     *
      * @return string
      */
     public function getTitle()
@@ -88,7 +90,6 @@ class Proposition
 
     /**
      * Gets the Many propostions have One question.
-     *
      * @return mixed
      */
     public function getQuestion()
@@ -98,7 +99,6 @@ class Proposition
 
     /**
      * Sets question
-     *
      * @param mixed $question the question
      *
      * @return self
@@ -112,7 +112,6 @@ class Proposition
 
     /**
      * Gets the Many propositions have One variant.
-     *
      * @return mixed
      */
     public function getVariant()
@@ -122,7 +121,6 @@ class Proposition
 
     /**
      * Sets the Many propositions have One variant.
-     *
      * @param mixed $variant the variant
      *
      * @return self
