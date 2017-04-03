@@ -49,18 +49,22 @@ fos_user:
         form:
             type: AppBundle\Form\RegistrationType
 fos_rest:
+    param_fetcher_listener: true
+    body_listener: true
+    format_listener: true
     view:
+        view_response_listener: 'force'
         formats:
-            json: true
-            rss: false
-            xml: false
+            xml: true
+            json : true
         templating_formats:
-            json: true
+            html: true
         force_redirects:
             html: true
         failed_validation: HTTP_BAD_REQUEST
         default_engine: twig
-# Twig Configuration
+    routing_loader:
+        default_format: json
 twig:
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"

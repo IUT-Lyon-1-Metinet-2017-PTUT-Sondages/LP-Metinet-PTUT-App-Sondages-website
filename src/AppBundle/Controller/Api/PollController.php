@@ -2,11 +2,8 @@
 
 namespace AppBundle\Controller\Api;
 
-use AppBundle\Entity\Poll;
 use AppBundle\Services\PollRepositoryService;
 use FOS\RestBundle\Controller\FOSRestController;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * Class PollController
@@ -14,21 +11,10 @@ use Symfony\Component\HttpFoundation\JsonResponse;
  */
 class PollController extends FOSRestController
 {
-    /**
-     * @Route("/api/polls", name="api_polls")
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
-    public function listAction()
+    public function pollsAction()
     {
         /** @var PollRepositoryService $pollRepository */
         $pollRepository = $this->get('app.pollrepositoryservice');
-        /** @var Poll[] $polls */
-        $polls = $pollRepository->getPolls([]);
-        $test = [];
-        foreach ($polls as $poll) {
-            $test[] = $poll->getTitle();
-        }
-        var_dump($test);
-        return new JsonResponse($test);
+        return $pollRepository->getPolls([]);
     }
 }
