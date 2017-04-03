@@ -3,19 +3,21 @@
         <h1 class="text-center">Création du sondage</h1>
         <hr>
 
-        <div class="form-group">
-            <input v-model="Store.poll.title" class="form-control form-control-lg">
+        <div class="form-group" :class="{'has-danger': Store.poll.title.length == 0}">
+            <input v-model="Store.poll.title" name="poll[title]" required
+                   class="form-control form-control-lg" placeholder="Titre du formulaire (requis)">
         </div>
 
         <div class="form-group">
-            <textarea v-model="Store.poll.description" class="form-control"
-                      placeholder="Description du formulaire"></textarea>
+            <textarea v-model="Store.poll.description" name="poll[description]"
+                      class="form-control" placeholder="Description du formulaire (facultative)"></textarea>
         </div>
 
         <hr>
         <transition-group name="fade" tag="div">
-            <page v-for="page, index in Store.poll.pages" :key="page"
-                  :page="page" :index="index"></page>
+            <page v-for="page, pageIndex in Store.poll.pages"
+                  :key="page"
+                  :page="page" :pageIndex="pageIndex"></page>
         </transition-group>
         <hr>
 
@@ -148,7 +150,7 @@
 
 <style>
     .fade-enter-active, .fade-leave-active {
-        transition: opacity .3s
+        transition: opacity .2s
     }
 
     .fade-enter, .fade-leave-to {

@@ -7,7 +7,7 @@
 
         <div class="card">
             <div class="card-header">
-                Page {{ index + 1 }} sur {{ totalPages }}
+                Page {{ pageIndex + 1 }} sur {{ totalPages }}
 
                 <div class="pull-right">
                     <button class="btn btn-danger btn-sm" @click="removePage"
@@ -18,13 +18,15 @@
 
             <div class="card-block">
                 <div class="page--meta">
-                    <div class="form-group">
-                        <input :id="'page-title-' + index" v-model="page.title"
-                               class="form-control form-control-md">
+                    <div class="form-group" :class="{'has-danger': page.title.length == 0}" >
+                        <input v-model="page.title" required
+                                :name="'poll[pages][' + pageIndex + '][title]'"
+                               class="form-control form-control-md" placeholder="Titre de la page (requis)">
                     </div>
 
                     <div class="form-group">
-                        <textarea :id="'page-description-' + index" v-model="page.description"
+                        <textarea v-model="page.description"
+                                  :name="'poll[pages][' + pageIndex + '][description]'"
                                   class="form-control" placeholder="Description (facultative)"></textarea>
                     </div>
                     <hr>
@@ -32,8 +34,10 @@
 
                 <div class="page--content">
                     <transition-group name="fade" tag="div">
-                        <template v-for="question, index in page.questions">
-                            <question :key="index" :page="page" :question="question" :index="index"></question>
+                        <template v-for="question, questionIndex in page.questions">
+                            <question :key="questionIndex"
+                                      :page="page" :pageIndex="pageIndex"
+                                      :question="question" :questionIndex="questionIndex"></question>
                         </template>
                     </transition-group>
                 </div>
@@ -54,7 +58,7 @@
   export default {
     props: {
       page: {type: Object, required: true},
-      index: {type: Number, required: true}
+      pageIndex: {type: Number, required: true}
     },
     data () {
       return {
