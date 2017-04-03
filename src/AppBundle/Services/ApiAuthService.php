@@ -1,9 +1,8 @@
 <?php
 
 namespace AppBundle\Services;
-use Symfony\Component\HttpFoundation\Request;
+use AppBundle\Exception\ApiAuthenticationFailedException;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\Security\Core\Exception\AuthenticationException;
 
 /**
  * Class ApiAuthService
@@ -23,7 +22,7 @@ class ApiAuthService
     public function checkToken()
     {
         if($this->request->get('token') != $this->token) {
-            throw new AuthenticationException();
+            throw new ApiAuthenticationFailedException();
         }
     }
 }

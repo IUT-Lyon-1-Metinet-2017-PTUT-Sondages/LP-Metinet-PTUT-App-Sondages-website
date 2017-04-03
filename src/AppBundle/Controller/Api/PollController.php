@@ -2,7 +2,6 @@
 
 namespace AppBundle\Controller\Api;
 
-use AppBundle\Entity\Poll;
 use AppBundle\Services\ApiAuthService;
 use AppBundle\Services\PollRepositoryService;
 use FOS\RestBundle\Controller\FOSRestController;
