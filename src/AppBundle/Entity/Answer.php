@@ -58,16 +58,16 @@ class Answer
     /**
      * @return mixed
      */
-    public function getPropositionId()
+    public function getProposition()
     {
-        return $this->propositionId;
+        return $this->proposition;
     }
 
     /**
-     * @param mixed $propositionId
+     * @param mixed $proposition
      */
-    public function setPropositionId($propositionId)
+    public function setProposition($proposition)
     {
-        $this->propositionId = $propositionId;
+        $this->proposition = $proposition;
     }
 }
