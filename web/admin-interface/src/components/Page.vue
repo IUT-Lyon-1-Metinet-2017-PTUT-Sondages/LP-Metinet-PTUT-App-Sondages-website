@@ -6,6 +6,8 @@
                 Page {{ index + 1 }} sur {{ totalPages }}
 
 
+
+
                 <div class="pull-right">
                     <button class="btn btn-danger btn-sm" @click="removePage"
                             :disabled="totalPages <= 1">&times;
@@ -47,10 +49,8 @@
 
   export default {
     props: {
-      page: {
-        type: Object,
-        required: true
-      }
+      page: {type: Object, required: true},
+      index: {type: Number, required: true}
     },
     data () {
       return {
@@ -58,19 +58,16 @@
       }
     },
     computed: {
-      index () {
-        return Store.poll.pages.indexOf(this.page);
-      },
       totalPages () {
         return Store.poll.pages.length;
       }
     },
     methods: {
       removePage() {
-        Bus.$emit(Event.REMOVE_PAGE, this.index);
+        Bus.$emit(Event.REMOVE_PAGE, this.page);
       },
       addQuestion() {
-        Bus.$emit(Event.ADD_QUESTION_TO_PAGE, this.index);
+        Bus.$emit(Event.ADD_QUESTION_TO_PAGE, this.page);
       },
     },
   }

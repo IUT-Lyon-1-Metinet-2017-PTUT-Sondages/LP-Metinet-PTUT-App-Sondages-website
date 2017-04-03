@@ -3,6 +3,7 @@
         <div class="card-header">
             Question {{ index + 1 }} sur {{ totalPageQuestions }}
 
+
             <div class="pull-right">
                 <button class="btn btn-danger btn-sm" @click="removeQuestion"
                         :disabled="totalPageQuestions <= 1">&times;
@@ -23,16 +24,15 @@
                     </select>
                 </div>
             </div>
-            <button @click="question.propositions.push({title: 'qsd'})"
-                    class="btn btn-sm"
-                    :disabled="question.propositions.length >= 10">
-                Ajouter prop
-            </button>
-            <ol>
-                <li v-for="proposition in question.propositions">
-                    <input v-model="proposition.title" class="form-control">
-                </li>
-            </ol>
+
+            <div :is="'propositions' + question.variant.name" :question="question"></div>
+
+            <div v-if="question.variant.name !== VariantsId.LINEAR_SCALE " class="text-center">
+                <button @click="question.propositions.push({title: ''})"
+                        :disabled="question.propositions.length >= 12"
+                        class="btn btn-sm">Ajouter une proposition
+                </button>
+            </div>
         </div>
     </div>
 </template>
@@ -46,18 +46,9 @@
 
   export default {
     props: {
-      page: {
-        type: Object,
-        required: true,
-      },
-      question: {
-        type: Object,
-        required: true
-      },
-      index: {
-        type: Number,
-        required: true
-      }
+      page: {type: Object, required: true},
+      question: {type: Object, required: true},
+      index: {type: Number, required: true}
     },
     data () {
       return {
@@ -72,7 +63,7 @@
     },
     methods: {
       removeQuestion() {
-        Bus.$emit(Event.REMOVE_QUESTION_FROM_PAGE, this.page, this.index);
+        Bus.$emit(Event.REMOVE_QUESTION_FROM_PAGE, this.page, this.question);
       }
     }
   }

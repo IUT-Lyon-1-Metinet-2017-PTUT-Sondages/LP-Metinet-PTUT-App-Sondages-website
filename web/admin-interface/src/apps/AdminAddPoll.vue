@@ -14,7 +14,8 @@
 
         <hr>
         <transition-group name="fade" tag="div">
-            <div v-for="page in Store.poll.pages" is="page" :page="page" :key="page"></div>
+            <page v-for="page, index in Store.poll.pages" :key="page"
+                  :page="page" :index="index"></page>
         </transition-group>
         <hr>
 
@@ -52,11 +53,12 @@
       addPageAfter(index = 0) {
         this._addPage(index, false);
       },
-      removePage (index) {
+      removePage (page) {
+        const index = Store.poll.pages.indexOf(page);
         Store.poll.pages.splice(index, 1);
       },
-      addQuestionToPage (index) {
-        Store.poll.pages[index].questions.push({
+      addQuestionToPage (page) {
+        page.questions.push({
           variant: {
             name: VariantsId.CHECKBOX
           },
@@ -64,14 +66,15 @@
             title: 'Question sans titre',
           },
           propositions: [
-            {
-              title: ''
-            }
+            {title: ''},
+            {title: ''},
+            {title: ''},
           ]
         });
       },
-      removeQuestionFromPage(page, questionIndex) {
-        page.questions.splice(questionIndex, 1);
+      removeQuestionFromPage(page, question) {
+        const index = page.questions.indexOf(question);
+        page.questions.splice(index, 1);
       },
       _addPage(index, before = true) {
         index += (before ? 0 : 1);
@@ -81,7 +84,7 @@
           questions: []
         });
 
-        this.addQuestionToPage(index);
+        this.addQuestionToPage(Store.poll.pages[index]);
       },
     },
     mounted () {
