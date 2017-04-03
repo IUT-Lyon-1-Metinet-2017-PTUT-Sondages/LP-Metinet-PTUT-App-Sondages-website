@@ -11,10 +11,26 @@ use FOS\RestBundle\Controller\FOSRestController;
  */
 class PollController extends FOSRestController
 {
-    public function pollsAction()
+    public function getPollsAction()
     {
         /** @var PollRepositoryService $pollRepository */
         $pollRepository = $this->get('app.pollrepositoryservice');
         return $pollRepository->getPolls([]);
+    }
+
+    public function getPollAction($id)
+    {
+        /** @var PollRepositoryService $pollRepository */
+        $pollRepository = $this->get('app.pollrepositoryservice');
+        $poll = $pollRepository->getPoll(['id' => $id]);
+        if(!is_object($poll)){
+            throw $this->createNotFoundException();
+        }
+        return $poll;
+    }
+
+    public function getPollResultsAction($id)
+    {
+
     }
 }
