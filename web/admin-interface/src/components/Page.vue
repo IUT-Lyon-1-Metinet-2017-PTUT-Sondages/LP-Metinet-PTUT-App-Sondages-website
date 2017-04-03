@@ -1,12 +1,13 @@
 <template>
-    <div class="page">
-        <aside-page :index="index"></aside-page>
+    <div class="asided">
+
+        <div class="aside text-center">
+            <button @click="addPageBefore(index)" class="btn btn-primary">Insérer une page avant</button>
+        </div>
+
         <div class="card">
             <div class="card-header">
                 Page {{ index + 1 }} sur {{ totalPages }}
-
-
-
 
                 <div class="pull-right">
                     <button class="btn btn-danger btn-sm" @click="removePage"
@@ -31,14 +32,17 @@
 
                 <div class="page--content">
                     <transition-group name="fade" tag="div">
-                        <question v-for="question, index in page.questions" :key="question"
-                                  :page="page" :question="question" :index="index"></question>
+                        <template v-for="question, index in page.questions">
+                            <question :key="index" :page="page" :question="question" :index="index"></question>
+                        </template>
                     </transition-group>
-                    <button @click="addQuestion" class="btn">Ajouter une question</button>
                 </div>
             </div>
         </div>
-        <aside-page :index="index" :before="false"></aside-page>
+
+        <div class="aside text-center">
+            <button @click="addPageAfter(index)" class="btn btn-primary">Insérer une page après</button>
+        </div>
     </div>
 </template>
 
@@ -63,11 +67,14 @@
       }
     },
     methods: {
+      addPageBefore(pageIndex) {
+        Bus.$emit(Event.ADD_PAGE_BEFORE, pageIndex);
+      },
+      addPageAfter(pageIndex) {
+        Bus.$emit(Event.ADD_PAGE_AFTER, pageIndex);
+      },
       removePage() {
         Bus.$emit(Event.REMOVE_PAGE, this.page);
-      },
-      addQuestion() {
-        Bus.$emit(Event.ADD_QUESTION_TO_PAGE, this.page);
       },
     },
   }
@@ -78,31 +85,5 @@
 
     .card {
         margin: 1em 0;
-    }
-
-    .page {
-        position: relative;
-        margin: 24px 0;
-
-        &:hover {
-            .aside-page {
-                display: block;
-            }
-        }
-    }
-
-    .aside-page {
-        position: absolute;
-        z-index: 1;
-        left: 50%;
-        top: 0;
-        transform: translate(-50%, -50%);
-        display: none
-    }
-
-    .card ~ .aside-page {
-        top: auto;
-        bottom: 0;
-        transform: translate(-50%, 50%);
     }
 </style>

@@ -1,15 +1,15 @@
 <template>
     <transition-group name="fade">
         <div v-for="proposition, index in question.propositions" :key="index" class="row my-q no-gutters">
-            <span class="col col-auto kdt-checkbox col-form-label mr-h">
+            <div class="col col-auto kdt-checkbox col-form-label mr-h">
                 <input type="checkbox" disabled="disabled">
                 <label></label>
-            </span>
+            </div>
             <div class="col">
                 <input v-model="proposition.title" class="form-control d-inline-block">
             </div>
             <div class="col col-auto ml-h">
-                <button class="btn btn-danger"
+                <button class="btn btn-outline-danger"
                         @click="question.propositions.splice(index, 1)"
                         :disabled="question.propositions.length <= 1">&times;</button>
             </div>

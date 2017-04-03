@@ -22,7 +22,6 @@
         <pre>{{ JSON.stringify(Store.poll, null, 2) }}</pre>
 
         <div class="text-center">
-            <!-- style="cursor: pointer" CoreUI ta grosse daronne  -->
             <button type="submit" class="btn btn-secondary btn-lg">Sauvegarder le brouillon</button>
             <button type="submit" class="btn btn-primary btn-lg">Créer</button>
         </div>
@@ -45,7 +44,7 @@
     },
     methods: {
       onSubmit () {
-        console.log(this.poll);
+        console.log(JSON.stringify(Store.poll));
       },
       addPageBefore(index = 0) {
         this._addPage(index);
@@ -57,8 +56,30 @@
         const index = Store.poll.pages.indexOf(page);
         Store.poll.pages.splice(index, 1);
       },
-      addQuestionToPage (page) {
-        page.questions.push({
+      addQuestionBefore(page, questionIndex = 0) {
+        this._addQuestion(page, questionIndex);
+      },
+      addQuestionAfter(page, questionIndex = 0) {
+        this._addQuestion(page, questionIndex, false);
+      },
+      removeQuestion(page, questionIndex) {
+        page.questions.splice(questionIndex, 1);
+      },
+      _addPage(pageIndex = 0, before = true) {
+        pageIndex += (before ? 0 : 1);
+
+        Store.poll.pages.splice(pageIndex, 0, {
+          title: 'Page sans titre',
+          description: '',
+          questions: []
+        });
+
+        this.addQuestionBefore(Store.poll.pages[pageIndex]);
+      },
+      _addQuestion(page, questionIndex = 0, before = true) {
+        questionIndex += (before ? 0 : 1);
+
+        page.questions.splice(questionIndex, 0, {
           variant: {
             name: VariantsId.CHECKBOX
           },
@@ -67,32 +88,18 @@
           },
           propositions: [
             {title: ''},
-            {title: ''},
-            {title: ''},
           ]
         });
-      },
-      removeQuestionFromPage(page, question) {
-        const index = page.questions.indexOf(question);
-        page.questions.splice(index, 1);
-      },
-      _addPage(index, before = true) {
-        index += (before ? 0 : 1);
-        Store.poll.pages.splice(index, 0, {
-          title: 'Page sans titre',
-          description: '',
-          questions: []
-        });
-
-        this.addQuestionToPage(Store.poll.pages[index]);
-      },
+      }
     },
     mounted () {
       Bus.$on(Event.ADD_PAGE_BEFORE, this.addPageBefore);
       Bus.$on(Event.ADD_PAGE_AFTER, this.addPageAfter);
       Bus.$on(Event.REMOVE_PAGE, this.removePage);
-      Bus.$on(Event.ADD_QUESTION_TO_PAGE, this.addQuestionToPage);
-      Bus.$on(Event.REMOVE_QUESTION_FROM_PAGE, this.removeQuestionFromPage);
+
+      Bus.$on(Event.ADD_QUESTION_BEFORE, this.addQuestionBefore);
+      Bus.$on(Event.ADD_QUESTION_AFTER, this.addQuestionAfter);
+      Bus.$on(Event.REMOVE_QUESTION, this.removeQuestion);
 
       this.addPageBefore();
     },
@@ -102,11 +109,41 @@
       Bus.$off(Event.ADD_PAGE_BEFORE, this.addPageBefore);
       Bus.$off(Event.ADD_PAGE_AFTER, this.addPageAfter);
       Bus.$off(Event.REMOVE_PAGE, this.removePage);
-      Bus.$off(Event.ADD_QUESTION_TO_PAGE, this.addQuestionToPage);
-      Bus.$off(Event.REMOVE_QUESTION_FROM_PAGE, this.removeQuestionFromPage);
+
+      Bus.$off(Event.ADD_QUESTION_BEFORE, this.addQuestionBefore);
+      Bus.$off(Event.ADD_QUESTION_AFTER, this.addQuestionAfter);
+      Bus.$off(Event.REMOVE_QUESTION, this.removeQuestion);
     }
   }
 </script>
+
+<style lang="scss" rel="stylesheet/scss">
+    .asided {
+        position: relative;
+        margin: 24px 0;
+    }
+
+    .aside {
+        position: absolute;
+        z-index: 1;
+        left: 50%;
+        top: 0;
+        transform: translate(-50%, -50%);
+
+        transition: opacity .2s ease-in-out;
+        opacity: 0;
+    }
+
+    .asided .aside:last-child {
+        top: auto;
+        bottom: 0;
+        transform: translate(-50%, 50%);
+    }
+
+    .asided:hover > .aside {
+        opacity: 1;
+    }
+</style>
 
 <style>
     .fade-enter-active, .fade-leave-active {

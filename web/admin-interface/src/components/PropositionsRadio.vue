@@ -9,7 +9,7 @@
                 <input v-model="proposition.title" class="form-control d-inline-block">
             </div>
             <div class="col col-auto ml-h">
-                <button class="btn btn-danger"
+                <button class="btn btn-outline-danger"
                         @click="question.propositions.splice(index, 1)"
                         :disabled="question.propositions.length <= 1">&times;</button>
             </div>
