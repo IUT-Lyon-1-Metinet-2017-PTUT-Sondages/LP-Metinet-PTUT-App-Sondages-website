@@ -28,6 +28,16 @@ services:
     app.validationService:
                   class: AppBundle\Services\ValidationService
                   arguments: ["@validator", "@app.variantRepositoryService"]
+    app.twig_extension:
+        class: AppBundle\Twig\AppExtension
+        public: false
+        arguments: ["@app.helper", "@translator"]
+        tags:
+          - {name: twig.extension}
+
+    app.helper:
+        class: AppBundle\Helper
+
 #    service_name:
 #        class: AppBundle\Directory\ClassName
 #        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]

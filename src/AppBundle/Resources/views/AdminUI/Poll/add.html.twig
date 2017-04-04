@@ -12,7 +12,10 @@
 
     <div id="app"></div>
 {% endblock %}
+
 {% block javascripts %}
+    {{ loadTranslationsForVueJS('admin-add-poll') }}
+
     <script>
       var FORM_ACTION = "{{ path(app.request.get('_route')) }}";
     </script>
