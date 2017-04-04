@@ -9,7 +9,7 @@ poll:
     description: 'Description du sondage'
 
 page:
-  x_on_y: 'Page x sur y'
+  x_on_y: 'Page %x% sur %y%'
   insert:
     before: 'Insérer une page avant'
     after: 'Insérer une page après'
@@ -21,7 +21,7 @@ page:
     description: 'Description de la page'
 
 question:
-  x_on_y: 'Question x sur y'
+  x_on_y: 'Question %x% sur %y%'
   type: 'Type de la question'
   insert:
     before: 'Insérer une question avant'
@@ -43,4 +43,4 @@ proposition:
   default:
     title: ''
   placeholder:
-    proposition_x: 'Proposition n°x'
+    proposition_x: 'Proposition n°%x%'

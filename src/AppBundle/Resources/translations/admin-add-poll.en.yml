@@ -9,7 +9,7 @@ poll:
     description: 'Poll''s description'
 
 page:
-  x_on_y: 'Page x on y'
+  x_on_y: 'Page %x% on %y%'
   insert:
     before: 'Insert a page before'
     after: 'Insert a page after'
@@ -21,7 +21,7 @@ page:
     description: 'Page''s description'
 
 question:
-  x_on_y: 'Question x on y'
+  x_on_y: 'Question %x% on %y%'
   type: 'Question''s type'
   insert:
     before: 'Insert a question before'
@@ -43,4 +43,4 @@ proposition:
   default:
     title: ''
   placeholder:
-    proposition_x: 'Proposition #x'
+    proposition_x: 'Proposition #%x%'
