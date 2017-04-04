@@ -9,7 +9,7 @@
 
         <div class="card">
             <div class="card-header">
-                {{ $t('poll.page.x_on_y', {x: questionIndex + 1, y: totalPageQuestions}) }}
+                {{ $t('poll.page.question.x_on_y', {x: questionIndex + 1, y: totalPageQuestions}) }}
 
                 <div class="pull-right">
                     <button @click.prevent="removeQuestion" :disabled="totalPageQuestions <= 1"

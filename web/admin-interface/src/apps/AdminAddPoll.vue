@@ -45,6 +45,15 @@
       onSubmit () {
         console.log(JSON.stringify(Store.poll));
       },
+      preparePoll() {
+        Store.poll = {
+          title: this.$t('poll.default.title'),
+          description: this.$t('poll.default.description'),
+          pages: []
+        };
+
+        this.addPageBefore();
+      },
       addPageBefore(index = 0) {
         this._addPage(index);
       },
@@ -100,7 +109,7 @@
       Bus.$on(Event.ADD_QUESTION_AFTER, this.addQuestionAfter);
       Bus.$on(Event.REMOVE_QUESTION, this.removeQuestion);
 
-      this.addPageBefore();
+      this.preparePoll();
     },
     destroyed () {
       Store.poll.pages = [];
