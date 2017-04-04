@@ -5,6 +5,8 @@ import App from './apps/AdminAddPoll.vue'
 Vue.use(VueI18n);
 Vue.config.lang = window['LOCALE'] || 'fr';
 
+Vue.locale('fr', require('./translations/messages.fr'));
+
 Vue.component('page', require('./components/Page.vue'));
 Vue.component('question', require('./components/Question.vue'));
 Vue.component('propositionsRadio', require('./components/PropositionsRadio.vue'));

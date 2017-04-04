@@ -3,13 +3,13 @@
         <div class="aside text-center">
             <button @click.prevent="addQuestionBefore"
                     class="btn btn-primary btn-sm">
-                Insérer une question après
+                {{ $t('poll.page.question.insert.before') }}
             </button>
         </div>
 
         <div class="card">
             <div class="card-header">
-                Question {{ questionIndex + 1 }} sur {{ totalPageQuestions }}
+                {{ $t('poll.page.x_on_y', {x: questionIndex + 1, y: totalPageQuestions}) }}
 
                 <div class="pull-right">
                     <button @click.prevent="removeQuestion" :disabled="totalPageQuestions <= 1"
@@ -22,16 +22,19 @@
                 <div class="row">
                     <div class="col-md-8 col-sm-6 form-group"
                          :class="{'has-danger': question.question.title.length == 0}">
+
                         <input v-model="question.question.title" required
                                :name="'poll[pages][' + pageIndex + '][questions][' + questionIndex + '][question][title]'"
-                               placeholder="Titre de la question (requis)" class="form-control">
+                               :placeholder="$t('poll.page.question.placeholder.title')"
+                               class="form-control">
                     </div>
                     <div class="col-md-4 col-sm-6 form-group">
                         <select v-model="question.variant.name"
                                 :name="'poll[pages][' + pageIndex + '][questions][' + questionIndex + '][variant][name]'"
-                                class="form-control" title="Type de la question">
-                            <option v-for="humanized, variant in HumanizedVariants" :value="VariantsId[variant]">
-                                {{humanized}}
+                                :title="$t('poll.page.question.type')"
+                                class="form-control">
+                            <option v-for="variant, variantTranslationKey in Variants" :value="variant">
+                                {{ $t('poll.page.question.proposition.variants.types.' + variant) }}
                             </option>
                         </select>
                     </div>
@@ -42,10 +45,11 @@
                      :question="question" :questionIndex="questionIndex"
                 ></div>
 
-                <div v-if="question.variant.name !== VariantsId.LINEAR_SCALE " class="text-center">
-                    <button @click.prevent="question.propositions.push({title: ''})"
+                <div v-if="question.variant.name !== Variants.LINEAR_SCALE " class="text-center">
+                    <button @click.prevent="addProposition"
                             :disabled="question.propositions.length >= 12"
-                            class="btn btn-sm">Ajouter une proposition
+                            class="btn btn-sm">
+                        {{ $t('poll.page.question.proposition.add') }}
                     </button>
                 </div>
             </div>
@@ -53,7 +57,7 @@
 
         <div class="aside text-center">
             <button @click.prevent="addQuestionAfter" class="btn btn-primary btn-sm">
-                Insérer une question après
+                {{ $t('poll.page.question.insert.after') }}
             </button>
         </div>
     </div>
@@ -62,10 +66,7 @@
 <script>
   import Bus from '../bus/admin-add-poll';
   import * as Event from '../bus/events';
-  import {
-    Id as VariantsId,
-    Humanized as HumanizedVariants
-  } from '../variants';
+  import Variants from '../variants';
 
   export default {
     props: {
@@ -76,8 +77,7 @@
     },
     data () {
       return {
-        VariantsId,
-        HumanizedVariants
+        Variants,
       }
     },
     computed: {
@@ -94,6 +94,11 @@
       },
       removeQuestion() {
         Bus.$emit(Event.REMOVE_QUESTION, this.page, this.index);
+      },
+      addProposition() {
+        this.question.propositions.push({
+          title: this.$t('poll.page.question.proposition.default.title')
+        })
       }
     }
   }

@@ -1,6 +1,7 @@
 <template>
     <transition-group name="fade">
-        <div v-for="proposition, propositionIndex in question.propositions" :key="propositionIndex" class="row my-q no-gutters">
+        <div v-for="proposition, propositionIndex in question.propositions" :key="propositionIndex"
+             class="row my-q no-gutters">
             <div class="col col-auto kdt-checkbox col-form-label mr-h">
                 <input type="checkbox" disabled="disabled">
                 <label></label>
@@ -9,7 +10,8 @@
             <div class="col" :class="{'has-danger': proposition.title.length == 0}">
                 <input v-model="proposition.title" required
                        :name="'poll[pages][' + pageIndex + '][questions][' + questionIndex + '][propositions][' +  propositionIndex + '][title]'"
-                       :placeholder="'Proposition n°' + (propositionIndex + 1)" class="form-control d-inline-block">
+                       :placeholder="$t('poll.page.question.proposition.placeholder.proposition_x', {x: propositionIndex + 1})"
+                       class="form-control d-inline-block">
             </div>
 
             <div class="col col-auto ml-h">

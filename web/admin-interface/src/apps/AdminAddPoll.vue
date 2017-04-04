@@ -1,22 +1,21 @@
 <template>
     <form class="form-horizontal container" method="post" :action="FORM_ACTION">
-        <h1 class="text-center">Création du sondage</h1>
+        <h1 class="text-center">{{ $t('poll.creation') }}</h1>
         <hr>
 
         <div class="form-group" :class="{'has-danger': Store.poll.title.length == 0}">
             <input v-model="Store.poll.title" name="poll[title]" required
-                   class="form-control form-control-lg" placeholder="Titre du formulaire (requis)">
+                   class="form-control form-control-lg" :placeholder="$t('poll.placeholder.title')">
         </div>
 
         <div class="form-group">
             <textarea v-model="Store.poll.description" name="poll[description]"
-                      class="form-control" placeholder="Description du formulaire (facultative)"></textarea>
+                      class="form-control" :placeholder="$t('poll.placeholder.description')"></textarea>
         </div>
 
         <hr>
         <transition-group name="fade" tag="div">
-            <page v-for="page, pageIndex in Store.poll.pages"
-                  :key="page"
+            <page v-for="page, pageIndex in Store.poll.pages" :key="page"
                   :page="page" :pageIndex="pageIndex"></page>
         </transition-group>
         <hr>
@@ -24,7 +23,7 @@
         <pre>{{ JSON.stringify(Store.poll, null, 2) }}</pre>
 
         <div class="text-center">
-            <button type="submit" class="btn btn-primary btn-lg">Créer</button>
+            <button type="submit" class="btn btn-primary btn-lg">{{ $t('poll.create') }}</button>
         </div>
     </form>
 </template>
@@ -32,9 +31,7 @@
 <script>
   import Bus from '../bus/admin-add-poll';
   import * as Event from '../bus/events';
-  import {
-    Id as VariantsId
-  } from '../variants';
+  import Variants from '../variants';
   import Store from '../stores/admin-add-poll';
 
   export default {
@@ -71,8 +68,8 @@
         pageIndex += (before ? 0 : 1);
 
         Store.poll.pages.splice(pageIndex, 0, {
-          title: 'Page sans titre',
-          description: '',
+          title: this.$t('poll.page.default.title'),
+          description: this.$t('poll.page.default.description'),
           questions: []
         });
 
@@ -83,10 +80,10 @@
 
         page.questions.splice(questionIndex, 0, {
           variant: {
-            name: VariantsId.CHECKBOX
+            name: Variants.CHECKBOX
           },
           question: {
-            title: 'Question sans titre',
+            title: this.$t('poll.page.question.default.title')
           },
           propositions: [
             {title: ''},

@@ -10,18 +10,10 @@
         <li class="breadcrumb-item active">Création de sondage</li>
     </ol>
 
-    <div class="container-fluid">
-        <div id="app"></div>
-    </div>
-    <!-- /.conainer-fluid -->
+    <div id="app"></div>
 {% endblock %}
 {% block javascripts %}
     <script>
-      // var, because it should be accessible in other JS files
-      var STRINGS = Object.freeze({
-        save: "{{ 'save'|trans }}"
-      });
-
       var FORM_ACTION = "{{ path(app.request.get('_route')) }}";
     </script>
     <script src="{{ asset('admin-interface/dist/manifest.js') }}"></script>
