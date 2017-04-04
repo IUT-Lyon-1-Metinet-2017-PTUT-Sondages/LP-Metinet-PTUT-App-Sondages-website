@@ -6,15 +6,17 @@
                 <input type="radio" disabled="disabled">
                 <label></label>
             </div>
+
             <div class="col">
                 <input v-model="proposition.title"
                        :name="'poll[pages][' + pageIndex + '][questions][' + questionIndex + '][propositions][' +  propositionIndex + '][title]'"
-                       :placeholder="$t('poll.page.question.proposition.placeholder.proposition_x', {x: propositionIndex + 1})"
+                       :placeholder="$t('proposition.placeholder.proposition_x', {x: propositionIndex + 1})"
                        class="form-control d-inline-block">
             </div>
+
             <div class="col col-auto ml-h">
                 <button class="btn btn-outline-danger"
-                        @click="question.propositions.splice(propositionIndex, 1)"
+                        @click.prevent="question.propositions.splice(propositionIndex, 1)"
                         :disabled="question.propositions.length <= 1">&times;</button>
             </div>
         </div>

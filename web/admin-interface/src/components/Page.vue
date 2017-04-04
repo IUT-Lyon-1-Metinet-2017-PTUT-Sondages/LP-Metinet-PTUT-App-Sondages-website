@@ -3,13 +3,13 @@
 
         <div class="aside text-center">
             <button @click.prevent="addPageBefore(pageIndex)" class="btn btn-primary">
-                {{ $t('poll.page.insert.before') }}
+                {{ $t('page.insert.before') }}
             </button>
         </div>
 
         <div class="card">
             <div class="card-header">
-                {{ $t('poll.page.x_on_y', {x: pageIndex + 1, y: totalPages}) }}
+                {{ $t('page.x_on_y', {x: pageIndex + 1, y: totalPages}) }}
 
                 <div class="pull-right">
                     <button class="btn btn-danger btn-sm" @click="removePage"
@@ -23,14 +23,14 @@
                     <div class="form-group" :class="{'has-danger': page.title.length == 0}">
                         <input v-model="page.title" required
                                :name="'poll[pages][' + pageIndex + '][title]'"
-                               :placeholder="$t('poll.page.placeholder.title')"
-                               class="form-control form-control-md" >
+                               :placeholder="$t('page.placeholder.title')"
+                               class="form-control form-control-md">
                     </div>
 
                     <div class="form-group">
                         <textarea v-model="page.description"
                                   :name="'poll[pages][' + pageIndex + '][description]'"
-                                  :placeholder="$t('poll.page.placeholder.description')"
+                                  :placeholder="$t('page.placeholder.description')"
                                   class="form-control"></textarea>
                     </div>
                     <hr>
@@ -50,7 +50,7 @@
 
         <div class="aside text-center">
             <button @click.prevent="addPageAfter(pageIndex)" class="btn btn-primary">
-                {{ $t('poll.page.insert.before') }}
+                {{ $t('page.insert.before') }}
             </button>
         </div>
     </div>
@@ -59,21 +59,16 @@
 <script>
   import Bus from '../bus/admin-add-poll';
   import * as Event from '../bus/events';
-  import Store from '../stores/admin-add-poll';
 
   export default {
     props: {
+      poll: {type: Object, required: true},
       page: {type: Object, required: true},
       pageIndex: {type: Number, required: true}
     },
-    data () {
-      return {
-        Store,
-      }
-    },
     computed: {
       totalPages () {
-        return Store.poll.pages.length;
+        return this.poll.pages.length;
       }
     },
     methods: {

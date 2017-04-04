@@ -1,12 +1,11 @@
-import Vue from 'vue'
-import VueI18n from 'vue-i18n'
-import App from './apps/AdminAddPoll.vue'
+import Vue from "vue";
+import VueI18n from "vue-i18n";
+import App from "./apps/AdminAddPoll.vue";
 
 Vue.use(VueI18n);
 Vue.config.lang = window['LOCALE'] || 'fr';
 
-Vue.locale('fr', require('./translations/messages.fr'));
-Vue.locale('en', require('./translations/messages.en'));
+Vue.locale(Vue.config.lang, window['TRANSLATIONS'] || {});
 
 Vue.component('page', require('./components/Page.vue'));
 Vue.component('question', require('./components/Question.vue'));

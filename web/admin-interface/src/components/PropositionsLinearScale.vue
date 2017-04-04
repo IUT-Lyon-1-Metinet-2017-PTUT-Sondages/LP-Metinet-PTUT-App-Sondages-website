@@ -6,7 +6,7 @@
             </select>
 
             <span class="m-1">
-                {{ $t('poll.page.question.proposition.variants.LinearScale.to') }}
+                {{ $t('proposition.variants.LinearScale.to') }}
             </span>
 
             <select v-model="max" class="form-control">
@@ -56,7 +56,7 @@
     },
     beforeDestroy() {
       this.question.propositions = [
-        {title: ''},
+        {title: this.$t('proposition.default.title')},
       ];
     }
   }

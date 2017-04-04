@@ -3,13 +3,13 @@
         <div class="aside text-center">
             <button @click.prevent="addQuestionBefore"
                     class="btn btn-primary btn-sm">
-                {{ $t('poll.page.question.insert.before') }}
+                {{ $t('question.insert.before') }}
             </button>
         </div>
 
         <div class="card">
             <div class="card-header">
-                {{ $t('poll.page.question.x_on_y', {x: questionIndex + 1, y: totalPageQuestions}) }}
+                {{ $t('question.x_on_y', {x: questionIndex + 1, y: totalPageQuestions}) }}
 
                 <div class="pull-right">
                     <button @click.prevent="removeQuestion" :disabled="totalPageQuestions <= 1"
@@ -25,16 +25,16 @@
 
                         <input v-model="question.question.title" required
                                :name="'poll[pages][' + pageIndex + '][questions][' + questionIndex + '][question][title]'"
-                               :placeholder="$t('poll.page.question.placeholder.title')"
+                               :placeholder="$t('question.placeholder.title')"
                                class="form-control">
                     </div>
                     <div class="col-md-4 col-sm-6 form-group">
                         <select v-model="question.variant.name"
                                 :name="'poll[pages][' + pageIndex + '][questions][' + questionIndex + '][variant][name]'"
-                                :title="$t('poll.page.question.type')"
+                                :title="$t('question.type')"
                                 class="form-control">
                             <option v-for="variant, variantTranslationKey in Variants" :value="variant">
-                                {{ $t('poll.page.question.proposition.variants.types.' + variant) }}
+                                {{ $t('proposition.variants.types.' + variant) }}
                             </option>
                         </select>
                     </div>
@@ -49,7 +49,7 @@
                     <button @click.prevent="addProposition"
                             :disabled="question.propositions.length >= 12"
                             class="btn btn-sm">
-                        {{ $t('poll.page.question.proposition.add') }}
+                        {{ $t('proposition.add') }}
                     </button>
                 </div>
             </div>
@@ -57,7 +57,7 @@
 
         <div class="aside text-center">
             <button @click.prevent="addQuestionAfter" class="btn btn-primary btn-sm">
-                {{ $t('poll.page.question.insert.after') }}
+                {{ $t('question.insert.after') }}
             </button>
         </div>
     </div>
@@ -97,7 +97,7 @@
       },
       addProposition() {
         this.question.propositions.push({
-          title: this.$t('poll.page.question.proposition.default.title')
+          title: this.$t('proposition.default.title')
         })
       }
     }

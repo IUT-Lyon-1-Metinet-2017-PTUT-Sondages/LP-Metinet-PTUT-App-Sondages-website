@@ -3,24 +3,25 @@
         <h1 class="text-center">{{ $t('poll.creation') }}</h1>
         <hr>
 
-        <div class="form-group" :class="{'has-danger': Store.poll.title.length == 0}">
-            <input v-model="Store.poll.title" name="poll[title]" required
+        <div class="form-group" :class="{'has-danger': poll.title.length == 0}">
+            <input v-model="poll.title" name="poll[title]" required
                    class="form-control form-control-lg" :placeholder="$t('poll.placeholder.title')">
         </div>
 
         <div class="form-group">
-            <textarea v-model="Store.poll.description" name="poll[description]"
+            <textarea v-model="poll.description" name="poll[description]"
                       class="form-control" :placeholder="$t('poll.placeholder.description')"></textarea>
         </div>
 
         <hr>
         <transition-group name="fade" tag="div">
-            <page v-for="page, pageIndex in Store.poll.pages" :key="page"
+            <page v-for="page, pageIndex in poll.pages" :key="page"
+                  :poll="poll"
                   :page="page" :pageIndex="pageIndex"></page>
         </transition-group>
         <hr>
 
-        <pre>{{ JSON.stringify(Store.poll, null, 2) }}</pre>
+        <pre>{{ JSON.stringify(poll, null, 2) }}</pre>
 
         <div class="text-center">
             <button type="submit" class="btn btn-primary btn-lg">{{ $t('poll.create') }}</button>
@@ -32,27 +33,21 @@
   import Bus from '../bus/admin-add-poll';
   import * as Event from '../bus/events';
   import Variants from '../variants';
-  import Store from '../stores/admin-add-poll';
 
   export default {
     data () {
       return {
-        Store,
         FORM_ACTION,
+        poll: {
+          title: this.$t('poll.default.title'),
+          description: this.$t('poll.default.description'),
+          pages: []
+        },
       }
     },
     methods: {
       onSubmit () {
-        console.log(JSON.stringify(Store.poll));
-      },
-      preparePoll() {
-        Store.poll = {
-          title: this.$t('poll.default.title'),
-          description: this.$t('poll.default.description'),
-          pages: []
-        };
-
-        this.addPageBefore();
+        console.log(JSON.stringify(this.poll));
       },
       addPageBefore(index = 0) {
         this._addPage(index);
@@ -61,8 +56,8 @@
         this._addPage(index, false);
       },
       removePage (page) {
-        const index = Store.poll.pages.indexOf(page);
-        Store.poll.pages.splice(index, 1);
+        const index = this.poll.pages.indexOf(page);
+        this.poll.pages.splice(index, 1);
       },
       addQuestionBefore(page, questionIndex = 0) {
         this._addQuestion(page, questionIndex);
@@ -76,13 +71,13 @@
       _addPage(pageIndex = 0, before = true) {
         pageIndex += (before ? 0 : 1);
 
-        Store.poll.pages.splice(pageIndex, 0, {
-          title: this.$t('poll.page.default.title'),
-          description: this.$t('poll.page.default.description'),
+        this.poll.pages.splice(pageIndex, 0, {
+          title: this.$t('page.default.title'),
+          description: this.$t('page.default.description'),
           questions: []
         });
 
-        this.addQuestionBefore(Store.poll.pages[pageIndex]);
+        this.addQuestionBefore(this.poll.pages[pageIndex]);
       },
       _addQuestion(page, questionIndex = 0, before = true) {
         questionIndex += (before ? 0 : 1);
@@ -92,13 +87,16 @@
             name: Variants.CHECKBOX
           },
           question: {
-            title: this.$t('poll.page.question.default.title')
+            title: this.$t('question.default.title')
           },
           propositions: [
             {title: ''},
           ]
         });
       }
+    },
+    created () {
+      this.addPageBefore();
     },
     mounted () {
       Bus.$on(Event.ADD_PAGE_BEFORE, this.addPageBefore);
@@ -108,11 +106,9 @@
       Bus.$on(Event.ADD_QUESTION_BEFORE, this.addQuestionBefore);
       Bus.$on(Event.ADD_QUESTION_AFTER, this.addQuestionAfter);
       Bus.$on(Event.REMOVE_QUESTION, this.removeQuestion);
-
-      this.preparePoll();
     },
     destroyed () {
-      Store.poll.pages = [];
+      this.poll.pages = [];
 
       Bus.$off(Event.ADD_PAGE_BEFORE, this.addPageBefore);
       Bus.$off(Event.ADD_PAGE_AFTER, this.addPageAfter);

@@ -10,7 +10,7 @@
             <div class="col" :class="{'has-danger': proposition.title.length == 0}">
                 <input v-model="proposition.title" required
                        :name="'poll[pages][' + pageIndex + '][questions][' + questionIndex + '][propositions][' +  propositionIndex + '][title]'"
-                       :placeholder="$t('poll.page.question.proposition.placeholder.proposition_x', {x: propositionIndex + 1})"
+                       :placeholder="$t('proposition.placeholder.proposition_x', {x: propositionIndex + 1})"
                        class="form-control d-inline-block">
             </div>
 
