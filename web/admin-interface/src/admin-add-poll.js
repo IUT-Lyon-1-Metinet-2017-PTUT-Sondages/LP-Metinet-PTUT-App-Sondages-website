@@ -6,6 +6,7 @@ Vue.use(VueI18n);
 Vue.config.lang = window['LOCALE'] || 'fr';
 
 Vue.locale('fr', require('./translations/messages.fr'));
+Vue.locale('en', require('./translations/messages.en'));
 
 Vue.component('page', require('./components/Page.vue'));
 Vue.component('question', require('./components/Question.vue'));
