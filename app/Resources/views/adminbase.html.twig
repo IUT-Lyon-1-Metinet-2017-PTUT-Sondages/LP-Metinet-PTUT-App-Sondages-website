@@ -62,6 +62,10 @@
         </div>
         {% include '@App/AdminUI/partial/_footer.html.twig' %}
 
+          <script>
+              var LOCALE = "{{ app.request.locale }}";
+          </script>
+
          <!-- Bootstrap and necessary plugins -->
           <script src="{{ asset('CoreUI/bower_components/jquery/dist/jquery.min.js') }}"></script>
           <script src="{{ asset('CoreUI/bower_components/tether/dist/js/tether.min.js') }}"></script>
