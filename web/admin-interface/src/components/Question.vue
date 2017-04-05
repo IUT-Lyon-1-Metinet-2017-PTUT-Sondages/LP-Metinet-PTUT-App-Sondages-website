@@ -23,10 +23,10 @@
                 <div class="row">
                     <!-- Titre de la question -->
                     <div class="col-md-8 col-sm-6 form-group"
-                         :class="{'has-danger': question.question.title.length == 0}">
+                         :class="{'has-danger': question.title.length == 0}">
 
-                        <input v-model="question.question.title" required
-                               :name="'poll[pages][' + pageIndex + '][questions][' + questionIndex + '][question][title]'"
+                        <input v-model="question.title" required
+                               :name="'poll[pages][' + pageIndex + '][questions][' + questionIndex + '][title]'"
                                :placeholder="$t('question.placeholder.title')"
                                class="form-control">
                     </div>
