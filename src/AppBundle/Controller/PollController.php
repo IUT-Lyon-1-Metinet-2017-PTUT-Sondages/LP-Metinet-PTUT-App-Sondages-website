@@ -23,7 +23,7 @@ class PollController extends Controller
     public function indexAction(/** @noinspection PhpUnusedParameterInspection */  Request $request)
     {
         $service = $this->container->get('app.pollRepositoryService');
-        $polls = $service->getPolls(array());
+        $polls = $service->getPolls([]);
         // replace this example code with whatever you need
         return $this->render('@App/AdminUI/Poll/index.html.twig', [
                 'polls' => $polls,

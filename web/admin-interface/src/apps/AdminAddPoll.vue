@@ -21,7 +21,7 @@
         </transition-group>
         <hr>
 
-        <pre>{{ JSON.stringify(poll, null, 2) }}</pre>
+
 
         <div class="text-center">
             <button type="submit" class="btn btn-primary btn-lg">{{ $t('poll.create') }}</button>
