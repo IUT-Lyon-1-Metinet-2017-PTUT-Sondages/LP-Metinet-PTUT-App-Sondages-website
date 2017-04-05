@@ -84,11 +84,9 @@
         questionIndex += (before ? 0 : 1);
 
         page.questions.splice(questionIndex, 0, {
+          title: this.$t('question.default.title'),
           variant: {
             name: window['VARIANTS']['CHECKBOX']
-          },
-          question: {
-            title: this.$t('question.default.title')
           },
           propositions: [
             {title: ''},
