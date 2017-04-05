@@ -2,11 +2,13 @@
     <transition-group name="fade">
         <div v-for="proposition, propositionIndex in question.propositions" :key="propositionIndex"
              class="row my-q no-gutters">
+            <!-- Input checkbox -->
             <div class="col col-auto kdt-checkbox col-form-label mr-h">
                 <input type="checkbox" disabled="disabled">
                 <label></label>
             </div>
 
+            <!-- Titre de la proposition -->
             <div class="col" :class="{'has-danger': proposition.title.length == 0}">
                 <input v-model="proposition.title" required
                        :name="'poll[pages][' + pageIndex + '][questions][' + questionIndex + '][propositions][' +  propositionIndex + '][title]'"
@@ -14,6 +16,7 @@
                        class="form-control d-inline-block">
             </div>
 
+            <!-- Bouton supprimer -->
             <div class="col col-auto ml-h">
                 <button class="btn btn-outline-danger"
                         @click.prevent="question.propositions.splice(propositionIndex, 1)"
