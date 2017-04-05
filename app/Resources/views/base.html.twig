@@ -7,77 +7,168 @@
         {% block head_meta %}
 
         {% endblock %}
-        <title>{% block title %}Kodastran Admin{% endblock %}</title>
+        <title>{% block title %}Quizz Kodrastan{% endblock %}</title>
         <!-- Generic top stylesheet -->
-        <link rel="stylesheet" href="{{ asset('CoreUI/bower_components/bootstrap/dist/css/bootstrap.min.css') }}" type="text/css" />
-        <link rel="stylesheet" href="{{ asset('CoreUI/bower_components/fontawesome/css/font-awesome.min.css') }}" type="text/css" />
-        <link rel="stylesheet" href="{{ asset('CoreUI/bower_components/simple-line-icons/css/simple-line-icons.css') }}" type="text/css" />
-        <link rel="stylesheet" href="{{ asset('CoreUI/css/style.css') }}" type="text/css" />
-
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"
+              integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ"
+              crossorigin="anonymous">
+        <link rel="stylesheet" href="{{ asset('front/assets/css/style.css') }}" type="text/css">
 
         <!-- Generic favicon -->
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}"/>
         {% block stylesheets %}{% endblock %}
-
+        <script src="https://code.jquery.com/jquery-3.1.1.min.js"
+                integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+                crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"
+                integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn"
+                crossorigin="anonymous"></script>
     </head>
-    <!-- BODY options, add following classes to body to change options
 
-    // Header options
-    1. '.header-fixed'          - Fixed Header
+    <body>
+    <header>
+        <img title="logo" class="logo" alt="logo" src="{{ asset('front/assets/img/logo.png') }}">
+        <h1>Nom de votre sondage</h1>
+    </header>
+    <div class="container">
+        <form action="">
 
-    // Sidebar options
-    1. '.sidebar-fixed'         - Fixed Sidebar
-    2. '.sidebar-hidden'        - Hidden Sidebar
-    3. '.sidebar-off-canvas'    - Off Canvas Sidebar
-    4. '.sidebar-compact'       - Compact Sidebar Navigation (Only icons)
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-block">
+                            <h2 class="card-title">Votre question n°1</h2>
+                            <hr>
+                            <div class="card-text">
 
-    // Aside options
-    1. '.aside-menu-fixed'      - Fixed Aside Menu
-    2. '.aside-menu-hidden'     - Hidden Aside Menu
-    3. '.aside-menu-off-canvas' - Off Canvas Aside Menu
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        Le texte à gauche
+                                    </div>
+                                    <div class="col-md-6"></div>
+                                    <div class="col-md-3 text-right">
+                                        Le texte à droite
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-md-1">
+                                        <div class="kdt-radio">
+                                            <label>
+                                                <input type="radio" name="optionsRadios" id="optionsRadios1">
+                                                <label for="optionsRadios1">1</label>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <div class="kdt-radio">
+                                            <input type="radio" name="optionsRadios" id="optionsRadios2">
+                                            <label for="optionsRadios2">2 abc</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <div class="kdt-radio">
+                                            <input type="radio" name="optionsRadios" id="optionsRadios3">
+                                            <label for="optionsRadios3">3 efg</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <div class="kdt-radio">
+                                            <input type="radio" name="optionsRadios" id="optionsRadios4">
+                                            <label for="optionsRadios4">4</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <div class="kdt-radio">
+                                            <input type="radio" name="optionsRadios" id="optionsRadios5">
+                                            <label for="optionsRadios5">5</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <div class="kdt-radio">
+                                            <input type="radio" name="optionsRadios" id="optionsRadios6">
+                                            <label for="optionsRadios6">6</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <div class="kdt-radio">
+                                            <input type="radio" name="optionsRadios" id="optionsRadios7">
+                                            <label for="optionsRadios7">7 lol</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <div class="kdt-radio">
+                                            <input type="radio" name="optionsRadios" id="optionsRadios8">
+                                            <label for="optionsRadios8">8</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <div class="kdt-radio">
+                                            <input type="radio" name="optionsRadios" id="optionsRadios9">
+                                            <label for="optionsRadios9">9</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <div class="kdt-radio">
+                                            <input type="radio" name="optionsRadios" id="optionsRadios10">
+                                            <label for="optionsRadios10">10 dlaop</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <div class="kdt-radio">
+                                            <input type="radio" name="optionsRadios" id="optionsRadios11">
+                                            <label for="optionsRadios11">11</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <div class="kdt-radio">
+                                            <input type="radio" name="optionsRadios" id="optionsRadios12">
+                                            <label for="optionsRadios12">12</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-block">
+                            <h2 class="card-title">Votre question n°2</h2>
+                            <hr>
+                            <div class="card-text">
 
-    // Footer options
-    1. '.footer-fixed'            - Fixed footer
-
-    -->
-
-    <body class="{% block bodyclass %}{% endblock %}">
-        <header class="app-header navbar">
-          <button class="navbar-toggler mobile-sidebar-toggler hidden-lg-up" type="button">☰</button>
-          <a class="navbar-brand" href="#"></a>
-          <ul class="nav navbar-nav hidden-md-down">
-
-              {% block navbarelement %}
-                  
-              {% endblock %}
-
-          </ul>
-        </header>
-        {% block body %}{% endblock %}
-        <footer class="app-footer">
-          {% block footer %}{% endblock%}
-        </footer>
-        
-         <!-- Bootstrap and necessary plugins -->
-          <script src="{{ asset('CoreUI/bower_components/jquery/dist/jquery.min.js') }}"></script>
-          <script src="{{ asset('CoreUI/bower_components/tether/dist/js/tether.min.js') }}"></script>
-          <script src="{{ asset('CoreUI/bower_components/bootstrap/dist/js/bootstrap.min.js') }}"></script>
-          
-
-
-
-          <!-- GenesisUI main scripts -->
-
-          <script src="{{ asset('CoreUI/js/app.js') }}"></script>
-
-
-
-
-
-          <!-- Plugins and scripts required by this views -->
-
-          <!-- Custom scripts required by this view 
-          <script src="{{ asset('CoreUI/js/views/main.js') }}"></script>-->
-        {% block javascripts %}{% endblock %}
+                                <div class="checkbox kdt-checkbox">
+                                    <input type="checkbox" name="optionsCheckboxes" id="optionsCheckboxes1">
+                                    <label for="optionsCheckboxes1">1</label>
+                                </div>
+                                <div class="checkbox kdt-checkbox">
+                                    <input type="checkbox" name="optionsCheckboxes" id="optionsCheckboxes2">
+                                    <label for="optionsCheckboxes2">2 abc</label>
+                                </div>
+                                <div class="checkbox kdt-checkbox">
+                                    <input type="checkbox" name="optionsCheckboxes" id="optionsCheckboxes3">
+                                    <label for="optionsCheckboxes3">3 efg</label>
+                                </div>
+                                <div class="checkbox kdt-checkbox">
+                                    <input type="checkbox" name="optionsCheckboxes" id="optionsCheckboxes4">
+                                    <label for="optionsCheckboxes4">4</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <button type="button" class="btn btn-send col-xs-12 float-right">Envoyer</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <footer>
+        <img title="logo-iut" class="logo-iut" alt="logo-iut" src="{{ asset('front/assets/img/logo-iut.png') }}">
+        <p class="signature">Hugo Alliaume, Anthony Margerand et Richard Raduly</p>
+    </footer>
     </body>
 </html>
