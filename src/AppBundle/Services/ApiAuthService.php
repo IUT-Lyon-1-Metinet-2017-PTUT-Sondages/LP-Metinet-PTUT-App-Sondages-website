@@ -13,7 +13,7 @@ class ApiAuthService
     private $token;
     private $request;
 
-    public function __construct(RequestStack $requestStack, string $token)
+    public function __construct(RequestStack $requestStack, $token)
     {
         $this->request = $requestStack->getCurrentRequest();
         $this->token   = $token;
