@@ -4,12 +4,13 @@ namespace AppBundle\Controller\Api;
 
 use AppBundle\Services\PollRepositoryService;
 use FOS\RestBundle\Controller\Annotations\View;
+use FOS\RestBundle\Controller\FOSRestController;
 
 /**
  * Class UserController
  * @package AppBundle\Controller\Api
  */
-class UserController extends ApiController
+class UserController extends FOSRestController implements TokenAuthenticatedController
 {
 
     /**
@@ -19,7 +20,6 @@ class UserController extends ApiController
      */
     public function getUserPollsAction($id)
     {
-        $this->checkApiAuthentication();
         /** @var PollRepositoryService $pollRepository */
         $pollRepository = $this->get('app.pollrepositoryservice');
         $polls = $pollRepository->getPolls(['user_id' => $id]);

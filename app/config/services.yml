@@ -34,7 +34,11 @@ services:
         arguments: ["@app.helper", "@translator"]
         tags:
           - {name: twig.extension}
-
+    app.tokens.action_listener:
+        class: AppBundle\EventListener\TokenListener
+        arguments: ["@app.apiAuthService"]
+        tags:
+            - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }
     app.helper:
         class: AppBundle\Helper
 
