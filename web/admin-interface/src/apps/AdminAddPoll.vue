@@ -32,7 +32,6 @@
 <script>
   import Bus from '../bus/admin-add-poll';
   import * as Event from '../bus/events';
-  import Variants from '../variants';
 
   export default {
     data () {
@@ -84,7 +83,7 @@
 
         page.questions.splice(questionIndex, 0, {
           variant: {
-            name: Variants.CHECKBOX
+            name: window['VARIANTS'].CHECKBOX
           },
           question: {
             title: this.$t('question.default.title')

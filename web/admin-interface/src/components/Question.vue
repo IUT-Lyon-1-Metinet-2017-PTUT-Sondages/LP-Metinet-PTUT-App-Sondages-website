@@ -33,8 +33,8 @@
                                 :name="'poll[pages][' + pageIndex + '][questions][' + questionIndex + '][variant][name]'"
                                 :title="$t('question.type')"
                                 class="form-control">
-                            <option v-for="variant, variantTranslationKey in Variants" :value="variant">
-                                {{ $t('proposition.variants.types.' + variant) }}
+                            <option v-for="variant, variantId in VARIANTS" :value="variant">
+                                {{ $t('proposition.variants.types.' + variantId) }}
                             </option>
                         </select>
                     </div>
@@ -45,7 +45,7 @@
                      :question="question" :questionIndex="questionIndex"
                 ></div>
 
-                <div v-if="question.variant.name !== Variants.LINEAR_SCALE " class="text-center">
+                <div v-if="question.variant.name !== VARIANTS.LINEAR_SCALE " class="text-center">
                     <button @click.prevent="addProposition"
                             :disabled="question.propositions.length >= 12"
                             class="btn btn-sm">
@@ -66,7 +66,6 @@
 <script>
   import Bus from '../bus/admin-add-poll';
   import * as Event from '../bus/events';
-  import Variants from '../variants';
 
   export default {
     props: {
@@ -77,7 +76,7 @@
     },
     data () {
       return {
-        Variants,
+        VARIANTS: window['VARIANTS'] || {},
       }
     },
     computed: {

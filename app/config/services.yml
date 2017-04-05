@@ -34,10 +34,15 @@ services:
     app.twig_extension:
         class: AppBundle\Twig\AppExtension
         public: false
-        arguments: ["@app.helper", "@translator"]
+        arguments: ["@app.helper", "@translator", "@app.variantrepositoryservice"]
         tags:
           - {name: twig.extension}
-
+    app.tokens.action_listener:
+        class: AppBundle\EventListener\TokenListener
+        arguments: ["@app.apiAuthService"]
+        tags:
+            - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }
+            - { name: kernel.event_listener, event: kernel.exception, method: onKernelException }
     app.helper:
         class: AppBundle\Helper
 
