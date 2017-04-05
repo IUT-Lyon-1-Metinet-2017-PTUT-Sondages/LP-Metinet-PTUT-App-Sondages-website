@@ -1,4 +1,5 @@
 {% extends "::adminbase.html.twig" %}
+{% block stylesheets %} <link rel="stylesheet" href="{{ asset('/css/kdt-inputs.css') }}" type="text/css" /> {% endblock %}
 {% block bodyclass %}app header-fixed sidebar-fixed aside-menu-fixed aside-menu-hidden{% endblock %}
 {% block main %}
     <!-- Breadcrumb -->
@@ -9,31 +10,14 @@
         <li class="breadcrumb-item active">Création de sondage</li>
     </ol>
 
-    <div class="container-fluid">
-        <div id="app"></div>
-
-        <div style="display: none;">
-            {{ form(form) }}
-            {{ form_start(form) }}
-
-            {{ form_row(form.title) }}
-            {{ form_row(form.description) }}
-
-            <button class="btn btn-success">{{ 'save'|trans }}</button>
-            {{ form_end(form) }}
-        </div>
-    </div>
-    <!-- /.conainer-fluid -->
+    <div id="app"></div>
 {% endblock %}
-{% block javascripts %}
-    <script src="https://unpkg.com/vue"></script>
-    <script>
-      // var, because it should be accessible in other JS files
-      var STRINGS = Object.freeze({
-        save: "{{ 'save'|trans }}"
-      });
 
-      var FORM_ACTION = 'https://google.fr';
+{% block javascripts %}
+    {{ loadTranslationsForVueJS('admin-add-poll') }}
+
+    <script>
+      var FORM_ACTION = "{{ path(app.request.get('_route')) }}";
     </script>
     <script src="{{ asset('admin-interface/dist/manifest.js') }}"></script>
     <script src="{{ asset('admin-interface/dist/vendor.js') }}"></script>
