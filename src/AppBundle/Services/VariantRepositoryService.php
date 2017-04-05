@@ -18,12 +18,12 @@ class VariantRepositoryService
         $this->em = $entityManager;
     }
 
-    public function getVariants($filter)
+    public function getVariants($filter = [])
     {
         return $this->em->getRepository('AppBundle:Variant')->findBy($filter);
     }
 
-    public function getVariant($filter)
+    public function getVariant($filter = [])
     {
         return $this->em->getRepository('AppBundle:Variant')->findOneBy($filter);
     }
