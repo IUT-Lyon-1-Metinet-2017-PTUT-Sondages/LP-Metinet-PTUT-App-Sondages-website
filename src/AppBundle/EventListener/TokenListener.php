@@ -7,6 +7,7 @@ use AppBundle\Exception\ApiAuthenticationFailedException;
 use AppBundle\Services\ApiAuthService;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
+use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 
 /**
  * Class TokenListener
@@ -36,5 +37,21 @@ class TokenListener
         if ($controller[0] instanceof TokenAuthenticatedController) {
             $this->apiAuthService->checkToken();
         }
+    }
+
+    public function onKernelException(GetResponseForExceptionEvent $event)
+    {
+        $exception = $event->getException();
+
+        if (!$exception instanceof ApiAuthenticationFailedException) {
+            return;
+        }
+
+        $response = new JsonResponse(
+            ['error' => ['code' => $exception->getCode(), 'message' => $exception->getMessage()]],
+            $exception->getCode()
+        );
+
+        $event->setResponse($response);
     }
 }
