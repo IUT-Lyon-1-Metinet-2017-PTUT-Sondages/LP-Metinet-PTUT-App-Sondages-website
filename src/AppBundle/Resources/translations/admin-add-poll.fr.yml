@@ -35,10 +35,10 @@ proposition:
   add: 'Ajouter une proposition'
   variants:
     types:
-      Checkbox: 'Boutons à choix multiples'
-      Radio: 'Boutons à choix unique'
-      LinearScale: 'Échelle linéaire'
-    LinearScale:
+      CHECKBOX: 'Boutons à choix multiples'
+      RADIO: 'Boutons à choix unique'
+      LINEAR_SCALE: 'Échelle linéaire'
+    LINEAR_SCALE:
       to: 'à'
   default:
     title: ''

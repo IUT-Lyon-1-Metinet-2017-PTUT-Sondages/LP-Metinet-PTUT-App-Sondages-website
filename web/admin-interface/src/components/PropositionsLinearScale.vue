@@ -6,7 +6,7 @@
             </select>
 
             <span class="m-1">
-                {{ $t('proposition.variants.LinearScale.to') }}
+                {{ $t('proposition.variants.LINEAR_SCALE.to') }}
             </span>
 
             <select v-model="max" class="form-control">
