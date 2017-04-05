@@ -1,8 +1,9 @@
 <template>
     <div class="asided question">
+
+        <!-- Ajouter une question avant -->
         <div class="aside text-center">
-            <button @click.prevent="addQuestionBefore"
-                    class="btn btn-primary btn-sm">
+            <button @click.prevent="addQuestionBefore" class="btn btn-primary btn-sm">
                 {{ $t('question.insert.before') }}
             </button>
         </div>
@@ -20,6 +21,7 @@
             </div>
             <div class="card-block">
                 <div class="row">
+                    <!-- Titre de la question -->
                     <div class="col-md-8 col-sm-6 form-group"
                          :class="{'has-danger': question.question.title.length == 0}">
 
@@ -28,11 +30,13 @@
                                :placeholder="$t('question.placeholder.title')"
                                class="form-control">
                     </div>
+
+                    <!-- Type de la question (variante) -->
                     <div class="col-md-4 col-sm-6 form-group">
-                        <select v-model="question.variant.name"
+                        <select v-model="question.variant.name" class="form-control"
                                 :name="'poll[pages][' + pageIndex + '][questions][' + questionIndex + '][variant][name]'"
-                                :title="$t('question.type')"
-                                class="form-control">
+                                :title="$t('question.type')">
+                            <!-- VARIANTS => window['VARIANTS'] -->
                             <option v-for="variant, variantId in VARIANTS" :value="variant">
                                 {{ $t('proposition.variants.types.' + variantId) }}
                             </option>
@@ -40,11 +44,13 @@
                     </div>
                 </div>
 
+                <!-- Rendu dynamique (:is) des propositions en fonction de la variante -->
                 <div :is="'propositions' + question.variant.name"
                      :page="page" :pageIndex="pageIndex"
                      :question="question" :questionIndex="questionIndex"
                 ></div>
 
+                <!-- Bouton ajouter une proposition, si c'est pas une variant LINEAR_SCALE -->
                 <div v-if="question.variant.name !== VARIANTS.LINEAR_SCALE " class="text-center">
                     <button @click.prevent="addProposition"
                             :disabled="question.propositions.length >= 12"
@@ -55,6 +61,7 @@
             </div>
         </div>
 
+        <!-- Ajouter une question après -->
         <div class="aside text-center">
             <button @click.prevent="addQuestionAfter" class="btn btn-primary btn-sm">
                 {{ $t('question.insert.after') }}

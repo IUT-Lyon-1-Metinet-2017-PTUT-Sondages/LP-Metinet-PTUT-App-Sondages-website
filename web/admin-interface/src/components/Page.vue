@@ -1,12 +1,14 @@
 <template>
     <div class="asided">
 
+        <!-- Ajouter une page avant -->
         <div class="aside text-center">
             <button @click.prevent="addPageBefore(pageIndex)" class="btn btn-primary">
                 {{ $t('page.insert.before') }}
             </button>
         </div>
 
+        <!-- La page -->
         <div class="card">
             <div class="card-header">
                 {{ $t('page.x_on_y', {x: pageIndex + 1, y: totalPages}) }}
@@ -20,6 +22,7 @@
 
             <div class="card-block">
                 <div class="page--meta">
+                    <!-- Le titre de la page -->
                     <div class="form-group" :class="{'has-danger': page.title.length == 0}">
                         <input v-model="page.title" required
                                :name="'poll[pages][' + pageIndex + '][title]'"
@@ -27,6 +30,7 @@
                                class="form-control form-control-md">
                     </div>
 
+                    <!-- La description de la page -->
                     <div class="form-group">
                         <textarea v-model="page.description"
                                   :name="'poll[pages][' + pageIndex + '][description]'"
@@ -37,6 +41,7 @@
                 </div>
 
                 <div class="page--content">
+                    <!-- Le rendu des questions de la page actuelle -->
                     <transition-group name="fade" tag="div">
                         <template v-for="question, questionIndex in page.questions">
                             <question :key="questionIndex"
