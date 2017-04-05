@@ -1,0 +1,279 @@
+@font-face {
+    font-family: '../font/Raleway-Bold';
+    src: url('Raleway-Bold.ttf');
+}
+
+@font-face {
+    font-family: '../font/Raleway-Regular';
+    src: url('Raleway-Regular.ttf');
+}
+
+@font-face {
+    font-family: '../font/Raleway-Light';
+    src: url('Raleway-Light.ttf');
+}
+
+body {
+    background-color: #e4e5e6;
+    margin: 0px;
+}
+
+header, footer {
+    width: 100%;
+    height: auto;
+    display: flex;
+    overflow: visible;
+    align-items: center;
+    justify-content: center;
+}
+
+header {
+    background-color: #263238;
+    margin-bottom: 50px;
+}
+
+.logo {
+    margin: 10px;
+    height: 80px;
+}
+
+h1 {
+    font-family: 'Raleway-Bold';
+    color: #fff;
+}
+
+.card {
+    margin-bottom: 20px;
+}
+
+h2 {
+    font-family: 'Raleway-Regular';
+}
+
+hr {
+    margin-left: -1.25rem;
+    margin-right: -1.25rem;
+}
+
+.btn-send {
+    color: #fff;
+    background-color: #20a8d8;
+    border-color: #20a8d8;
+    border-radius: 0px;
+    transition: all .2s ease-in-out;
+}
+
+.btn-send:hover {
+    color: #fff;
+    background-color: #2095d8;
+    border-color: #2095d8;
+}
+
+footer {
+    flex-direction: column;
+    background-color: #fff;
+    margin-top: 50px;
+}
+
+.logo-iut {
+    height: 80px;
+    margin: 10px;
+}
+
+.signature {
+    font-family: 'Raleway-Light';
+}
+
+/* Custom checkbox style */
+
+/*
+[type="checkbox"]:not(:checked),
+[type="checkbox"]:checked,
+[type="radio"]:not(:checked),
+[type="radio"]:checked {
+  position: absolute;
+  left: -9999px;
+}
+[type="checkbox"]:not(:checked) + label,
+[type="checkbox"]:checked + label,
+[type="radio"]:not(:checked) + label,
+[type="radio"]:checked + label {
+  position: relative;
+  padding-left: 1.95em;
+  cursor: pointer;
+}
+
+
+[type="checkbox"]:not(:checked) + label:before,
+[type="checkbox"]:checked + label:before,
+[type="radio"]:not(:checked) + label:before,
+[type="radio"]:checked + label:before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0;
+  width: 1.25em; height: 1.25em;
+  border: 2px solid #ccc;
+  background: #fff;
+  box-shadow: inset 0 1px 3px rgba(0,0,0,.1);
+}
+
+[type="checkbox"]:not(:checked) + label:after,
+[type="checkbox"]:checked + label:after {
+  content: '✔';
+  position: absolute;
+  top: .1em; left: .09em;
+  font-size: 1.3em;
+  line-height: 0.8;
+  color: #20a8d8;
+  transition: all .2s;
+}
+
+[type="checkbox"]:not(:checked) + label:after,
+[type="radio"]:not(:checked) + label:after {
+  opacity: 0;
+  transform: scale(0);
+}
+[type="checkbox"]:checked + label:after,
+[type="radio"]:checked + label:after {
+  opacity: 1;
+  transform: scale(1);
+}
+
+[type="checkbox"]:disabled:not(:checked) + label:before,
+[type="checkbox"]:disabled:checked + label:before,
+[type="radio"]:disabled:not(:checked) + label:before,
+[type="radio"]:disabled:checked + label:before {
+  box-shadow: none;
+  border-color: #bbb;
+  background-color: #ddd;
+}
+[type="checkbox"]:disabled:checked + label:after,
+[type="radio"]:disabled:checked + label:after {
+  color: #999;
+}
+[type="checkbox"]:disabled + label,
+[type="radio"]:disabled + label {
+  color: #aaa;
+}
+
+[type="checkbox"]:checked:focus + label:before,
+[type="checkbox"]:not(:checked):focus + label:before,
+[type="radio"]:checked:focus + label:before,
+[type="radio"]:not(:checked):focus + label:before {
+  border: 2px solid #ccc;
+}
+label:hover:before {
+  border: 2px solid #afafaf!important;
+}
+*/
+
+/* Custom radio style */
+
+/*
+[type="radio"]:not(:checked) + label:before,
+[type="radio"]:checked + label:before {
+  border-radius: 50%;
+}
+
+[type="radio"]:not(:checked) + label:after,
+[type="radio"]:checked + label:after {
+  content: '•';
+  position: absolute;
+  top: -.18em; left: .1em;
+  font-size: 2em;
+  line-height: 0.8;
+  color: #20a8d8;
+  transition: all .2s;
+}
+
+*/
+
+/* TODO: Hugo a dit "tkt je le ferais" (input en dessous des labels) */
+/*[type="radio"] + label:before, [type="radio"] + label:after {
+    transform: translate(50%, 100%);
+    margin-top: .5em;
+}*/
+
+.kdt-radio {
+    text-align: center;
+}
+
+.kdt-radio [type="radio"],
+.kdt-checkbox [type="checkbox"] {
+    display: none;
+}
+
+.kdt-radio [type="radio"] ~ label,
+.kdt-checkbox [type="checkbox"] ~ label {
+    position: relative;
+}
+
+.kdt-radio [type="radio"] ~ label {
+    padding-top: 26px;
+}
+.kdt-checkbox [type="checkbox"] ~ label {
+    padding-left: 26px;
+}
+
+.kdt-radio [type="radio"] ~ label::before,
+.kdt-radio [type="radio"] ~ label::after,
+.kdt-checkbox [type="checkbox"] ~ label::before,
+.kdt-checkbox [type="checkbox"] ~ label::after {
+    content: ' ';
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 20px;
+    width: 20px;
+}
+
+.kdt-radio [type="radio"] ~ label::before,
+.kdt-radio [type="radio"] ~ label::after {
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 50%;
+}
+
+.kdt-radio [type="radio"] ~ label::before,
+.kdt-checkbox [type="checkbox"] ~ label::before {
+    border: 2px solid #4d4d4d;
+    background-color: #fff;
+}
+
+.kdt-radio [type="radio"] ~ label::after,
+.kdt-checkbox [type="checkbox"] ~ label::after {
+    height: 0;
+    width: 0;
+    top: 10px;
+    left: 5px;
+    transition: all .1s linear;
+}
+
+.kdt-checkbox [type="checkbox"] ~ label::after {
+    top: 10px;
+    left: 10px;
+}
+
+.kdt-radio [type="radio"] ~ label::after {
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.kdt-radio [type="radio"]:checked ~ label::after,
+.kdt-checkbox [type="checkbox"]:checked ~ label::after {
+    top: 5px;
+    background-color:  #20a8d8;
+    height: 10px;
+    width: 10px;
+}
+
+.kdt-checkbox [type="checkbox"]:checked ~ label::after {
+    left: 5px;
+    top: 5px;
+}
+
+.kdt-radio [type="radio"]:disabled ~ label,
+.kdt-checkbox [type="checkbox"]:disabled ~ label {
+    opacity: .5;
+}
+
