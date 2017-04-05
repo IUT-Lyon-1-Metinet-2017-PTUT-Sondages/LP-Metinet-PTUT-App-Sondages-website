@@ -2,16 +2,14 @@
 
 namespace AppBundle\Controller\Api;
 
-use AppBundle\Entity\Poll;
 use AppBundle\Services\PollRepositoryService;
-use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Controller\Annotations\View;
 
 /**
  * Class PollController
  * @package AppBundle\Controller\Api
  */
-class PollController extends FOSRestController
+class PollController extends ApiController
 {
     /**
      * @View(serializerGroups={"Default"})
@@ -19,6 +17,7 @@ class PollController extends FOSRestController
      */
     public function getPollsAction()
     {
+        $this->checkApiAuthentication();
         /** @var PollRepositoryService $pollRepository */
         $pollRepository = $this->get('app.pollrepositoryservice');
 
@@ -32,6 +31,7 @@ class PollController extends FOSRestController
      */
     public function getPollAction($id)
     {
+        $this->checkApiAuthentication();
         /** @var PollRepositoryService $pollRepository */
         $pollRepository = $this->get('app.pollrepositoryservice');
         $poll = $pollRepository->getPoll(['id' => $id]);
@@ -43,6 +43,7 @@ class PollController extends FOSRestController
 
     public function getPollResultsAction($id)
     {
+        $this->checkApiAuthentication();
         /** @var PollRepositoryService $pollRepository */
         $pollRepository = $this->get('app.pollrepositoryservice');
         return $pollRepository->getResults($id);

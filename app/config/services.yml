@@ -7,6 +7,7 @@ services:
     app.repository.poll:
         class: AppBundle\Repository\PollRepository
 
+
     app.repository.page:
         class: AppBundle\Repository\PageRepository
     app.form.registration:
@@ -18,9 +19,25 @@ services:
     app.pollRepositoryService:
         class: AppBundle\Services\PollRepositoryService
         arguments: ["@doctrine.orm.entity_manager"]
+    app.variantRepositoryService:
+            class: AppBundle\Services\VariantRepositoryService
+            arguments: ["@doctrine.orm.entity_manager"]
     app.apiAuthService:
         class: AppBundle\Services\ApiAuthService
-        arguments: [%api_token%]
+        arguments: ["@request_stack", "%api_token%"]
+    app.validationService:
+                  class: AppBundle\Services\ValidationService
+                  arguments: ["@validator", "@app.variantRepositoryService"]
+    app.twig_extension:
+        class: AppBundle\Twig\AppExtension
+        public: false
+        arguments: ["@app.helper", "@translator"]
+        tags:
+          - {name: twig.extension}
+
+    app.helper:
+        class: AppBundle\Helper
+
 #    service_name:
 #        class: AppBundle\Directory\ClassName
 #        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]

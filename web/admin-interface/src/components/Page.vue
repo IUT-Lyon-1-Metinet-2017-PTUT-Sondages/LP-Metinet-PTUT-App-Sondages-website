@@ -2,12 +2,14 @@
     <div class="asided">
 
         <div class="aside text-center">
-            <button @click="addPageBefore(index)" class="btn btn-primary">Insérer une page avant</button>
+            <button @click.prevent="addPageBefore(pageIndex)" class="btn btn-primary">
+                {{ $t('page.insert.before') }}
+            </button>
         </div>
 
         <div class="card">
             <div class="card-header">
-                Page {{ index + 1 }} sur {{ totalPages }}
+                {{ $t('page.x_on_y', {x: pageIndex + 1, y: totalPages}) }}
 
                 <div class="pull-right">
                     <button class="btn btn-danger btn-sm" @click="removePage"
@@ -18,22 +20,28 @@
 
             <div class="card-block">
                 <div class="page--meta">
-                    <div class="form-group">
-                        <input :id="'page-title-' + index" v-model="page.title"
+                    <div class="form-group" :class="{'has-danger': page.title.length == 0}">
+                        <input v-model="page.title" required
+                               :name="'poll[pages][' + pageIndex + '][title]'"
+                               :placeholder="$t('page.placeholder.title')"
                                class="form-control form-control-md">
                     </div>
 
                     <div class="form-group">
-                        <textarea :id="'page-description-' + index" v-model="page.description"
-                                  class="form-control" placeholder="Description (facultative)"></textarea>
+                        <textarea v-model="page.description"
+                                  :name="'poll[pages][' + pageIndex + '][description]'"
+                                  :placeholder="$t('page.placeholder.description')"
+                                  class="form-control"></textarea>
                     </div>
                     <hr>
                 </div>
 
                 <div class="page--content">
                     <transition-group name="fade" tag="div">
-                        <template v-for="question, index in page.questions">
-                            <question :key="index" :page="page" :question="question" :index="index"></question>
+                        <template v-for="question, questionIndex in page.questions">
+                            <question :key="questionIndex"
+                                      :page="page" :pageIndex="pageIndex"
+                                      :question="question" :questionIndex="questionIndex"></question>
                         </template>
                     </transition-group>
                 </div>
@@ -41,7 +49,9 @@
         </div>
 
         <div class="aside text-center">
-            <button @click="addPageAfter(index)" class="btn btn-primary">Insérer une page après</button>
+            <button @click.prevent="addPageAfter(pageIndex)" class="btn btn-primary">
+                {{ $t('page.insert.before') }}
+            </button>
         </div>
     </div>
 </template>
@@ -49,21 +59,16 @@
 <script>
   import Bus from '../bus/admin-add-poll';
   import * as Event from '../bus/events';
-  import Store from '../stores/admin-add-poll';
 
   export default {
     props: {
+      poll: {type: Object, required: true},
       page: {type: Object, required: true},
-      index: {type: Number, required: true}
-    },
-    data () {
-      return {
-        Store,
-      }
+      pageIndex: {type: Number, required: true}
     },
     computed: {
       totalPages () {
-        return Store.poll.pages.length;
+        return this.poll.pages.length;
       }
     },
     methods: {
