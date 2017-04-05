@@ -17,6 +17,7 @@
 
 {% block javascripts %}
     {{ loadTranslationsForVueJS('admin-add-poll') }}
+    {{ loadVariantsFromDatabase() }}
 
     <script>
       var FORM_ACTION = "{{ path(app.request.get('_route')) }}";
