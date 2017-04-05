@@ -26,42 +26,43 @@ class ValidationService
     protected $validator;
     public $variantRepositoryService;
 
-    function __construct(Validator $validator, VariantRepositoryService $variantRepositoryService)
+    public function __construct(Validator $validator, VariantRepositoryService $variantRepositoryService)
     {
         $this->validator = $validator;
         $this->variantRepositoryService = $variantRepositoryService;
     }
 
-    public function validatePollRequest($request){
+    public function validatePollRequest($request)
+    {
         $poll = new Poll;
         $poll->setTitle($request->get('poll')['title']);
         $poll->setDescription($request->get('poll')['description']);
 
         $pollErrors = $this->validatePoll($poll);
 
-        if(count($pollErrors) > 0){
+        if (count($pollErrors) > 0) {
             return $pollErrors;
         }
 
-        foreach ($request->get('poll')['pages'] as $key => $page){
+        foreach ($request->get('poll')['pages'] as $key => $page) {
             $thisPage = new Page;
             $thisPage->setTitle($page['title']);
-            // $thisPage->setDescription($page['description']); // TODO : No description for now, implement it
+            $thisPage->setDescription($page['description']);
             $pageErrors = $this->validatePage($thisPage);
 
-            if(count($pageErrors) > 0){
+            if (count($pageErrors) > 0) {
                 return $pageErrors;
             }
             $thisPage->setPoll($poll);
             $poll->addPage($thisPage);
-            foreach ($page['questions'] as $question){
+            foreach ($page['questions'] as $question) {
                 $thisQuestion = new Question;
                 $thisQuestion->setTitle($question['question']['title']);
 
 
                 $questionErrors = $this->validateQuestion($question);
 
-                if(count($questionErrors) > 0 ){
+                if (count($questionErrors) > 0) {
                     return $questionErrors;
                 }
                 $thisQuestion->setPage($thisPage);
@@ -69,15 +70,18 @@ class ValidationService
                 $thisQuestion->setPoll($poll);
                 $poll->addQuestion($thisQuestion);
 
-                //$variantErrors = $this->validateVariant($question['variant']); // TODO: Implement variant validation
+                $variantErrors = $this->validateVariant($question['variant']);
 
-                /*
-                 *  if(count($variantErrors) > 0){ return $variantErrors;  }
-                 *  $variant = $this->variantRepositoryService->getVariant(['id'=>$question['variant']]);
-                 *  TODO:  implement variant query like above
-                 */
 
-                foreach ($question['propositions'] as $proposition){
+                if (count($variantErrors) > 0) {
+                    return $variantErrors;
+                }
+                $variant = $this->variantRepositoryService->getVariant(['id'=>$question['variant']]);
+
+
+
+
+                foreach ($question['propositions'] as $proposition) {
                     $thisProposition = new Proposition();
                     $thisProposition->setTitle($proposition['title']);
                     //$thisProposition->setVariant($variant); // see above
@@ -86,7 +90,7 @@ class ValidationService
 
                     $propositionErrors = $this->validateProposition($proposition);
 
-                    if(count($propositionErrors) > 0){
+                    if (count($propositionErrors) > 0) {
                         return $propositionErrors;
                     }
 
@@ -100,35 +104,41 @@ class ValidationService
 
     }
 
-    public function validatePoll($poll){
+    public function validatePoll($poll)
+    {
         $errors = $this->validator->validate($poll);
         return $errors;
     }
 
-    public function validatePage($page){
+    public function validatePage($page)
+    {
         $errors = $this->validator->validate($page);
 
         return $errors;
     }
 
-    public function validateVariant($variant){
+    public function validateVariant($variant)
+    {
         $errors = $this->validator->validate($variant);
         return $errors;
     }
 
-    public function validateQuestion($question){
+    public function validateQuestion($question)
+    {
         $errors = $this->validator->validate($question);
 
         return $errors;
     }
 
-    public function validateProposition($proposition){
+    public function validateProposition($proposition)
+    {
         $errors = $this->validator->validate($proposition);
 
         return $errors;
     }
 
-    public function validateAnswer($answer){
+    public function validateAnswer($answer)
+    {
         $errors = $this->validator->validate($answer);
 
         return $errors;
