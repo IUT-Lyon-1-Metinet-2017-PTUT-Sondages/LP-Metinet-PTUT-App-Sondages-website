@@ -20,14 +20,15 @@ class PollController extends Controller
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function indexAction(/** @noinspection PhpUnusedParameterInspection */  Request $request)
+    public function indexAction(/** @noinspection PhpUnusedParameterInspection */
+        Request $request)
     {
         $service = $this->container->get('app.pollRepositoryService');
         $polls = $service->getPolls([]);
         // replace this example code with whatever you need
         return $this->render('@App/AdminUI/Poll/index.html.twig', [
-                'polls' => $polls,
-            ]);
+            'polls' => $polls,
+        ]);
     }
 
     /**
@@ -43,7 +44,8 @@ class PollController extends Controller
         if ($request->getMethod() == 'POST') {
 
             $errors = $validationService->validatePollRequest($request);
-            if(count($errors) > 0){
+            if (count($errors) > 0) {
+                dump($request);
                 dump($errors);
                 die();
             }
@@ -58,11 +60,11 @@ class PollController extends Controller
     public function editAction(Request $request, $id)
     {
         $service = $this->container->get('app.pollRepositoryService');
-        $polls = $service->getPoll(['id'=>$id]);
+        $polls = $service->getPoll(['id' => $id]);
 
         // replace this example code with whatever you need
         return $this->render('@App/AdminUI/Poll/index.html.twig', [
-                'polls' => $polls,
-            ]);
+            'polls' => $polls,
+        ]);
     }
 }

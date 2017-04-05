@@ -12,7 +12,7 @@ use Doctrine\ORM\EntityManager;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 
-class IsExistingVariantTypeValidator
+class IsExistingVariantValidator
 {
     /**
      * @var EntityManager

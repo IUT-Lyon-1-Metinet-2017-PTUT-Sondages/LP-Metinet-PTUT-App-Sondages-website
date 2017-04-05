@@ -16,7 +16,6 @@ class Answer
 {
     /**
      * Many answers have One proposition.
-     * @Expose
      * @ORM\ManyToOne(targetEntity="Proposition", inversedBy="answers")
      * @ORM\JoinColumn(name="proposition_id", referencedColumnName="id", onDelete="CASCADE")
      */

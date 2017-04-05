@@ -35,8 +35,6 @@ class Page
     private $questions;
 
     /**
-     * @Expose
-     * @Groups({"Default"})
      * @ORM\Column(type="text", length = 255, name="description", nullable = true)
      * @var string
      */

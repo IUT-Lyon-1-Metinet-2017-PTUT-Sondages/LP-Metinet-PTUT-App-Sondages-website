@@ -5,7 +5,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-use AppBundle\Validator\Constraints as AcmeAssert;
+use AppBundle\Validator\Constraint as AcmeAssert;
 use Knp\DoctrineBehaviors\Model as ORMBehaviors;
 use JMS\Serializer\Annotation\ExclusionPolicy;
 use JMS\Serializer\Annotation\Expose;
