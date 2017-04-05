@@ -8,7 +8,7 @@
             </select>
 
             <span class="m-1">
-                {{ $t('proposition.variants.LINEAR_SCALE.to') }}
+                {{ $t('proposition.variants.LinearScale.to') }}
             </span>
 
             <!-- <select> valeur maximale -->

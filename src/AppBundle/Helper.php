@@ -9,25 +9,23 @@
 namespace AppBundle;
 
 
+use Symfony\Component\Config\FileLocator;
+use Symfony\Component\Yaml\Yaml;
+
 class Helper
 {
-    public function unflatten($array, $prefix = '')
+    public function loadTranslations($domain, $locale)
     {
-        $result = [];
+        $configDirectories = [
+            __DIR__ . '/Resources/translations'
+        ];
+        $locator = new FileLocator($configDirectories);
 
-        foreach ($array as $key => $value) {
-            if (!empty($prefix)) {
-                $key = preg_replace('#^' . preg_quote($prefix) . '#', '', $key);
-            }
+        $translationsFile = $locator->locate(
+            sprintf('%s.%s.yml', $domain, $locale), null, true
+        );
 
-            if (strpos($key, '.') !== false) {
-                parse_str('result[' . str_replace('.', '][', $key) . "]=" . $value);
-            } else {
-                $result[$key] = $value;
-            }
-        }
-
-        return $result;
+        return Yaml::parse(file_get_contents($translationsFile));
     }
 
     public function replaceSymfonyFormattingTagsForVueI18n($value)
