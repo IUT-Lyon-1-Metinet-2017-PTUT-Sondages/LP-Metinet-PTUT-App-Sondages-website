@@ -2,8 +2,10 @@
 
 namespace AppBundle\Entity;
 
+
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use AppBundle\Validator\Constraint as AcmeAssert;
 use Knp\DoctrineBehaviors\Model as ORMBehaviors;
 use JMS\Serializer\Annotation\ExclusionPolicy;
 use JMS\Serializer\Annotation\Expose;
@@ -37,22 +39,22 @@ class Proposition
     /**
      * Many propostions have One question.
      * @Expose
-     * @ORM\ManyToOne(targetEntity="question", inversedBy="propositions")
+     * @ORM\ManyToOne(targetEntity="Question", inversedBy="propositions")
      * @ORM\JoinColumn(name="question_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $question;
 
     /**
-     * One Proposition  has One Answer.
-     * @Expose
-     * @ORM\OneToOne(targetEntity="Answer", mappedBy="proposition")
+     * One proposition has Many answers.
+     * @ORM\OneToMany(targetEntity="Answer", mappedBy="proposition")
      */
-    private $answer;
+    private $answers;
 
     /**
      * Many propositions have One variant.
      * @ORM\ManyToOne(targetEntity="Variant", inversedBy="propositions")
      * @ORM\JoinColumn(name="variant_id", referencedColumnName="id")
+     * @AcmeAssert\IsExistingVariant
      */
     private $variant;
 
@@ -134,16 +136,31 @@ class Proposition
     /**
      * @return mixed
      */
-    public function getAnswer()
+    public function getAnswers()
     {
-        return $this->answer;
+        return $this->answers;
     }
 
     /**
-     * @param mixed $answer
+     * Add answer.
+     *
+     * @param Answer $answer
+     *
+     * @return self
      */
-    public function setAnswer($answer)
+    public function addAnswer(Answer $answer)
     {
-        $this->answer = $answer;
+        $this->answers[] = $answer;
+
+        return $this;
+    }
+    /**
+     * Remove answer.
+     *
+     * @param Answer $answer
+     */
+    public function removeAnswer(Answer $answer)
+    {
+        $this->answers->removeElement($answer);
     }
 }

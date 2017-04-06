@@ -14,20 +14,32 @@ services:
         class: AppBundle\Form\RegistrationType
         tags:
             - { name: form.type, alias: app_user_registration }
-
+    app.variantValidator:
+                    class: AppBundle\Validator\Constraint\IsExistingVariantTypeValidator
+                    arguments: ["@doctrine.orm.entity_manager"]
 
     app.pollRepositoryService:
         class: AppBundle\Services\PollRepositoryService
         arguments: ["@doctrine.orm.entity_manager"]
+    app.questionRepositoryService:
+            class: AppBundle\Services\QuestionRepositoryService
+            arguments: ["@doctrine.orm.entity_manager"]
+    app.propositionRepositoryService:
+            class: AppBundle\Services\PropositionRepositoryService
+            arguments: ["@doctrine.orm.entity_manager"]
+    app.pageRepositoryService:
+            class: AppBundle\Services\PageRepositoryService
+            arguments: ["@doctrine.orm.entity_manager"]
     app.variantRepositoryService:
             class: AppBundle\Services\VariantRepositoryService
             arguments: ["@doctrine.orm.entity_manager"]
+
     app.apiAuthService:
         class: AppBundle\Services\ApiAuthService
         arguments: ["@request_stack", "%api_token%"]
     app.validationService:
                   class: AppBundle\Services\ValidationService
-                  arguments: ["@validator", "@app.variantRepositoryService"]
+                  arguments: [ "@validator", "@app.variantRepositoryService","@app.pollRepositoryService", "@app.pageRepositoryService", "@app.questionRepositoryService", "@app.propositionRepositoryService", ]
     app.twig_extension:
         class: AppBundle\Twig\AppExtension
         public: false

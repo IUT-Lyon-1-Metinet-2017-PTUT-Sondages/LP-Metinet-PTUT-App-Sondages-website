@@ -35,6 +35,12 @@ class Page
     private $questions;
 
     /**
+     * @ORM\Column(type="text", length = 255, name="description", nullable = true)
+     * @var string
+     */
+    private $description;
+
+    /**
      * Many pages have One Poll.
      * @ORM\ManyToOne(targetEntity="Poll", inversedBy="pages")
      * @ORM\JoinColumn(name="poll_id", referencedColumnName="id", onDelete="CASCADE")
@@ -129,5 +135,21 @@ class Page
         $this->poll = $poll;
 
         return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * @param mixed $description
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
     }
 }

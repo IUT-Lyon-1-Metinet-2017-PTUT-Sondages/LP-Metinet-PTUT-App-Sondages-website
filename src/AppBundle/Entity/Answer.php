@@ -15,10 +15,9 @@ use Knp\DoctrineBehaviors\Model as ORMBehaviors;
 class Answer
 {
     /**
-     * One answer has One proposition.
-     * @ORM\OneToOne(targetEntity="Proposition")
-     * @ORM\Id
-     * @ORM\JoinColumn(name="proposition", referencedColumnName="id", onDelete="CASCADE")
+     * Many answers have One proposition.
+     * @ORM\ManyToOne(targetEntity="Proposition", inversedBy="answers")
+     * @ORM\JoinColumn(name="proposition_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $proposition;
 
