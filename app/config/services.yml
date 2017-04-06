@@ -21,6 +21,15 @@ services:
     app.pollRepositoryService:
         class: AppBundle\Services\PollRepositoryService
         arguments: ["@doctrine.orm.entity_manager"]
+    app.questionRepositoryService:
+            class: AppBundle\Services\QuestionRepositoryService
+            arguments: ["@doctrine.orm.entity_manager"]
+    app.propositionRepositoryService:
+            class: AppBundle\Services\PropositionRepositoryService
+            arguments: ["@doctrine.orm.entity_manager"]
+    app.pageRepositoryService:
+            class: AppBundle\Services\PageRepositoryService
+            arguments: ["@doctrine.orm.entity_manager"]
     app.variantRepositoryService:
             class: AppBundle\Services\VariantRepositoryService
             arguments: ["@doctrine.orm.entity_manager"]
@@ -30,7 +39,7 @@ services:
         arguments: ["@request_stack", "%api_token%"]
     app.validationService:
                   class: AppBundle\Services\ValidationService
-                  arguments: ["@validator", "@app.variantRepositoryService"]
+                  arguments: [ "@validator", "@app.variantRepositoryService","@app.pollRepositoryService", "@app.pageRepositoryService", "@app.questionRepositoryService", "@app.propositionRepositoryService", ]
     app.twig_extension:
         class: AppBundle\Twig\AppExtension
         public: false

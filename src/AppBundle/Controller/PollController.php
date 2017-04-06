@@ -21,7 +21,8 @@ class PollController extends Controller
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function indexAction(/** @noinspection PhpUnusedParameterInspection */
-        Request $request)
+        Request $request
+    )
     {
         $service = $this->container->get('app.pollRepositoryService');
         $polls = $service->getPolls([]);
@@ -43,11 +44,13 @@ class PollController extends Controller
         $user = $this->get('security.token_storage')->getToken()->getUser();
         if ($request->getMethod() == 'POST') {
 
-            $errors = $validationService->validatePollRequest($request);
+            $errors = $validationService->validatePollRequest($request, $user);
             if (count($errors) > 0) {
-                dump($request);
+
                 dump($errors);
                 die();
+            } else {
+                return $this->redirect($this->generateUrl('admin_polls'));
             }
 
         }
@@ -66,5 +69,24 @@ class PollController extends Controller
         return $this->render('@App/AdminUI/Poll/index.html.twig', [
             'polls' => $polls,
         ]);
+    }
+
+    /**
+     * @Route("/admin/delete-poll/{id}", name="admin_delete_poll")
+     */
+    public function deleteAction(Request $request, $id)
+    {
+        $service = $this->container->get('app.pollRepositoryService');
+        try {
+            $service->deleteById(['id' => $id]);
+            return $this->redirect($this->generateUrl('admin_polls'));
+        } catch (\Exception $e) {
+            dump($e->getMessage());
+            dump("can't create");
+            die();
+        }
+
+
+
     }
 }

@@ -48,7 +48,7 @@ class Question
 
     /**
      * One question has Many propositions.
-     * @ORM\OneToMany(targetEntity="Proposition", mappedBy="question")
+     * @ORM\OneToMany(targetEntity="Proposition", mappedBy="question", cascade={"persist"})
      */
     private $propositions;
 

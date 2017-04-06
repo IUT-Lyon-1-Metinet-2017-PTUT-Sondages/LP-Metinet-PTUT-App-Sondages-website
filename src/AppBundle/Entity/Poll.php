@@ -53,7 +53,7 @@ class Poll
      * One Poll has Many Questions.
      * @Expose
      * @Groups({"Details"})
-     * @ORM\OneToMany(targetEntity="Question", mappedBy="poll")
+     * @ORM\OneToMany(targetEntity="Question", mappedBy="poll", cascade={"persist"})
      */
     private $questions;
 
@@ -61,7 +61,7 @@ class Poll
      * One Poll has Many Pages.
      * @Expose
      * @Groups({"Details"})
-     * @ORM\OneToMany(targetEntity="Page", mappedBy="poll")
+     * @ORM\OneToMany(targetEntity="Page", mappedBy="poll", cascade={"persist"})
      */
     private $pages;
 

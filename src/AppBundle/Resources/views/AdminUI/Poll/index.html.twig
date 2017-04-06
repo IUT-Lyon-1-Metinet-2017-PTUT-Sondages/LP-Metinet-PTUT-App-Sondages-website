@@ -30,8 +30,10 @@
                     <td></td>
                     <td>
                         <button type="button" class="btn btn-primary"><i class="fa fa-pencil"></i>&nbsp; Editer</button>
+                        <a href="{{ path('admin_delete_poll', {'id': poll.id}) }}">
                         <button type="button" class="btn btn-danger"><i class="fa fa-trash"></i>&nbsp; Supprimer
                         </button>
+                        </a>
                     </td>
                 </tr>
             {% endfor %}
