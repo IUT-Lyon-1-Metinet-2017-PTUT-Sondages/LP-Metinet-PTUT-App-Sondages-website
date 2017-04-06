@@ -1,16 +1,16 @@
 @font-face {
-    font-family: '../font/Raleway-Bold';
-    src: url('Raleway-Bold.ttf');
+    font-family: 'Raleway-Bold';
+    src: url('../font/Raleway-Bold.ttf');
 }
 
 @font-face {
-    font-family: '../font/Raleway-Regular';
-    src: url('Raleway-Regular.ttf');
+    font-family: 'Raleway-Regular';
+    src: url('../font/Raleway-Regular.ttf');
 }
 
 @font-face {
-    font-family: '../font/Raleway-Light';
-    src: url('Raleway-Light.ttf');
+    font-family: 'Raleway-Light';
+    src: url('../font/Raleway-Light.ttf');
 }
 
 body {
@@ -254,11 +254,6 @@ label:hover:before {
     left: 10px;
 }
 
-.kdt-radio [type="radio"] ~ label::after {
-    left: 50%;
-    transform: translateX(-50%);
-}
-
 .kdt-radio [type="radio"]:checked ~ label::after,
 .kdt-checkbox [type="checkbox"]:checked ~ label::after {
     top: 5px;
@@ -277,3 +272,11 @@ label:hover:before {
     opacity: .5;
 }
 
+.kdt-radio-aside [type="radio"] ~ label::before,
+.kdt-radio-aside [type="radio"] ~ label::after {
+    left: 0;
+}
+.kdt-radio-aside [type="radio"] ~ label {
+    padding-top: 0;
+    padding-left: 15px;
+}
