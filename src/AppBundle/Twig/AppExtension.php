@@ -4,7 +4,7 @@ namespace AppBundle\Twig;
 use AppBundle\Entity\Variant;
 use AppBundle\Helper;
 use AppBundle\Services\VariantRepositoryService;
-use Symfony\Component\Translation\DataCollectorTranslator;
+use Symfony\Component\Translation\Translator;
 
 class AppExtension extends \Twig_Extension
 {
@@ -12,7 +12,7 @@ class AppExtension extends \Twig_Extension
     private $translator;
     private $variantRepositoryService;
 
-    public function __construct(Helper $helper, DataCollectorTranslator $translator, VariantRepositoryService $variantRepositoryService)
+    public function __construct(Helper $helper, Translator $translator, VariantRepositoryService $variantRepositoryService)
     {
         $this->helper = $helper;
         $this->translator = $translator;
