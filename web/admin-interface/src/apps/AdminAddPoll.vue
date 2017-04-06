@@ -86,7 +86,7 @@
         page.questions.splice(questionIndex, 0, {
           title: this.$t('question.default.title'),
           variant: {
-            name: window['VARIANTS']['CHECKBOX']
+            name: window['VARIANTS'][ Object.keys(window['VARIANTS'])[0] ] // premier élément d'un objet
           },
           propositions: [
             {title: ''},

@@ -16,9 +16,9 @@ class LoadVariantData extends AbstractFixture implements OrderedFixtureInterface
     public function load(ObjectManager $manager)
     {
         $variants = [
-            'RADIO',
-            'CHECKBOX',
-            'LINEAR_SCALE',
+            'Radio',
+            'Checkbox',
+            'LinearScale',
         ];
 
         foreach ($variants as $key => $variant) {

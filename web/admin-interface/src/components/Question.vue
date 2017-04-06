@@ -37,8 +37,8 @@
                                 :name="'poll[pages][' + pageIndex + '][questions][' + questionIndex + '][variant][name]'"
                                 :title="$t('question.type')">
                             <!-- VARIANTS => window['VARIANTS'] -->
-                            <option v-for="variant, variantId in VARIANTS" :value="variant">
-                                {{ $t('proposition.variants.types.' + variantId) }}
+                            <option v-for="variant in VARIANTS" :value="variant">
+                                {{ $t('proposition.variants.types.' + variant) }}
                             </option>
                         </select>
                     </div>

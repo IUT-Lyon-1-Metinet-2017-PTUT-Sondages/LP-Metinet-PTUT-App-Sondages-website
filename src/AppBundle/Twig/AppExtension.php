@@ -4,7 +4,6 @@ namespace AppBundle\Twig;
 use AppBundle\Entity\Variant;
 use AppBundle\Helper;
 use AppBundle\Services\VariantRepositoryService;
-use Doctrine\Common\Util\Inflector;
 use Symfony\Component\Translation\DataCollectorTranslator;
 
 class AppExtension extends \Twig_Extension
@@ -31,14 +30,8 @@ class AppExtension extends \Twig_Extension
     public function loadTranslationsForVueJSFunction($domain)
     {
         $locale = $this->translator->getLocale();
-        $translations = json_encode(
-            $this->helper->unflatten(
-                array_map(
-                    [$this->helper, 'replaceSymfonyFormattingTagsForVueI18n'],
-                    $this->translator->getCatalogue()->all($domain)
-                )
-            )
-        );
+        $translations = $this->helper->loadTranslations($domain, $locale);
+        $translations = json_encode($translations);
 
         return <<<HEREDOC
 <script>
@@ -49,14 +42,12 @@ HEREDOC;
     }
 
     public function loadVariantsFromDatabaseFunction()
-    {
+    {   
         $variants = $this->variantRepositoryService->getVariants();
         $variants = array_map(function (Variant $variant) {
             return [
-                'id' => $variant->getTitle(),
-                'title' => Inflector::classify(strtolower($variant->getTitle()))
-                // LINEAR_SCALE => LinearScale, RADIO => Radio, ...
-                //  ^ key          ^ humanized
+                'id' => $variant->getId(),
+                'title' => $variant->getTitle(),
             ];
         }, $variants);
         $variants = array_column($variants, 'title', 'id');

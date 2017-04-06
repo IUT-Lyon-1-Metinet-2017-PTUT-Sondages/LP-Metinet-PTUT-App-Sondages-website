@@ -9,7 +9,7 @@ poll:
     description: 'Poll''s description'
 
 page:
-  x_on_y: 'Page %x% on %y%'
+  x_on_y: 'Page {x} on {y}'
   insert:
     before: 'Insert a page before'
     after: 'Insert a page after'
@@ -21,7 +21,7 @@ page:
     description: 'Page''s description'
 
 question:
-  x_on_y: 'Question %x% on %y%'
+  x_on_y: 'Question {x} on {y}'
   type: 'Question''s type'
   insert:
     before: 'Insert a question before'
@@ -35,12 +35,12 @@ proposition:
   add: 'Add a proposition'
   variants:
     types:
-      CHECKBOX: 'Multiple choice buttons'
-      RADIO: 'Unique choice buttons'
-      LINEAR_SCALE: 'Linear scale'
-    LINEAR_SCALE:
+      Checkbox: 'Multiple choice buttons'
+      Radio: 'Unique choice buttons'
+      LinearScale: 'Linear scale'
+    LinearScale:
       to: 'to'
   default:
     title: ''
   placeholder:
-    proposition_x: 'Proposition #%x%'
+    proposition_x: 'Proposition #{x}'
