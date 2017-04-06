@@ -31,7 +31,7 @@ services:
     app.twig_extension:
         class: AppBundle\Twig\AppExtension
         public: false
-        arguments: ["@app.helper", "@translator", "@app.variantrepositoryservice"]
+        arguments: ["@app.helper", "@translator.default", "@app.variantrepositoryservice"]
         tags:
           - {name: twig.extension}
     app.tokens.action_listener:
