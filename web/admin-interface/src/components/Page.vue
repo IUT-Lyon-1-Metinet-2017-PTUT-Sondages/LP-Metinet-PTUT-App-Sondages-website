@@ -14,7 +14,7 @@
                 {{ $t('page.x_on_y', {x: pageIndex + 1, y: totalPages}) }}
 
                 <div class="pull-right">
-                    <button class="btn btn-danger btn-sm" @click="removePage"
+                    <button class="btn btn-danger btn-sm" @click.prevent="removePage"
                             :disabled="totalPages <= 1">&times;
                     </button>
                 </div>
