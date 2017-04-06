@@ -4,7 +4,7 @@ namespace AppBundle\Twig;
 use AppBundle\Entity\Variant;
 use AppBundle\Helper;
 use AppBundle\Services\VariantRepositoryService;
-use Symfony\Component\Translation\Translator;
+use Symfony\Bundle\FrameworkBundle\Translation\Translator;
 
 class AppExtension extends \Twig_Extension
 {
