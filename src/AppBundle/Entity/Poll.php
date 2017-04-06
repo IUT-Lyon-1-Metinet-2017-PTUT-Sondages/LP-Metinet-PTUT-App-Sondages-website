@@ -68,7 +68,7 @@ class Poll
     /**
      * Many polls have One user.
      * @Expose
-     * @Groups({"Details"})
+     * @Groups({"User"})
      * @ORM\ManyToOne(targetEntity="user", inversedBy="polls")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
