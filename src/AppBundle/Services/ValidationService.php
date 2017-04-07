@@ -29,22 +29,20 @@ class ValidationService
      */
     protected $validator;
     public $variantRepositoryService;
+    public $pollCreationService;
 
 
     public function __construct(
         Validator $validator,
         VariantRepositoryService $variantRepositoryService,
-        PollRepositoryService $pollRepositoryService,
-        PageRepositoryService $pageRepositoryService,
-        QuestionRepositoryService $questionRepositoryService,
-        PropositionRepositoryService $propositionRepositoryService
-    ) {
+        PollCreationService $pollCreationService
+
+    )
+    {
         $this->validator = $validator;
         $this->variantRepositoryService = $variantRepositoryService;
-        $this->pollRepositoryService = $pollRepositoryService;
-        $this->pageRepositoryService = $pageRepositoryService;
-        $this->questionRepositoryService = $questionRepositoryService;
-        $this->propositionRepositoryService = $propositionRepositoryService;
+        $this->pollCreationService = $pollCreationService;
+
     }
 
     public function validatePollRequest($request, $user)
@@ -111,11 +109,14 @@ class ValidationService
                                     if (count($propositionErrors) > 0) {
                                         return $propositionErrors;
                                     }
-                                    $this->pollRepositoryService->createPoll($poll, $user);
-                                    $this->pageRepositoryService->createPage($thisPage);
-                                    $this->questionRepositoryService->createQuestion($thisQuestion);
-                                    $this->propositionRepositoryService->createProposition($thisProposition);
 
+                                    $this->pollCreationService()->createPoll(
+                                        $poll,
+                                        $thisPage,
+                                        $thisQuestion,
+                                        $thisProposition,
+                                        $user
+                                    );
 
                                 }
                             }
