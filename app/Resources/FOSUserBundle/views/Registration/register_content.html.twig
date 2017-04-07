@@ -4,8 +4,8 @@
         <div class="col-md-6">
             <div class="card mx-2">
                 <div class="card-block p-2">
-                    <h1>Register</h1>
-                    <p class="text-muted">Create your account</p>
+                    <h1>{{ 'layout.register'|trans({}, 'FOSUserBundle') }}</h1>
+                    <p class="text-muted">{{ 'layout.register.title'|trans({}, 'FOSUserBundle') }}</p>
 
                     {{ form_start(form, {'method': 'post', 'action': path('fos_user_registration_register'), 'attr': {'class': 'fos_user_registration_register'}}) }}
                         {{ form_row(form.email, {'attr': {'placeholder': 'prenom.nom@univ-lyon1.fr'}}) }}

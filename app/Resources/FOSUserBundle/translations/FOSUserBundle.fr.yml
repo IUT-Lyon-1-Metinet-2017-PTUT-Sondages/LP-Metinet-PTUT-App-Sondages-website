@@ -1,5 +1,2 @@
 form:
-    email: 'Adresse e-mail (Domaine de l''Université Lyon 1)'
-
-layout:
-    logged_in_as: 'Connecté en tant que %username%'
+  email: 'Adresse e-mail (Domaine de l''Université Lyon 1)'
