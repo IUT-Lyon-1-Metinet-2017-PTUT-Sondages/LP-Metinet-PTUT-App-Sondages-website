@@ -1,0 +1,13 @@
+layout:
+  login:
+    title: 'Connexion'
+    long: 'Connecter vous à votre compte'
+    password:
+      forgot: 'Mot de passe oublié ?'
+  register:
+    title: 'Créer votre compte'
+    submit: 'S''inscrire !'
+    explanation: 'Pour vous inscrire, veuillez utiliser votre adresse universitaire.'
+  logged_in_as: 'Connecté en tant que %username%'
+form:
+  email: 'Adresse e-mail (Domaine de l''Université Lyon 1)'
