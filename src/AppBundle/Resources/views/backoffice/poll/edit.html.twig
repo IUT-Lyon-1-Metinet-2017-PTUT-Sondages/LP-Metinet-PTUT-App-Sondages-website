@@ -1,0 +1,27 @@
+{% extends "::backoffice_base.html.twig" %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/kdt-inputs.css') }}" type="text/css"/>
+{% endblock %}
+
+{% block bodyclass %}app header-fixed sidebar-fixed aside-menu-fixed aside-menu-hidden{% endblock %}
+{% block main %}
+    {{ dump(poll) }}
+    <h1 class="text-danger">TODO: Assigner les valeurs du sondage créé, aux inputs + changer "Création d'un
+        sondage"</h1>
+    <div id="app"></div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ loadTranslationsForVueJS('admin-add-poll') }}
+    {{ loadVariantsFromDatabase() }}
+
+    <script>
+      var FORM_ACTION = "{{ path(app.request.get('_route'), {
+          'id': app.request.get('id')
+      }) }}";
+    </script>
+    <script src="{{ asset('admin-interface/dist/manifest.js') }}"></script>
+    <script src="{{ asset('admin-interface/dist/vendor.js') }}"></script>
+    <script src="{{ asset('admin-interface/dist/admin-add-poll.js') }}"></script>
+{% endblock %}

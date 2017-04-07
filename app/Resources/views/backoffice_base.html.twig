@@ -46,38 +46,27 @@
 
     <body class="{% block bodyclass %}{% endblock %}">
         {% if is_granted('ROLE_USER') %}
-            {% include '@App/AdminUI/partial/_header.html.twig'%}
+            {% include '@App/backoffice/partial/_header.html.twig'%}
         {% endif %}
 
         <div class="app-body">
             {% if is_granted('ROLE_USER')  %}
-                {% include '@App/AdminUI/partial/_sidebar.html.twig' %}
+                {% include '@App/backoffice/partial/_sidebar.html.twig' %}
             {% endif %}
             <!-- Main content -->
-            <main class="main">
-                {% block main %}
-
-                {% endblock %}
+            <main class="main p-2">
+                {% block main %}{% endblock %}
             </main>
         </div>
-        {% include '@App/AdminUI/partial/_footer.html.twig' %}
+        {% include '@App/backoffice/partial/_footer.html.twig' %}
 
          <!-- Bootstrap and necessary plugins -->
           <script src="{{ asset('CoreUI/bower_components/jquery/dist/jquery.min.js') }}"></script>
           <script src="{{ asset('CoreUI/bower_components/tether/dist/js/tether.min.js') }}"></script>
           <script src="{{ asset('CoreUI/bower_components/bootstrap/dist/js/bootstrap.min.js') }}"></script>
-
-
-
-
           <!-- GenesisUI main scripts -->
 
           <script src="{{ asset('CoreUI/js/app.js') }}"></script>
-
-
-
-
-
           <!-- Plugins and scripts required by this views -->
 
           <!-- Custom scripts required by this view

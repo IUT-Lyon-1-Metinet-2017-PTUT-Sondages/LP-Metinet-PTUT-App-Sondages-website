@@ -1,0 +1,38 @@
+{% extends "::backoffice_base.html.twig" %}
+
+{% block bodyclass %}app header-fixed sidebar-fixed aside-menu-fixed aside-menu-hidden{% endblock %}
+{% block main %}
+    <a href="{{ path('backoffice_polls_add') }}" class="btn btn-primary btn-lg btn-block">
+        <i class="fa fa-plus-circle"></i> Créer un nouveau sondage
+    </a>
+
+    <table class="table table-bordered table-striped table-condensed">
+        <thead>
+        <tr>
+            <th>Titre</th>
+            <th>Utilisateur</th>
+            <th>Nb question</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for poll in polls %}
+            <tr>
+                <td>{{ poll.title }}</td>
+                <td>{{ poll.user.email }}</td>
+                <td></td>
+                <td>
+                    <a href="{{ path('backoffice_poll_edit', {'id': poll.id}) }}"
+                       class="btn btn-primary">
+                        <i class="fa fa-pencil"></i> Editer
+                    </a>
+
+                    <a href="{{ path('backoffice_poll_delete', {'id': poll.id}) }}"
+                       class="btn btn-danger">
+                        <i class="fa fa-trash"></i>&nbsp;Supprimer
+                    </a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

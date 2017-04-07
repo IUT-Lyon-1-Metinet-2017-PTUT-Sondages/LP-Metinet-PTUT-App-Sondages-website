@@ -16,10 +16,19 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface
     public function load(ObjectManager $manager)
     {
         $userAdmin = new User();
-        $userAdmin->setPlainPassword('richard');
         $userAdmin->setEmail('richard.raduly@etu.univ-lyon1.fr');
+        $userAdmin->setPlainPassword('richard');
+        $userAdmin->addRole('ROLE_ADMIN');
         $userAdmin->setEnabled(true);
         $manager->persist($userAdmin);
+
+        $user = new User();
+
+        $user->setEmail('hugo.alliaume@etu.univ-lyon1.fr');
+        $user->setPlainPassword('hugo');
+        $user->addRole('ROLE_USER');
+        $user->setEnabled(true);
+        $manager->persist($user);
         $manager->flush();
     }
     // the order in which fixtures will be loaded

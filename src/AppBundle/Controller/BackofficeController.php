@@ -6,17 +6,16 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
-class AdminController extends Controller
+class BackofficeController extends Controller
 {
     /**
-     * @Route("/admin", name="admin_homepage")
-     * @Route("/admin/", name="admin_homepage_alt")
+     * @Route("/backoffice", name="backoffice")
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function indexAction(/** @noinspection PhpUnusedParameterInspection */  Request $request)
     {
         // replace this example code with whatever you need
-        return $this->render('@App/AdminUI/index.html.twig');
+        return $this->render('@App/backoffice/index.html.twig');
     }
 }

@@ -1,17 +1,11 @@
-{% extends "::adminbase.html.twig" %}
+{% extends "::backoffice_base.html.twig" %}
+
 {% block stylesheets %}
-    <link rel="stylesheet" href="{{ asset('/css/kdt-inputs.css')}}" type="text/css" />
+    <link rel="stylesheet" href="{{ asset('css/kdt-inputs.css') }}" type="text/css"/>
 {% endblock %}
 
 {% block bodyclass %}app header-fixed sidebar-fixed aside-menu-fixed aside-menu-hidden{% endblock %}
 {% block main %}
-    <!-- Breadcrumb -->
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item">Accueil</li>
-        <li class="breadcrumb-item"><a href="#">Admin</a>
-        </li>
-        <li class="breadcrumb-item active">Création de sondage</li>
-    </ol>
     <div id="app"></div>
 {% endblock %}
 
@@ -22,6 +16,7 @@
     <script>
       var FORM_ACTION = "{{ path(app.request.get('_route')) }}";
     </script>
+
     <script src="{{ asset('admin-interface/dist/manifest.js') }}"></script>
     <script src="{{ asset('admin-interface/dist/vendor.js') }}"></script>
     <script src="{{ asset('admin-interface/dist/admin-add-poll.js') }}"></script>

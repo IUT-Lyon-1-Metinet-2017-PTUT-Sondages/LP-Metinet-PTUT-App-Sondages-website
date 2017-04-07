@@ -41,7 +41,6 @@ class User extends BaseUser
     {
         parent::__construct();
         $this->polls = new ArrayCollection();
-        // your own logic
     }
 
     private function fillNamesByEmail($email)

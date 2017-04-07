@@ -1,5 +1,5 @@
 <template>
-    <form class="form-horizontal container" method="post" :action="FORM_ACTION">
+    <form class="form-horizontal" method="post" :action="FORM_ACTION">
         <h1 class="text-center">{{ $t('poll.creation') }}</h1>
         <hr>
 

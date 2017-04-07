@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Services\PollRepositoryService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,23 +17,22 @@ use Symfony\Component\HttpFoundation\Session\Session;
 class PollController extends Controller
 {
     /**
-     * @Route("/admin/polls", name="admin_polls")
+     * @Route("/backoffice/polls", name="backoffice_polls")
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function indexAction(/** @noinspection PhpUnusedParameterInspection */
-        Request $request
-    ) {
+    public function indexAction()
+    {
         $service = $this->container->get('app.pollRepositoryService');
         $polls = $service->getPolls([]);
         // replace this example code with whatever you need
-        return $this->render('@App/AdminUI/Poll/index.html.twig', [
+        return $this->render('@App/backoffice/poll/index.html.twig', [
             'polls' => $polls,
         ]);
     }
 
     /**
-     * @Route("/admin/add-poll", name="admin_add_poll")
+     * @Route("/backoffice/polls/add", name="backoffice_polls_add")
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
@@ -49,43 +49,39 @@ class PollController extends Controller
                 dump($errors);
                 die();
             } else {
-                return $this->redirect($this->generateUrl('admin_polls'));
+                return $this->redirect($this->generateUrl('backoffice_polls'));
             }
 
         }
-        return $this->render('@App/AdminUI/Poll/add.html.twig');
+        return $this->render('@App/backoffice/poll/add.html.twig');
     }
 
     /**
-     * @Route("/admin/edit-poll/{id}", name="admin_edit_poll")
+     * @Route("/backoffice/polls/{id}/edit", name="backoffice_poll_edit")
      */
     public function editAction(Request $request, $id)
     {
         $service = $this->container->get('app.pollRepositoryService');
-        $polls = $service->getPoll(['id' => $id]);
+        $poll = $service->getPoll(['id' => $id]);
 
-        // replace this example code with whatever you need
-        return $this->render('@App/AdminUI/Poll/index.html.twig', [
-            'polls' => $polls,
+        return $this->render('@App/backoffice/poll/edit.html.twig', [
+            'poll' => $poll
         ]);
     }
 
     /**
-     * @Route("/admin/delete-poll/{id}", name="admin_delete_poll")
+     * @Route("/backoffice/polls/{id}/delete", name="backoffice_poll_delete")
      */
     public function deleteAction(Request $request, $id)
     {
         $service = $this->container->get('app.pollRepositoryService');
         try {
             $service->deleteById(['id' => $id]);
-            return $this->redirect($this->generateUrl('admin_polls'));
+            return $this->redirect($this->generateUrl('backoffice_polls'));
         } catch (\Exception $e) {
             dump($e->getMessage());
             dump("can't create");
             die();
         }
-
-
-
     }
 }
