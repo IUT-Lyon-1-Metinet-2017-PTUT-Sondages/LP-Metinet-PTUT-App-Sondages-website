@@ -46,14 +46,14 @@ class Proposition
 
     /**
      * One proposition has Many answers.
-     * @ORM\OneToMany(targetEntity="Answer", mappedBy="proposition")
+     * @ORM\OneToMany(targetEntity="Answer", mappedBy="proposition", cascade={"persist", "remove"})
      */
     private $answers;
 
     /**
      * Many propositions have One variant.
      * @ORM\ManyToOne(targetEntity="Variant", inversedBy="propositions")
-     * @ORM\JoinColumn(name="variant_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="variant_id", referencedColumnName="id", onDelete="CASCADE")
      * @AcmeAssert\IsExistingVariant
      */
     private $variant;

@@ -23,7 +23,7 @@ class User extends BaseUser
 
     /**
      * One user has Many Polls.
-     * @ORM\OneToMany(targetEntity="Poll", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="Poll", mappedBy="user", cascade={"persist", "remove"})
      */
     private $polls;
 

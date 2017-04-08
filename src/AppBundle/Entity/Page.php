@@ -30,7 +30,7 @@ class Page
 
      /**
      * One Poll has Many Questions.
-     * @ORM\OneToMany(targetEntity="Question", mappedBy="page")
+     * @ORM\OneToMany(targetEntity="Question", mappedBy="page", cascade={"persist", "remove"})
      */
     private $questions;
 

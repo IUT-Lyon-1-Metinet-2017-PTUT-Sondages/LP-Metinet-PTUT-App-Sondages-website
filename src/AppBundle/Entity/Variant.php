@@ -25,22 +25,24 @@ class Variant
 
     /**
      * @var string
-     *
      * @ORM\Column(name="title", type="string", length=255, unique=true)
      */
     private $title;
 
-    /**
-     * One Variant has Many Answers.
-     * @ORM\OneToMany(targetEntity="Answer", mappedBy="variant")
-     */
-    private $answers;
 
     /**
      * One Variant has Many propositions.
-     * @ORM\OneToMany(targetEntity="Proposition", mappedBy="variant")
+     * @ORM\OneToMany(targetEntity="Proposition", mappedBy="variant", cascade={"persist", "remove"})
      */
     private $propositions;
+
+    /**
+     * @return mixed
+     */
+    public function getPropositions()
+    {
+        return $this->propositions;
+    }
 
     /**
      * Get id

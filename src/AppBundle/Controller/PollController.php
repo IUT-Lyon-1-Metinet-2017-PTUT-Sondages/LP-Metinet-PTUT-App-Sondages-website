@@ -22,8 +22,7 @@ class PollController extends Controller
      */
     public function indexAction(/** @noinspection PhpUnusedParameterInspection */
         Request $request
-    )
-    {
+    ) {
         $service = $this->container->get('app.pollRepositoryService');
         $polls = $service->getPolls([]);
         // replace this example code with whatever you need
