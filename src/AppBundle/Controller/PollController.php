@@ -62,7 +62,7 @@ class PollController extends Controller
     public function editAction(Request $request, $id)
     {
         $service = $this->container->get('app.pollRepositoryService');
-        $poll = $service->getPoll(['id' => $id]);
+        $poll = $service->getJsonPoll($id);
 
         return $this->render('@App/backoffice/poll/edit.html.twig', [
             'poll' => $poll

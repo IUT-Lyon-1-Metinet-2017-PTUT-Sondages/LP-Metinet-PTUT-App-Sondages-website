@@ -20,7 +20,7 @@ services:
 
     app.pollRepositoryService:
         class: AppBundle\Services\PollRepositoryService
-        arguments: ["@doctrine.orm.entity_manager"]
+        arguments: ["@doctrine.orm.entity_manager","@jms_serializer"]
     app.questionRepositoryService:
             class: AppBundle\Services\QuestionRepositoryService
             arguments: ["@doctrine.orm.entity_manager"]

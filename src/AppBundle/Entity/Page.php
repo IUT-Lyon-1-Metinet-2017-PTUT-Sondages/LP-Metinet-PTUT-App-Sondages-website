@@ -24,6 +24,7 @@ class Page
     private $id;
 
     /**
+     * @ORM\Column(type="text", length = 255, name="title", nullable = true)
      * @var string
      */
     private $title;

@@ -4,6 +4,7 @@ namespace AppBundle\Services;
 
 use AppBundle\Repository\PollRepository;
 use Doctrine\ORM\EntityManager;
+use JMS\Serializer\Serializer;
 
 /**
  * Class PollRepositoryService
@@ -12,10 +13,12 @@ use Doctrine\ORM\EntityManager;
 class PollRepositoryService
 {
     private $em;
+    private $jms;
 
-    public function __construct(EntityManager $entityManager)
+    public function __construct(EntityManager $entityManager, Serializer $jms)
     {
         $this->em = $entityManager;
+        $this->jms = $jms;
     }
 
     public function createPoll($poll, $user)
@@ -33,6 +36,14 @@ class PollRepositoryService
     public function getPoll($filter)
     {
         return $this->em->getRepository('AppBundle:Poll')->findOneBy($filter);
+    }
+
+    public function getJsonPoll($id)
+    {
+        $poll = $this->em->getRepository('AppBundle:Poll')->findFullObjectById($id);
+        $jsonPoll = $this->jms->serialize($poll, 'json');
+
+        return $jsonPoll;
     }
 
     public function deleteById($id)
