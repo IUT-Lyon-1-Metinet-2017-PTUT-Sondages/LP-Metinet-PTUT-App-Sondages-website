@@ -43,7 +43,7 @@ class PollController extends Controller
         $user = $this->get('security.token_storage')->getToken()->getUser();
         if ($request->getMethod() == 'POST') {
 
-            $errors = $validationService->validatePollRequest($request, $user);
+            $errors = $validationService->validateAndCreatePollFromRequest($request, $user);
             if (count($errors) > 0) {
 
                 dump($errors);

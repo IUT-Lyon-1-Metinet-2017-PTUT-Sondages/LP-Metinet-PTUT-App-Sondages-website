@@ -7,13 +7,8 @@ use AppBundle\Entity\Question;
 use AppBundle\Entity\Variant;
 use AppBundle\Entity\Page;
 use AppBundle\Entity\Proposition;
+use AppBundle\Services\pollCreationService;
 
-
-use AppBundle\Services\VariantRepositoryService;
-use AppBundle\Services\PollRepositoryService;
-use AppBundle\Services\QuestionRepositoryService;
-use AppBundle\Services\PropositionRepositoryService;
-use AppBundle\Services\PageRepositoryService;
 
 
 use Symfony\Component\Validator\Validator\ValidatorInterface as Validator;
@@ -32,20 +27,25 @@ class ValidationService
     public $pollCreationService;
 
 
+    /**
+     * ValidationService constructor.
+     * @param Validator $validator
+     * @param VariantRepositoryService $variantRepositoryService
+     * @param \AppBundle\Services\pollCreationService $pollCreationService
+     */
     public function __construct(
         Validator $validator,
         VariantRepositoryService $variantRepositoryService,
         PollCreationService $pollCreationService
 
-    )
-    {
+    ) {
         $this->validator = $validator;
         $this->variantRepositoryService = $variantRepositoryService;
         $this->pollCreationService = $pollCreationService;
 
     }
 
-    public function validatePollRequest($request, $user)
+    public function validateAndCreatePollFromRequest($request, $user)
     {
         if (null !== $request->get('poll')) {
             $poll = new Poll;
@@ -110,7 +110,7 @@ class ValidationService
                                         return $propositionErrors;
                                     }
 
-                                    $this->pollCreationService()->createPoll(
+                                    $this->pollCreationService->createPoll(
                                         $poll,
                                         $thisPage,
                                         $thisQuestion,

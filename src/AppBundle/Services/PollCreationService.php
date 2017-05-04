@@ -23,7 +23,6 @@ use AppBundle\Services\PageRepositoryService;
 use AppBundle\Services\ValidationService;
 
 /**
- * Class ValidationService
  * @package AppBundle\Services
  */
 class PollCreationService
@@ -31,7 +30,6 @@ class PollCreationService
     /**
      * @var Validator
      */
-    protected $validationService;
     public $variantRepositoryService;
     public $pollRepositoryService;
     public $pageRepositoryService;
@@ -40,15 +38,11 @@ class PollCreationService
 
 
     public function __construct(
-        ValidationService $validationService,
-        VariantRepositoryService $variantRepositoryService,
         PollRepositoryService $pollRepositoryService,
         PageRepositoryService $pageRepositoryService,
         QuestionRepositoryService $questionRepositoryService,
         PropositionRepositoryService $propositionRepositoryService
     ) {
-        $this->validationService = $validationService;
-        $this->variantRepositoryService = $variantRepositoryService;
         $this->pollRepositoryService = $pollRepositoryService;
         $this->pageRepositoryService = $pageRepositoryService;
         $this->questionRepositoryService = $questionRepositoryService;

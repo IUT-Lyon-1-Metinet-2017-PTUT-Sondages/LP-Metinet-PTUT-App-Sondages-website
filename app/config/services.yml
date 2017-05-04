@@ -38,12 +38,12 @@ services:
         class: AppBundle\Services\ApiAuthService
         arguments: ["@request_stack", "%api_token%"]
 
+    app.pollCreationService:
+                  class: AppBundle\Services\PollCreationService
+                  arguments: [ "@app.pollRepositoryService", "@app.pageRepositoryService", "@app.questionRepositoryService", "@app.propositionRepositoryService" ]
     app.validationService:
-                  class: AppBundle\Services\ValidationService
-                  arguments: [ "@validator", "@app.variantRepositoryService", "@app.pollCreationService"]
-#    app.pollCreationService:
-#                      class: AppBundle\Services\pollCreationService
-#                      arguments: [ "@app.validationService", "@app.variantRepositoryService","@app.pollRepositoryService", "@app.pageRepositoryService", "@app.questionRepositoryService", "@app.propositionRepositoryService" ]
+                      class: AppBundle\Services\ValidationService
+                      arguments: [ "@validator", "@app.variantRepositoryService", "@app.pollCreationService"]
     app.twig_extension:
         class: AppBundle\Twig\AppExtension
         public: false
