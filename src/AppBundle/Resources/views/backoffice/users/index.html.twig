@@ -1,0 +1,31 @@
+{% extends "::backoffice_base.html.twig" %}
+
+{% block bodyclass %}app header-fixed sidebar-fixed aside-menu-fixed aside-menu-hidden{% endblock %}
+{% block main %}
+    <h1 class="text-center pb-2">Liste des utilisateurs</h1>
+    <table class="table">
+        <thead>
+        <tr>
+            <th{% if pagination.isSorted('a.id') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, '#', 'a.id') }}</th>
+            <th{% if pagination.isSorted('a.firstname') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Prénom', 'a.firstname') }}</th>
+            <th{% if pagination.isSorted('a.lastname') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Nom', 'a.lastname') }}</th>
+            <th{% if pagination.isSorted('a.email') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Email', 'a.email') }}</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        {% for user in pagination %}
+            <tr>
+                <td>{{ user.id }}</td>
+                <td>{{ user.firstname }}</td>
+                <td>{{ user.lastname }}</td>
+                <td>{{ user.email }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="align-content-center">
+        {{ knp_pagination_render(pagination) }}
+    </div>
+{% endblock %}
