@@ -9,10 +9,10 @@
                     <p class="text-muted">{{ 'layout.register.title'|trans({}, 'FOSUserBundle') }}</p>
 
                     {{ form_start(form, {'method': 'post', 'action': path('fos_user_registration_register'), 'attr': {'class': 'fos_user_registration_register', 'id': 'fos_user_registration_register'}}) }}
-                        {{ form_row(form.email, {'attr': {'placeholder': 'prenom.nom@univ-lyon1.fr'}}) }}
+                        {{ form_row(form.email, {'attr': {'placeholder': 'prenom.nom@univ-lyon1.fr', 'pattern': '\\w+\\.\\w+@(\\w+\\.)*univ-lyon1\\.fr'}}) }}
                         {{ form_row(form.plainPassword) }}
                         <button type="submit"
-                                data-sitekey="6Ld7_BsUAAAAAHsycsjsURaAytaEYx25rPwXalCV"
+                                data-sitekey="{{ recaptcha_client_secret }}"
                                 data-callback="onSubmit"
                                 data-badge="inline"
                                 class="g-recaptcha btn btn-block btn-success">

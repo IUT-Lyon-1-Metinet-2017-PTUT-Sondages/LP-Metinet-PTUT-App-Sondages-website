@@ -53,7 +53,7 @@ class RegistrationController extends BaseController
 
         if ($form->isSubmitted()) {
             $captchaIsValid = $this->checkGoogleRecaptcha(
-                '6Ld7_BsUAAAAAKWkM37zt4aA8x0441WPkQ9vFqRh',
+                $this->getParameter('recaptcha_server_secret'),
                 $request->get('g-recaptcha-response'));
             if ($captchaIsValid && $form->isValid()
             ) {
@@ -99,7 +99,7 @@ class RegistrationController extends BaseController
             'response' => $response
         ];
 
-        $url = "https://www.google.com/recaptcha/api/siteverify?" . http_build_query($params);
+        $url = $this->getParameter('recapatcha_api') . http_build_query($params);
 
         // Check if curl extension is ready
         if (function_exists('curl_init')) {

@@ -70,6 +70,8 @@ twig:
     strict_variables: "%kernel.debug%"
     form_themes:
         - 'bootstrap_3_layout.html.twig'
+    globals:
+        recaptcha_client_secret: '%recaptcha_client_secret%'
 
 
 # Doctrine Configuration
