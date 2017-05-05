@@ -30,4 +30,27 @@ class UsersController extends Controller
             'pagination' => $pagination
         ]);
     }
+
+    /**
+     * @Route("/backoffice/users/delete/{id}", name="backoffice_users_delete", requirements={"id": "\d+"})
+     * @param Request $request
+     *
+     * @param         $id
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function deleteAction(Request $request, $id)
+    {
+        $userManager = $this->get('fos_user.user_manager');
+        $user = $userManager->findUserBy(['id' => $id]);
+
+        if(!$user) {
+            $this->addFlash('danger', "Impossible de supprimer l'utilisateur.");
+        } else {
+            $userManager->deleteUser($user);
+            $this->addFlash('success', "L'utilisateur a bien été supprimé !");
+        }
+
+        return $this->redirect($request->headers->get('referer'));
+    }
 }
