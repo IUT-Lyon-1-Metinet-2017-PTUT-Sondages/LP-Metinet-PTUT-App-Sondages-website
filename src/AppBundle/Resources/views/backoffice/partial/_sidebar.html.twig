@@ -27,6 +27,14 @@
                     </li>
                 </ul>
             </li>
+            {% if is_granted('ROLE_ADMIN') %}
+                <li class="nav-item">
+                    <a href="{{ path('backoffice_users') }}" class="nav-link">
+                        <i class="icon-user"></i>
+                        Liste des utilisateurs
+                    </a>
+                </li>
+            {% endif %}
         </ul>
     </nav>
 </div>
