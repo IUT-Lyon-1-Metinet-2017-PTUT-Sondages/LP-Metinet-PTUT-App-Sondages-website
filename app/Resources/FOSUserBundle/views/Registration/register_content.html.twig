@@ -1,3 +1,4 @@
+
 {% trans_default_domain 'FOSUserBundle' %}
 <div class="container">
     <div class="row justify-content-center">
@@ -7,10 +8,16 @@
                     <h1>{{ 'layout.register'|trans({}, 'FOSUserBundle') }}</h1>
                     <p class="text-muted">{{ 'layout.register.title'|trans({}, 'FOSUserBundle') }}</p>
 
-                    {{ form_start(form, {'method': 'post', 'action': path('fos_user_registration_register'), 'attr': {'class': 'fos_user_registration_register'}}) }}
+                    {{ form_start(form, {'method': 'post', 'action': path('fos_user_registration_register'), 'attr': {'class': 'fos_user_registration_register', 'id': 'fos_user_registration_register'}}) }}
                         {{ form_row(form.email, {'attr': {'placeholder': 'prenom.nom@univ-lyon1.fr'}}) }}
                         {{ form_row(form.plainPassword) }}
-                        <input type="submit" class="btn btn-block btn-success" value="{{ 'registration.submit'|trans }}"/>
+                        <button type="submit"
+                                data-sitekey="6Ld7_BsUAAAAAHsycsjsURaAytaEYx25rPwXalCV"
+                                data-callback="onSubmit"
+                                data-badge="inline"
+                                class="g-recaptcha btn btn-block btn-success">
+                            {{ 'registration.submit'|trans }}
+                        </button>
                     {{ form_end(form) }}
                 </div>
             </div>
