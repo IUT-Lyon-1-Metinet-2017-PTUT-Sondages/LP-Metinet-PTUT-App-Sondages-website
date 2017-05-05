@@ -1,0 +1,7 @@
+{% extends "::backoffice_base.html.twig" %}
+
+{% block bodyclass %}app header-fixed sidebar-fixed aside-menu-fixed aside-menu-hidden{% endblock %}
+{% block main %}
+    <h1 class="text-center pb-2">Modifier un utilisateur</h1>
+    {{ form(form) }}
+{% endblock %}

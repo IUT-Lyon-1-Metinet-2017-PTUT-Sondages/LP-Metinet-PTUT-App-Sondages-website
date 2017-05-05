@@ -80,9 +80,10 @@ class User extends BaseUser
 
     /**
      * @param mixed $first_name
+     *
      * @return $this
      */
-    private function setFirstName($first_name)
+    public function setFirstName($first_name)
     {
         $this->first_name = $first_name;
         return $this;
@@ -98,9 +99,10 @@ class User extends BaseUser
 
     /**
      * @param mixed $last_name
+     *
      * @return $this
      */
-    private function setLastName($last_name)
+    public function setLastName($last_name)
     {
         $this->last_name = $last_name;
         return $this;
@@ -119,6 +121,7 @@ class User extends BaseUser
 
         return $this;
     }
+
     /**
      * Remove poll.
      *
@@ -128,6 +131,7 @@ class User extends BaseUser
     {
         $this->polls->removeElement($poll);
     }
+
     /**
      * Get polls.
      *

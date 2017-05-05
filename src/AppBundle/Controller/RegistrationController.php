@@ -55,8 +55,7 @@ class RegistrationController extends BaseController
             $captchaIsValid = $this->checkGoogleRecaptcha(
                 $this->getParameter('recaptcha_server_secret'),
                 $request->get('g-recaptcha-response'));
-            if ($captchaIsValid && $form->isValid()
-            ) {
+            if ($captchaIsValid && $form->isValid()) {
                 $event = new FormEvent($form, $request);
                 $dispatcher->dispatch(FOSUserEvents::REGISTRATION_SUCCESS, $event);
 
