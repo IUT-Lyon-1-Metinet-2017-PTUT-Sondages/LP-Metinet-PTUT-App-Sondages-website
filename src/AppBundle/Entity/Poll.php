@@ -24,7 +24,7 @@ class Poll
     /**
      * @var int
      * @Expose
-     * @Groups({"Default"})
+     * @Groups({"Default", "backOffice"})
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -33,7 +33,7 @@ class Poll
 
     /**
      * @Expose
-     * @Groups({"Default"})
+     * @Groups({"Default", "backOffice"})
      * @ORM\Column(type="string", length = 120, name="title", nullable = false)
      * @Assert\NotBlank()
      * @var string
@@ -42,7 +42,7 @@ class Poll
 
     /**
      * @Expose
-     * @Groups({"Default"})
+     * @Groups({"Default", "backOffice"})
      * @ORM\Column(type="text", length = 255, name="description", nullable = false)
      * @Assert\NotBlank()
      * @var string
@@ -51,8 +51,6 @@ class Poll
 
     /**
      * One Poll has Many Questions.
-     * @Expose
-     * @Groups({"Details"})
      * @ORM\OneToMany(targetEntity="Question", mappedBy="poll", cascade={"persist", "remove"})
      */
     private $questions;
@@ -60,7 +58,7 @@ class Poll
      /**
      * One Poll has Many Pages.
      * @Expose
-     * @Groups({"Details"})
+     * @Groups({"Details", "backOffice"})
      * @ORM\OneToMany(targetEntity="Page", mappedBy="poll", cascade={"persist", "remove"})
      */
     private $pages;

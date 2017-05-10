@@ -5,6 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Knp\DoctrineBehaviors\Model as ORMBehaviors;
+use JMS\Serializer\Annotation\Groups;
 
 /**
  * Variant
@@ -16,7 +17,7 @@ class Variant
 {
     /**
      * @var int
-     *
+     * @Groups({"backOffice"})
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -24,13 +25,15 @@ class Variant
     private $id;
 
     /**
+     * @Groups({"backOffice"})
      * @var string
-     * @ORM\Column(name="title", type="string", length=255, unique=true)
+     * @ORM\Column(name="name", type="string", length=255, unique=true)
      */
-    private $title;
+    private $name;
 
 
     /**
+     *
      * One Variant has Many propositions.
      * @ORM\OneToMany(targetEntity="Proposition", mappedBy="variant", cascade={"persist", "remove"})
      */
@@ -55,26 +58,26 @@ class Variant
     }
 
     /**
-     * Set title
+     * Set name
      *
-     * @param string $title
+     * @param string $name
      *
      * @return Variant
      */
-    public function setTitle($title)
+    public function setName($name)
     {
-        $this->title = $title;
+        $this->name = $name;
 
         return $this;
     }
 
     /**
-     * Get title
+     * Get name
      *
      * @return string
      */
-    public function getTitle()
+    public function getName()
     {
-        return $this->title;
+        return $this->name;
     }
 }

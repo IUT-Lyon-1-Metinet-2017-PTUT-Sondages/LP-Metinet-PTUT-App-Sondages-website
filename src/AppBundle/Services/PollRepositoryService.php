@@ -5,7 +5,7 @@ namespace AppBundle\Services;
 use AppBundle\Repository\PollRepository;
 use Doctrine\ORM\EntityManager;
 use JMS\Serializer\Serializer;
-
+use JMS\Serializer\SerializationContext;
 /**
  * Class PollRepositoryService
  * @package AppBundle\Services
@@ -23,9 +23,9 @@ class PollRepositoryService
 
     public function createPoll($poll, $user)
     {
-            $poll->setUser($user);
-            $this->em->persist($poll);
-            $this->em->flush();
+        $poll->setUser($user);
+        $this->em->persist($poll);
+        $this->em->flush();
     }
 
     public function getPolls($filter)
@@ -40,15 +40,21 @@ class PollRepositoryService
 
     public function getJsonPoll($id)
     {
-        $poll = $this->em->getRepository('AppBundle:Poll')->findFullObjectById($id);
-        $jsonPoll = $this->jms->serialize($poll, 'json');
+//        $poll = $this->em->getRepository('AppBundle:Poll')->findFullObjectById($id);
+        $poll = $this->getPoll(['id' => $id]);
+
+        $jsonPoll = $this->jms->serialize(
+            $poll,
+            'json',
+            SerializationContext::create()->setGroups(array('backOffice'))
+        );
 
         return $jsonPoll;
     }
 
     public function deleteById($id)
     {
-        $poll = $this->em->getRepository('AppBundle:Poll')->findOneBy(['id'=>$id]);
+        $poll = $this->em->getRepository('AppBundle:Poll')->findOneBy(['id' => $id]);
         $this->em->remove($poll);
         $this->em->flush();
     }

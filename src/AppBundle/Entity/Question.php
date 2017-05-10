@@ -4,8 +4,10 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use JMS\Serializer\Annotation as Serializer;
 use Symfony\Component\Validator\Constraints as Assert;
 use Knp\DoctrineBehaviors\Model as ORMBehaviors;
+use JMS\Serializer\Annotation\Groups;
 
 /**
  * Question
@@ -17,7 +19,7 @@ class Question
 {
     /**
      * @var int
-     *
+     * @Groups({"backOffice"})
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -26,13 +28,14 @@ class Question
 
     /**
      * @var string
-     *
+     * @Groups({"backOffice"})
      * @ORM\Column(name="title", type="text", nullable=false)
      * @Assert\NotBlank()
      */
     private $title;
 
     /**
+     *
      * Many questions have One Poll.
      * @ORM\ManyToOne(targetEntity="Poll", inversedBy="questions")
      * @ORM\JoinColumn(name="poll_id", referencedColumnName="id", onDelete="CASCADE")
@@ -40,6 +43,7 @@ class Question
     private $poll;
 
     /**
+     *
      * Many questions have One Page.
      * @ORM\ManyToOne(targetEntity="Page", inversedBy="questions")
      * @ORM\JoinColumn(name="page_id", referencedColumnName="id", onDelete="CASCADE")
@@ -47,6 +51,7 @@ class Question
     private $page;
 
     /**
+     * @Groups({"backOffice"})
      * One question has Many propositions.
      * @ORM\OneToMany(targetEntity="Proposition", mappedBy="question", cascade={"persist", "remove"})
      */

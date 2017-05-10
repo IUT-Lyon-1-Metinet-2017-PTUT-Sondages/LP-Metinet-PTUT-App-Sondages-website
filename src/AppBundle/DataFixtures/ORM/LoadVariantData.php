@@ -23,7 +23,7 @@ class LoadVariantData extends AbstractFixture implements OrderedFixtureInterface
 
         foreach ($variants as $key => $variant) {
             $thisVariant = new Variant();
-            $thisVariant->setTitle($variant);
+            $thisVariant->setName($variant);
             $manager->persist($thisVariant);
             $manager->flush();
         }

@@ -7,8 +7,11 @@ use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 use Knp\DoctrineBehaviors\Model as ORMBehaviors;
+use JMS\Serializer\Annotation\ExclusionPolicy;
+use JMS\Serializer\Annotation\Expose;
 
 /**
+ * @ExclusionPolicy("all")
  * @ORM\Entity
  * @ORM\Table(name="fos_user")
  */
@@ -28,11 +31,16 @@ class User extends BaseUser
     private $polls;
 
     /**
+     * @Expose
      * @ORM\Column(type="string", length=100)
      */
     protected $first_name;
 
+    /** {@inheritdoc} **/
+    protected $password;
+
     /**
+     * @Expose
      * @ORM\Column(type="string", length=100)
      */
     protected $last_name;

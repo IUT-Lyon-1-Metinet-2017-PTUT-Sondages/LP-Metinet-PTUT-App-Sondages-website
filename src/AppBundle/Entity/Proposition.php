@@ -9,6 +9,7 @@ use AppBundle\Validator\Constraint as AcmeAssert;
 use Knp\DoctrineBehaviors\Model as ORMBehaviors;
 use JMS\Serializer\Annotation\ExclusionPolicy;
 use JMS\Serializer\Annotation\Expose;
+use JMS\Serializer\Annotation\Groups;
 
 /**
  * Proposition
@@ -22,6 +23,7 @@ class Proposition
     /**
      * @var int
      * @Expose
+     * @Groups({"Default", "backOffice"})
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -31,6 +33,7 @@ class Proposition
     /**
      * @var string
      * @Expose
+     * @Groups({"Default", "backOffice"})
      * @ORM\Column(name="title", type="string", length=255, nullable=false)
      * @Assert\NotBlank()
      */
@@ -39,6 +42,7 @@ class Proposition
     /**
      * Many propostions have One question.
      * @Expose
+     * @Groups({"Default"})
      * @ORM\ManyToOne(targetEntity="Question", inversedBy="propositions")
      * @ORM\JoinColumn(name="question_id", referencedColumnName="id", onDelete="CASCADE")
      */
@@ -52,6 +56,8 @@ class Proposition
 
     /**
      * Many propositions have One variant.
+     * @Expose
+     * @Groups({"backOffice"})
      * @ORM\ManyToOne(targetEntity="Variant", inversedBy="propositions")
      * @ORM\JoinColumn(name="variant_id", referencedColumnName="id", onDelete="CASCADE")
      * @AcmeAssert\IsExistingVariant

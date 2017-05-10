@@ -35,11 +35,12 @@ class PollRepository extends EntityRepository
                 'pr',
                 'v'
             )
+
             ->innerJoin('p.pages', 'pages')
             ->innerJoin('pages.questions', 'q')
             ->innerJoin('q.propositions', 'pr')
             ->innerJoin('pr.variant', 'v')
-            ->groupBy('pr.id')
+            ->groupBy('p.id')
             ->where('p.id = :id')
             ->setParameter('id', $id)
             ->getQuery()->getResult();

@@ -86,7 +86,7 @@ class ValidationService
                             $poll->addQuestion($thisQuestion);
 
 
-                            $variant = $this->variantRepositoryService->getVariant(['title' => $question['variant']]);
+                            $variant = $this->variantRepositoryService->getVariant(['name' => $question['variant']]);
                             if (null !== $variant) {
                                 $variantErrors = $this->validateVariant($variant);
                             } else {
