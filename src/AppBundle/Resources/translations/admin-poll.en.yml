@@ -1,6 +1,8 @@
 poll:
   creation: 'Poll creation'
   create: 'Create the poll'
+  updating: 'Updating the poll'
+  update: 'Update the poll'
   default:
     title: 'Poll without title'
     description: ''

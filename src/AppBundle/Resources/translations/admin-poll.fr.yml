@@ -1,6 +1,8 @@
-poll: 
+poll:
   creation: 'Création d''un sondage'
   create: 'Créer le sondage'
+  updating: 'Modification du sondage'
+  update: 'Modifier le sondage'
   default:
     title: 'Sondage sans titre'
     description: ''
