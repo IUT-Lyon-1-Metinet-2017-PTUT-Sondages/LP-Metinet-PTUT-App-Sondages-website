@@ -101,6 +101,12 @@
       Bus.$on(Event.ADD_QUESTION_AFTER, this.addQuestionAfter);
       Bus.$on(Event.REMOVE_QUESTION, this.removeQuestion);
 
+      // Ajout dans le store...
+      'VARIANTS' in window && this.$store.commit('setVariants', window['VARIANTS']);
+      'FORM_ACTION' in window && this.$store.commit('setFormAction', window['FORM_ACTION']);
+      'IS_EDITING_POLL' in window && this.$store.commit('pollIsEditing');
+
+      // Doit être fait après les 3 ajouts dans le store ci-dessus
       if ('POLL' in window) {
         this.$store.commit('setPoll', window['POLL']);
       } else {
@@ -112,9 +118,6 @@
 
         this.addPageBefore();
       }
-      'VARIANTS' in window && this.$store.commit('setVariants', window['VARIANTS']);
-      'FORM_ACTION' in window && this.$store.commit('setFormAction', window['FORM_ACTION']);
-      'IS_EDITING_POLL' in window && this.$store.commit('pollIsEditing');
     },
     mounted () {
     }
