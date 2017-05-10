@@ -6,20 +6,15 @@
             <div class="col-md-6">
                 <div class="card mx-2">
                     <div class="card-block p-2">
-                        <h1>Mot de passe oublié</h1>
-                        <p class="text-muted">Demandez un nouveau mot de passe</p>
+                        <h1>{{ 'resetting.request.title'|trans }}</h1>
+                        <p class="text-muted">{{ 'resetting.request.text'|trans }}</p>
                         <form action="{{ path('fos_user_resetting_send_email') }}" method="POST" class="fos_user_resetting_request">
-						    <div class="row">
-						        <label for="username">{{ 'resetting.request.username'|trans }}</label>
-						        <input type="text" class="form-control" id="username" name="username" required="required" />
-						    </div>
+                            <label for="username">{{ 'resetting.request.username'|trans }}</label>
+                            <input type="text" class="form-control" id="username" name="username" required="required" />
 						    <hr>
-						    <div class="row">
-						        <input type="submit" class="col-md-12 btn btn-primary" value="{{ 'resetting.request.submit'|trans }}" />
-						    </div>
+                            <input type="submit" class="col-md-12 btn btn-primary" value="{{ 'resetting.request.submit'|trans }}" />
 						</form>
                     </div>
-
                 </div>
             </div>
         </div>

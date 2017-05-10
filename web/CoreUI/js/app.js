@@ -27,7 +27,8 @@
 */
 
 $(document).ready(function($){
-
+  // Enable bootstrap tooltip
+  $('[data-toggle="tooltip"]').tooltip();
   // Add class .active to current link
   $.navigation.find('a').each(function(){
 

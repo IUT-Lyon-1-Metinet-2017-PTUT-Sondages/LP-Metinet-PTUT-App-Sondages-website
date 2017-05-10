@@ -9,5 +9,8 @@ layout:
     submit: 'S''inscrire !'
     explanation: 'Pour vous inscrire, veuillez utiliser votre adresse universitaire.'
   logged_in_as: 'Connecté en tant que %username%'
-form:
-  email: 'Adresse e-mail (Domaine de l''Université Lyon 1)'
+resetting:
+  request:
+    title: 'Mot de passe oublié'
+    text: 'Demandez un nouveau mot de passe'
+    username: 'Adresse e-mail'
