@@ -1,34 +1,38 @@
 <template>
-    <form class="form-horizontal" method="post" :action="FORM_ACTION">
-        <h1 class="text-center">{{ $t('poll.creation') }}</h1>
-        <hr>
+  <form class="form-horizontal" method="post" :action="formAction">
+    <h1 class="text-center">
+      {{ isEditingPoll ? $t('poll.updating') : $t('poll.creation') }}
+    </h1>
+    <hr>
 
-        <!-- Titre du sondage -->
-        <div class="form-group" :class="{'has-danger': poll.title.length == 0}">
-            <input v-model="poll.title" name="poll[title]" required
-                   class="form-control form-control-lg" :placeholder="$t('poll.placeholder.title')">
-        </div>
+    <!-- Titre du sondage -->
+    <div class="form-group" :class="{'has-danger': poll.title.length == 0}">
+      <input v-model="poll.title" name="poll[title]" required
+             class="form-control form-control-lg" :placeholder="$t('poll.placeholder.title')">
+    </div>
 
-        <!-- Description du sondage -->
-        <div class="form-group">
+    <!-- Description du sondage -->
+    <div class="form-group">
             <textarea v-model="poll.description" name="poll[description]"
                       class="form-control" :placeholder="$t('poll.placeholder.description')"></textarea>
-        </div>
+    </div>
 
-        <hr>
+    <hr>
 
-        <!-- Les pages sondage, avec une transion fade -->
-        <transition-group name="fade" tag="div">
-            <page v-for="page, pageIndex in poll.pages" :key="page"
-                  :poll="poll"
-                  :page="page" :pageIndex="pageIndex"></page>
-        </transition-group>
-        <hr>
+    <!-- Les pages sondage, avec une transion fade -->
+    <transition-group name="fade" tag="div">
+      <page v-for="page, pageIndex in poll.pages" :key="page"
+            :poll="poll"
+            :page="page" :pageIndex="pageIndex"></page>
+    </transition-group>
+    <hr>
 
-        <div class="text-center">
-            <button type="submit" class="btn btn-primary btn-lg">{{ $t('poll.create') }}</button>
-        </div>
-    </form>
+    <div class="text-center">
+      <button type="submit" class="btn btn-primary btn-lg">
+        {{ isEditingPoll ? $t('poll.update') : $t('poll.create') }}
+      </button>
+    </div>
+  </form>
 </template>
 
 <script>
@@ -37,18 +41,8 @@
   import {mapGetters} from "vuex";
 
   export default {
-    data () {
-      return {
-        FORM_ACTION,
-        poll: { // L'objet qui va contenir les pages, les questions, et les propositions
-          title: this.$t('poll.default.title'), // this.$t = fonction rajoutée par VueI18n
-          description: this.$t('poll.default.description'),
-          pages: []
-        },
-      }
-    },
     computed: {
-      ...mapGetters(['variants'])
+      ...mapGetters(['isEditingPoll', 'poll', 'variants', 'formAction'])
     },
     methods: {
       addPageBefore(index = 0) {
@@ -90,7 +84,7 @@
         page.questions.splice(questionIndex, 0, {
           title: this.$t('question.default.title'),
           variant: {
-            name: this.variants[ Object.keys(this.variants)[0] ] // premier élément d'un objet
+            name: this.variants[Object.keys(this.variants)[0]] // premier élément d'un objet
           },
           propositions: [
             {title: ''},
@@ -107,49 +101,60 @@
       Bus.$on(Event.ADD_QUESTION_AFTER, this.addQuestionAfter);
       Bus.$on(Event.REMOVE_QUESTION, this.removeQuestion);
 
+      if ('POLL' in window) {
+        this.$store.commit('setPoll', window['POLL']);
+      } else {
+        this.$store.commit('setPoll', { // L'objet qui va contenir les pages, les questions, et les propositions
+          title: this.$t('poll.default.title'), // this.$t = fonction rajoutée par VueI18n
+          description: this.$t('poll.default.description'),
+          pages: []
+        });
+
+        this.addPageBefore();
+      }
       'VARIANTS' in window && this.$store.commit('setVariants', window['VARIANTS']);
       'FORM_ACTION' in window && this.$store.commit('setFormAction', window['FORM_ACTION']);
+      'IS_EDITING_POLL' in window && this.$store.commit('pollIsEditing');
     },
     mounted () {
-      this.addPageBefore();
     }
   }
 </script>
 
 <style lang="scss" rel="stylesheet/scss">
-    .asided {
-        position: relative;
-        margin: 24px 0;
-    }
+  .asided {
+    position: relative;
+    margin: 24px 0;
+  }
 
-    .aside {
-        position: absolute;
-        z-index: 1;
-        left: 50%;
-        top: 0;
-        transform: translate(-50%, -50%);
+  .aside {
+    position: absolute;
+    z-index: 1;
+    left: 50%;
+    top: 0;
+    transform: translate(-50%, -50%);
 
-        transition: opacity .2s ease-in-out;
-        opacity: 0;
-    }
+    transition: opacity .2s ease-in-out;
+    opacity: 0;
+  }
 
-    .asided .aside:last-child {
-        top: auto;
-        bottom: 0;
-        transform: translate(-50%, 50%);
-    }
+  .asided .aside:last-child {
+    top: auto;
+    bottom: 0;
+    transform: translate(-50%, 50%);
+  }
 
-    .asided:hover > .aside {
-        opacity: 1;
-    }
+  .asided:hover > .aside {
+    opacity: 1;
+  }
 </style>
 
 <style>
-    .fade-enter-active, .fade-leave-active {
-        transition: opacity .2s
-    }
+  .fade-enter-active, .fade-leave-active {
+    transition: opacity .2s
+  }
 
-    .fade-enter, .fade-leave-to {
-        opacity: 0
-    }
+  .fade-enter, .fade-leave-to {
+    opacity: 0
+  }
 </style>
