@@ -14,7 +14,8 @@
                 <input v-model="proposition.title"
                        :name="'poll[pages][' + pageIndex + '][questions][' + questionIndex + '][propositions][' +  propositionIndex + '][title]'"
                        :placeholder="$t('proposition.placeholder.proposition_x', {x: propositionIndex + 1})"
-                       class="form-control d-inline-block">
+                       class="form-control d-inline-block"
+                       required="required">
             </div>
 
             <!-- Bouton supprimer -->

@@ -10,10 +10,11 @@
 
             <!-- Titre de la proposition -->
             <div class="col" :class="{'has-danger': proposition.title.length == 0}">
-                <input v-model="proposition.title" required
+                <input v-model="proposition.title"
                        :name="'poll[pages][' + pageIndex + '][questions][' + questionIndex + '][propositions][' +  propositionIndex + '][title]'"
                        :placeholder="$t('proposition.placeholder.proposition_x', {x: propositionIndex + 1})"
-                       class="form-control d-inline-block">
+                       class="form-control d-inline-block"
+                       required="required">
             </div>
 
             <!-- Bouton supprimer -->

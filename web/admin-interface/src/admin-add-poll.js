@@ -15,6 +15,7 @@ Vue.component('question', require('./components/Question.vue'));
 Vue.component('propositionsRadio', require('./components/PropositionsRadio.vue'));
 Vue.component('propositionsCheckbox', require('./components/PropositionsCheckbox.vue'));
 Vue.component('propositionsLinearScale', require('./components/PropositionsLinearScale.vue'));
+Vue.component('button-insert-here', require('./components/ButtonInsertHere.vue'));
 
 // On lance l'application
 new Vue({

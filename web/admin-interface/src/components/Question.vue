@@ -1,12 +1,10 @@
 <template>
-    <div class="asided question">
+    <div class="question">
 
-        <!-- Ajouter une question avant -->
-        <div class="aside text-center">
-            <button @click.prevent="addQuestionBefore" class="btn btn-primary btn-sm">
-                {{ $t('question.insert.before') }}
-            </button>
-        </div>
+        <!-- Bouton pour ajouter une question avant -->
+        <button-insert-here v-if="questionIndex === 0" @click.prevent="addQuestionBefore(questionIndex)" :block="true">
+            {{ $t('question.insert') }}
+        </button-insert-here>
 
         <div class="card">
             <div class="card-header">
@@ -49,23 +47,18 @@
                      :question="question" :questionIndex="questionIndex"
                 ></div>
 
-                <!-- Bouton ajouter une proposition, si c'est pas une variant LINEAR_SCALE -->
-                <div v-if="question.variant.name !== 'LinearScale'" class="text-center">
-                    <button @click.prevent="addProposition"
-                            :disabled="question.propositions.length >= 12"
-                            class="btn btn-sm">
-                        {{ $t('proposition.add') }}
-                    </button>
-                </div>
+                <!-- Bouton ajouter une proposition, si c'est pas une variant LinearScale-->
+                <button-insert-here v-if="question.variant.name !== 'LinearScale'"
+                                    @click.prevent="addProposition" :disabled="question.propositions.length > 12">
+                    {{ $t('proposition.add') }}
+                </button-insert-here>
             </div>
         </div>
 
-        <!-- Ajouter une question après -->
-        <div class="aside text-center">
-            <button @click.prevent="addQuestionAfter" class="btn btn-primary btn-sm">
-                {{ $t('question.insert.after') }}
-            </button>
-        </div>
+        <!-- Bouton pour ajouter une question avant -->
+        <button-insert-here @click.prevent="addQuestionAfter(questionIndex)" :block="true">
+            {{ $t('question.insert') }}
+        </button-insert-here>
     </div>
 </template>
 
@@ -108,9 +101,3 @@
     }
   }
 </script>
-
-<style scoped>
-    .question {
-        margin: 2em 0;
-    }
-</style>

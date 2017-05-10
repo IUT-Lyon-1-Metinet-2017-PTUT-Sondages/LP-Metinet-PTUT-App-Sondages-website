@@ -12,9 +12,7 @@ poll:
 
 page:
   x_on_y: 'Page {x} on {y}'
-  insert:
-    before: 'Insert a page before'
-    after: 'Insert a page after'
+  insert: 'Insert a page here'
   default:
     title: 'Page without title'
     description: ''
@@ -25,9 +23,7 @@ page:
 question:
   x_on_y: 'Question {x} on {y}'
   type: 'Question''s type'
-  insert:
-    before: 'Insert a question before'
-    after: 'Insert a question after'
+  insert: 'Insert a question here'
   default:
     title: 'Question without title'
   placeholder:

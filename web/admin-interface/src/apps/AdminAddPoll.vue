@@ -1,5 +1,5 @@
 <template>
-  <form class="form-horizontal" method="post" :action="formAction">
+  <form class="form-horizontal container-fluid" method="post" :action="formAction">
     <h1 class="text-center">
       {{ isEditingPoll ? $t('poll.updating') : $t('poll.creation') }}
     </h1>
@@ -17,9 +17,8 @@
                       class="form-control" :placeholder="$t('poll.placeholder.description')"></textarea>
     </div>
 
-    <hr>
-
     <!-- Les pages sondage, avec une transion fade -->
+    <hr>
     <transition-group name="fade" tag="div">
       <page v-for="page, pageIndex in poll.pages" :key="page"
             :poll="poll"
@@ -124,31 +123,9 @@
   }
 </script>
 
-<style lang="scss" rel="stylesheet/scss">
-  .asided {
-    position: relative;
-    margin: 24px 0;
-  }
-
-  .aside {
-    position: absolute;
-    z-index: 1;
-    left: 50%;
-    top: 0;
-    transform: translate(-50%, -50%);
-
-    transition: opacity .2s ease-in-out;
-    opacity: 0;
-  }
-
-  .asided .aside:last-child {
-    top: auto;
-    bottom: 0;
-    transform: translate(-50%, 50%);
-  }
-
-  .asided:hover > .aside {
-    opacity: 1;
+<style scoped>
+  form {
+    max-width: 1024px;
   }
 </style>
 
