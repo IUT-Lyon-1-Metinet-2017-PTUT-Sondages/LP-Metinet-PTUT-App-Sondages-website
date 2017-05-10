@@ -34,6 +34,7 @@
 <script>
   import Bus from '../bus/admin-add-poll';
   import * as Event from '../bus/events';
+  import {mapGetters} from "vuex";
 
   export default {
     data () {
@@ -45,6 +46,9 @@
           pages: []
         },
       }
+    },
+    computed: {
+      ...mapGetters(['variants'])
     },
     methods: {
       addPageBefore(index = 0) {
@@ -86,7 +90,7 @@
         page.questions.splice(questionIndex, 0, {
           title: this.$t('question.default.title'),
           variant: {
-            name: window['VARIANTS'][ Object.keys(window['VARIANTS'])[0] ] // premier élément d'un objet
+            name: this.variants[ Object.keys(this.variants)[0] ] // premier élément d'un objet
           },
           propositions: [
             {title: ''},
@@ -103,8 +107,12 @@
       Bus.$on(Event.ADD_QUESTION_AFTER, this.addQuestionAfter);
       Bus.$on(Event.REMOVE_QUESTION, this.removeQuestion);
 
-      this.addPageBefore();
+      'VARIANTS' in window && this.$store.commit('setVariants', window['VARIANTS']);
+      'FORM_ACTION' in window && this.$store.commit('setFormAction', window['FORM_ACTION']);
     },
+    mounted () {
+      this.addPageBefore();
+    }
   }
 </script>
 

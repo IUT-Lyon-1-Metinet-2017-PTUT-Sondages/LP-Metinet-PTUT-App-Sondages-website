@@ -33,7 +33,7 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface
         $manager->persist($user);
 
         // A lot of users (add '/' before '/*' to enable this))
-        //*
+        /*
         $faker = \Faker\Factory::create('fr_FR');
 
         function normalize($name)
