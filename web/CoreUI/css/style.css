@@ -8815,3 +8815,6 @@ base-chart.chart {
 
 .grecaptcha-badge {
   display: none; }
+
+.spaced-login-input {
+  padding: 5px; }

@@ -1,7 +1,7 @@
 layout:
   login:
     title: 'Connexion'
-    long: 'Connecter vous à votre compte'
+    long: 'Connectez vous à votre compte'
     password:
       forgot: 'Mot de passe oublié ?'
   register:

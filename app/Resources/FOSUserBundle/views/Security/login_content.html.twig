@@ -19,12 +19,12 @@
                             <div class="input-group mb-1">
                                 <span class="input-group-addon"><i class="icon-user"></i>
                                 </span>
-                                <input type="text" id="username" name="_username" value="{{ last_username }}" required="required" placeholder="Username" />
+                                <input type="text" id="username" class="spaced-login-input" name="_username" value="{{ last_username }}" required="required" placeholder="{{ 'security.login.username'|trans }}" />
                             </div>
                             <div class="input-group mb-2">
                                 <span class="input-group-addon"><i class="icon-lock"></i>
                                 </span>
-                               <input type="password" id="password" name="_password" required="required" />
+                               <input type="password" id="password" class="spaced-login-input" name="_password" required="required" />
                             </div>
                             <input type="checkbox" id="remember_me" name="_remember_me" value="on" />
                             <label for="remember_me">{{ 'security.login.remember_me'|trans }}</label>
