@@ -280,3 +280,15 @@ label:hover:before {
     padding-top: 0;
     padding-left: 15px;
 }
+
+.responsive-linear-scale {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    width: 100%;
+    height: 5em;
+}
+
+.responsive-linear-scale > div {
+    flex: 1;
+}

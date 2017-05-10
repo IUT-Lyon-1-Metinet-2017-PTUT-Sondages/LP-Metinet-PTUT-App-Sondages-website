@@ -1,0 +1,70 @@
+{% extends '::base.html.twig' %}
+
+{% block title %}
+    {{ poll.title }}
+{% endblock %}
+
+{% block poll_title %}
+    {{ poll.title }}
+{% endblock %}
+
+{% form_theme pollView _self %}
+
+{% block form_label %}
+{% endblock %}
+
+{%- block widget_attributes -%}
+    name="{{ full_name }}"
+    {%- if disabled %} disabled="disabled"{% endif -%}
+    {%- if required %} required="required"{% endif -%}
+    {%- for attrname, attrvalue in attr -%}
+        {{- " " -}}
+        {%- if attrname in ['placeholder', 'title'] -%}
+            {{- attrname }}="{{ translation_domain is same as(false) ? attrvalue : attrvalue|trans({}, translation_domain) }}"
+        {%- elseif attrvalue is same as(true) -%}
+            {{- attrname }}="{{ attrname }}"
+        {%- elseif attrvalue is not same as(false) -%}
+            {{- attrname }}="{{ attrvalue }}"
+        {%- endif -%}
+    {%- endfor -%}
+{%- endblock widget_attributes -%}
+
+{% block choice_widget %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-block">
+                    <h2 class="card-title text-center">{{ label }}</h2>
+                    <hr>
+                    <div class="card-text container">
+                        {% if expanded %}
+                            <div class="row">
+                                <div class="responsive-linear-scale">
+                                    {% for choice in choices %}
+                                        <div class="kdt-{% if multiple %}checkbox{% else %}radio{% endif %}">
+                                            <input type="{% if multiple %}checkbox{% else %}radio{% endif %}" id="{{ id ~ '_' ~ choice.data }}" {{ block('widget_attributes') }}{% if choice.value is defined %} value="{{ choice.value }}"{% endif %}>
+                                            <label for="{{ id ~ '_' ~ choice.data }}">{{ choice.label }}</label>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        {% else %}
+                            {% for choice in choices %}
+                                <div class="row">
+                                    <div class="kdt-{% if multiple %}checkbox{% else %}radio{% endif %} kdt-{% if multiple %}checkbox{% else %}radio{% endif %}-aside">
+                                        <input type="{% if multiple %}checkbox{% else %}radio{% endif %}" id="{{ id ~ '_' ~ choice.data }}" {{ block('widget_attributes') }}{% if choice.value is defined %} value="{{ choice.value }}"{% endif %}>
+                                        <label for="{{ id ~ '_' ~ choice.data }}">{{ choice.label }}</label>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+    {{ form(pollView) }}
+{% endblock %}
