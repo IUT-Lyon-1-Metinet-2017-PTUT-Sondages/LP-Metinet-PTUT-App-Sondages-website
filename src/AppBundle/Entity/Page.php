@@ -25,6 +25,8 @@ class Page
 
     /**
      * @var string
+     *
+     * @ORM\Column(name="title", type="string", length = 255)
      */
     private $title;
 

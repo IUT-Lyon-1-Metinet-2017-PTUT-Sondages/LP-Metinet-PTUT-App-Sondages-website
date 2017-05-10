@@ -66,5 +66,15 @@
 {% endblock %}
 
 {% block content %}
-    {{ form(pollView) }}
+    {{ form_start(pollView) }}
+        {% for page in poll.pages %}
+            <div class="row">
+                <div class="col"><h3 class="p-3">{{ page.title }}</h3></div>
+                <div class="col text-right"><h4>Page {{ loop.index }} sur {{ poll.pages|length }}</h4></div>
+            </div>
+            {% for question in page.questions %}
+                {{ form_widget(attribute(pollView, 'question' ~ question.id)) }}
+            {% endfor %}
+        {% endfor %}
+    {{ form_end(pollView) }}
 {% endblock %}
