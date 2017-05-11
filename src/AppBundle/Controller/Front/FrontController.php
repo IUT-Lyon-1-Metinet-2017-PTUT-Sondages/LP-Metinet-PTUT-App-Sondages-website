@@ -4,6 +4,7 @@ namespace AppBundle\Controller\Front;
 
 use AppBundle\Entity\Poll;
 use AppBundle\Form\PollViewType;
+use AppBundle\Services\PollAnswersService;
 use AppBundle\Services\PollRepositoryService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -28,7 +29,13 @@ class FrontController extends Controller
 
             if ($form->isSubmitted()) {
                 if ($form->isValid()) {
-                    // TODO : Enregistrer la réponse au sondage
+                    $data = $form->getData();
+                    /** @var PollAnswersService $pollAnswersService */
+                    $pollAnswersService = $this->get('app.poll.answers');
+                    $pollAnswersService->registerAnswers($poll, $data);
+                    return $this->render('@App/polls/thanks.html.twig', [
+                        'poll' => $poll
+                    ]);
                 }
             } else {
                 return $this->render('@App/polls/answer.html.twig', [

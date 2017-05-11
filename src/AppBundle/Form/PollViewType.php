@@ -7,6 +7,7 @@ use AppBundle\Entity\Proposition;
 use AppBundle\Entity\Question;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -40,6 +41,11 @@ class PollViewType extends AbstractType
                 'label'    => $question->getTitle()
             ]);
         }
+
+        $builder->add('submit_poll', SubmitType::class, [
+            'label' => 'Envoyer',
+            'attr' => ['class' => 'btn btn-send col-xs-12 float-right']
+        ]);
     }
 
     // TODO : faire un helper qui renvoit les différentes cases (int) en allant les chercher en BDD

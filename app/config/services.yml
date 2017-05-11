@@ -27,6 +27,9 @@ services:
     app.propositionRepositoryService:
             class: AppBundle\Services\PropositionRepositoryService
             arguments: ["@doctrine.orm.entity_manager"]
+    app.answerRepositoryService:
+            class: AppBundle\Services\AnswerRepositoryService
+            arguments: ["@doctrine.orm.entity_manager"]
     app.pageRepositoryService:
             class: AppBundle\Services\PageRepositoryService
             arguments: ["@doctrine.orm.entity_manager"]
@@ -58,6 +61,9 @@ services:
             - { name: kernel.event_listener, event: kernel.exception, method: onKernelException }
     app.helper:
         class: AppBundle\Helper
+    app.poll.answers:
+        class: AppBundle\Services\PollAnswersService
+        arguments: ["@app.propositionRepositoryService", "@app.answerRepositoryService"]
 
 #    service_name:
 #        class: AppBundle\Directory\ClassName

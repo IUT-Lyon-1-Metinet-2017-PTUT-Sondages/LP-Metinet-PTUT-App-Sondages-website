@@ -1,0 +1,26 @@
+{% extends '::base.html.twig' %}
+{% trans_default_domain 'front' %}
+
+{% block title %}
+    {{ poll.title }}
+{% endblock %}
+
+{% block poll_title %}
+    {{ poll.title }}
+{% endblock %}
+
+{% block content %}
+    <div class="row justify-content-center">
+        <div class="col-6">
+            <div class="card">
+                <div class="card-block">
+                    <h2 class="card-title text-center">
+                        {{ 'poll.answer.thanks'|trans }}
+                        <br>
+                        &#9786;
+                    </h2>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

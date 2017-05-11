@@ -21,7 +21,6 @@ class PropositionRepositoryService
     {
         $this->em->persist($proposition);
         $this->em->flush();
-
     }
 
     public function getPropositions($filter)
@@ -40,7 +39,5 @@ class PropositionRepositoryService
         $proposition = $this->em->getRepository('AppBundle:Proposition')->findOneBy(['id' => $id]);
         $this->em->remove($proposition);
         $this->em->flush();
-
     }
-
 }
