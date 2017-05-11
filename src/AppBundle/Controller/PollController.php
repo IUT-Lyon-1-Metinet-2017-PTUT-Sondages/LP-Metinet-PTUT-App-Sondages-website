@@ -64,6 +64,21 @@ class PollController extends Controller
         $service = $this->container->get('app.pollRepositoryService');
         $poll = $service->getJsonPoll($id);
 
+        $validationService = $this->container->get('app.validationService');
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+        if ($request->getMethod() == 'POST') {
+
+            $errors = $validationService->validateAndCreatePollFromRequest($request, $user);
+            if (count($errors) > 0) {
+
+                dump($errors);
+                die();
+            } else {
+                return $this->redirect($this->generateUrl('backoffice_polls'));
+            }
+
+        }
+
         return $this->render('@App/backoffice/poll/edit.html.twig', [
             'poll' => $poll
         ]);

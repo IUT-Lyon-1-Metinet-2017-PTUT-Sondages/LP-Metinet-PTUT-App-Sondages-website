@@ -10,7 +10,7 @@ use AppBundle\Entity\Proposition;
 use AppBundle\Services\pollCreationService;
 
 
-
+use Doctrine\ORM\EntityManager;
 use Symfony\Component\Validator\Validator\ValidatorInterface as Validator;
 
 /**
@@ -25,30 +25,46 @@ class ValidationService
     protected $validator;
     public $variantRepositoryService;
     public $pollCreationService;
+    public $em;
 
 
     /**
      * ValidationService constructor.
-     * @param Validator $validator
-     * @param VariantRepositoryService $variantRepositoryService
+     * @param EntityManager                           $entityManager
+     * @param Validator                               $validator
+     * @param VariantRepositoryService                $variantRepositoryService
      * @param \AppBundle\Services\pollCreationService $pollCreationService
      */
     public function __construct(
+        EntityManager $entityManager,
         Validator $validator,
         VariantRepositoryService $variantRepositoryService,
         PollCreationService $pollCreationService
 
     ) {
-        $this->validator = $validator;
+        $this->em                       = $entityManager;
+        $this->validator                = $validator;
         $this->variantRepositoryService = $variantRepositoryService;
-        $this->pollCreationService = $pollCreationService;
+        $this->pollCreationService      = $pollCreationService;
 
+    }
+
+    public function findIfExistOrCreateNew($array, $entity)
+    {
+
+        if (!array_key_exists('id', $array) || null == $array['id']) {
+            return new $entity();
+        }
+
+        return $this->em->getRepository('AppBundle:'.$entity)
+                        ->findOneById($id);
     }
 
     public function validateAndCreatePollFromRequest($request, $user)
     {
         if (null !== $request->get('poll')) {
-            $poll = new Poll;
+
+            $poll = $this->findIfExistOrCreateNew($request->get('poll'), 'AppBundle\Entity\Poll');
             $poll->setTitle($request->get('poll')['title']);
             $poll->setDescription($request->get('poll')['description']);
 
@@ -59,7 +75,7 @@ class ValidationService
             }
             if (null !== $request->get('poll')['pages'] && isset($request->get('poll')['pages'])) {
                 foreach ($request->get('poll')['pages'] as $key => $page) {
-                    $thisPage = new Page;
+                    $thisPage = $this->findIfExistOrCreateNew($page, 'AppBundle\Entity\Page');
                     $thisPage->setTitle($page['title']);
                     $thisPage->setDescription($page['description']);
                     $pageErrors = $this->validatePage($thisPage);
@@ -71,7 +87,7 @@ class ValidationService
                     $poll->addPage($thisPage);
                     if (null !== $page['questions'] && isset($page['questions'])) {
                         foreach ($page['questions'] as $question) {
-                            $thisQuestion = new Question;
+                            $thisQuestion = $this->findIfExistOrCreateNew($question, 'AppBundle\Entity\Question');
                             $thisQuestion->setTitle($question['title']);
 
 
@@ -90,7 +106,7 @@ class ValidationService
                             if (null !== $variant) {
                                 $variantErrors = $this->validateVariant($variant);
                             } else {
-                                return ['Variant does not exist ' . implode(",", $question['variant']) . '.. '];
+                                return ['Variant does not exist '.implode(",", $question['variant']).'.. '];
                             }
                             if (count($variantErrors) > 0) {
                                 return $variantErrors;
@@ -98,7 +114,7 @@ class ValidationService
 
                             if (null !== $question['propositions'] && isset($question['propositions'])) {
                                 foreach ($question['propositions'] as $proposition) {
-                                    $thisProposition = new Proposition();
+                                    $thisProposition = $this->findIfExistOrCreateNew($proposition, 'AppBundle\Entity\Proposition');
                                     $thisProposition->setTitle($proposition['title']);
                                     $thisProposition->setVariant($variant);
                                     $thisProposition->setQuestion($thisQuestion);
@@ -133,6 +149,7 @@ class ValidationService
     public function validatePoll($poll)
     {
         $errors = $this->validator->validate($poll);
+
         return $errors;
     }
 
@@ -146,6 +163,7 @@ class ValidationService
     public function validateVariant($variant)
     {
         $errors = $this->validator->validate($variant);
+
         return $errors;
     }
 
