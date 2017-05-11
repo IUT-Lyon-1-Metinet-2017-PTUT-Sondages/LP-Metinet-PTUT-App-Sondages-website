@@ -67,3 +67,5 @@ services:
     app.poll.answer.form:
         class: AppBundle\Form\PollViewType
         arguments: ["@app.variantRepositoryService"]
+        tags:
+            - { name: form.type }
