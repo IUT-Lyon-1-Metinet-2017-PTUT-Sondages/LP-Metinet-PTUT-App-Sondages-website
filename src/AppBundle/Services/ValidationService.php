@@ -7,13 +7,8 @@ use AppBundle\Entity\Question;
 use AppBundle\Entity\Variant;
 use AppBundle\Entity\Page;
 use AppBundle\Entity\Proposition;
+use AppBundle\Services\pollCreationService;
 
-
-use AppBundle\Services\VariantRepositoryService;
-use AppBundle\Services\PollRepositoryService;
-use AppBundle\Services\QuestionRepositoryService;
-use AppBundle\Services\PropositionRepositoryService;
-use AppBundle\Services\PageRepositoryService;
 
 
 use Symfony\Component\Validator\Validator\ValidatorInterface as Validator;
@@ -29,25 +24,28 @@ class ValidationService
      */
     protected $validator;
     public $variantRepositoryService;
+    public $pollCreationService;
 
 
+    /**
+     * ValidationService constructor.
+     * @param Validator $validator
+     * @param VariantRepositoryService $variantRepositoryService
+     * @param \AppBundle\Services\pollCreationService $pollCreationService
+     */
     public function __construct(
         Validator $validator,
         VariantRepositoryService $variantRepositoryService,
-        PollRepositoryService $pollRepositoryService,
-        PageRepositoryService $pageRepositoryService,
-        QuestionRepositoryService $questionRepositoryService,
-        PropositionRepositoryService $propositionRepositoryService
+        PollCreationService $pollCreationService
+
     ) {
         $this->validator = $validator;
         $this->variantRepositoryService = $variantRepositoryService;
-        $this->pollRepositoryService = $pollRepositoryService;
-        $this->pageRepositoryService = $pageRepositoryService;
-        $this->questionRepositoryService = $questionRepositoryService;
-        $this->propositionRepositoryService = $propositionRepositoryService;
+        $this->pollCreationService = $pollCreationService;
+
     }
 
-    public function validatePollRequest($request, $user)
+    public function validateAndCreatePollFromRequest($request, $user)
     {
         if (null !== $request->get('poll')) {
             $poll = new Poll;
@@ -88,7 +86,7 @@ class ValidationService
                             $poll->addQuestion($thisQuestion);
 
 
-                            $variant = $this->variantRepositoryService->getVariant(['title' => $question['variant']]);
+                            $variant = $this->variantRepositoryService->getVariant(['name' => $question['variant']]);
                             if (null !== $variant) {
                                 $variantErrors = $this->validateVariant($variant);
                             } else {
@@ -111,11 +109,14 @@ class ValidationService
                                     if (count($propositionErrors) > 0) {
                                         return $propositionErrors;
                                     }
-                                    $this->pollRepositoryService->createPoll($poll, $user);
-                                    $this->pageRepositoryService->createPage($thisPage);
-                                    $this->questionRepositoryService->createQuestion($thisQuestion);
-                                    $this->propositionRepositoryService->createProposition($thisProposition);
 
+                                    $this->pollCreationService->createPoll(
+                                        $poll,
+                                        $thisPage,
+                                        $thisQuestion,
+                                        $thisProposition,
+                                        $user
+                                    );
 
                                 }
                             }

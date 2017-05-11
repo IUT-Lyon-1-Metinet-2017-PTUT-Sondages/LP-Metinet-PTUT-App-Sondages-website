@@ -6,20 +6,19 @@
 
 {% block bodyclass %}app header-fixed sidebar-fixed aside-menu-fixed aside-menu-hidden{% endblock %}
 {% block main %}
-    {{ dump(poll) }}
-    <h1 class="text-danger">TODO: Assigner les valeurs du sondage créé, aux inputs + changer "Création d'un
-        sondage"</h1>
     <div id="app"></div>
 {% endblock %}
 
 {% block javascripts %}
-    {{ loadTranslationsForVueJS('admin-add-poll') }}
+    {{ loadTranslationsForVueJS('admin-poll') }}
     {{ loadVariantsFromDatabase() }}
 
     <script>
       var FORM_ACTION = "{{ path(app.request.get('_route'), {
           'id': app.request.get('id')
       }) }}";
+      var POLL = JSON.parse({{ poll | json_encode | raw }});
+      var IS_EDITING_POLL = true;
     </script>
     <script src="{{ asset('admin-interface/dist/manifest.js') }}"></script>
     <script src="{{ asset('admin-interface/dist/vendor.js') }}"></script>

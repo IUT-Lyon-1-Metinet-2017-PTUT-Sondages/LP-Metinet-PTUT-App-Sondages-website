@@ -1,12 +1,10 @@
 <template>
     <div class="asided">
 
-        <!-- Ajouter une page avant -->
-        <div class="aside text-center">
-            <button @click.prevent="addPageBefore(pageIndex)" class="btn btn-primary">
-                {{ $t('page.insert.before') }}
-            </button>
-        </div>
+        <!-- Bouton pour ajouter une page avant -->
+        <button-insert-here v-if="pageIndex === 0" @click.prevent="addPageBefore(pageIndex)" :block="true" size="large">
+            {{ $t('page.insert') }}
+        </button-insert-here>
 
         <!-- La page -->
         <div class="card">
@@ -37,7 +35,6 @@
                                   :placeholder="$t('page.placeholder.description')"
                                   class="form-control"></textarea>
                     </div>
-                    <hr>
                 </div>
 
                 <div class="page--content">
@@ -53,11 +50,10 @@
             </div>
         </div>
 
-        <div class="aside text-center">
-            <button @click.prevent="addPageAfter(pageIndex)" class="btn btn-primary">
-                {{ $t('page.insert.before') }}
-            </button>
-        </div>
+        <!-- Bouton pour ajouter une page après -->
+        <button-insert-here @click.prevent="addPageAfter(pageIndex)" :block="true" size="large">
+            {{ $t('page.insert') }}
+        </button-insert-here>
     </div>
 </template>
 

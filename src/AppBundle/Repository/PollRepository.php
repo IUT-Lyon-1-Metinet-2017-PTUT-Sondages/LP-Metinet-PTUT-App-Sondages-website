@@ -22,4 +22,27 @@ class PollRepository extends EntityRepository
             ->setParameter('id', $id)
             ->getQuery()->getResult();
     }
+
+    public function findFullObjectById($id)
+    {
+        return $this->createQueryBuilder('p')
+            ->select(
+                'p.id',
+                'p.description',
+                'p.title',
+                'pages',
+                'q',
+                'pr',
+                'v'
+            )
+
+            ->innerJoin('p.pages', 'pages')
+            ->innerJoin('pages.questions', 'q')
+            ->innerJoin('q.propositions', 'pr')
+            ->innerJoin('pr.variant', 'v')
+            ->groupBy('p.id')
+            ->where('p.id = :id')
+            ->setParameter('id', $id)
+            ->getQuery()->getResult();
+    }
 }

@@ -47,7 +47,7 @@ HEREDOC;
         $variants = array_map(function (Variant $variant) {
             return [
                 'id' => $variant->getId(),
-                'title' => $variant->getTitle(),
+                'title' => $variant->getName(),
             ];
         }, $variants);
         $variants = array_column($variants, 'title', 'id');

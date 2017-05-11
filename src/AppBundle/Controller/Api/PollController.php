@@ -34,7 +34,7 @@ class PollController extends FOSRestController implements TokenAuthenticatedCont
         /** @var PollRepositoryService $pollRepository */
         $pollRepository = $this->get('app.pollrepositoryservice');
         $poll = $pollRepository->getPoll(['id' => $id]);
-        if(!is_object($poll)){
+        if (!is_object($poll)) {
             throw $this->createNotFoundException();
         }
         return $poll;

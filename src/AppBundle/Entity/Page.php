@@ -5,6 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Knp\DoctrineBehaviors\Model as ORMBehaviors;
+use JMS\Serializer\Annotation\Groups;
 
 /**
  * Page
@@ -16,7 +17,7 @@ class Page
 {
     /**
      * @var int
-     *
+     * @Groups({"backOffice"})
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -24,6 +25,8 @@ class Page
     private $id;
 
     /**
+     * @Groups({"backOffice"})
+     * @ORM\Column(type="text", length = 255, name="title", nullable = true)
      * @var string
      *
      * @ORM\Column(name="title", type="string", length = 255)
@@ -31,18 +34,21 @@ class Page
     private $title;
 
      /**
+     * @Groups({"backOffice"})
      * One Poll has Many Questions.
      * @ORM\OneToMany(targetEntity="Question", mappedBy="page", cascade={"persist", "remove"})
      */
     private $questions;
 
     /**
+     * @Groups({"backOffice"})
      * @ORM\Column(type="text", length = 255, name="description", nullable = true)
      * @var string
      */
     private $description;
 
     /**
+     *
      * Many pages have One Poll.
      * @ORM\ManyToOne(targetEntity="Poll", inversedBy="pages")
      * @ORM\JoinColumn(name="poll_id", referencedColumnName="id", onDelete="CASCADE")
