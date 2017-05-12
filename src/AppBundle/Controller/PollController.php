@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\User;
 use AppBundle\Services\PollRepositoryService;
 use AppBundle\Services\ValidationService;
 use Avegao\ChartjsBundle\Chart\PieChart;
@@ -23,6 +24,7 @@ class PollController extends Controller
     public function indexAction()
     {
         $service = $this->get('app.pollRepositoryService');
+        /** @var User $user */
         $user    = $this->get('security.token_storage')
                         ->getToken()
                         ->getUser();

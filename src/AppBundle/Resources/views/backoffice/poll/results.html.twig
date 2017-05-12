@@ -15,8 +15,8 @@
                     <h2 class="text-center">{{ chart.question.qTitle }}</h2>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-6">
+            <div class="row justify-content-center">
+                <div class="col-5" style="padding-right: 20px">
                     <table class="table table-bordered table-striped table-condensed">
                         <thead>
                         <tr>
@@ -38,7 +38,7 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="col-6">
+                <div class="col-5">
                     {{ chartjs_render_html(chart.chart, 100, 100) }}
                 </div>
             </div>
