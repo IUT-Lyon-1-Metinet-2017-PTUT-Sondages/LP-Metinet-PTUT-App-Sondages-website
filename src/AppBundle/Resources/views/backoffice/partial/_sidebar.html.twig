@@ -7,25 +7,15 @@
                     Accueil
                 </a>
             </li>
-            <li class="nav-item nav-dropdown open">
-                <a class="nav-link nav-dropdown-toggle" href="#">
-                    <i class="icon-puzzle"></i> Sondages
+            <li class="nav-item">
+                <a href="{{ path('backoffice_polls_add') }}" class="nav-link">
+                    <i class="icon-plus"></i>
+                    Ajouter un sondage
                 </a>
-
-                <ul class="nav-dropdown-items">
-                    <li class="nav-item">
-                        <a href="{{ path('backoffice_polls') }}" class="nav-link">
-                            <i class="icon-list"></i>
-                            Liste des sondages
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{ path('backoffice_polls_add') }}" class="nav-link">
-                            <i class="icon-plus"></i>
-                            Ajouter un sondage
-                        </a>
-                    </li>
-                </ul>
+                <a href="{{ path('backoffice_polls') }}" class="nav-link">
+                    <i class="icon-list"></i>
+                    Liste des sondages
+                </a>
             </li>
             {% if is_granted('ROLE_ADMIN') %}
                 <li class="nav-item">

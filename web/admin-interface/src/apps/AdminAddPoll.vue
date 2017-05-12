@@ -1,6 +1,6 @@
 <template>
   <form class="form-horizontal container-fluid" method="post" :action="formAction">
-    <input v-if="isEditingPoll" :value="poll.id" type="hidden" name="poll[id]">
+    <input v-if="isEditingPoll && 'id' in poll" :value="poll.id" type="hidden" name="poll[id]">
 
     <h1 class="text-center">
       {{ isEditingPoll ? $t('poll.updating') : $t('poll.creation') }}
@@ -87,9 +87,9 @@
           variant: {
             name: this.variants[Object.keys(this.variants)[0]] // premier élément d'un objet
           },
-          propositions: [
-            {title: ''},
-          ]
+          propositions: [{
+            title: ''
+          }]
         });
       }
     },

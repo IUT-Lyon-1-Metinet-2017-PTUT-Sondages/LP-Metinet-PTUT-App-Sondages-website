@@ -1,33 +1,39 @@
 <template>
-    <transition-group name="fade">
-        <div v-for="proposition, propositionIndex in question.propositions" :key="propositionIndex"
-             class="row my-q no-gutters">
-            <!-- Input checkbox -->
-            <div class="col col-auto kdt-checkbox col-form-label mr-h">
-                <input type="checkbox" disabled="disabled">
-                <label></label>
-            </div>
+  <transition-group name="fade">
+    <div v-for="proposition, propositionIndex in question.propositions" :key="propositionIndex"
+         class="row my-q no-gutters">
+      <input v-if="isEditingPoll && 'id' in proposition" :value="proposition.id" type="hidden"
+             :name="'poll[pages][' + pageIndex + '][questions][' + questionIndex + '][propositions][' +  propositionIndex + '][id]'">
 
-            <!-- Titre de la proposition -->
-            <div class="col" :class="{'has-danger': proposition.title.length == 0}">
-                <input v-model="proposition.title"
-                       :name="'poll[pages][' + pageIndex + '][questions][' + questionIndex + '][propositions][' +  propositionIndex + '][title]'"
-                       :placeholder="$t('proposition.placeholder.proposition_x', {x: propositionIndex + 1})"
-                       class="form-control d-inline-block"
-                       required="required">
-            </div>
+      <!-- Input checkbox -->
+      <div class="col col-auto kdt-checkbox col-form-label mr-h">
+        <input type="checkbox" disabled="disabled">
+        <label></label>
+      </div>
 
-            <!-- Bouton supprimer -->
-            <div class="col col-auto ml-h">
-                <button class="btn btn-outline-danger"
-                        @click.prevent="question.propositions.splice(propositionIndex, 1)"
-                        :disabled="question.propositions.length <= 1">&times;</button>
-            </div>
-        </div>
-    </transition-group>
+      <!-- Titre de la proposition -->
+      <div class="col" :class="{'has-danger': proposition.title.length == 0}">
+        <input v-model="proposition.title"
+               :name="'poll[pages][' + pageIndex + '][questions][' + questionIndex + '][propositions][' +  propositionIndex + '][title]'"
+               :placeholder="$t('proposition.placeholder.proposition_x', {x: propositionIndex + 1})"
+               class="form-control d-inline-block"
+               required="required">
+      </div>
+
+      <!-- Bouton supprimer -->
+      <div class="col col-auto ml-h">
+        <button class="btn btn-outline-danger"
+                @click.prevent="question.propositions.splice(propositionIndex, 1)"
+                :disabled="question.propositions.length <= 1">&times;
+        </button>
+      </div>
+    </div>
+  </transition-group>
 </template>
 
 <script>
+  import {mapGetters} from 'vuex';
+
   export default {
     props: {
       page: {type: Object, required: true},
@@ -37,6 +43,9 @@
     },
     data () {
       return {}
+    },
+    computed: {
+      ...mapGetters(['isEditingPoll'])
     }
   }
 </script>
