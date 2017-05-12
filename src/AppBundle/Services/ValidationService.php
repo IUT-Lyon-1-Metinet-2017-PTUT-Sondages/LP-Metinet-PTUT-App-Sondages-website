@@ -4,13 +4,10 @@ namespace AppBundle\Services;
 
 use AppBundle\Entity\Poll;
 use AppBundle\Entity\Question;
-use AppBundle\Entity\Variant;
 use AppBundle\Entity\Page;
 use AppBundle\Entity\Proposition;
-use AppBundle\Services\pollCreationService;
-
-
 use Doctrine\ORM\EntityManager;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Validator\ValidatorInterface as Validator;
 
 /**
@@ -46,7 +43,6 @@ class ValidationService
         $this->validator                = $validator;
         $this->variantRepositoryService = $variantRepositoryService;
         $this->pollCreationService      = $pollCreationService;
-
     }
 
     public function findIfExistOrCreateNew($array, $entity)
@@ -56,14 +52,13 @@ class ValidationService
             return new $entity();
         }
 
-        return $this->em->getRepository('AppBundle:'.$entity)
-                        ->findOneById($id);
+        return $this->em->getRepository('AppBundle:'.$entity)->findOneById($array['id']);
     }
 
-    public function validateAndCreatePollFromRequest($request, $user)
+    public function validateAndCreatePollFromRequest(Request $request, $user)
     {
         if (null !== $request->get('poll')) {
-
+            /** @var Poll $poll */
             $poll = $this->findIfExistOrCreateNew($request->get('poll'), 'AppBundle\Entity\Poll');
             $poll->setTitle($request->get('poll')['title']);
             $poll->setDescription($request->get('poll')['description']);
@@ -75,6 +70,7 @@ class ValidationService
             }
             if (null !== $request->get('poll')['pages'] && isset($request->get('poll')['pages'])) {
                 foreach ($request->get('poll')['pages'] as $key => $page) {
+                    /** @var Page $thisPage */
                     $thisPage = $this->findIfExistOrCreateNew($page, 'AppBundle\Entity\Page');
                     $thisPage->setTitle($page['title']);
                     $thisPage->setDescription($page['description']);
@@ -87,6 +83,7 @@ class ValidationService
                     $poll->addPage($thisPage);
                     if (null !== $page['questions'] && isset($page['questions'])) {
                         foreach ($page['questions'] as $question) {
+                            /** @var Question $thisQuestion */
                             $thisQuestion = $this->findIfExistOrCreateNew($question, 'AppBundle\Entity\Question');
                             $thisQuestion->setTitle($question['title']);
 
@@ -114,7 +111,11 @@ class ValidationService
 
                             if (null !== $question['propositions'] && isset($question['propositions'])) {
                                 foreach ($question['propositions'] as $proposition) {
-                                    $thisProposition = $this->findIfExistOrCreateNew($proposition, 'AppBundle\Entity\Proposition');
+                                    /** @var Proposition $thisProposition */
+                                    $thisProposition = $this->findIfExistOrCreateNew(
+                                        $proposition,
+                                        'AppBundle\Entity\Proposition'
+                                    );
                                     $thisProposition->setTitle($proposition['title']);
                                     $thisProposition->setVariant($variant);
                                     $thisProposition->setQuestion($thisQuestion);
@@ -143,9 +144,12 @@ class ValidationService
         } else {
             throw $this->createException('No Poll sent');
         }
-
     }
 
+    /**
+     * @param $poll
+     * @return \Symfony\Component\Validator\ConstraintViolationListInterface
+     */
     public function validatePoll($poll)
     {
         $errors = $this->validator->validate($poll);
@@ -153,6 +157,10 @@ class ValidationService
         return $errors;
     }
 
+    /**
+     * @param $page
+     * @return \Symfony\Component\Validator\ConstraintViolationListInterface
+     */
     public function validatePage($page)
     {
         $errors = $this->validator->validate($page);
@@ -160,6 +168,10 @@ class ValidationService
         return $errors;
     }
 
+    /**
+     * @param $variant
+     * @return \Symfony\Component\Validator\ConstraintViolationListInterface
+     */
     public function validateVariant($variant)
     {
         $errors = $this->validator->validate($variant);
@@ -167,6 +179,10 @@ class ValidationService
         return $errors;
     }
 
+    /**
+     * @param $question
+     * @return \Symfony\Component\Validator\ConstraintViolationListInterface
+     */
     public function validateQuestion($question)
     {
         $errors = $this->validator->validate($question);
@@ -174,6 +190,10 @@ class ValidationService
         return $errors;
     }
 
+    /**
+     * @param $proposition
+     * @return \Symfony\Component\Validator\ConstraintViolationListInterface
+     */
     public function validateProposition($proposition)
     {
         $errors = $this->validator->validate($proposition);
@@ -181,11 +201,14 @@ class ValidationService
         return $errors;
     }
 
+    /**
+     * @param $answer
+     * @return \Symfony\Component\Validator\ConstraintViolationListInterface
+     */
     public function validateAnswer($answer)
     {
         $errors = $this->validator->validate($answer);
 
         return $errors;
     }
-
 }

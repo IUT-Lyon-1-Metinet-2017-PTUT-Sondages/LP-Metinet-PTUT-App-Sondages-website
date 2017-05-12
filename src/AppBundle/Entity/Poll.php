@@ -72,9 +72,23 @@ class Poll
      */
     private $user;
 
+    /**
+     * Access token of the poll
+     * @Expose
+     * @ORM\Column(type="text", length = 255, name="access_token", nullable = false)
+     */
+    private $accessToken;
+
     public function __construct()
     {
-        $this->questions = new ArrayCollection();
+        $this->questions   = new ArrayCollection();
+        $accessToken = '';
+        $characterList = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $max = mb_strlen($characterList, '8bit') - 1;
+        for ($i = 0; $i < 8; ++$i) {
+            $accessToken .= $characterList[random_int(0, $max)];
+        }
+        $this->accessToken = $accessToken;
     }
 
     /**
