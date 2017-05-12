@@ -19,6 +19,9 @@
             </div>
             <div class="card-block">
                 <div class="row">
+                    <input v-if="isEditingPoll && 'in' " :value="question.id"
+                           :name="'poll[pages][' + pageIndex + '][questions][' + questionIndex + '][id]'"
+                           type="hidden">
                     <!-- Titre de la question -->
                     <div class="col-md-8 col-sm-6 form-group"
                          :class="{'has-danger': question.title.length == 0}">
@@ -78,7 +81,7 @@
       return {}
     },
     computed: {
-      ...mapGetters(['variants']),
+      ...mapGetters(['isEditingPoll', 'variants']),
       totalPageQuestions () {
         return this.page.questions.length;
       }

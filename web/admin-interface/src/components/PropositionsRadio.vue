@@ -3,6 +3,9 @@
         <div v-for="proposition, propositionIndex in question.propositions" :key="propositionIndex"
              class="row my-q no-gutters">
 
+            <input v-if="isEditingPoll && 'id' in proposition" :value="proposition.id" type="hidden"
+                   :name="'poll[pages][' + pageIndex + '][questions][' + questionIndex + '][propositions][' +  propositionIndex + '][id]'">
+
             <!-- Input radio -->
             <div class="col col-auto kdt-radio col-form-label mr-h">
                 <input type="radio" disabled="disabled">
@@ -29,12 +32,17 @@
 </template>
 
 <script>
+  import {mapGetters} from 'vuex';
+
   export default {
     props: {
       page: {type: Object, required: true},
       pageIndex: {type: Number, required: true},
       question: {type: Object, required: true},
       questionIndex: {type: Number, required: true},
+    },
+    computed: {
+      ...mapGetters(['isEditingPoll'])
     },
     data () {
       return {}

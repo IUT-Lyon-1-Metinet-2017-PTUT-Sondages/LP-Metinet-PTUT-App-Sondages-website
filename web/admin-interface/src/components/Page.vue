@@ -20,6 +20,9 @@
 
             <div class="card-block">
                 <div class="page--meta">
+                    <input v-if="isEditingPoll && 'id' in page" :value="page.id" :name="'poll[pages][' + pageIndex + '][id]'"
+                           type="hidden">
+
                     <!-- Le titre de la page -->
                     <div class="form-group" :class="{'has-danger': page.title.length == 0}">
                         <input v-model="page.title" required
@@ -58,6 +61,7 @@
 </template>
 
 <script>
+  import {mapGetters} from 'vuex';
   import Bus from '../bus/admin-add-poll';
   import * as Event from '../bus/events';
 
@@ -68,6 +72,7 @@
       pageIndex: {type: Number, required: true}
     },
     computed: {
+      ...mapGetters(['isEditingPoll']),
       totalPages () {
         return this.poll.pages.length;
       }

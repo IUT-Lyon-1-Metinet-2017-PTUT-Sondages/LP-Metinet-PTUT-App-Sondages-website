@@ -2,6 +2,9 @@
     <transition-group name="fade">
         <div v-for="proposition, propositionIndex in question.propositions" :key="propositionIndex"
              class="row my-q no-gutters">
+            <input v-if="isEditingPoll && 'id' in proposition" :value="proposition.id" type="hidden"
+                   :name="'poll[pages][' + pageIndex + '][questions][' + questionIndex + '][propositions][' +  propositionIndex + '][id]'">
+
             <!-- Input checkbox -->
             <div class="col col-auto kdt-checkbox col-form-label mr-h">
                 <input type="checkbox" disabled="disabled">
@@ -21,13 +24,16 @@
             <div class="col col-auto ml-h">
                 <button class="btn btn-outline-danger"
                         @click.prevent="question.propositions.splice(propositionIndex, 1)"
-                        :disabled="question.propositions.length <= 1">&times;</button>
+                        :disabled="question.propositions.length <= 1">&times;
+                </button>
             </div>
         </div>
     </transition-group>
 </template>
 
 <script>
+  import {mapGetters} from 'vuex';
+
   export default {
     props: {
       page: {type: Object, required: true},
@@ -37,6 +43,9 @@
     },
     data () {
       return {}
+    },
+    computed: {
+      ...mapGetters(['isEditingPoll'])
     }
   }
 </script>

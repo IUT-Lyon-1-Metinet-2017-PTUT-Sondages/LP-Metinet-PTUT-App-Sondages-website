@@ -1,39 +1,39 @@
 <template>
-  <form class="form-horizontal container-fluid" method="post" :action="formAction">
-    <input v-if="isEditingPoll" :value="poll.id" type="hidden" name="poll[id]">
+    <form class="form-horizontal container-fluid" method="post" :action="formAction">
+        <input v-if="isEditingPoll && 'id' in poll" :value="poll.id" type="hidden" name="poll[id]">
 
-    <h1 class="text-center">
-      {{ isEditingPoll ? $t('poll.updating') : $t('poll.creation') }}
-    </h1>
-    <hr>
+        <h1 class="text-center">
+            {{ isEditingPoll ? $t('poll.updating') : $t('poll.creation') }}
+        </h1>
+        <hr>
 
-    <!-- Titre du sondage -->
-    <div class="form-group" :class="{'has-danger': poll.title.length == 0}">
-      <input v-model="poll.title" name="poll[title]" required
-             class="form-control form-control-lg" :placeholder="$t('poll.placeholder.title')">
-    </div>
+        <!-- Titre du sondage -->
+        <div class="form-group" :class="{'has-danger': poll.title.length == 0}">
+            <input v-model="poll.title" name="poll[title]" required
+                   class="form-control form-control-lg" :placeholder="$t('poll.placeholder.title')">
+        </div>
 
-    <!-- Description du sondage -->
-    <div class="form-group">
+        <!-- Description du sondage -->
+        <div class="form-group">
             <textarea v-model="poll.description" name="poll[description]"
                       class="form-control" :placeholder="$t('poll.placeholder.description')"></textarea>
-    </div>
+        </div>
 
-    <!-- Les pages sondage, avec une transion fade -->
-    <hr>
-    <transition-group name="fade" tag="div">
-      <page v-for="page, pageIndex in poll.pages" :key="page"
-            :poll="poll"
-            :page="page" :pageIndex="pageIndex"></page>
-    </transition-group>
-    <hr>
+        <!-- Les pages sondage, avec une transion fade -->
+        <hr>
+        <transition-group name="fade" tag="div">
+            <page v-for="page, pageIndex in poll.pages" :key="page"
+                  :poll="poll"
+                  :page="page" :pageIndex="pageIndex"></page>
+        </transition-group>
+        <hr>
 
-    <div class="text-center">
-      <button type="submit" class="btn btn-primary btn-lg">
-        {{ isEditingPoll ? $t('poll.update') : $t('poll.create') }}
-      </button>
-    </div>
-  </form>
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary btn-lg">
+                {{ isEditingPoll ? $t('poll.update') : $t('poll.create') }}
+            </button>
+        </div>
+    </form>
 </template>
 
 <script>
@@ -87,9 +87,9 @@
           variant: {
             name: this.variants[Object.keys(this.variants)[0]] // premier élément d'un objet
           },
-          propositions: [
-            {title: ''},
-          ]
+          propositions: [{
+            title: ''
+          }]
         });
       }
     },
@@ -126,17 +126,17 @@
 </script>
 
 <style scoped>
-  form {
-    max-width: 1024px;
-  }
+    form {
+        max-width: 1024px;
+    }
 </style>
 
 <style>
-  .fade-enter-active, .fade-leave-active {
-    transition: opacity .2s
-  }
+    .fade-enter-active, .fade-leave-active {
+        transition: opacity .2s
+    }
 
-  .fade-enter, .fade-leave-to {
-    opacity: 0
-  }
+    .fade-enter, .fade-leave-to {
+        opacity: 0
+    }
 </style>
