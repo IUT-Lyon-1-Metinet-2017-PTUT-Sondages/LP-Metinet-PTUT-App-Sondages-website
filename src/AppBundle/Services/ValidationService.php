@@ -60,6 +60,9 @@ class ValidationService
         if (null !== $request->get('poll')) {
             /** @var Poll $poll */
             $poll = $this->findIfExistOrCreateNew($request->get('poll'), Poll::class);
+            if(null !== $poll->getUser()){
+                $user = $poll->getUser();
+            }
             $poll->setTitle($request->get('poll')['title']);
             $poll->setDescription($request->get('poll')['description']);
 
