@@ -54,7 +54,8 @@ class RegistrationController extends BaseController
         if ($form->isSubmitted()) {
             $captchaIsValid = $this->checkGoogleRecaptcha(
                 $this->getParameter('recaptcha_server_secret'),
-                $request->get('g-recaptcha-response'));
+                $request->get('g-recaptcha-response')
+            );
             if ($captchaIsValid && $form->isValid()) {
                 $event = new FormEvent($form, $request);
                 $dispatcher->dispatch(FOSUserEvents::REGISTRATION_SUCCESS, $event);
@@ -66,7 +67,10 @@ class RegistrationController extends BaseController
                     $response = new RedirectResponse($url);
                 }
 
-                $dispatcher->dispatch(FOSUserEvents::REGISTRATION_COMPLETED, new FilterUserResponseEvent($user, $request, $response));
+                $dispatcher->dispatch(
+                    FOSUserEvents::REGISTRATION_COMPLETED,
+                    new FilterUserResponseEvent($user, $request, $response)
+                );
 
                 return $response;
             }

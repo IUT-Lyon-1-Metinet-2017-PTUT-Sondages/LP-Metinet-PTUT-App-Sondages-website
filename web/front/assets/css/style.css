@@ -13,9 +13,14 @@
     src: url('../font/Raleway-Light.ttf');
 }
 
+html {
+    position: relative;
+    min-height: 100%;
+}
+
 body {
     background-color: #e4e5e6;
-    margin: 0px;
+    margin-bottom: 150px;
 }
 
 header, footer {
@@ -73,6 +78,9 @@ footer {
     flex-direction: column;
     background-color: #fff;
     margin-top: 50px;
+    position: absolute;
+    height:150px;
+    bottom: 0;
 }
 
 .logo-iut {

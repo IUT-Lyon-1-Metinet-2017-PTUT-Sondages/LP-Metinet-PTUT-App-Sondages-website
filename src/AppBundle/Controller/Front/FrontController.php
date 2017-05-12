@@ -16,7 +16,7 @@ class FrontController extends Controller
      * @Route("/poll/{id}", name="answer_poll")
      * @param Request $request
      * @param $id
-     * @return \Symfony\Component\HttpFoundation\Response|void
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function answerPollAction(Request $request, $id)
     {
@@ -37,14 +37,13 @@ class FrontController extends Controller
                         'poll' => $poll
                     ]);
                 }
-            } else {
-                return $this->render('@App/polls/answer.html.twig', [
-                    'pollView' => $form->createView(),
-                    'poll'     => $poll
-                ]);
             }
+            return $this->render('@App/polls/answer.html.twig', [
+                'pollView' => $form->createView(),
+                'poll'     => $poll
+            ]);
         }
 
-        // TODO : renvoyer sur la home car le sondage n'existe pas ou afficher une page spécifique
+        throw $this->createNotFoundException('Le sondage que vous recherchez n\'existe pas');
     }
 }
