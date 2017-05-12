@@ -128,12 +128,9 @@ class PollController extends Controller
     {
         /** @var PollRepositoryService $service */
         $service = $this->get('app.pollRepositoryService');
+        $poll    = $service->getPoll(['id' => $id]);
 
         $charts = [];
-        $data = [];
-        $labels = [];
-
-
         $questionsAnswers = $service->getResults($id);
         $questionsAnswersAfterTreatment = [];
         $checkId = -1;
@@ -164,27 +161,26 @@ class PollController extends Controller
             $questionsAnswersAfterTreatment[] = $questionAnswers;
         }
 
-        dump($service->getResults($id));
-        dump($questionsAnswersAfterTreatment);
-        // TODO : http://localhost/projets/LP-Metinet-PTUT-App-Sondages/website/web/app_dev.php/backoffice/polls/3/results
-        die();
-        foreach ($service->getResults($id) as $question) {
+        foreach ($questionsAnswersAfterTreatment as $question) {
             $chart   = new PieChart();
             $dataSet = new PieDataSet();
-            $labels[] = $result['title'];
-            $data[] = $result['amount'];
-            $dataSet->setData($data);
-            foreach ($data as $index => $value) {
+            $data = [];
+            $labels = [];
+            foreach ($question['props'] as $index => $proposition) {
+                $labels[] = $proposition['title'];
+                $data[] = $proposition['amount'];
                 $dataSet->addBackgroundColor($this->getParameter('graph_colors')[$index]);
-                $labels[] = $index . $this->getParameter('graph_colors')[$index];
             }
+            $dataSet->setData($data);
             $chart->addDataSet($dataSet);
             $chart->setLabels($labels);
             $chart->generateData();
+            $charts[] = ['question' => $question, 'chart' => $chart];
         }
 
         return $this->render('@App/backoffice/poll/results.html.twig', [
-            'poll' => $poll
+            'poll'    => $poll,
+            'charts'  => $charts
         ]);
     }
 }

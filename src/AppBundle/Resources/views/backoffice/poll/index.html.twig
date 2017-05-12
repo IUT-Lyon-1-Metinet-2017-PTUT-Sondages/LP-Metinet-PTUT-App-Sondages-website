@@ -36,6 +36,11 @@
                                    class="btn btn-danger">
                                     <i class="fa fa-trash"></i>&nbsp;Supprimer
                                 </a>
+
+                                <a href="{{ path('backoffice_poll_results', {'id': poll.id}) }}"
+                                   class="btn btn-success">
+                                    <i class="fa fa-eye"></i>&nbsp;Réponses
+                                </a>
                             </td>
                         </tr>
                     {% endfor %}
