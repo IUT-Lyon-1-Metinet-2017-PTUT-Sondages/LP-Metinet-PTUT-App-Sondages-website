@@ -20,11 +20,23 @@ class PollController extends Controller
     public function indexAction()
     {
         $service = $this->get('app.pollRepositoryService');
-        $polls = $service->getPolls([]);
+        $user    = $this->get('security.token_storage')
+                        ->getToken()
+                        ->getUser();
+
+        if ($user->hasRole('ROLE_ADMIN')) {
+            $polls = $service->getPolls([]);
+        } else {
+            $polls = $service->getPolls(['user'=> $user]);
+        }
+
         // replace this example code with whatever you need
-        return $this->render('@App/backoffice/poll/index.html.twig', [
-            'polls' => $polls,
-        ]);
+        return $this->render(
+            '@App/backoffice/poll/index.html.twig',
+            [
+                'polls' => $polls,
+            ]
+        );
     }
 
     /**
@@ -36,7 +48,9 @@ class PollController extends Controller
     {
         /** @var ValidationService $validationService */
         $validationService = $this->get('app.validationService');
-        $user = $this->get('security.token_storage')->getToken()->getUser();
+        $user              = $this->get('security.token_storage')
+                                  ->getToken()
+                                  ->getUser();
         if ($request->getMethod() == 'POST') {
             $errors = $validationService->validateAndCreatePollFromRequest($request, $user);
             if (count($errors) > 0) {
@@ -46,22 +60,25 @@ class PollController extends Controller
                 return $this->redirect($this->generateUrl('backoffice_polls'));
             }
         }
+
         return $this->render('@App/backoffice/poll/add.html.twig');
     }
 
     /**
      * @Route("/backoffice/polls/{id}/edit", name="backoffice_poll_edit")
      * @param Request $request
-     * @param $id
+     * @param         $id
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function editAction(Request $request, $id)
     {
         $service = $this->get('app.pollRepositoryService');
-        $poll = $service->getJsonPoll($id);
+        $poll    = $service->getJsonPoll($id);
 
         $validationService = $this->get('app.validationService');
-        $user = $this->get('security.token_storage')->getToken()->getUser();
+        $user              = $this->get('security.token_storage')
+                                  ->getToken()
+                                  ->getUser();
         if ($request->getMethod() == 'POST') {
             $errors = $validationService->validateAndCreatePollFromRequest($request, $user);
             if (count($errors) > 0) {
@@ -72,9 +89,12 @@ class PollController extends Controller
             }
         }
 
-        return $this->render('@App/backoffice/poll/edit.html.twig', [
-            'poll' => $poll
-        ]);
+        return $this->render(
+            '@App/backoffice/poll/edit.html.twig',
+            [
+                'poll' => $poll,
+            ]
+        );
     }
 
     /**
@@ -87,6 +107,7 @@ class PollController extends Controller
         $service = $this->get('app.pollRepositoryService');
         try {
             $service->deleteById(['id' => $id]);
+
             return $this->redirect($this->generateUrl('backoffice_polls'));
         } catch (\Exception $e) {
             dump($e->getMessage());
