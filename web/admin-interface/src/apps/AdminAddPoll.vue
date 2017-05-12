@@ -1,5 +1,7 @@
 <template>
   <form class="form-horizontal container-fluid" method="post" :action="formAction">
+    <input v-if="isEditingPoll" :value="poll.id" type="hidden" name="poll[id]">
+
     <h1 class="text-center">
       {{ isEditingPoll ? $t('poll.updating') : $t('poll.creation') }}
     </h1>
