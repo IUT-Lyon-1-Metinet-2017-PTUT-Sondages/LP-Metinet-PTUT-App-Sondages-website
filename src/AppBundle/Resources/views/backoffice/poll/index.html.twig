@@ -5,7 +5,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
-                <a href="{{ path('backoffice_polls_add') }}" class="btn btn-primary btn-lg btn-block">
+                <a target="_blank" href="{{ path('backoffice_polls_add') }}" class="btn btn-primary btn-lg btn-block">
                     <i class="fa fa-plus-circle"></i> Créer un nouveau sondage
                 </a>
             </div>
@@ -23,7 +23,7 @@
                     <tbody>
                     {% for poll in polls %}
                         <tr>
-                            <td>{{ poll.title }}</td>
+                            <td><a target="_blank" href="{{ path('answer_poll',{'id':poll.id}) }}">{{ poll.title }} &nbsp; <i class="fa fa-external-link" aria-hidden="true"></i></a></td>
                             <td>{{ poll.user.email }}</td>
                             <td></td>
                             <td>
