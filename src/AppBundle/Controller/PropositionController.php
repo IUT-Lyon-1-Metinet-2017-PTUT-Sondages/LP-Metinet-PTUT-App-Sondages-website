@@ -1,0 +1,18 @@
+<?php
+
+namespace AppBundle\Controller;
+
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+
+class PropositionController extends Controller
+{
+    /**
+     * @Route("/backoffice/proposition/{id}/delete", name="backoffice_proposition_delete")
+     * @param $id
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function deleteAction($id)
+    {
+        $this->get('app.propositionRepositoryService')->deleteById($id);
+    }
+}
