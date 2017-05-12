@@ -1,32 +1,32 @@
 <template>
-    <transition name="fade" appear>
-        <div class="form-inline justify-content-center">
-            <!-- <select> valeur minimale -->
-            <select v-model="min" class="form-control">
-                <option v-for="v in [0, 1]" :value="v">{{v}}</option>
-            </select>
+  <transition name="fade" appear>
+    <div class="form-inline justify-content-center">
+      <!-- <select> valeur minimale -->
+      <select v-model="min" class="form-control">
+        <option v-for="v in [0, 1]" :value="v">{{v}}</option>
+      </select>
 
-            <span class="m-1">
+      <span class="m-1">
                 {{ $t('proposition.variants.LinearScale.to') }}
             </span>
 
-            <!-- <select> valeur maximale -->
-            <select v-model="max" class="form-control">
-                <option v-for="v in [2, 3, 4, 5, 6, 7, 8, 9, 10]" :value="v">{{v}}</option>
-            </select>
+      <!-- <select> valeur maximale -->
+      <select v-model="max" class="form-control">
+        <option v-for="v in [2, 3, 4, 5, 6, 7, 8, 9, 10]" :value="v">{{v}}</option>
+      </select>
 
-            <!-- Rendu de <input type="hidden"> pour le formulaire -->
-            <template v-for="proposition, propositionIndex in question.propositions">
-                <br>
-                {{proposition}}
-                <input v-if="isEditingPoll && 'id' in proposition" :value="proposition.id" type="hidden"
-                       :name="'poll[pages][' + pageIndex + '][questions][' + questionIndex + '][propositions][' +  propositionIndex + '][id]'">
+      <!-- Rendu de <input type="hidden"> pour le formulaire -->
+      <template v-for="proposition, propositionIndex in question.propositions">
+        <br>
+        {{proposition}}
+        <input v-if="isEditingPoll && 'id' in proposition" :value="proposition.id" type="hidden"
+               :name="'poll[pages][' + pageIndex + '][questions][' + questionIndex + '][propositions][' +  propositionIndex + '][id]'">
 
-                <input :value="proposition.title" type="hidden"
-                       :name="'poll[pages][' + pageIndex + '][questions][' + questionIndex + '][propositions][' +  propositionIndex + '][title]'">
-            </template>
-        </div>
-    </transition>
+        <input :value="proposition.title" type="hidden"
+               :name="'poll[pages][' + pageIndex + '][questions][' + questionIndex + '][propositions][' +  propositionIndex + '][title]'">
+      </template>
+    </div>
+  </transition>
 </template>
 
 <script>
