@@ -45,4 +45,14 @@ class PollRepository extends EntityRepository
             ->setParameter('id', $id)
             ->getQuery()->getResult();
     }
+
+    public function findNbAnsweredPoll()
+    {
+        return $this->createQueryBuilder('p')
+            ->select('COUNT(DISTINCT(a.sessionId)) as nbAnsweredPoll')
+            ->innerJoin('p.questions', 'q')
+            ->innerJoin('q.propositions', 'pr')
+            ->innerJoin('pr.answers', 'a')
+            ->getQuery()->getSingleScalarResult();
+    }
 }

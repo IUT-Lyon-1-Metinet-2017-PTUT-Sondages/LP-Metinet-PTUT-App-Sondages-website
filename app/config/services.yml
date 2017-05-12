@@ -37,6 +37,10 @@ services:
             class: AppBundle\Services\VariantRepositoryService
             arguments: ["@doctrine.orm.entity_manager"]
 
+    app.dashboardRepositoryService:
+                class: AppBundle\Services\DashboardRepositoryService
+                arguments: ["@doctrine.orm.entity_manager"]
+
     app.apiAuthService:
         class: AppBundle\Services\ApiAuthService
         arguments: ["@request_stack", "%api_token%"]
