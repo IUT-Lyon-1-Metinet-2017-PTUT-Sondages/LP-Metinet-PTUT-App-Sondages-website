@@ -40,20 +40,20 @@ class DashboardRepositoryService
     {
 
         return $this->em->getRepository('AppBundle:User')
-            ->createQueryBuilder('u')
-            ->select('COUNT(u.email) as nbUsers')
-            ->getQuery()
-            ->getSingleScalarResult();
+                        ->createQueryBuilder('u')
+                        ->select('COUNT(u.email) as nbUsers')
+                        ->getQuery()
+                        ->getSingleScalarResult();
     }
 
     public function getPollData($user)
     {
         if ($user->hasRole('ROLE_ADMIN')) {
             return $this->em->getRepository('AppBundle:Poll')
-                ->createQueryBuilder('p')
-                ->select('COUNT(p.id) as nbPolls')
-                ->getQuery()
-                ->getSingleScalarResult();
+                            ->createQueryBuilder('p')
+                            ->select('COUNT(p.id) as nbPolls')
+                            ->getQuery()
+                            ->getSingleScalarResult();
         } else {
             return $this->em->getRepository('AppBundle:Poll')
                             ->createQueryBuilder('p')
@@ -69,10 +69,10 @@ class DashboardRepositoryService
     {
         if ($user->hasRole('ROLE_ADMIN')) {
             return $this->em->getRepository('AppBundle:Poll')
-                ->findNbAnsweredPoll(null);
+                            ->findNbAnsweredPoll(null);
         } else {
-           return $this->em->getRepository('AppBundle:Poll')
-                                  ->findNbAnsweredPoll($user);
+            return $this->em->getRepository('AppBundle:Poll')
+                            ->findNbAnsweredPoll($user);
         }
     }
 }
