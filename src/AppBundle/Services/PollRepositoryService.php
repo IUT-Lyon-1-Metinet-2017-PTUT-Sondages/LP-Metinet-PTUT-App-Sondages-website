@@ -2,6 +2,7 @@
 
 namespace AppBundle\Services;
 
+use AppBundle\Entity\Poll;
 use AppBundle\Repository\PollRepository;
 use Doctrine\ORM\EntityManager;
 use JMS\Serializer\Serializer;
@@ -33,6 +34,10 @@ class PollRepositoryService
         return $this->em->getRepository('AppBundle:Poll')->findBy($filter);
     }
 
+    /**
+     * @param $filter
+     * @return null|Poll
+     */
     public function getPoll($filter)
     {
         return $this->em->getRepository('AppBundle:Poll')->findOneBy($filter);

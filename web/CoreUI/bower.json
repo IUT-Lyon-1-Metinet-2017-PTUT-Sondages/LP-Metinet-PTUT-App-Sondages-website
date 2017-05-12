@@ -8,7 +8,7 @@
     "fontawesome": "latest",
     "simple-line-icons": "latest",
     "pace": "latest",
-    "chart.js": "^2.3.0"
+    "chart.js": "^2.5.0"
   },
   "private": true
 }

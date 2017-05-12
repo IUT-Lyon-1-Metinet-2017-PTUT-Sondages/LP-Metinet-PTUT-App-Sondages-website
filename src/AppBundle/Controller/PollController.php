@@ -2,7 +2,10 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Services\PollRepositoryService;
 use AppBundle\Services\ValidationService;
+use Avegao\ChartjsBundle\Chart\PieChart;
+use Avegao\ChartjsBundle\DataSet\PieDataSet;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -114,5 +117,70 @@ class PollController extends Controller
             dump("can't create");
             die();
         }
+    }
+
+    /**
+     * @Route("/backoffice/polls/{id}/results", name="backoffice_poll_results")
+     * @param $id
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function resultsAction($id)
+    {
+        /** @var PollRepositoryService $service */
+        $service = $this->get('app.pollRepositoryService');
+        $poll    = $service->getPoll(['id' => $id]);
+
+        $charts = [];
+        $questionsAnswers = $service->getResults($id);
+        $questionsAnswersAfterTreatment = [];
+        $checkId = -1;
+
+        foreach ($questionsAnswers as $questionAnswers) {
+            if ($checkId === $questionAnswers['qId']) {
+                continue;
+            }
+
+            $checkId = $questionAnswers['qId'];
+
+            $props = array_filter($questionsAnswers, function($a) use($checkId) {
+                return $a['qId'] === $checkId;
+            });
+
+            unset($questionAnswers['propId']);
+            unset($questionAnswers['propTitle']);
+            unset($questionAnswers['amount']);
+
+            foreach ($props as $j => $prop) {
+                $questionAnswers['props'][] =  [
+                    'id' => $prop['propId'],
+                    'title' => $prop['propTitle'],
+                    'amount' => $prop['amount']
+                ];
+            }
+
+            $questionsAnswersAfterTreatment[] = $questionAnswers;
+        }
+
+        foreach ($questionsAnswersAfterTreatment as $question) {
+            $chart   = new PieChart();
+            $dataSet = new PieDataSet();
+            $data = [];
+            $labels = [];
+            foreach ($question['props'] as $index => $proposition) {
+                $labels[] = $proposition['title'];
+                $data[] = $proposition['amount'];
+                $dataSet->addBackgroundColor($this->getParameter('graph_colors')[$index]);
+            }
+            $dataSet->setData($data);
+            $chart->addDataSet($dataSet);
+            $chart->setLabels($labels);
+            $chart->generateData();
+            $charts[] = ['question' => $question, 'chart' => $chart];
+        }
+
+        return $this->render('@App/backoffice/poll/results.html.twig', [
+            'poll'    => $poll,
+            'charts'  => $charts
+        ]);
     }
 }

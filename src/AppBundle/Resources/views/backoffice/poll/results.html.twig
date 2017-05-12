@@ -1,0 +1,59 @@
+{% extends "::backoffice_base.html.twig" %}
+
+{% block bodyclass %}app header-fixed sidebar-fixed aside-menu-fixed aside-menu-hidden{% endblock %}
+
+{% block main %}
+    <div id="app">
+        <div class="row">
+            <div class="col-12">
+                <h1 class="text-center">{{ poll.title }}</h1>
+            </div>
+        </div>
+        {% for chart in charts %}
+            <div class="row">
+                <div class="col-12">
+                    <h2 class="text-center">{{ chart.question.qTitle }}</h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <table class="table table-bordered table-striped table-condensed">
+                        <thead>
+                        <tr>
+                            <th>Proposition</th>
+                            <th>Quantité</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for prop in chart.question.props %}
+                            <tr>
+                                <td>
+                                    {{ prop.title }}
+                                </td>
+                                <td>
+                                    {{ prop.amount }}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-6">
+                    {{ chartjs_render_html(chart.chart, 100, 100) }}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    {% block javascripts %}
+        <!-- ChartJSStart -->
+        <script src="{{ asset('CoreUI/bower_components/chart.js/dist/Chart.min.js') }}"></script>
+        <script>
+            //            Chart.defaults.global.animation.duration = 0;
+            {% for chart in charts %}
+                {{ chartjs_render_js(chart.chart) }}
+            {% endfor %}
+        </script>
+        <!-- ChartJSEnd -->
+    {% endblock %}
+{% endblock %}

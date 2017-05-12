@@ -4,9 +4,54 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "24464c00f7b321ead9d6790b3bb58bc8",
-    "content-hash": "5d657e2b725ffd5fabc4b56a73de621f",
+    "hash": "418b43b07d7e553f94324fd4dbcae6fe",
+    "content-hash": "2d80d58fb6d963b4e052713c7451d9ea",
     "packages": [
+        {
+            "name": "avegao/chartjs-bundle",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/RealAestan/ChartJSBundle.git",
+                "reference": "f46ed386593fc41f5d69244d6e74650f6282cba4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/RealAestan/ChartJSBundle/zipball/f46ed386593fc41f5d69244d6e74650f6282cba4",
+                "reference": "f46ed386593fc41f5d69244d6e74650f6282cba4",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4",
+                "symfony/symfony": ">=3.2"
+            },
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-4": {
+                    "Avegao\\ChartjsBundle\\": ""
+                }
+            },
+            "license": [
+                "GPL-3.0"
+            ],
+            "authors": [
+                {
+                    "name": "Álvaro de la Vega Olmedilla",
+                    "email": "alvarodlvo@gmail.com",
+                    "homepage": "http://avegao.com",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Anthony Margerand",
+                    "email": "anthony.margerand@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "support": {
+                "source": "https://github.com/RealAestan/ChartJSBundle/tree/master"
+            },
+            "time": "2017-05-12 15:17:09"
+        },
         {
             "name": "behat/transliterator",
             "version": "v1.2.0",
@@ -1957,6 +2002,46 @@
                 "psr-3"
             ],
             "time": "2016-10-10 12:19:37"
+        },
+        {
+            "name": "saad-tazi/g-chart-bundle",
+            "version": "v2.0.0",
+            "target-dir": "SaadTazi/GChartBundle",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/saadtazi/SaadTaziGChartBundle.git",
+                "reference": "e69c259588d7905d1c8d0e0a5406487bfe74dd2f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/saadtazi/SaadTaziGChartBundle/zipball/e69c259588d7905d1c8d0e0a5406487bfe74dd2f",
+                "reference": "e69c259588d7905d1c8d0e0a5406487bfe74dd2f",
+                "shasum": ""
+            },
+            "require": {
+                "symfony/framework-bundle": "3.*"
+            },
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-0": {
+                    "SaadTazi\\GChartBundle": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Saad Tazi"
+                }
+            ],
+            "description": "A super simple Bundle that facilitate the usage of Google Chart Tool, Google Chart Image API and Google Infographics.",
+            "keywords": [
+                "chart",
+                "google"
+            ],
+            "time": "2017-01-10 02:57:35"
         },
         {
             "name": "sensio/distribution-bundle",
@@ -4251,7 +4336,8 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "friendsofsymfony/user-bundle": 20
+        "friendsofsymfony/user-bundle": 20,
+        "avegao/chartjs-bundle": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
