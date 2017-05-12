@@ -23,7 +23,7 @@
                     <tbody>
                     {% for poll in polls %}
                         <tr>
-                            <td><a target="_blank" href="{{ path('answer_poll',{'id':poll.id}) }}">{{ poll.title }} &nbsp; <i class="fa fa-external-link" aria-hidden="true"></i></a></td>
+                            <td><a target="_blank" href="{{ path('answer_poll',{'token':poll.accessToken}) }}">{{ poll.title }} &nbsp; <i class="fa fa-external-link" aria-hidden="true"></i></a></td>
                             <td>{{ poll.user.email }}</td>
                             <td></td>
                             <td>
