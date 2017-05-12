@@ -24,7 +24,7 @@
       <!-- Bouton supprimer -->
       <div class="col col-auto ml-h">
         <button class="btn btn-outline-danger"
-                @click.prevent="question.propositions.splice(propositionIndex, 1)"
+                @click.prevent="removeProposition(proposition)"
                 :disabled="question.propositions.length <= 1">&times;
         </button>
       </div>
@@ -34,6 +34,8 @@
 
 <script>
   import {mapGetters} from 'vuex';
+  import Bus from '../bus/admin-add-poll';
+  import {REMOVE_PROPOSITION} from '../bus/events';
 
   export default {
     props: {
@@ -47,6 +49,11 @@
     },
     data () {
       return {}
+    },
+    methods: {
+      removeProposition(proposition) {
+        Bus.$emit(REMOVE_PROPOSITION, this.question, proposition);
+      }
     }
   }
 </script>

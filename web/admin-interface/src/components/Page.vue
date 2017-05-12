@@ -33,10 +33,10 @@
 
           <!-- La description de la page -->
           <div class="form-group">
-                        <textarea v-model="page.description"
-                                  :name="'poll[pages][' + pageIndex + '][description]'"
-                                  :placeholder="$t('page.placeholder.description')"
-                                  class="form-control"></textarea>
+            <textarea v-model="page.description"
+                      :name="'poll[pages][' + pageIndex + '][description]'"
+                      :placeholder="$t('page.placeholder.description')"
+                      class="form-control"></textarea>
           </div>
         </div>
 

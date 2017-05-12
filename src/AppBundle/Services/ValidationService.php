@@ -52,14 +52,17 @@ class ValidationService
             return new $entity();
         }
 
-        return $this->em->getRepository('AppBundle:'.$entity)->findOneById($array['id']);
+        return $this->em->getRepository($entity)->findOneById($array['id']);
     }
 
     public function validateAndCreatePollFromRequest(Request $request, $user)
     {
         if (null !== $request->get('poll')) {
             /** @var Poll $poll */
-            $poll = $this->findIfExistOrCreateNew($request->get('poll'), 'AppBundle\Entity\Poll');
+            $poll = $this->findIfExistOrCreateNew($request->get('poll'), Poll::class);
+            if(null !== $poll->getUser()){
+                $user = $poll->getUser();
+            }
             $poll->setTitle($request->get('poll')['title']);
             $poll->setDescription($request->get('poll')['description']);
 
@@ -71,7 +74,7 @@ class ValidationService
             if (null !== $request->get('poll')['pages'] && isset($request->get('poll')['pages'])) {
                 foreach ($request->get('poll')['pages'] as $key => $page) {
                     /** @var Page $thisPage */
-                    $thisPage = $this->findIfExistOrCreateNew($page, 'AppBundle\Entity\Page');
+                    $thisPage = $this->findIfExistOrCreateNew($page, Page::class);
                     $thisPage->setTitle($page['title']);
                     $thisPage->setDescription($page['description']);
                     $pageErrors = $this->validatePage($thisPage);
@@ -84,7 +87,7 @@ class ValidationService
                     if (null !== $page['questions'] && isset($page['questions'])) {
                         foreach ($page['questions'] as $question) {
                             /** @var Question $thisQuestion */
-                            $thisQuestion = $this->findIfExistOrCreateNew($question, 'AppBundle\Entity\Question');
+                            $thisQuestion = $this->findIfExistOrCreateNew($question, Question::class);
                             $thisQuestion->setTitle($question['title']);
 
 
@@ -114,7 +117,7 @@ class ValidationService
                                     /** @var Proposition $thisProposition */
                                     $thisProposition = $this->findIfExistOrCreateNew(
                                         $proposition,
-                                        'AppBundle\Entity\Proposition'
+                                        Proposition::class
                                     );
                                     $thisProposition->setTitle($proposition['title']);
                                     $thisProposition->setVariant($variant);

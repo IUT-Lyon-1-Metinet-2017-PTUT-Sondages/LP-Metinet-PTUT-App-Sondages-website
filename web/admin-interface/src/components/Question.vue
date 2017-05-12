@@ -88,13 +88,13 @@
     },
     methods: {
       addQuestionBefore() {
-        Bus.$emit(Event.ADD_QUESTION_BEFORE, this.page, this.index)
+        Bus.$emit(Event.ADD_QUESTION_BEFORE, this.page, this.questionIndex)
       },
       addQuestionAfter() {
-        Bus.$emit(Event.ADD_QUESTION_AFTER, this.page, this.index)
+        Bus.$emit(Event.ADD_QUESTION_AFTER, this.page, this.questionIndex)
       },
       removeQuestion() {
-        Bus.$emit(Event.REMOVE_QUESTION, this.page, this.index);
+        Bus.$emit(Event.REMOVE_QUESTION, this.page, this.question);
       },
       addProposition() {
         this.question.propositions.push({
