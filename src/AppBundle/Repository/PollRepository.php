@@ -24,26 +24,7 @@ class PollRepository extends EntityRepository
                     ->getResult();
     }
 
-    /**
-     * @param $user
-     *
-     * @return int Result result
-     */
-    public function findNbAnsweredPoll($user)
-    {
-        $query = $this->createQueryBuilder('p')
-                      ->select('COUNT(DISTINCT(a.sessionId)) as nbAnsweredPoll')
-                      ->innerJoin('p.questions', 'q')
-                      ->innerJoin('q.propositions', 'pr')
-                      ->innerJoin('pr.answers', 'a');
-        if(null !== $user){
-            $query->andWhere('p.user = :user')
-                  ->setParameter('user', $user);
-        }
 
-
-        return $query->getQuery()->getSingleScalarResult();
-    }
 
 
     public function findFullObjectById($id)
@@ -69,13 +50,19 @@ class PollRepository extends EntityRepository
                     ->getResult();
     }
 
-    public function findNbAnsweredPoll()
+    public function findNbAnsweredPoll($user)
     {
-        return $this->createQueryBuilder('p')
+       $query= $this->createQueryBuilder('p')
             ->select('COUNT(DISTINCT(a.sessionId)) as nbAnsweredPoll')
             ->innerJoin('p.questions', 'q')
             ->innerJoin('q.propositions', 'pr')
-            ->innerJoin('pr.answers', 'a')
-            ->getQuery()->getSingleScalarResult();
+            ->innerJoin('pr.answers', 'a');
+        if(null !== $user){
+            $query->andWhere('p.user = :user')
+                  ->setParameter('user', $user);
+        }
+
+
+        return $query->getQuery()->getSingleScalarResult();
     }
 }
