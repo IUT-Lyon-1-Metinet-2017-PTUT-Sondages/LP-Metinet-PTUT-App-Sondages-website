@@ -20,7 +20,7 @@
         <input v-if="isEditingPoll && 'id' in proposition" :value="proposition.id" type="hidden"
                :name="'poll[pages][' + pageIndex + '][questions][' + questionIndex + '][propositions][' +  propositionIndex + '][id]'">
 
-        <input :value="proposition.title" type="hidden"
+        <input :value="proposition.title.value" type="hidden"
                :name="'poll[pages][' + pageIndex + '][questions][' + questionIndex + '][propositions][' +  propositionIndex + '][title]'">
       </template>
     </div>
@@ -62,7 +62,10 @@
         // ex [{title: 0}, {title: 1}, {title: 2}, {title: 3}, ...]
         return [...new Array(this.max - this.min + 1)].map((n, index) => {
           return {
-            title: this.min + index
+            title: {
+              value: this.min + index,
+              error: null
+            }
           }
         });
       },
@@ -78,13 +81,18 @@
     },
     mounted() {
       // équivaut à un tableau de propositions vides
-      if (this.question.propositions.length === 0 || this.question.propositions[0].title === '') {
+      if (this.question.propositions.length === 0 || this.question.propositions[0].title.value === '') {
         this.question.propositions = this.generatePropositions();
       }
     },
     beforeDestroy() {
       this.question.propositions = [
-        {title: this.$t('proposition.default.title')},
+        {
+          title: {
+            value: this.$t('proposition.default.title'),
+            error: null
+          }
+        },
       ];
     }
   }

@@ -36,7 +36,11 @@ const mutations = {
   setPoll(state, poll) {
     poll['pages'].forEach(page => {
       page['questions'].forEach(question => {
-        question['variant'] = {...question['propositions'][0]['variant']};
+        if (question['propositions'].length > 0) {
+          question['variant'] = {...question['propositions'][0]['variant']};
+        } else {
+          question['variant'] = {}
+        }
         question['propositions'].forEach(proposition => {
           delete proposition['variant'];
         });

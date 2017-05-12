@@ -6,8 +6,6 @@ parameters:
 services:
     app.repository.poll:
         class: AppBundle\Repository\PollRepository
-
-
     app.repository.page:
         class: AppBundle\Repository\PageRepository
     app.form.registration:
@@ -15,28 +13,26 @@ services:
         tags:
             - { name: form.type, alias: app_user_registration }
     app.variantValidator:
-                    class: AppBundle\Validator\Constraint\IsExistingVariantTypeValidator
-                    arguments: ["@doctrine.orm.entity_manager"]
-
+        class: AppBundle\Validator\Constraints\IsExistingVariantValidator
+        arguments: ["@app.variantRepositoryService"]
     app.pollRepositoryService:
         class: AppBundle\Services\PollRepositoryService
         arguments: ["@doctrine.orm.entity_manager","@jms_serializer"]
     app.questionRepositoryService:
-            class: AppBundle\Services\QuestionRepositoryService
-            arguments: ["@doctrine.orm.entity_manager"]
+        class: AppBundle\Services\QuestionRepositoryService
+        arguments: ["@doctrine.orm.entity_manager"]
     app.propositionRepositoryService:
-            class: AppBundle\Services\PropositionRepositoryService
-            arguments: ["@doctrine.orm.entity_manager"]
+        class: AppBundle\Services\PropositionRepositoryService
+        arguments: ["@doctrine.orm.entity_manager"]
     app.answerRepositoryService:
-            class: AppBundle\Services\AnswerRepositoryService
-            arguments: ["@doctrine.orm.entity_manager"]
+        class: AppBundle\Services\AnswerRepositoryService
+        arguments: ["@doctrine.orm.entity_manager"]
     app.pageRepositoryService:
-            class: AppBundle\Services\PageRepositoryService
-            arguments: ["@doctrine.orm.entity_manager"]
+        class: AppBundle\Services\PageRepositoryService
+        arguments: ["@doctrine.orm.entity_manager"]
     app.variantRepositoryService:
-            class: AppBundle\Services\VariantRepositoryService
-            arguments: ["@doctrine.orm.entity_manager"]
-
+        class: AppBundle\Services\VariantRepositoryService
+        arguments: ["@doctrine.orm.entity_manager"]
     app.apiAuthService:
         class: AppBundle\Services\ApiAuthService
         arguments: ["@request_stack", "%api_token%"]

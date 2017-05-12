@@ -24,16 +24,17 @@
                  type="hidden">
 
           <!-- Le titre de la page -->
-          <div class="form-group" :class="{'has-danger': page.title.length == 0}">
-            <input v-model="page.title" required
+          <div class="form-group" :class="{'has-danger': page.title.error || page.title.length == 0}">
+            <input v-model="page.title.value"
                    :name="'poll[pages][' + pageIndex + '][title]'"
                    :placeholder="$t('page.placeholder.title')"
                    class="form-control form-control-md">
+            <div v-if="page.title.error" class="form-control-feedback">{{ page.title.error }}</div>
           </div>
 
           <!-- La description de la page -->
           <div class="form-group">
-            <textarea v-model="page.description"
+            <textarea v-model="page.description.value"
                       :name="'poll[pages][' + pageIndex + '][description]'"
                       :placeholder="$t('page.placeholder.description')"
                       class="form-control"></textarea>

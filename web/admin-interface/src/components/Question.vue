@@ -22,14 +22,15 @@
           <input v-if="isEditingPoll && 'in' " :value="question.id"
                  :name="'poll[pages][' + pageIndex + '][questions][' + questionIndex + '][id]'"
                  type="hidden">
+
           <!-- Titre de la question -->
           <div class="col-md-8 col-sm-6 form-group"
                :class="{'has-danger': question.title.length == 0}">
-
-            <input v-model="question.title" required
+            <input v-model="question.title.value"
                    :name="'poll[pages][' + pageIndex + '][questions][' + questionIndex + '][title]'"
                    :placeholder="$t('question.placeholder.title')"
                    class="form-control">
+            <div v-if="question.title.error" class="form-control-feedback">{{ question.title.error }}</div>
           </div>
 
           <!-- Type de la question (variante) -->
@@ -98,7 +99,10 @@
       },
       addProposition() {
         this.question.propositions.push({
-          title: this.$t('proposition.default.title')
+          title: {
+            value: this.$t('proposition.default.title'),
+            error: null,
+          }
         })
       }
     }

@@ -8,7 +8,7 @@ poll:
     description: ''
   placeholder:
     title: 'Titre du sondage (requis)'
-    description: 'Description du sondage'
+    description: 'Description du sondage (requis)'
 
 page:
   x_on_y: 'Page {x} sur {y}'

@@ -56,6 +56,4 @@ class PollCreationService
         $this->questionRepositoryService->createQuestion($question);
         $this->propositionRepositoryService->createProposition($proposition);
     }
-
-
 }

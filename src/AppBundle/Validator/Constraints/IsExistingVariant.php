@@ -6,7 +6,7 @@
  * Time: 11:38
  */
 
-namespace AppBundle\Validator\Constraint;
+namespace AppBundle\Validator\Constraints;
 
 use Symfony\Component\Validator\Constraint;
 

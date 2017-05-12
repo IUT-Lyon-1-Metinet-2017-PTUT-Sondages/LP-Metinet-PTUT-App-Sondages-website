@@ -4,12 +4,16 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\User;
 use AppBundle\Services\PollRepositoryService;
+use AppBundle\Exception\InvalidVariantException;
+use AppBundle\Exception\ValidationFailedException;
 use AppBundle\Services\ValidationService;
 use Avegao\ChartjsBundle\Chart\PieChart;
 use Avegao\ChartjsBundle\DataSet\PieDataSet;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
 
 /**
  * Class PollController
@@ -24,15 +28,14 @@ class PollController extends Controller
     public function indexAction()
     {
         $service = $this->get('app.pollRepositoryService');
-        /** @var User $user */
-        $user    = $this->get('security.token_storage')
-                        ->getToken()
-                        ->getUser();
+        $user = $this->get('security.token_storage')
+                     ->getToken()
+                     ->getUser();
 
         if ($user->hasRole('ROLE_ADMIN')) {
             $polls = $service->getPolls([]);
         } else {
-            $polls = $service->getPolls(['user'=> $user]);
+            $polls = $service->getPolls(['user' => $user]);
         }
 
         // replace this example code with whatever you need
@@ -47,22 +50,26 @@ class PollController extends Controller
     /**
      * @Route("/backoffice/polls/add", name="backoffice_polls_add")
      * @param Request $request
+     *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function addAction(Request $request)
     {
         /** @var ValidationService $validationService */
         $validationService = $this->get('app.validationService');
-        $user              = $this->get('security.token_storage')
-                                  ->getToken()
-                                  ->getUser();
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+
         if ($request->getMethod() == 'POST') {
-            $errors = $validationService->validateAndCreatePollFromRequest($request, $user);
-            if (count($errors) > 0) {
-                dump($errors);
-                die();
-            } else {
+            try {
+                $validationService->validateAndCreatePollFromRequest($request, $user);
                 return $this->redirect($this->generateUrl('backoffice_polls'));
+            } catch (ValidationFailedException $e) {
+                return new JsonResponse($e->getErrors());
+            } catch (InvalidVariantException $e) {
+                return new JsonResponse([
+                    'message' => $e->getMessage(),
+                    'question' => $e->getQuestion(),
+                ]);
             }
         }
 
@@ -73,24 +80,29 @@ class PollController extends Controller
      * @Route("/backoffice/polls/{id}/edit", name="backoffice_poll_edit")
      * @param Request $request
      * @param         $id
+     *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function editAction(Request $request, $id)
     {
         $service = $this->get('app.pollRepositoryService');
-        $poll    = $service->getJsonPoll($id);
+        $poll = $service->getJsonPoll($id);
 
         $validationService = $this->get('app.validationService');
-        $user              = $this->get('security.token_storage')
-                                  ->getToken()
-                                  ->getUser();
+        $user = $this->get('security.token_storage')
+                     ->getToken()
+                     ->getUser();
         if ($request->getMethod() == 'POST') {
-            $errors = $validationService->validateAndCreatePollFromRequest($request, $user);
-            if (count($errors) > 0) {
-                dump($errors);
-                die();
-            } else {
+            try {
+                $validationService->validateAndCreatePollFromRequest($request, $user);
                 return $this->redirect($this->generateUrl('backoffice_polls'));
+            } catch (ValidationFailedException $e) {
+                return new JsonResponse($e->getErrors());
+            } catch (InvalidVariantException $e) {
+                return new JsonResponse([
+                    'message' => $e->getMessage(),
+                    'question' => $e->getQuestion(),
+                ]);
             }
         }
 
@@ -105,6 +117,7 @@ class PollController extends Controller
     /**
      * @Route("/backoffice/polls/{id}/delete", name="backoffice_poll_delete")
      * @param $id
+     *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function deleteAction($id)
