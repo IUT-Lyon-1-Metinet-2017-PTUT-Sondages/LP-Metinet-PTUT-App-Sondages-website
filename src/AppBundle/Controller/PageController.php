@@ -7,7 +7,9 @@
  */
 
 namespace AppBundle\Controller;
+
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Class PageController
@@ -16,10 +18,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 class PageController extends Controller
 {
     /**
- * @Route("/backoffice/page/{id}/delete", name="backoffice_page_delete")
- * @param $id
- * @return \Symfony\Component\HttpFoundation\RedirectResponse
- */
+     * @Route("/backoffice/page/{id}/delete", name="backoffice_page_delete")
+     * @param $id
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
     public function deleteAction($id)
     {
         $this->get('app.pageRepositoryService')->deleteById($id);

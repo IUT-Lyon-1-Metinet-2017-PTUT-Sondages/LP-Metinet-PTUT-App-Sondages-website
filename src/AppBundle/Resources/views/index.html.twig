@@ -1,10 +1,10 @@
 {% extends '::base.html.twig' %}
 
 {% block content %}
-
-    <h2>Lorem ispum</h2>
-
-    <ul>
-        <li>foo</li>
-    </ul>
+    <a href="{{ path('fos_user_registration_register') }}" class="btn btn-primary">
+        {{ 'layout.register' | trans({}, 'FOSUserBundle') }}
+    </a>
+    <a href="{{ path('fos_user_security_login') }}" class="btn btn-primary">
+        {{ 'layout.login' | trans({}, 'FOSUserBundle') }}
+    </a>
 {% endblock %}
