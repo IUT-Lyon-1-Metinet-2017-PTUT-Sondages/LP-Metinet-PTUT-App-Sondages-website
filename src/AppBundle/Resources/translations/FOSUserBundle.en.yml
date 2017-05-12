@@ -14,3 +14,6 @@ layout:
     submit: 'Register !'
     explanation: 'To register, you must use your university address.'
   logged_in_as: 'Logged in as %username%'
+
+update_profile: 'Update my profile'
+update_password: 'Update my password'

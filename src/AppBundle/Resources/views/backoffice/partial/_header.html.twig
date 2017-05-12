@@ -1,3 +1,5 @@
+{% trans_default_domain "FOSUserBundle" %}
+
 <header class="app-header navbar">
     <button class="navbar-toggler mobile-sidebar-toggler hidden-lg-up" type="button">☰</button>
     <a class="navbar-brand" href="#"></a>
@@ -7,15 +9,25 @@
         </li>
     </ul>
     <ul class="nav navbar-nav ml-auto">
-        <li class="nav-item hidden-md-down spaced-logout-btn">
-            {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-                {{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }}
-                <a data-toggle="tooltip" data-placement="left" title="{{ 'layout.logout'|trans({}, 'FOSUserBundle') }}" class="btn btn-primary btn-sm" href="{{ path('fos_user_security_logout') }}">
-                    <i class="fa fa-sign-out" aria-hidden="true"></i>
+        <li class="nav-item dropdown px-1">
+            <a class="nav link dropdown-toggle" data-toggle="dropdown" href="#" role="button">
+                <i class=""></i>
+                {{ app.user.username }}
+            </a>
+            <div class="dropdown-menu dropdown-menu-right">
+                <a href="{{ path('fos_user_profile_edit') }}" class="dropdown-item">
+                    <i class="fa fa-user"></i>
+                    {{ 'update_profile' | trans }}
                 </a>
-            {% else %}
-                <a class="btn btn-primary btn-sm" href="{{ path('fos_user_security_login') }}">{{ 'layout.login'|trans({}, 'FOSUserBundle') }}</a>
-            {% endif %}
+                <a href="{{ path('fos_user_change_password') }}" class="dropdown-item">
+                    <i class="fa fa-user"></i>
+                    {{ 'update_password' | trans }}
+                </a>
+                <a href="{{ path('fos_user_security_logout') }}" class="dropdown-item">
+                    <i class="fa fa-sign-out"></i>
+                    {{ 'layout.logout' | trans }}
+                </a>
+            </div>
         </li>
     </ul>
 </header>
