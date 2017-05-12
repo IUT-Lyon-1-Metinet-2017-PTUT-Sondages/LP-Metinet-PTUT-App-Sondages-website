@@ -21,7 +21,7 @@ class ApiAuthService
 
     public function checkToken()
     {
-        if($this->request->get('token') != $this->token) {
+        if ($this->request->get('token') != $this->token) {
             throw new ApiAuthenticationFailedException();
         }
     }

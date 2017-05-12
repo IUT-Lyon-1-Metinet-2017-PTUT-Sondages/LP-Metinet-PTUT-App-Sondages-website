@@ -1,0 +1,23 @@
+{% extends "::backoffice_base.html.twig" %}
+
+{% block bodyclass %}app header-fixed sidebar-fixed aside-menu-fixed aside-menu-hidden{% endblock %}
+
+{% block main %}
+    <div id="app">
+        {% for chart in charts %}
+            {{ chartjs_render_html(chart) }}
+        {% endfor %}
+    </div>
+
+    {% block javascripts %}
+        <!-- ChartJSStart -->
+        <script src="{{ asset('CoreUI/bower_components/chart.js/dist/Chart.min.js') }}"></script>
+        <script>
+            //            Chart.defaults.global.animation.duration = 0;
+            {% for chart in charts %}
+                {{ chartjs_render_js(chart) }}
+            {% endfor %}
+        </script>
+        <!-- ChartJSEnd -->
+    {% endblock %}
+{% endblock %}
