@@ -1,6 +1,12 @@
 <template>
   <form class="form-horizontal container-fluid" method="post" :action="formAction">
     <input v-if="isEditingPoll && 'id' in poll" :value="poll.id" type="hidden" name="poll[id]">
+    <template v-if="isEditingPoll">
+      <input v-for="pageId in toDelete.pages" name="toDelete['pages'][]" :value="pageId" type="hidden">
+      <input v-for="questionId in toDelete.questions" name="toDelete['questions'][]" :value="questionId" type="hidden">
+      <input v-for="propositionId in toDelete.propositions" name="toDelete['propositions'][]" :value="propositionId"
+             type="hidden">
+    </template>
 
     <h1 class="text-center">
       {{ isEditingPoll ? $t('poll.updating') : $t('poll.creation') }}
@@ -42,6 +48,15 @@
   import {mapGetters} from "vuex";
 
   export default {
+    data () {
+      return {
+        toDelete: {
+          pages: [],
+          questions: [],
+          propositions: []
+        }
+      }
+    },
     computed: {
       ...mapGetters(['isEditingPoll', 'poll', 'variants', 'formAction'])
     },
@@ -50,25 +65,30 @@
         this._addPage(index);
       },
       addPageAfter(index = 0) {
-        this._addPage(index, false);
+        this._addPage(index + 1);
       },
       removePage (page) {
         const index = this.poll.pages.indexOf(page);
         this.poll.pages.splice(index, 1);
+        this.isEditingPoll && 'id' in page && this.toDelete.pages.push(page.id);
       },
       addQuestionBefore(page, questionIndex = 0) {
         this._addQuestion(page, questionIndex);
       },
       addQuestionAfter(page, questionIndex = 0) {
-        this._addQuestion(page, questionIndex, false);
+        this._addQuestion(page, questionIndex + 1);
       },
-      removeQuestion(page, questionIndex) {
-        page.questions.splice(questionIndex, 1);
+      removeQuestion(page, question) {
+        const index = page.questions.indexOf(question);
+        page.questions.splice(index, 1);
+        this.isEditingPoll && 'id' in question && this.toDelete.questions.push(question.id);
       },
-      _addPage(pageIndex = 0, before = true) {
-        // si !before, on incrémente le pageIndex pour ajouter la page après
-        pageIndex += (before ? 0 : 1);
-
+      removeProposition(question, proposition) {
+        const index = question.propositions.indexOf(proposition);
+        question.propositions.splice(index, 1);
+        this.isEditingPoll && 'id' in proposition && this.toDelete.propositions.push(proposition.id);
+      },
+      _addPage(pageIndex = 0) {
         // Ajout de la page
         this.poll.pages.splice(pageIndex, 0, {
           title: this.$t('page.default.title'),
@@ -79,9 +99,7 @@
         // Puis on y rajoute une question
         this.addQuestionBefore(this.poll.pages[pageIndex]);
       },
-      _addQuestion(page, questionIndex = 0, before = true) {
-        questionIndex += (before ? 0 : 1);
-
+      _addQuestion(page, questionIndex = 0) {
         page.questions.splice(questionIndex, 0, {
           title: this.$t('question.default.title'),
           variant: {
@@ -101,6 +119,8 @@
       Bus.$on(Event.ADD_QUESTION_BEFORE, this.addQuestionBefore);
       Bus.$on(Event.ADD_QUESTION_AFTER, this.addQuestionAfter);
       Bus.$on(Event.REMOVE_QUESTION, this.removeQuestion);
+
+      Bus.$on(Event.REMOVE_PROPOSITION, this.removeProposition);
 
       // Ajout dans le store...
       'VARIANTS' in window && this.$store.commit('setVariants', window['VARIANTS']);

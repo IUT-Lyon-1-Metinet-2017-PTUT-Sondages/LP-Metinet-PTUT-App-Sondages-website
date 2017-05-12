@@ -7,8 +7,8 @@
       </select>
 
       <span class="m-1">
-                {{ $t('proposition.variants.LinearScale.to') }}
-            </span>
+        {{ $t('proposition.variants.LinearScale.to') }}
+      </span>
 
       <!-- <select> valeur maximale -->
       <select v-model="max" class="form-control">
@@ -29,6 +29,8 @@
 
 <script>
   import {mapGetters} from 'vuex';
+  import Bus from '../bus/admin-add-poll';
+  import {REMOVE_PROPOSITION} from '../bus/events';
 
   export default {
     props: {
@@ -64,6 +66,15 @@
           }
         });
       },
+      removeProposition(proposition) {
+        Bus.$emit(REMOVE_PROPOSITION, this.question, proposition);
+      }
+    },
+    created () {
+      console.log(JSON.stringify(this.question.propositions));
+      this.question.propositions.forEach(p => {
+        this.removeProposition(p);
+      })
     },
     mounted() {
       // équivaut à un tableau de propositions vides
