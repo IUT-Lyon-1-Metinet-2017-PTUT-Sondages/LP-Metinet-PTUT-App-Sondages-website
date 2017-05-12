@@ -17,8 +17,6 @@
 
       <!-- Rendu de <input type="hidden"> pour le formulaire -->
       <template v-for="proposition, propositionIndex in question.propositions">
-        <br>
-        {{proposition}}
         <input v-if="isEditingPoll && 'id' in proposition" :value="proposition.id" type="hidden"
                :name="'poll[pages][' + pageIndex + '][questions][' + questionIndex + '][propositions][' +  propositionIndex + '][id]'">
 
