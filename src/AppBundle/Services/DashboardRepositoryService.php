@@ -55,7 +55,13 @@ class DashboardRepositoryService
                 ->getQuery()
                 ->getSingleScalarResult();
         } else {
-            return null;
+            return $this->em->getRepository('AppBundle:Poll')
+                            ->createQueryBuilder('p')
+                            ->select('COUNT(p.id) as nbPolls')
+                            ->andWhere('p.user = :user')
+                            ->setParameter('user', $user)
+                            ->getQuery()
+                            ->getSingleScalarResult();
         }
     }
 
@@ -63,9 +69,10 @@ class DashboardRepositoryService
     {
         if ($user->hasRole('ROLE_ADMIN')) {
             return $this->em->getRepository('AppBundle:Poll')
-                ->findNbAnsweredPoll();
+                ->findNbAnsweredPoll(null);
         } else {
-            return null;
+           return $this->em->getRepository('AppBundle:Poll')
+                                  ->findNbAnsweredPoll($user);
         }
     }
 }
