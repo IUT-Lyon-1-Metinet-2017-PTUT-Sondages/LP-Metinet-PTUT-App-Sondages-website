@@ -29,6 +29,11 @@ class RegistrationController extends BaseController
      */
     public function registerAction(Request $request)
     {
+        if($this->isGranted('ROLE_USER')) {
+            $this->addFlash('danger', "Impossible d'accéder à cette page.");
+            return $this->redirectToRoute('backoffice');
+        }
+
         /** @var $formFactory FactoryInterface */
         $formFactory = $this->get('fos_user.registration.form.factory');
         /** @var $userManager UserManagerInterface */
