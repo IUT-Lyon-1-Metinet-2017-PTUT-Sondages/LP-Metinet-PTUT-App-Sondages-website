@@ -19,6 +19,7 @@ OPTIONS:
     --help, -h            \tAffiche l'aide
 
     --all, -a             \tEffectue tous les déploiements listés ci-dessus
+    --fix-permissions, -fp\tFixe les permissions du dossier var/ (nécessite sudo)
     --symfony, -s         \tDéploie l'application Symfony
     --core-ui, -cu        \tDéploie l'interface d'administration
     --poll-interface, -pi \tDéploie l'interface de création de sondages
@@ -40,6 +41,14 @@ die () {
 }
 
 ## Toutes nos steps
+
+step_fix_permissions () {
+    run cd "${ROOT}"
+
+    HTTPDUSER=`ps axo user,comm | grep -E '[a]pache|[h]ttpd|[_]www|[w]ww-data|[n]ginx' | grep -v root | head -1 | cut -d\  -f1`
+    run sudo setfacl -R -m u:"$HTTPDUSER":rwX -m u:`whoami`:rwX var
+    run sudo setfacl -dR -m u:"$HTTPDUSER":rwX -m u:`whoami`:rwX var
+}
 
 step_symfony () {
     run cd "${ROOT}"
@@ -99,6 +108,7 @@ do
     case "${ARG}" in
         "--help"|"-h") display_help ;;
         "--all"|"-a") step_run_all ;;
+        "--fix-permissions"|"-fp") step_fix_permissions ;;
         "--symfony"|"-s") step_symfony ;;
         "--core-ui"|"-cu") step_coreui ;;
         "--poll-interface"|"-pi") step_poll_interface ;;
