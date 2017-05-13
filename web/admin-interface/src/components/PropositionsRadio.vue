@@ -52,7 +52,7 @@
     },
     methods: {
       removeProposition(proposition) {
-        Bus.$emit(REMOVE_PROPOSITION, this.question, proposition);
+        Bus.$emit(REMOVE_PROPOSITION, proposition, this.question);
       }
     }
   }

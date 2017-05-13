@@ -2,9 +2,9 @@
   <form @submit.prevent="onSubmit" class="form-horizontal container-fluid" method="post">
     <input v-if="isEditingPoll && 'id' in poll" :value="poll.id" type="hidden" name="poll[id]">
     <template v-if="isEditingPoll">
-      <input v-for="pageId in toDelete.pages" name="toDelete['Page'][]" :value="pageId" type="hidden">
-      <input v-for="questionId in toDelete.questions" name="toDelete['Question'][]" :value="questionId" type="hidden">
-      <input v-for="propositionId in toDelete.propositions" name="toDelete['Proposition'][]" :value="propositionId"
+      <input v-for="pageId in toDelete.pages" name="toDelete[Page][]" :value="pageId" type="hidden">
+      <input v-for="questionId in toDelete.questions" name="toDelete[Question][]" :value="questionId" type="hidden">
+      <input v-for="propositionId in toDelete.propositions" name="toDelete[Proposition][]" :value="propositionId"
              type="hidden">
     </template>
 
@@ -35,6 +35,11 @@
       <page v-for="page, pageIndex in poll.pages" :key="page"
             :poll="poll" :page="page" :pageIndex="pageIndex"></page>
     </transition-group>
+
+    <!-- Bouton pour ajouter une page après -->
+    <button-insert-here @click.prevent="addPage" :block="true" size="large">
+      {{ $t('page.add') }}
+    </button-insert-here>
     <hr>
 
     <div class="text-center">
@@ -66,6 +71,9 @@
       ...mapGetters(['isEditingPoll', 'poll', 'variants', 'formAction'])
     },
     methods: {
+      /**
+       * Appelée lors de la soumission du formulaire
+       */
       onSubmit() {
         this.submitting = true;
         const $$form = $(this.$el);
@@ -94,13 +102,16 @@
           }
         }
 
+        // Envoi du formulaire en AJAX
         axios
           .post(this.formAction, $$form.serialize())
           .then(response => {
+            // Le poll a bien été créé
             if (!response.request.responseURL.endsWith(this.formAction)) {
               window.location.replace(response.request.responseURL);
               return {}
             }
+
             return response;
           })
           .then(response => response.data)
@@ -109,6 +120,9 @@
               return;
             }
 
+            /*
+             * Traitement des erreurs
+             */
             errors.forEach(error => {
               error['entityName'] === 'poll' && handleError(this.poll, error);
               this.poll.pages.forEach(page => {
@@ -122,13 +136,19 @@
               });
             });
 
-            this.$nextTick(function() {
+            /*
+             * Une fois que le rendu est terminé, on scroll vers le premier .has-danger
+             */
+            this.$nextTick(function () {
               const $$firstFieldWithError = $$form.find('.has-danger:first');
               $(document.body).animate({
                 scrollTop: $$firstFieldWithError.offset().top - 100
               });
             });
 
+            /*
+             * On peut ré-activer le bouton de soumission
+             */
             this.submitting = false;
           })
           .catch(error => {
@@ -137,36 +157,12 @@
             this.submitting = false;
           });
       },
-      addPageBefore(index = 0) {
-        this._addPage(index);
-      },
-      addPageAfter(index = 0) {
-        this._addPage(index + 1);
-      },
-      removePage (page) {
-        const index = this.poll.pages.indexOf(page);
-        this.poll.pages.splice(index, 1);
-        this.isEditingPoll && 'id' in page && this.toDelete.pages.push(page.id);
-      },
-      addQuestionBefore(page, questionIndex = 0) {
-        this._addQuestion(page, questionIndex);
-      },
-      addQuestionAfter(page, questionIndex = 0) {
-        this._addQuestion(page, questionIndex + 1);
-      },
-      removeQuestion(page, question) {
-        const index = page.questions.indexOf(question);
-        page.questions.splice(index, 1);
-        this.isEditingPoll && 'id' in question && this.toDelete.questions.push(question.id);
-      },
-      removeProposition(question, proposition) {
-        const index = question.propositions.indexOf(proposition);
-        question.propositions.splice(index, 1);
-        this.isEditingPoll && 'id' in proposition && this.toDelete.propositions.push(proposition.id);
-      },
-      _addPage(pageIndex = 0) {
-        // Ajout de la page
-        this.poll.pages.splice(pageIndex, 0, {
+
+      /**
+       * Ajoute une page au poll.
+       */
+      addPage() {
+        const page = {
           title: {
             value: '',
             error: null
@@ -176,13 +172,27 @@
             error: null
           },
           questions: []
-        });
-
-        // Puis on y rajoute une question
-        this.addQuestionBefore(this.poll.pages[pageIndex]);
+        };
+        this.addQuestion(page);
+        this.poll.pages.push(page);
       },
-      _addQuestion(page, questionIndex = 0) {
-        page.questions.splice(questionIndex, 0, {
+
+      /**
+       * Supprime la page passée en paramètre.
+       * @param page
+       */
+      removePage (page) {
+        const index = this.poll.pages.indexOf(page);
+        this.poll.pages.splice(index, 1);
+        this.isEditingPoll && 'id' in page && this.toDelete.pages.push(page.id);
+      },
+
+      /**
+       * Ajoute une question à la page passée en paramètre.
+       * @param {Object} page
+       */
+      addQuestion(page) {
+        const question = {
           title: {
             value: '',
             error: null,
@@ -196,18 +206,53 @@
               error: null
             }
           }]
-        });
-      }
+        };
+
+        page.questions.push(question);
+      },
+
+      /**
+       * Supprime la question de la page passée en paramètre.
+       * @param {Object} question
+       * @param {Object} page
+       */
+      removeQuestion(question, page) {
+        const index = page.questions.indexOf(question);
+        page.questions.splice(index, 1);
+        this.isEditingPoll && 'id' in question && this.toDelete.questions.push(question.id);
+      },
+
+      /**
+       * Ajoute une proposition à la question passée en paramètre.
+       */
+      addProposition(question, title = '') {
+        question.propositions.push({
+          title: {
+            value: title,
+            error: null,
+          }
+        })
+      },
+
+      /**
+       * Supprime la proposition de la question passée en paramètre.
+       * @param {Object} proposition
+       * @param {Object} question
+       */
+      removeProposition(proposition, question) {
+        const index = question.propositions.indexOf(proposition);
+        question.propositions.splice(index, 1);
+        this.isEditingPoll && 'id' in proposition && this.toDelete.propositions.push(proposition.id);
+      },
     },
     created () { // Cycle de vie VueJS: 1er hook dispo après l'instanciation de l'app VueJS
-      Bus.$on(Event.ADD_PAGE_BEFORE, this.addPageBefore);
-      Bus.$on(Event.ADD_PAGE_AFTER, this.addPageAfter);
+      Bus.$on(Event.ADD_PAGE, this.addPage);
       Bus.$on(Event.REMOVE_PAGE, this.removePage);
 
-      Bus.$on(Event.ADD_QUESTION_BEFORE, this.addQuestionBefore);
-      Bus.$on(Event.ADD_QUESTION_AFTER, this.addQuestionAfter);
+      Bus.$on(Event.ADD_QUESTION, this.addQuestion);
       Bus.$on(Event.REMOVE_QUESTION, this.removeQuestion);
 
+      Bus.$on(Event.ADD_PROPOSITION, this.addProposition);
       Bus.$on(Event.REMOVE_PROPOSITION, this.removeProposition);
 
       // Ajout dans le store...
@@ -215,9 +260,11 @@
       'FORM_ACTION' in window && this.$store.commit('setFormAction', window['FORM_ACTION']);
       'IS_EDITING_POLL' in window && this.$store.commit('pollIsEditing');
 
-      // Doit être fait après les 3 ajouts dans le store ci-dessus
+      // On part sur l'édition d'un poll
       if ('POLL' in window) {
         const poll = window['POLL'];
+
+        // Normalisation des fields, 'field' devient {value: field, error: null}
         poll.title = {value: poll.title, error: null};
         poll.description = {value: poll.description, error: null};
         poll.pages.forEach(page => {
@@ -234,18 +281,12 @@
         this.$store.commit('setPoll', poll);
       } else {
         this.$store.commit('setPoll', { // L'objet qui va contenir les pages, les questions, et les propositions
-          title: {
-            value: '', // this.$t = fonction rajoutée par VueI18n,
-            error: null
-          },
-          description: {
-            value: '',
-            error: null,
-          },
+          title: {value: '', error: null},
+          description: {value: '', error: null},
           pages: []
         });
 
-        this.addPageBefore();
+        this.addPage();
       }
     },
     mounted () {

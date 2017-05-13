@@ -9,7 +9,7 @@ poll:
 
 page:
   x_on_y: 'Page {x} sur {y}'
-  insert: 'Insérer une page'
+  add: 'Ajouter une page'
   placeholder:
     title: 'Titre de la page (requis)'
     description: 'Description de la page'
@@ -17,7 +17,7 @@ page:
 question:
   x_on_y: 'Question {x} sur {y}'
   type: 'Type de la question'
-  insert: 'Insérer une question ici'
+  add: 'Ajouter une question'
   placeholder:
     title: 'Titre de la question (requis)'
 
