@@ -2,9 +2,9 @@
   <form @submit.prevent="onSubmit" class="form-horizontal container-fluid" method="post">
     <input v-if="isEditingPoll && 'id' in poll" :value="poll.id" type="hidden" name="poll[id]">
     <template v-if="isEditingPoll">
-      <input v-for="pageId in toDelete.pages" name="toDelete['pages'][]" :value="pageId" type="hidden">
-      <input v-for="questionId in toDelete.questions" name="toDelete['questions'][]" :value="questionId" type="hidden">
-      <input v-for="propositionId in toDelete.propositions" name="toDelete['propositions'][]" :value="propositionId"
+      <input v-for="pageId in toDelete.pages" name="toDelete['Page'][]" :value="pageId" type="hidden">
+      <input v-for="questionId in toDelete.questions" name="toDelete['Question'][]" :value="questionId" type="hidden">
+      <input v-for="propositionId in toDelete.propositions" name="toDelete['Proposition'][]" :value="propositionId"
              type="hidden">
     </template>
 
