@@ -28,9 +28,9 @@ class PollController extends Controller
     public function indexAction()
     {
         $service = $this->get('app.pollRepositoryService');
-        $user = $this->get('security.token_storage')
-                     ->getToken()
-                     ->getUser();
+        $user    = $this->get('security.token_storage')
+                        ->getToken()
+                        ->getUser();
 
         if ($user->hasRole('ROLE_ADMIN')) {
             $polls = $service->getPolls([]);
@@ -57,19 +57,24 @@ class PollController extends Controller
     {
         /** @var ValidationService $validationService */
         $validationService = $this->get('app.validationService');
-        $user = $this->get('security.token_storage')->getToken()->getUser();
+        $user              = $this->get('security.token_storage')
+                                  ->getToken()
+                                  ->getUser();
 
         if ($request->getMethod() == 'POST') {
             try {
                 $validationService->validateAndCreatePollFromRequest($request, $user);
+
                 return $this->redirect($this->generateUrl('backoffice_polls'));
             } catch (ValidationFailedException $e) {
                 return new JsonResponse($e->getErrors());
             } catch (InvalidVariantException $e) {
-                return new JsonResponse([
-                    'message' => $e->getMessage(),
-                    'question' => $e->getQuestion(),
-                ]);
+                return new JsonResponse(
+                    [
+                        'message'  => $e->getMessage(),
+                        'question' => $e->getQuestion(),
+                    ]
+                );
             }
         }
 
@@ -86,24 +91,34 @@ class PollController extends Controller
     public function editAction(Request $request, $id)
     {
         $service = $this->get('app.pollRepositoryService');
-        $poll = $service->getJsonPoll($id);
+        $poll    = $service->getJsonPoll($id);
 
         $validationService = $this->get('app.validationService');
-        $user = $this->get('security.token_storage')
-                     ->getToken()
-                     ->getUser();
+        $deletionService   = $this->get('app.deletionService');
+        $user              = $this->get('security.token_storage')
+                                  ->getToken()
+                                  ->getUser();
         if ($request->getMethod() == 'POST') {
             try {
+                $deletionService->handleEntityDeletion($request->get('toDelete'));
+
                 $validationService->validateAndCreatePollFromRequest($request, $user);
+
+
                 return $this->redirect($this->generateUrl('backoffice_polls'));
+
+
             } catch (ValidationFailedException $e) {
                 return new JsonResponse($e->getErrors());
             } catch (InvalidVariantException $e) {
-                return new JsonResponse([
-                    'message' => $e->getMessage(),
-                    'question' => $e->getQuestion(),
-                ]);
+                return new JsonResponse(
+                    [
+                        'message'  => $e->getMessage(),
+                        'question' => $e->getQuestion(),
+                    ]
+                );
             }
+
         }
 
         return $this->render(
@@ -145,10 +160,10 @@ class PollController extends Controller
         $service = $this->get('app.pollRepositoryService');
         $poll    = $service->getPoll(['id' => $id]);
 
-        $charts = [];
-        $questionsAnswers = $service->getResults($id);
+        $charts                         = [];
+        $questionsAnswers               = $service->getResults($id);
         $questionsAnswersAfterTreatment = [];
-        $checkId = -1;
+        $checkId                        = -1;
 
         foreach ($questionsAnswers as $questionAnswers) {
             if ($checkId === $questionAnswers['qId']) {
@@ -157,19 +172,22 @@ class PollController extends Controller
 
             $checkId = $questionAnswers['qId'];
 
-            $props = array_filter($questionsAnswers, function($a) use($checkId) {
-                return $a['qId'] === $checkId;
-            });
+            $props = array_filter(
+                $questionsAnswers,
+                function ($a) use ($checkId) {
+                    return $a['qId'] === $checkId;
+                }
+            );
 
             unset($questionAnswers['propId']);
             unset($questionAnswers['propTitle']);
             unset($questionAnswers['amount']);
 
             foreach ($props as $j => $prop) {
-                $questionAnswers['props'][] =  [
-                    'id' => $prop['propId'],
-                    'title' => $prop['propTitle'],
-                    'amount' => $prop['amount']
+                $questionAnswers['props'][] = [
+                    'id'     => $prop['propId'],
+                    'title'  => $prop['propTitle'],
+                    'amount' => $prop['amount'],
                 ];
             }
 
@@ -179,11 +197,11 @@ class PollController extends Controller
         foreach ($questionsAnswersAfterTreatment as $question) {
             $chart   = new PieChart();
             $dataSet = new PieDataSet();
-            $data = [];
-            $labels = [];
+            $data    = [];
+            $labels  = [];
             foreach ($question['props'] as $index => $proposition) {
                 $labels[] = $proposition['title'];
-                $data[] = $proposition['amount'];
+                $data[]   = $proposition['amount'];
                 $dataSet->addBackgroundColor($this->getParameter('graph_colors')[$index]);
             }
             $dataSet->setData($data);
@@ -193,9 +211,12 @@ class PollController extends Controller
             $charts[] = ['question' => $question, 'chart' => $chart];
         }
 
-        return $this->render('@App/backoffice/poll/results.html.twig', [
-            'poll'    => $poll,
-            'charts'  => $charts
-        ]);
+        return $this->render(
+            '@App/backoffice/poll/results.html.twig',
+            [
+                'poll'   => $poll,
+                'charts' => $charts,
+            ]
+        );
     }
 }

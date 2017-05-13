@@ -84,7 +84,7 @@ class User extends BaseUser
     public function setEmail($email)
     {
         $this->fillNamesByEmail($email);
-        $this->setEmail($email);
+        parent::setEmail($email);
         return $this;
     }
 

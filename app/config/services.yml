@@ -41,6 +41,9 @@ services:
     app.dashboardRepositoryService:
                 class: AppBundle\Services\DashboardRepositoryService
                 arguments: ["@doctrine.orm.entity_manager"]
+    app.deletionService:
+                    class: AppBundle\Services\DeletionService
+                    arguments: ["@doctrine.orm.entity_manager"]
 
     app.apiAuthService:
         class: AppBundle\Services\ApiAuthService
