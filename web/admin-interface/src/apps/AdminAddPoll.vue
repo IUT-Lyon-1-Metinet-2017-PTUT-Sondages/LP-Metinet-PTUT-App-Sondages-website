@@ -86,6 +86,14 @@
           })
         });
 
+        function handleError(entity, error) {
+          const field = entity[error['property']];
+
+          if (error['constraintName'] === 'NotBlank' && field.value.length === 0) {
+            field.error = error.message
+          }
+        }
+
         axios
           .post(this.formAction, $$form.serialize())
           .then(response => {
@@ -97,50 +105,28 @@
           })
           .then(response => response.data)
           .then(errors => {
-            if(!errors) {
+            if (!errors) {
               return;
             }
 
             errors.forEach(error => {
-              console.log(error);
-              // Fait à l'arrache, pas le temps :P
-              if (error['entityName'] === 'poll') {
-                const field = this.poll[error['property']];
-
-                if (error['constraintName'] === 'NotBlank' && field.value.length === 0) {
-                  field.error = error.message
-                }
-              } else if (error['entityName'] === 'page') {
-                this.poll.pages.forEach(p => {
-                  const field = p[error['property']];
-
-                  if (error['constraintName'] === 'NotBlank' && field.value.length === 0) {
-                    field.error = error.message
-                  }
-                });
-              } else if (error['entityName'] === 'question') {
-                this.poll.pages.forEach(p => {
-                  p.questions.forEach(q => {
-                    const field = q[error['property']];
-
-                    if (error['constraintName'] === 'NotBlank' && field.value.length === 0) {
-                      field.error = error.message
-                    }
-                  })
-                });
-              } else if (error['entityName'] === 'proposition') {
-                this.poll.pages.forEach(p => {
-                  p.questions.forEach(q => {
-                    q.propositions.forEach(p => {
-                      const field = p[error['property']];
-
-                      if (error['constraintName'] === 'NotBlank' && field.value.length === 0) {
-                        field.error = error.message
-                      }
-                    });
+              error['entityName'] === 'poll' && handleError(this.poll, error);
+              this.poll.pages.forEach(page => {
+                error['entityName'] === 'page' && handleError(page, error);
+                page.questions.forEach(question => {
+                  error['entityName'] === 'question' && handleError(question, error);
+                  question.propositions.forEach(proposition => {
+                    error['entityName'] === 'proposition' && handleError(proposition, error);
                   });
                 });
-              }
+              });
+            });
+
+            this.$nextTick(function() {
+              const $$firstFieldWithError = $$form.find('.has-danger:first');
+              $(document.body).animate({
+                scrollTop: $$firstFieldWithError.offset().top - 100
+              });
             });
 
             this.submitting = false;
