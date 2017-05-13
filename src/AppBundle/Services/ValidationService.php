@@ -101,7 +101,7 @@ class ValidationService
                     ) {
                         foreach ($questionsFromRequest as $questionFromRequest) {
                             /** @var Question $question */
-                            $question = $this->findIfExistOrCreateNew($questionsFromRequest, Question::class);
+                            $question = $this->findIfExistOrCreateNew($questionFromRequest, Question::class);
                             $question->setTitle($questionFromRequest['title']);
                             $question->setPage($page);
                             $question->setPoll($poll);
