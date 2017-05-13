@@ -13,7 +13,11 @@ class BackofficeController extends Controller
      */
     public function indexAction()
     {
+        $dataService = $this->get('app.dashboardRepositoryService');
+
+        $data = $dataService->getDashboardData($this->getUser());
+
         // replace this example code with whatever you need
-        return $this->render('@App/backoffice/index.html.twig');
+        return $this->render('@App/backoffice/index.html.twig', ['data'=>$data]);
     }
 }
