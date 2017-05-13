@@ -1,5 +1,7 @@
 form:
   email: 'Adresse e-mail (Domaine de l''Université Lyon 1)'
+  first_name: 'Prénom'
+  last_name: 'Nom'
 resetting:
   request:
     username: 'Adresse e-mail'

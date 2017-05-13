@@ -33,17 +33,19 @@ class User extends BaseUser
     /**
      * @Expose
      * @ORM\Column(type="string", length=100)
+     * @Assert\NotBlank()
      */
-    protected $first_name;
-
-    /** {@inheritdoc} **/
-    protected $password;
+    protected $firstName;
 
     /**
      * @Expose
      * @ORM\Column(type="string", length=100)
+     * @Assert\NotBlank()
      */
-    protected $last_name;
+    protected $lastName;
+
+    /** {@inheritdoc} **/
+    protected $password;
 
     public function __construct()
     {
@@ -51,6 +53,9 @@ class User extends BaseUser
         $this->polls = new ArrayCollection();
     }
 
+    /**
+     * @param $email
+     */
     private function fillNamesByEmail($email)
     {
         if (strpos($email, '@') === false) {
@@ -72,10 +77,15 @@ class User extends BaseUser
         $this->setLastName($last_name);
     }
 
+    /**
+     * @param string $email
+     * @return $this
+     */
     public function setEmail($email)
     {
         $this->fillNamesByEmail($email);
-        return parent::setEmail($email);
+        $this->setEmail($email);
+        return $this;
     }
 
     /**
@@ -83,17 +93,17 @@ class User extends BaseUser
      */
     public function getFirstName()
     {
-        return $this->first_name;
+        return $this->firstName;
     }
 
     /**
-     * @param mixed $first_name
+     * @param mixed $firstName
      *
      * @return $this
      */
-    public function setFirstName($first_name)
+    public function setFirstName($firstName)
     {
-        $this->first_name = $first_name;
+        $this->firstName = $firstName;
         return $this;
     }
 
@@ -102,17 +112,17 @@ class User extends BaseUser
      */
     public function getLastName()
     {
-        return $this->last_name;
+        return $this->lastName;
     }
 
     /**
-     * @param mixed $last_name
+     * @param mixed $lastName
      *
      * @return $this
      */
-    public function setLastName($last_name)
+    public function setLastName($lastName)
     {
-        $this->last_name = $last_name;
+        $this->lastName = $lastName;
         return $this;
     }
 

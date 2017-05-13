@@ -18,7 +18,7 @@ class RegistrationType extends AbstractType
 
     public function getParent()
     {
-        return 'FOS\UserBundle\Form\Type\RegistrationFormType';
+        return 'fos_user_registration';
     }
 
     public function getBlockPrefix()

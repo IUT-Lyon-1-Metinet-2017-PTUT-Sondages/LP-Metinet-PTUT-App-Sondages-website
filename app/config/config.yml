@@ -48,6 +48,10 @@ fos_user:
             enabled: true
         form:
             type: AppBundle\Form\RegistrationType
+    profile:
+        form:
+          type: AppBundle\Form\ProfileFormType
+
 fos_rest:
     param_fetcher_listener: true
     body_listener: true
