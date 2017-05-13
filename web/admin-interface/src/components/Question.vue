@@ -100,7 +100,7 @@
       addProposition() {
         this.question.propositions.push({
           title: {
-            value: this.$t('proposition.default.title'),
+            value: '',
             error: null,
           }
         })

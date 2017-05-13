@@ -168,11 +168,11 @@
         // Ajout de la page
         this.poll.pages.splice(pageIndex, 0, {
           title: {
-            value: this.$t('page.default.title'),
+            value: '',
             error: null
           },
           description: {
-            value: this.$t('page.default.description'),
+            value: '',
             error: null
           },
           questions: []
@@ -184,7 +184,7 @@
       _addQuestion(page, questionIndex = 0) {
         page.questions.splice(questionIndex, 0, {
           title: {
-            value: this.$t('question.default.title'),
+            value: '',
             error: null,
           },
           variant: {
@@ -235,11 +235,11 @@
       } else {
         this.$store.commit('setPoll', { // L'objet qui va contenir les pages, les questions, et les propositions
           title: {
-            value: this.$t('poll.default.title'), // this.$t = fonction rajoutée par VueI18n,
+            value: '', // this.$t = fonction rajoutée par VueI18n,
             error: null
           },
           description: {
-            value: this.$t('poll.default.description'),
+            value: '',
             error: null,
           },
           pages: []

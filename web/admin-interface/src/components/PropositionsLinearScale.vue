@@ -89,7 +89,7 @@
       this.question.propositions = [
         {
           title: {
-            value: this.$t('proposition.default.title'),
+            value: '',
             error: null
           }
         },
