@@ -2,3 +2,5 @@ form:
   email: 'Email address (University Lyon 1 Domain)'
   first_name: 'First name'
   last_name: 'Last name'
+profile:
+  show: 'Show my profile'

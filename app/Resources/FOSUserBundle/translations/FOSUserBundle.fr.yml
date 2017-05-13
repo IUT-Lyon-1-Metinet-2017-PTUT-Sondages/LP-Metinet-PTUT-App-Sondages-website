@@ -2,6 +2,8 @@ form:
   email: 'Adresse e-mail (Domaine de l''Université Lyon 1)'
   first_name: 'Prénom'
   last_name: 'Nom'
+profile:
+  show: 'Voir mon profil'
 resetting:
   request:
     username: 'Adresse e-mail'
