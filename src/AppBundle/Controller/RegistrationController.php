@@ -59,7 +59,7 @@ class RegistrationController extends BaseController
         $form->handleRequest($request);
 
         if ($form->isSubmitted()) {
-            $captchaIsValid = $this->string (
+            $captchaIsValid = $this->checkGoogleRecaptcha(
                 $this->getParameter('recaptcha_server_secret'),
                 $request->get('g-recaptcha-response')
             );
