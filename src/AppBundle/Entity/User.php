@@ -2,13 +2,12 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use FOS\UserBundle\Model\User as BaseUser;
-use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Component\Validator\Constraints as Assert;
-use Knp\DoctrineBehaviors\Model as ORMBehaviors;
 use JMS\Serializer\Annotation\ExclusionPolicy;
 use JMS\Serializer\Annotation\Expose;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ExclusionPolicy("all")
@@ -18,6 +17,7 @@ use JMS\Serializer\Annotation\Expose;
 class User extends BaseUser
 {
     /**
+     * @var int
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -25,12 +25,14 @@ class User extends BaseUser
     protected $id;
 
     /**
+     * @var Poll[]
      * One user has Many Polls.
      * @ORM\OneToMany(targetEntity="Poll", mappedBy="user", cascade={"persist", "remove"})
      */
     private $polls;
 
     /**
+     * @var string
      * @Expose
      * @ORM\Column(type="string", length=100)
      * @Assert\NotBlank()
@@ -38,15 +40,21 @@ class User extends BaseUser
     protected $firstName;
 
     /**
+     * @var string
      * @Expose
      * @ORM\Column(type="string", length=100)
      * @Assert\NotBlank()
      */
     protected $lastName;
 
-    /** {@inheritdoc} **/
+    /**
+     * {@inheritdoc}
+     */
     protected $password;
 
+    /**
+     * User constructor.
+     */
     public function __construct()
     {
         parent::__construct();
@@ -54,7 +62,88 @@ class User extends BaseUser
     }
 
     /**
-     * @param $email
+     * @param string $email
+     * @return $this
+     */
+    public function setEmail($email)
+    {
+        $this->fillNamesByEmail($email);
+        parent::setEmail($email);
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFirstName()
+    {
+        return $this->firstName;
+    }
+
+    /**
+     * @param string $firstName
+     * @return $this
+     */
+    public function setFirstName($firstName)
+    {
+        $this->firstName = $firstName;
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLastName()
+    {
+        return $this->lastName;
+    }
+
+    /**
+     * @param string $lastName
+     *
+     * @return $this
+     */
+    public function setLastName($lastName)
+    {
+        $this->lastName = $lastName;
+
+        return $this;
+    }
+
+    /**
+     * Add poll.
+     * @param Poll $poll
+     * @return self
+     */
+    public function addPoll(Poll $poll)
+    {
+        $this->polls[] = $poll;
+
+        return $this;
+    }
+
+    /**
+     * Remove poll.
+     * @param Poll $poll
+     */
+    public function removePoll(Poll $poll)
+    {
+        $this->polls->removeElement($poll);
+    }
+
+    /**
+     * Get polls.
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getPolls()
+    {
+        return $this->polls;
+    }
+
+    /**
+     * @param string $email
      */
     private function fillNamesByEmail($email)
     {
@@ -70,93 +159,10 @@ class User extends BaseUser
             return;
         }
 
-        list($first_name, $last_name) = explode('.', $username);
-        $first_name = ucfirst(strtolower($first_name));
-        $last_name = ucfirst(strtolower($last_name));
-        $this->setFirstName($first_name);
-        $this->setLastName($last_name);
-    }
-
-    /**
-     * @param string $email
-     * @return $this
-     */
-    public function setEmail($email)
-    {
-        $this->fillNamesByEmail($email);
-        parent::setEmail($email);
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getFirstName()
-    {
-        return $this->firstName;
-    }
-
-    /**
-     * @param mixed $firstName
-     *
-     * @return $this
-     */
-    public function setFirstName($firstName)
-    {
-        $this->firstName = $firstName;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getLastName()
-    {
-        return $this->lastName;
-    }
-
-    /**
-     * @param mixed $lastName
-     *
-     * @return $this
-     */
-    public function setLastName($lastName)
-    {
-        $this->lastName = $lastName;
-        return $this;
-    }
-
-    /**
-     * Add poll.
-     *
-     * @param Poll $poll
-     *
-     * @return self
-     */
-    public function addPoll(Poll $poll)
-    {
-        $this->polls[] = $poll;
-
-        return $this;
-    }
-
-    /**
-     * Remove poll.
-     *
-     * @param Poll $poll
-     */
-    public function removePoll(Poll $poll)
-    {
-        $this->polls->removeElement($poll);
-    }
-
-    /**
-     * Get polls.
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getPolls()
-    {
-        return $this->polls;
+        list($firstName, $lastName) = explode('.', $username);
+        $firstName = ucfirst(strtolower($firstName));
+        $lastName = ucfirst(strtolower($lastName));
+        $this->setFirstName($firstName);
+        $this->setLastName($lastName);
     }
 }

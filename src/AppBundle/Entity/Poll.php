@@ -31,48 +31,51 @@ class Poll
     private $id;
 
     /**
+     * @var string
      * @Expose
      * @Groups({"Default", "backOffice"})
      * @ORM\Column(type="string", length = 120, name="title", nullable = false)
      * @Assert\NotBlank()
-     * @var string
      */
     private $title;
 
     /**
+     * @var string
      * @Expose
      * @Groups({"Default", "backOffice"})
      * @ORM\Column(type="text", length = 255, name="description", nullable = false)
      * @Assert\NotBlank()
-     * @var string
      */
     private $description;
 
     /**
+     * @var Page[]
+     * @Expose
+     * @Groups({"Details", "backOffice"})
+     * One Poll has Many Pages.
+     * @ORM\OneToMany(targetEntity="Page", mappedBy="poll", cascade={"persist", "remove"})
+     */
+    private $pages;
+
+    /**
+     * @var Question[]
      * One Poll has Many Questions.
      * @ORM\OneToMany(targetEntity="Question", mappedBy="poll", cascade={"persist", "remove"})
      */
     private $questions;
 
     /**
-     * One Poll has Many Pages.
-     * @Expose
-     * @Groups({"Details", "backOffice"})
-     * @ORM\OneToMany(targetEntity="Page", mappedBy="poll", cascade={"persist", "remove"})
-     */
-    private $pages;
-
-    /**
-     * Many polls have One user.
+     * @var User
      * @Expose
      * @Groups({"User"})
+     * Many polls have One user.
      * @ORM\ManyToOne(targetEntity="User", inversedBy="polls")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $user;
 
     /**
-     * Access token of the poll
+     * @var string
      * @Expose
      * @ORM\Column(type="text", length = 255, name="access_token", nullable = false)
      */
@@ -85,9 +88,14 @@ class Poll
      */
     private $published = false;
 
+    /**
+     * Poll constructor.
+     */
     public function __construct()
     {
+        $this->pages = new ArrayCollection();
         $this->questions = new ArrayCollection();
+
         $accessToken = '';
         $characterList = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $max = mb_strlen($characterList, '8bit') - 1;
@@ -98,8 +106,6 @@ class Poll
     }
 
     /**
-     * Get id
-     *
      * @return int
      */
     public function getId()
@@ -109,10 +115,8 @@ class Poll
 
     /**
      * Set title
-     *
      * @param string $title
-     *
-     * @return Poll
+     * @return $this
      */
     public function setTitle($title)
     {
@@ -123,7 +127,6 @@ class Poll
 
     /**
      * Get title
-     *
      * @return string
      */
     public function getTitle()
@@ -133,9 +136,7 @@ class Poll
 
     /**
      * Set description
-     *
      * @param string $description
-     *
      * @return Poll
      */
     public function setDescription($description)
@@ -146,8 +147,6 @@ class Poll
     }
 
     /**
-     * Get description
-     *
      * @return string
      */
     public function getDescription()
@@ -155,6 +154,9 @@ class Poll
         return $this->description;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getSluggableFields()
     {
         return ['title'];
@@ -162,10 +164,8 @@ class Poll
 
     /**
      * Add question.
-     *
      * @param Question $question
-     *
-     * @return self
+     * @return $this
      */
     public function addQuestion(Question $question)
     {
@@ -176,7 +176,6 @@ class Poll
 
     /**
      * Remove question.
-     *
      * @param Question $question
      */
     public function removeQuestion(Question $question)
@@ -196,9 +195,7 @@ class Poll
 
     /**
      * Add page.
-     *
      * @param Page $page
-     *
      * @return self
      */
     public function addPage(Page $page)
@@ -261,7 +258,7 @@ class Poll
     }
 
     /**
-     * @param $accessToken
+     * @param string $accessToken
      * @return $this
      */
     public function setAccessToken($accessToken)
@@ -285,7 +282,7 @@ class Poll
     public function publish()
     {
         $this->published = true;
+
         return $this;
     }
-
 }
