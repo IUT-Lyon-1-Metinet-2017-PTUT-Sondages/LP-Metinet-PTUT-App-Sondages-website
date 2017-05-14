@@ -16,11 +16,18 @@ class TokenListener
 {
     private $apiAuthService;
 
+    /**
+     * TokenListener constructor.
+     * @param ApiAuthService $apiAuthService
+     */
     public function __construct(ApiAuthService $apiAuthService)
     {
         $this->apiAuthService = $apiAuthService;
     }
 
+    /**
+     * @param FilterControllerEvent $event
+     */
     public function onKernelController(FilterControllerEvent $event)
     {
         $controller = $event->getController();
@@ -39,6 +46,9 @@ class TokenListener
         }
     }
 
+    /**
+     * @param GetResponseForExceptionEvent $event
+     */
     public function onKernelException(GetResponseForExceptionEvent $event)
     {
         $exception = $event->getException();
@@ -48,7 +58,12 @@ class TokenListener
         }
 
         $response = new JsonResponse(
-            ['error' => ['code' => $exception->getCode(), 'message' => $exception->getMessage()]],
+            [
+                'error' => [
+                    'code' => $exception->getCode(),
+                    'message' => $exception->getMessage(),
+                ],
+            ],
             $exception->getCode()
         );
 
