@@ -48,14 +48,14 @@ class PollViewType extends AbstractType
                 'expanded' => $this->convertVariantToInputType($variantId) == 2,
                 'multiple' => !$this->convertVariantToInputType($variantId),
                 'label' => $question->getTitle(),
-                'disabled' => $currentUserHasCreatedThisPoll,
+                'disabled' => !$poll->isPublished() && $currentUserHasCreatedThisPoll,
             ]);
         }
 
         $builder->add('submit_poll', SubmitType::class, [
             'label' => 'Envoyer',
             'attr' => ['class' => 'btn btn-send col-xs-12 float-right'],
-            'disabled' => $currentUserHasCreatedThisPoll
+            'disabled' => !$poll->isPublished() && $currentUserHasCreatedThisPoll
         ]);
     }
 
