@@ -2,13 +2,13 @@
 
 namespace AppBundle\Controller;
 
+use FOS\UserBundle\Controller\RegistrationController as BaseController;
 use FOS\UserBundle\Event\FilterUserResponseEvent;
 use FOS\UserBundle\Event\FormEvent;
 use FOS\UserBundle\Event\GetResponseUserEvent;
 use FOS\UserBundle\Form\Factory\FactoryInterface;
 use FOS\UserBundle\FOSUserEvents;
 use FOS\UserBundle\Model\UserManagerInterface;
-use FOS\UserBundle\Controller\RegistrationController as BaseController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -23,14 +23,16 @@ use Symfony\Component\Routing\Annotation\Route;
 class RegistrationController extends BaseController
 {
     /**
+     * Register a new User.
      * @param Request $request
      * @Route("/register", name="fos_user_registration_register")
      * @return Response
      */
     public function registerAction(Request $request)
     {
-        if($this->isGranted('ROLE_USER')) {
+        if ($this->isGranted('ROLE_USER')) {
             $this->addFlash('danger', "Impossible d'accéder à cette page.");
+
             return $this->redirectToRoute('backoffice');
         }
 
@@ -57,7 +59,7 @@ class RegistrationController extends BaseController
         $form->handleRequest($request);
 
         if ($form->isSubmitted()) {
-            $captchaIsValid = $this->checkGoogleRecaptcha(
+            $captchaIsValid = $this->string (
                 $this->getParameter('recaptcha_server_secret'),
                 $request->get('g-recaptcha-response')
             );
@@ -90,21 +92,22 @@ class RegistrationController extends BaseController
             }
         }
 
-        return $this->render('@FOSUser/Registration/register.html.twig', array(
+        return $this->render('@FOSUser/Registration/register.html.twig', [
             'form' => $form->createView(),
-        ));
+        ]);
     }
 
     /**
-     * @param $secret
-     * @param $response
+     * Call GoogleRecaptcha API service to validate the registration.
+     * @param string $secret
+     * @param string $response
      * @return bool
      */
     private function checkGoogleRecaptcha($secret, $response)
     {
         $params = [
-            'secret'   => $secret,
-            'response' => $response
+            'secret' => $secret,
+            'response' => $response,
         ];
 
         $url = $this->getParameter('recapatcha_api') . http_build_query($params);
@@ -113,15 +116,15 @@ class RegistrationController extends BaseController
         if (function_exists('curl_init')) {
             $curl = curl_init();
 
-            curl_setopt_array($curl, array(
-                CURLOPT_URL            => $url,
-                CURLOPT_POST           => true,
+            curl_setopt_array($curl, [
+                CURLOPT_URL => $url,
+                CURLOPT_POST => true,
                 CURLOPT_RETURNTRANSFER => 1,
                 CURLOPT_SSL_VERIFYPEER => false,
                 CURLOPT_SSL_VERIFYHOST => false,
-                CURLOPT_VERBOSE        => 1,
-                CURLOPT_HEADER         => false,
-            ));
+                CURLOPT_VERBOSE => 1,
+                CURLOPT_HEADER => false,
+            ]);
 
             $response = curl_exec($curl);
         } else {

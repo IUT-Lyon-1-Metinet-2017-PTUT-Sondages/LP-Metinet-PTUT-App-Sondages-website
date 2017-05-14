@@ -18,6 +18,7 @@ class SecurityController extends BaseController
     {
         if ($this->isGranted('ROLE_USER')) {
             $this->addFlash('danger', "Impossible d'accéder à cette page.");
+
             return $this->redirectToRoute('backoffice');
         }
 
@@ -31,6 +32,7 @@ class SecurityController extends BaseController
     {
         if ($this->isGranted('ROLE_USER')) {
             $this->addFlash('danger', "Impossible d'accéder à cette page.");
+
             return $this->redirectToRoute('backoffice');
         }
 
