@@ -14,22 +14,28 @@ use AppBundle\Entity\Proposition;
  */
 class LoadQuestionData extends AbstractFixture implements OrderedFixtureInterface
 {
+    /**
+     * {@inheritdoc}
+     */
     public function load(ObjectManager $manager)
     {
         $thisQuestion = new Question();
         $thisQuestion->setTitle('Première question  de test');
         $propositions = $manager->getRepository('AppBundle:Proposition')->findAll();
+
         foreach ($propositions as $key => $proposition) {
             $thisQuestion->addProposition($proposition);
             $proposition->setQuestion($thisQuestion);
             $manager->persist($proposition);
         }
+
         $manager->persist($thisQuestion);
         $manager->flush();
     }
-    // the order in which fixtures will be loaded
-    // the lower the number, the sooner that this fixture is loaded
 
+    /**
+     * {@inheritdoc}
+     */
     public function getOrder()
     {
         return 4;

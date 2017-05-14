@@ -13,21 +13,26 @@ use AppBundle\Entity\Proposition;
  */
 class LoadPropositionData extends AbstractFixture implements OrderedFixtureInterface
 {
+    /**
+     * {@inheritdoc}
+     */
     public function load(ObjectManager $manager)
     {
-        $propositions=["prop1","prop2","prop3","prop4"];
+        $propositions = ["prop1", "prop2", "prop3", "prop4"];
         $variants = $manager->getRepository('AppBundle:Variant')->findAll();
-        foreach ($propositions as $key => $proposition) {
+
+        foreach ($propositions as $proposition) {
             $thisProposition = new Proposition();
             $thisProposition->setTitle($proposition);
-            $thisProposition->setVariant($variants[array_rand($variants)]);
+            $thisProposition->setVariant($variants[0]);
             $manager->persist($thisProposition);
             $manager->flush();
         }
     }
-    // the order in which fixtures will be loaded
-    // the lower the number, the sooner that this fixture is loaded
 
+    /**
+     * {@inheritdoc}
+     */
     public function getOrder()
     {
         return 3;

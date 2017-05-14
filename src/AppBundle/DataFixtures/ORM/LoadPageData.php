@@ -13,6 +13,9 @@ use AppBundle\Entity\Page;
  */
 class LoadPageData extends AbstractFixture implements OrderedFixtureInterface
 {
+    /**
+     * {@inheritdoc}
+     */
     public function load(ObjectManager $manager)
     {
         $thisPage = new Page();
@@ -27,9 +30,10 @@ class LoadPageData extends AbstractFixture implements OrderedFixtureInterface
 
         $manager->flush();
     }
-    // the order in which fixtures will be loaded
-    // the lower the number, the sooner that this fixture is loaded
 
+    /**
+     * {@inheritdoc}
+     */
     public function getOrder()
     {
         return 5;
