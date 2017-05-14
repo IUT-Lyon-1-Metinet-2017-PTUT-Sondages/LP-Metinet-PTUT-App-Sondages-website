@@ -21,28 +21,39 @@ use Symfony\Component\Validator\Validator\ValidatorInterface as Validator;
 class ValidationService
 {
     /**
+     * @var EntityManager
+     */
+    private $em;
+
+    /**
      * @var Validator
      */
-    protected $validator;
-    public $variantRepositoryService;
-    public $pollCreationService;
-    public $em;
+    private $validator;
+
+    /**
+     * @var VariantRepositoryService
+     */
+    private $variantRepositoryService;
+
+    /**
+     * @var PollCreationService
+     */
+    private $pollCreationService;
 
     /**
      * ValidationService constructor.
      *
-     * @param EntityManager                           $entityManager
-     * @param Validator                               $validator
-     * @param VariantRepositoryService                $variantRepositoryService
-     * @param \AppBundle\Services\pollCreationService $pollCreationService
+     * @param EntityManager            $entityManager
+     * @param Validator                $validator
+     * @param VariantRepositoryService $variantRepositoryService
+     * @param PollCreationService      $pollCreationService
      */
     public function __construct(
         EntityManager $entityManager,
         Validator $validator,
         VariantRepositoryService $variantRepositoryService,
         PollCreationService $pollCreationService
-    )
-    {
+    ) {
         $this->em = $entityManager;
         $this->validator = $validator;
         $this->variantRepositoryService = $variantRepositoryService;
@@ -118,10 +129,15 @@ class ValidationService
                                 $this->validateVariantAndThrowIfErrors($variant);
                             }
 
-                            if (isset($questionFromRequest['propositions']) && ($propositionsFromRequest = $questionFromRequest['propositions']) !== null) {
+                            if (isset($questionFromRequest['propositions'])
+                                && ($propositionsFromRequest = $questionFromRequest['propositions']) !== null
+                            ) {
                                 foreach ($propositionsFromRequest as $propositionFromRequest) {
                                     /** @var Proposition $proposition */
-                                    $proposition = $this->findIfExistOrCreateNew($propositionFromRequest, Proposition::class);
+                                    $proposition = $this->findIfExistOrCreateNew(
+                                        $propositionFromRequest,
+                                        Proposition::class
+                                    );
                                     $proposition->setTitle($propositionFromRequest['title']);
                                     $proposition->setVariant($variant);
                                     $proposition->setQuestion($question);
@@ -248,20 +264,11 @@ class ValidationService
     }
 
     /**
-     * @param $proposition
+     * @param Proposition $proposition
      * @return \Symfony\Component\Validator\ConstraintViolationListInterface
      */
-    public function validateProposition($proposition)
+    public function validateProposition(Proposition $proposition)
     {
         return $this->validator->validate($proposition);
-    }
-
-    /**
-     * @param $answer
-     * @return \Symfony\Component\Validator\ConstraintViolationListInterface
-     */
-    public function validateAnswer($answer)
-    {
-        return $this->validator->validate($answer);
     }
 }

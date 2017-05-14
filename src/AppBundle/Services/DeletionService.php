@@ -8,10 +8,6 @@
 
 namespace AppBundle\Services;
 
-use AppBundle\Entity\Page;
-use AppBundle\Entity\Poll;
-use AppBundle\Entity\Proposition;
-use AppBundle\Entity\Question;
 use Doctrine\ORM\EntityManager;
 
 /**
@@ -20,32 +16,33 @@ use Doctrine\ORM\EntityManager;
  */
 class DeletionService
 {
+    /**
+     * @var EntityManager
+     */
     private $em;
 
+    /**
+     * DeletionService constructor.
+     * @param EntityManager $entityManager
+     */
     public function __construct(EntityManager $entityManager)
     {
         $this->em = $entityManager;
     }
 
-    public function handleEntityDeletion($toDelete)
+    /**
+     * @param array $toDelete
+     */
+    public function handleEntityDeletion(array $toDelete)
     {
-        $repositories = [];
+        foreach ($toDelete as $name => $arrayOfId) {
+            foreach ($arrayOfId as $id) {
+                $repository = $this->em->getRepository('AppBundle:' . $name);
+                $deletedEntity = $repository->findOneBy(['id' => $id]);
 
-        if (isset($toDelete)) {
-            foreach ($toDelete as $name => $arrayOfId) {
-                foreach ($arrayOfId as $id) {
-                    $repositoryName = 'AppBundle:' . $name;
-
-                    if (!isset($repositories[$repositoryName])) {
-                        $repositories[$repositoryName] = $this->em->getRepository($repositoryName);
-                    }
-
-                    $deletedEntity = $repositories[$repositoryName]->findOneBy(['id' => $id]);
-
-                    if ($deletedEntity !== null) {
-                        $this->em->remove($deletedEntity);
-                        $this->em->flush();
-                    }
+                if (!is_null($deletedEntity)) {
+                    $this->em->remove($deletedEntity);
+                    $this->em->flush();
                 }
             }
         }

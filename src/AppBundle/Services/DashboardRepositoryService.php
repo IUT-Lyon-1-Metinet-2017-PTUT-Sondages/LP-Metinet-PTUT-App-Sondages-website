@@ -8,7 +8,7 @@
 
 namespace AppBundle\Services;
 
-use AppBundle\Repository\PollRepository;
+use AppBundle\Entity\User;
 use Doctrine\ORM\EntityManager;
 
 /**
@@ -17,28 +17,41 @@ use Doctrine\ORM\EntityManager;
  */
 class DashboardRepositoryService
 {
+    /**
+     * @var EntityManager
+     */
     private $em;
 
+    /**
+     * DashboardRepositoryService constructor.
+     * @param EntityManager $entityManager
+     */
     public function __construct(EntityManager $entityManager)
     {
         $this->em = $entityManager;
     }
 
-    public function getDashboardData($user)
+    /**
+     * @param User $user
+     * @return array
+     */
+    public function getDashboardData(User $user)
     {
         $data = [];
         if ($user->hasRole('ROLE_ADMIN')) {
             $data['nbUsers'] = $this->getUsersData();
         }
-        $data['nbPolls']   = $this->getPollData($user);
+        $data['nbPolls'] = $this->getPollData($user);
         $data['nbAnswers'] = $this->getAnswerData($user);
 
         return $data;
     }
 
+    /**
+     * @return mixed
+     */
     public function getUsersData()
     {
-
         return $this->em->getRepository('AppBundle:User')
                         ->createQueryBuilder('u')
                         ->select('COUNT(u.email) as nbUsers')
@@ -46,7 +59,11 @@ class DashboardRepositoryService
                         ->getSingleScalarResult();
     }
 
-    public function getPollData($user)
+    /**
+     * @param User $user
+     * @return mixed
+     */
+    public function getPollData(User $user)
     {
         if ($user->hasRole('ROLE_ADMIN')) {
             return $this->em->getRepository('AppBundle:Poll')
@@ -65,7 +82,11 @@ class DashboardRepositoryService
         }
     }
 
-    public function getAnswerData($user)
+    /**
+     * @param User $user
+     * @return mixed
+     */
+    public function getAnswerData(User $user)
     {
         if ($user->hasRole('ROLE_ADMIN')) {
             return $this->em->getRepository('AppBundle:Poll')

@@ -8,35 +8,30 @@
 
 namespace AppBundle\Services;
 
-use AppBundle\Entity\Poll;
-use AppBundle\Entity\Question;
-use AppBundle\Entity\Variant;
 use AppBundle\Entity\Page;
+use AppBundle\Entity\Poll;
 use AppBundle\Entity\Proposition;
-
-
-use AppBundle\Services\VariantRepositoryService;
-use AppBundle\Services\PollRepositoryService;
-use AppBundle\Services\QuestionRepositoryService;
-use AppBundle\Services\PropositionRepositoryService;
-use AppBundle\Services\PageRepositoryService;
-use AppBundle\Services\ValidationService;
+use AppBundle\Entity\Question;
+use AppBundle\Entity\User;
 
 /**
  * @package AppBundle\Services
  */
 class PollCreationService
 {
-    /**
-     * @var Validator
-     */
     public $variantRepositoryService;
     public $pollRepositoryService;
     public $pageRepositoryService;
     public $questionRepositoryService;
     public $propositionRepositoryService;
 
-
+    /**
+     * PollCreationService constructor.
+     * @param PollRepositoryService        $pollRepositoryService
+     * @param PageRepositoryService        $pageRepositoryService
+     * @param QuestionRepositoryService    $questionRepositoryService
+     * @param PropositionRepositoryService $propositionRepositoryService
+     */
     public function __construct(
         PollRepositoryService $pollRepositoryService,
         PageRepositoryService $pageRepositoryService,
@@ -49,6 +44,13 @@ class PollCreationService
         $this->propositionRepositoryService = $propositionRepositoryService;
     }
 
+    /**
+     * @param Poll        $poll
+     * @param Page        $page
+     * @param Question    $question
+     * @param Proposition $proposition
+     * @param User        $user
+     */
     public function createPoll($poll, $page, $question, $proposition, $user)
     {
         $this->pollRepositoryService->createPoll($poll, $user);

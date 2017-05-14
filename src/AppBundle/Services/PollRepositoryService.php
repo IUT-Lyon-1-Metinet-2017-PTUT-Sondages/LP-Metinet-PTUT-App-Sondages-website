@@ -3,67 +3,94 @@
 namespace AppBundle\Services;
 
 use AppBundle\Entity\Poll;
+use AppBundle\Entity\User;
 use AppBundle\Repository\PollRepository;
 use Doctrine\ORM\EntityManager;
 use JMS\Serializer\Serializer;
 use JMS\Serializer\SerializationContext;
+
 /**
  * Class PollRepositoryService
  * @package AppBundle\Services
  */
 class PollRepositoryService
 {
+    /**
+     * @var EntityManager
+     */
     private $em;
+
+    /**
+     * @var Serializer
+     */
     private $jms;
 
+    /**
+     * PollRepositoryService constructor.
+     * @param EntityManager $entityManager
+     * @param Serializer    $jms
+     */
     public function __construct(EntityManager $entityManager, Serializer $jms)
     {
         $this->em = $entityManager;
         $this->jms = $jms;
     }
 
-    public function createPoll($poll, $user)
+    /**
+     * @param Poll $poll
+     * @param User $user
+     */
+    public function createPoll(Poll $poll, User $user)
     {
         $poll->setUser($user);
         $this->em->persist($poll);
         $this->em->flush();
     }
 
-    public function getPolls($filter)
+    /**
+     * @param array $filter
+     * @return Poll[]|array
+     */
+    public function getPolls(array $filter = [])
     {
         return $this->em->getRepository('AppBundle:Poll')->findBy($filter);
     }
 
     /**
-     * @param $filter
+     * @param array $filter
      * @return null|Poll
      */
-    public function getPoll($filter)
+    public function getPoll(array $filter = [])
     {
         return $this->em->getRepository('AppBundle:Poll')->findOneBy($filter);
     }
 
     /**
-     * @param $id
+     * @param int $id
      * @return array
      */
     public function getJsonPoll($id)
     {
+        $serializationContext = SerializationContext::create()->setGroups(['backOffice']);
+
         $poll = $this->getPoll(['id' => $id]);
-        $jsonPoll = $this->jms->serialize(
-            $poll,
-            'json',
-            SerializationContext::create()->setGroups(array('backOffice'))
-        );
+        $jsonPoll = $this->jms->serialize($poll, 'json', $serializationContext);
 
         return [$jsonPoll, $poll];
     }
 
-    public function save(Poll $poll) {
+    /**
+     * @param Poll $poll
+     */
+    public function save(Poll $poll)
+    {
         $this->em->persist($poll);
         $this->em->flush();
     }
 
+    /**
+     * @param int $id
+     */
     public function deleteById($id)
     {
         $poll = $this->em->getRepository('AppBundle:Poll')->findOneBy(['id' => $id]);
@@ -71,10 +98,15 @@ class PollRepositoryService
         $this->em->flush();
     }
 
+    /**
+     * @param int $id
+     * @return array
+     */
     public function getResults($id)
     {
         /** @var PollRepository $pollRepository */
         $pollRepository = $this->em->getRepository('AppBundle:Poll');
+
         return $pollRepository->findResultsFromPoll($id);
     }
 }
