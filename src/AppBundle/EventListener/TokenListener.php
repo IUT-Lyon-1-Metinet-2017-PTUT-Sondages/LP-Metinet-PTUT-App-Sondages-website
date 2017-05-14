@@ -2,7 +2,7 @@
 
 namespace AppBundle\EventListener;
 
-use AppBundle\Controller\Api\TokenAuthenticatedController;
+use AppBundle\Controller\Api\TokenAuthenticatedControllerInterface;
 use AppBundle\Exception\ApiAuthenticationFailedException;
 use AppBundle\Services\ApiAuthService;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -34,7 +34,7 @@ class TokenListener
             return;
         }
 
-        if ($controller[0] instanceof TokenAuthenticatedController) {
+        if ($controller[0] instanceof TokenAuthenticatedControllerInterface) {
             $this->apiAuthService->checkToken();
         }
     }
