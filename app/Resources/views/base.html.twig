@@ -4,10 +4,8 @@
         <meta charset="UTF-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        {% block head_meta %}
-
-        {% endblock %}
-        <title>{% block title %}Quizz Kodrastan{% endblock %}</title>
+        {% block head_meta %}{% endblock %}
+        <title>{% block title %}Accueil{% endblock %} - Kodrastan</title>
         <!-- Generic top stylesheet -->
         <link rel="stylesheet" href="{{ asset('CoreUI/bower_components/bootstrap/dist/css/bootstrap.min.css') }}" type="text/css" />
         <link rel="stylesheet" href="{{ asset('front/assets/css/style.css') }}" type="text/css">
@@ -20,7 +18,7 @@
     <body>
         <header>
             <img title="logo" class="logo" alt="logo" src="{{ asset('front/assets/img/logo.png') }}">
-            <h1>{% block poll_title %}Nom de votre sondage{% endblock %}</h1>
+            <h1>{% block poll_title %}Kodrastan{% endblock %}</h1>
         </header>
         <div class="container">
             {% for type, flash_messages in app.session.flashBag.all %}
