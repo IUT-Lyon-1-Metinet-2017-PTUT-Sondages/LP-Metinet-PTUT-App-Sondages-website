@@ -20,11 +20,19 @@ class IsExistingVariantValidator extends ConstraintValidator
      */
     private $variantRepositoryService;
 
+    /**
+     * IsExistingVariantValidator constructor.
+     * @param VariantRepositoryService $variantRepositoryService
+     */
     public function __construct(VariantRepositoryService $variantRepositoryService)
     {
         $this->variantRepositoryService = $variantRepositoryService;
     }
 
+    /**
+     * {@inheritdoc}
+     * @param IsExistingVariant $constraint
+     */
     public function validate($value, Constraint $constraint)
     {
         $variant = $this->variantRepositoryService->findBy(['name' => $value]);
