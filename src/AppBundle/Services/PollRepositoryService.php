@@ -43,18 +43,25 @@ class PollRepositoryService
         return $this->em->getRepository('AppBundle:Poll')->findOneBy($filter);
     }
 
+    /**
+     * @param $id
+     * @return array
+     */
     public function getJsonPoll($id)
     {
-//        $poll = $this->em->getRepository('AppBundle:Poll')->findFullObjectById($id);
         $poll = $this->getPoll(['id' => $id]);
-
         $jsonPoll = $this->jms->serialize(
             $poll,
             'json',
             SerializationContext::create()->setGroups(array('backOffice'))
         );
 
-        return $jsonPoll;
+        return [$jsonPoll, $poll];
+    }
+
+    public function save(Poll $poll) {
+        $this->em->persist($poll);
+        $this->em->flush();
     }
 
     public function deleteById($id)

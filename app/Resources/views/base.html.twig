@@ -23,6 +23,14 @@
             <h1>{% block poll_title %}Nom de votre sondage{% endblock %}</h1>
         </header>
         <div class="container">
+            {% for type, flash_messages in app.session.flashBag.all %}
+                {% for flash_message in flash_messages %}
+                    <div class="alert alert-{{ type }}">
+                        {{ flash_message | raw }}
+                    </div>
+                {% endfor %}
+            {% endfor %}
+
             {% block content %}{% endblock %}
         </div>
         <footer>

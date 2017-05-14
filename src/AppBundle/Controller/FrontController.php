@@ -15,7 +15,7 @@ class FrontController extends Controller
     /**
      * @Route("/{token}", name="answer_poll")
      * @param Request $request
-     * @param $token
+     * @param         $token
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function answerPollAction(Request $request, $token)
@@ -23,24 +23,40 @@ class FrontController extends Controller
         /** @var PollRepositoryService $service */
         $service = $this->get('app.pollRepositoryService');
         $poll = $service->getPoll(['accessToken' => $token]);
+
         if ($poll instanceof Poll) {
-            $form = $this->createForm(PollViewType::class, [], ['poll' => $poll]);
+            $currentUserHasCreatedThisPoll = $poll->getUser() === $this->getUser() || $this->isGranted('ROLE_ADMIN');
+
+            if (!$poll->isPublished()) {
+                if ($currentUserHasCreatedThisPoll) {
+                    $this->addFlash('warning', "Ceci est un aperçu du rendu final du sondage, toute interaction a été désactivée.<br> Le sondage n'est pour l'instant uniquement accessible que par vous-même.");
+                } else {
+                    $this->addFlash('danger', "Vous n'avez pas encore accès à ce sondage.");
+                    return $this->redirectToRoute('homepage');
+                }
+            }
+
+            $form = $this->createForm(PollViewType::class, [], [
+                'poll' => $poll,
+                'currentUserHasCreatedThisPoll' => $currentUserHasCreatedThisPoll,
+            ]);
             $form->handleRequest($request);
 
-            if ($form->isSubmitted()) {
+            if ($poll->isPublished() && $form->isSubmitted()) {
                 if ($form->isValid()) {
                     $data = $form->getData();
                     /** @var PollAnswersService $pollAnswersService */
                     $pollAnswersService = $this->get('app.poll.answers');
                     $pollAnswersService->registerAnswers($poll, $data);
                     return $this->render('@App/polls/thanks.html.twig', [
-                        'poll' => $poll
+                        'poll' => $poll,
                     ]);
                 }
             }
+
             return $this->render('@App/polls/answer.html.twig', [
                 'pollView' => $form->createView(),
-                'poll'     => $poll
+                'poll' => $poll,
             ]);
         }
 

@@ -32,6 +32,7 @@ class PollViewType extends AbstractType
     {
         /** @var Poll $poll */
         $poll = $options['poll'];
+        $currentUserHasCreatedThisPoll = $options['currentUserHasCreatedThisPoll'];
 
         /** @var Question $question */
         foreach ($poll->getQuestions() as $question) {
@@ -43,16 +44,18 @@ class PollViewType extends AbstractType
                 $choices[$proposition->getTitle()] = $proposition->getId();
             }
             $builder->add('question' . $question->getId(), ChoiceType::class, [
-                'choices'  => $choices,
+                'choices' => $choices,
                 'expanded' => $this->convertVariantToInputType($variantId) == 2,
                 'multiple' => !$this->convertVariantToInputType($variantId),
-                'label'    => $question->getTitle()
+                'label' => $question->getTitle(),
+                'disabled' => $currentUserHasCreatedThisPoll,
             ]);
         }
 
         $builder->add('submit_poll', SubmitType::class, [
             'label' => 'Envoyer',
-            'attr' => ['class' => 'btn btn-send col-xs-12 float-right']
+            'attr' => ['class' => 'btn btn-send col-xs-12 float-right'],
+            'disabled' => $currentUserHasCreatedThisPoll
         ]);
     }
 
@@ -80,7 +83,8 @@ class PollViewType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'poll' => null
+            'poll' => null,
+            'currentUserHasCreatedThisPoll' => false,
         ]);
     }
 

@@ -2,13 +2,13 @@
 
 namespace AppBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Component\Validator\Constraints as Assert;
-use Knp\DoctrineBehaviors\Model as ORMBehaviors;
-use JMS\Serializer\Annotation\Groups;
+use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation\ExclusionPolicy;
 use JMS\Serializer\Annotation\Expose;
+use JMS\Serializer\Annotation\Groups;
+use Knp\DoctrineBehaviors\Model as ORMBehaviors;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Table(name="poll")
@@ -19,8 +19,7 @@ class Poll
 {
     use ORMBehaviors\Sluggable\Sluggable,
         ORMBehaviors\SoftDeletable\SoftDeletable,
-        ORMBehaviors\Timestampable\Timestampable
-    ;
+        ORMBehaviors\Timestampable\Timestampable;
     /**
      * @var int
      * @Expose
@@ -55,7 +54,7 @@ class Poll
      */
     private $questions;
 
-     /**
+    /**
      * One Poll has Many Pages.
      * @Expose
      * @Groups({"Details", "backOffice"})
@@ -79,9 +78,16 @@ class Poll
      */
     private $accessToken;
 
+    /**
+     * @var bool
+     * @Expose
+     * @ORM\Column(type="boolean", name="published")
+     */
+    private $published = false;
+
     public function __construct()
     {
-        $this->questions   = new ArrayCollection();
+        $this->questions = new ArrayCollection();
         $accessToken = '';
         $characterList = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $max = mb_strlen($characterList, '8bit') - 1;
@@ -100,6 +106,7 @@ class Poll
     {
         return $this->id;
     }
+
     /**
      * Set title
      *
@@ -150,9 +157,8 @@ class Poll
 
     public function getSluggableFields()
     {
-        return [ 'title' ];
+        return ['title'];
     }
-
 
     /**
      * Add question.
@@ -167,6 +173,7 @@ class Poll
 
         return $this;
     }
+
     /**
      * Remove question.
      *
@@ -176,6 +183,7 @@ class Poll
     {
         $this->questions->removeElement($question);
     }
+
     /**
      * Get questions.
      *
@@ -199,6 +207,7 @@ class Poll
 
         return $this;
     }
+
     /**
      * Remove page.
      *
@@ -208,6 +217,7 @@ class Poll
     {
         $this->pages->removeElement($page);
     }
+
     /**
      * Get pages.
      *
@@ -217,8 +227,6 @@ class Poll
     {
         return $this->pages;
     }
-
-
 
     /**
      * Gets user
@@ -262,4 +270,22 @@ class Poll
 
         return $this;
     }
+
+    /**
+     * @return bool
+     */
+    public function isPublished()
+    {
+        return $this->published;
+    }
+
+    /**
+     * @return $this
+     */
+    public function publish()
+    {
+        $this->published = true;
+        return $this;
+    }
+
 }

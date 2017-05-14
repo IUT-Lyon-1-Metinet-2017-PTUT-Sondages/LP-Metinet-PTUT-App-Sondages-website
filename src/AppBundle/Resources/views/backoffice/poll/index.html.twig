@@ -16,30 +16,51 @@
                     <thead>
                     <tr>
                         <th>Titre</th>
-                        <th>Utilisateur</th>
-                        <th>Nb question</th>
+                        <th>Auteur</th>
+                        <th>Publié ?</th>
                     </tr>
                     </thead>
                     <tbody>
                     {% for poll in polls %}
                         <tr>
-                            <td><a target="_blank" href="{{ path('answer_poll',{'token':poll.accessToken}) }}">{{ poll.title }} &nbsp; <i class="fa fa-external-link" aria-hidden="true"></i></a></td>
-                            <td>{{ poll.user.email }}</td>
-                            <td></td>
                             <td>
-                                <a href="{{ path('backoffice_poll_edit', {'id': poll.id}) }}"
-                                   class="btn btn-primary">
-                                    <i class="fa fa-pencil"></i> Editer
+                                <a target="_blank" href="{{ path('answer_poll', {'token':poll.accessToken}) }}">
+                                    {{ poll.title }} &nbsp;
+                                    <i class="fa fa-external-link" aria-hidden="true"></i></a>
+                            </td>
+                            <td>
+                                <a href="mailto:{{ poll.user.email }}?subject=À propos du sondage « {{ poll.title }} »">
+                                    {{ poll.user.email }}
                                 </a>
+                            </td>
+                            <td>
+                                {% if poll.published %}
+                                    Oui
+                                {% else %}
+                                    Non
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if poll.published %}
+                                    <a href="{{ path('backoffice_poll_results', {'id': poll.id}) }}"
+                                       class="btn btn-success">
+                                        <i class="fa fa-eye"></i>&nbsp;Réponses
+                                    </a>
+                                {% else %}
+                                    <a href="{{ path('backoffice_poll_edit', {'id': poll.id}) }}"
+                                       class="btn btn-outline-primary">
+                                        <i class="fa fa-pencil"></i>&nbsp;Editer
+                                    </a>
+
+                                    <a href="{{ path('backoffice_poll_publish', {'id': poll.id}) }}"
+                                       class="btn btn-primary">
+                                        <i class="fa fa-fighter-jet"></i>&nbsp;Publier
+                                    </a>
+                                {% endif %}
 
                                 <a href="{{ path('backoffice_poll_delete', {'id': poll.id}) }}"
                                    class="btn btn-danger">
                                     <i class="fa fa-trash"></i>&nbsp;Supprimer
-                                </a>
-
-                                <a href="{{ path('backoffice_poll_results', {'id': poll.id}) }}"
-                                   class="btn btn-success">
-                                    <i class="fa fa-eye"></i>&nbsp;Réponses
                                 </a>
                             </td>
                         </tr>

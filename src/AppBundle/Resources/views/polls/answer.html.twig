@@ -41,6 +41,7 @@
                             <div class="row">
                                 <div class="responsive-linear-scale">
                                     {% for choice in choices %}
+
                                         <div class="kdt-radio">
                                             <input type="radio" id="{{ id ~ '_' ~ choice.data }}" {{ block('widget_attributes') }}{% if choice.value is defined %} value="{{ choice.value }}"{% endif %}>
                                             <label for="{{ id ~ '_' ~ choice.data }}">{{ choice.label }}</label>
