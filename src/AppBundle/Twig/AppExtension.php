@@ -1,4 +1,5 @@
 <?php
+
 namespace AppBundle\Twig;
 
 use AppBundle\Entity\Variant;
@@ -8,25 +9,64 @@ use Symfony\Bundle\FrameworkBundle\Translation\Translator;
 
 class AppExtension extends \Twig_Extension
 {
+    /**
+     * @var Helper
+     */
     private $helper;
+
+    /**
+     * @var Translator
+     */
     private $translator;
+
+    /**
+     * @var VariantRepositoryService
+     */
     private $variantRepositoryService;
 
-    public function __construct(Helper $helper, Translator $translator, VariantRepositoryService $variantRepositoryService)
-    {
+    /**
+     * AppExtension constructor.
+     * @param Helper                   $helper
+     * @param Translator               $translator
+     * @param VariantRepositoryService $variantRepositoryService
+     */
+    public function __construct(
+        Helper $helper,
+        Translator $translator,
+        VariantRepositoryService $variantRepositoryService
+    ) {
         $this->helper = $helper;
         $this->translator = $translator;
         $this->variantRepositoryService = $variantRepositoryService;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getFunctions()
     {
         return [
-            new \Twig_SimpleFunction('loadTranslationsForVueJS', [$this, 'loadTranslationsForVueJSFunction'], ['is_safe' => ['html']]),
-            new \Twig_SimpleFunction('loadVariantsFromDatabase', [$this, 'loadVariantsFromDatabaseFunction'], ['is_safe' => ['html']]),
+            new \Twig_SimpleFunction(
+                'loadTranslationsForVueJS',
+                [$this, 'loadTranslationsForVueJSFunction'],
+                [
+                    'is_safe' => ['html'],
+                ]
+            ),
+            new \Twig_SimpleFunction(
+                'loadVariantsFromDatabase',
+                [$this, 'loadVariantsFromDatabaseFunction'],
+                [
+                    'is_safe' => ['html'],
+                ]
+            ),
         ];
     }
 
+    /**
+     * @param string $domain
+     * @return string
+     */
     public function loadTranslationsForVueJSFunction($domain)
     {
         $locale = $this->translator->getLocale();
@@ -41,8 +81,11 @@ class AppExtension extends \Twig_Extension
 HEREDOC;
     }
 
+    /**
+     * @return string
+     */
     public function loadVariantsFromDatabaseFunction()
-    {   
+    {
         $variants = $this->variantRepositoryService->getVariants();
         $variants = array_map(function (Variant $variant) {
             return [
@@ -58,6 +101,5 @@ HEREDOC;
     var VARIANTS = {$variants};
 </script>
 HEREDOC;
-
     }
 }
