@@ -21,7 +21,7 @@ class FrontController extends Controller
     public function answerPollAction(Request $request, $token)
     {
         /** @var PollRepositoryService $service */
-        $service = $this->get('app.pollRepositoryService');
+        $service = $this->get('app.repository_service.poll');
         $poll = $service->getPoll(['accessToken' => $token]);
 
         if ($poll instanceof Poll) {

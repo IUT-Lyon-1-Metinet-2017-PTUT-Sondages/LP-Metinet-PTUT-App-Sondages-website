@@ -19,7 +19,7 @@ class PollController extends FOSRestController implements TokenAuthenticatedCont
     public function getPollsAction()
     {
         /** @var PollRepositoryService $pollRepository */
-        $pollRepository = $this->get('app.pollrepositoryservice');
+        $pollRepository = $this->get('app.repository_service.poll');
 
         return $pollRepository->getPolls([]);
     }
@@ -32,7 +32,7 @@ class PollController extends FOSRestController implements TokenAuthenticatedCont
     public function getPollAction($id)
     {
         /** @var PollRepositoryService $pollRepository */
-        $pollRepository = $this->get('app.pollrepositoryservice');
+        $pollRepository = $this->get('app.repository_service.poll');
         $poll = $pollRepository->getPoll(['id' => $id]);
         if (!is_object($poll)) {
             throw $this->createNotFoundException();
@@ -43,7 +43,7 @@ class PollController extends FOSRestController implements TokenAuthenticatedCont
     public function getPollResultsAction($id)
     {
         /** @var PollRepositoryService $pollRepository */
-        $pollRepository = $this->get('app.pollrepositoryservice');
+        $pollRepository = $this->get('app.repository_service.poll');
         return $pollRepository->getResults($id);
     }
 }

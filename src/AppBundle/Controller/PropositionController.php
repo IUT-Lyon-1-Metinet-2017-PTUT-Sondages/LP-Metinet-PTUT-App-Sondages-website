@@ -15,6 +15,6 @@ class PropositionController extends Controller
      */
     public function deleteAction($id)
     {
-        $this->get('app.propositionRepositoryService')->deleteById($id);
+        $this->get('app.repository_service.proposition')->deleteById($id);
     }
 }

@@ -28,7 +28,7 @@ class PollController extends Controller
      */
     public function indexAction()
     {
-        $service = $this->get('app.pollRepositoryService');
+        $service = $this->get('app.repository_service.poll');
         $user = $this->get('security.token_storage')
                      ->getToken()
                      ->getUser();
@@ -57,7 +57,7 @@ class PollController extends Controller
     public function addAction(Request $request)
     {
         /** @var ValidationService $validationService */
-        $validationService = $this->get('app.validationService');
+        $validationService = $this->get('app.validation_service');
         $user = $this->get('security.token_storage')
                      ->getToken()
                      ->getUser();
@@ -91,7 +91,7 @@ class PollController extends Controller
      */
     public function editAction(Request $request, $id)
     {
-        $service = $this->get('app.pollRepositoryService');
+        $service = $this->get('app.repository_service.poll');
         list($jsonPoll, $poll) = $service->getJsonPoll($id);
 
         /** @var Poll $poll */
@@ -100,8 +100,8 @@ class PollController extends Controller
             return $this->redirectToRoute('backoffice_polls');
         }
 
-        $validationService = $this->get('app.validationService');
-        $deletionService = $this->get('app.deletionService');
+        $validationService = $this->get('app.validation_service');
+        $deletionService = $this->get('app.deletion_service');
         $user = $this->get('security.token_storage')
                      ->getToken()
                      ->getUser();
@@ -144,7 +144,7 @@ class PollController extends Controller
      */
     public function deleteAction($id)
     {
-        $service = $this->get('app.pollRepositoryService');
+        $service = $this->get('app.repository_service.poll');
         try {
             $service->deleteById(['id' => $id]);
 
@@ -165,7 +165,7 @@ class PollController extends Controller
     {
         $em = $this->get('doctrine.orm.default_entity_manager');
         /** @var PollRepositoryService $pollRepositoryService */
-        $pollRepositoryService = $this->get('app.pollrepositoryservice');
+        $pollRepositoryService = $this->get('app.repository_service.poll');
         /** @var Poll $poll */
         $poll = $pollRepositoryService->getPoll(['id' => $id]);
 
@@ -188,7 +188,7 @@ class PollController extends Controller
     public function resultsAction($id)
     {
         /** @var PollRepositoryService $service */
-        $service = $this->get('app.pollRepositoryService');
+        $service = $this->get('app.repository_service.poll');
         $poll = $service->getPoll(['id' => $id]);
 
         $charts = [];

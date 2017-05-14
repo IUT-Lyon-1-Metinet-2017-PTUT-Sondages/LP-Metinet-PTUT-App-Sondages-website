@@ -13,7 +13,7 @@ class BackofficeController extends Controller
      */
     public function indexAction()
     {
-        $dataService = $this->get('app.dashboardRepositoryService');
+        $dataService = $this->get('app.repository_service.dashboard');
 
         $data = $dataService->getDashboardData($this->getUser());
 

@@ -15,6 +15,6 @@ class QuestionController extends Controller
      */
     public function deleteAction($id)
     {
-        $this->get('app.questionRepositoryService')->deleteById($id);
+        $this->get('app.repository_service.question')->deleteById($id);
     }
 }

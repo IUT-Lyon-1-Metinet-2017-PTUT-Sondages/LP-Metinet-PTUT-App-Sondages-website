@@ -25,6 +25,6 @@ class PageController extends Controller
      */
     public function deleteAction($id)
     {
-        $this->get('app.pageRepositoryService')->deleteById($id);
+        $this->get('app.repository_service.page')->deleteById($id);
     }
 }

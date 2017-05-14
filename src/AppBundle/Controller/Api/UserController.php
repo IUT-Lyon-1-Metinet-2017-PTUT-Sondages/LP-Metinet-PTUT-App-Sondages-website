@@ -21,7 +21,7 @@ class UserController extends FOSRestController implements TokenAuthenticatedCont
     public function getUserPollsAction($id)
     {
         /** @var PollRepositoryService $pollRepository */
-        $pollRepository = $this->get('app.pollrepositoryservice');
+        $pollRepository = $this->get('app.repository_service.poll');
         $polls = $pollRepository->getPolls(['user' => $id]);
         return $polls;
     }
