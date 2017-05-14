@@ -13,22 +13,41 @@ use Symfony\Component\Form\FormBuilderInterface;
  */
 class UserUpdateType extends AbstractType
 {
+    /**
+     * {@inheritdoc}
+     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
             ->setMethod('post')
-            ->add('firstName', TextType::class, ['label' => 'user.first_name', 'translation_domain' => 'form'])
-            ->add('lastName', TextType::class, ['label' => 'user.last_name', 'translation_domain' => 'form'])
+            ->add('firstName', TextType::class, [
+                'label' => 'user.first_name',
+                'translation_domain' => 'form',
+            ])
+            ->add('lastName', TextType::class, [
+                'label' => 'user.last_name',
+                'translation_domain' => 'form',
+            ])
             ->remove('email')
             ->remove('plainPassword')
-            ->add('Modifier', SubmitType::class, ['attr' => ['class' => 'btn btn-primary']]);
+            ->add('Modifier', SubmitType::class, [
+                'attr' => [
+                    'class' => 'btn btn-primary',
+                ],
+            ]);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getParent()
     {
         return RegistrationType::class;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getBlockPrefix()
     {
         return 'app_user_update';
