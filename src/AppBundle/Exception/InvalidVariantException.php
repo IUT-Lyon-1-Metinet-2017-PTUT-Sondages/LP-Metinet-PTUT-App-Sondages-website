@@ -1,16 +1,8 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: kocal
- * Date: 12/05/17
- * Time: 21:32
- */
 
 namespace AppBundle\Exception;
 
-
 use AppBundle\Entity\Question;
-use Throwable;
 
 class InvalidVariantException extends \Exception
 {
@@ -24,6 +16,11 @@ class InvalidVariantException extends \Exception
      */
     private $question;
 
+    /**
+     * InvalidVariantException constructor.
+     * @param string   $variant
+     * @param Question $question
+     */
     public function __construct(string $variant, Question $question)
     {
         $this->variant = $variant;

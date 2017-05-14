@@ -8,7 +8,6 @@
 
 namespace AppBundle\Exception;
 
-
 use Symfony\Component\Validator\ConstraintViolation;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
 
@@ -32,7 +31,7 @@ class ValidationFailedException extends \Exception
                 'message' => $error->getMessage(),
                 'property' => $error->getPropertyPath(),
                 'entityName' => strtolower((new \ReflectionClass($root))->getShortName()),
-                'constraintName' => (new \ReflectionClass($error->getConstraint()))->getShortName()
+                'constraintName' => (new \ReflectionClass($error->getConstraint()))->getShortName(),
             ];
         }
     }
