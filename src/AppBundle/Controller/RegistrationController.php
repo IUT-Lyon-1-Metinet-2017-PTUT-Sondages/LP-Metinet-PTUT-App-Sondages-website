@@ -105,6 +105,14 @@ class RegistrationController extends BaseController
      */
     private function checkGoogleRecaptcha($secret, $response)
     {
+        // Si on est en env de test, on retourne directement true.
+        // TODO: Au lieu d'une méthode dans le controlleur, utiliser un service
+        // du style "GoogleReCaptchaValidator", et qu'on l'utiliserait de la sorte
+        // $googleReCaptchaValidator->valid($secret, $response): bool
+        if ($this->get('kernel')->getEnvironment() === 'test') {
+            return true;
+        }
+
         $params = [
             'secret' => $secret,
             'response' => $response,
