@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 
-PROGRAM=$(basename "$0")
+PROGRAM=./deploy.sh
 ROOT=$(pwd)
 
 PHP=$(which php)
