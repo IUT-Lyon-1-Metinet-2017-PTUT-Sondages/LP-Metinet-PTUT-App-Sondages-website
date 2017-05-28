@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-
+set -euo pipefail
+IFS=$'\n\t'
 
 PROGRAM=./deploy.sh
 ROOT=$(pwd)
@@ -7,6 +8,24 @@ ROOT=$(pwd)
 PHP=$(which php)
 COMPOSER=$(which composer)
 NPM=$(which npm)
+
+# Fonction à utiliser lorsqu'on souhaite exécuter une fonction
+run () {
+    echo -e "\n\e[1mExécution de «" $@ "» \e[0m\n"
+    $@
+}
+
+# Fonction à exécuter lorsqu'on souhaite afficher un message avant de quitter le script
+die () {
+    echo "$@" >&2
+    exit 1
+}
+
+# Vérification de l'existance des exécutables
+
+[[ -x ${PHP} ]] || die "PHP n'est pas installé."
+[[ -x ${COMPOSER} ]] || die "Composer n'est pas installé."
+[[ -x ${NPM} ]] || die "Npm n'est pas installé."
 
 display_help () {
     echo -e "
@@ -26,18 +45,6 @@ OPTIONS:
     --tests, -t           \tLance les tests unitaires
 "
     exit
-}
-
-# Fonction à utiliser lorsqu'on souhaite exécuter une fonction
-run () {
-    echo -e "\n\e[1mExécution de «" $@ "» \e[0m\n"
-    $@
-}
-
-# Fonction à exécuter lorsqu'on souhaite afficher un message avant de quitter le script
-die () {
-    echo "$@" >&2
-    exit 1
 }
 
 ## Toutes nos steps
@@ -92,15 +99,6 @@ if [[ $# -eq 0 ]]
 then
     display_help
 fi
-
-# On check si les programmes existent et son exécutables
-[[ -x ${PHP} ]] || die "PHP n'est pas installé."
-[[ -x ${COMPOSER} ]] || die "Composer n'est pas installé."
-[[ -x ${NPM} ]] || die "Npm n'est pas installé."
-
-# Gère les erreurs
-set -eEu
-set -o errtrace
 
 # Execution des steps en fonction des arguments 
 for ARG in "$@"
