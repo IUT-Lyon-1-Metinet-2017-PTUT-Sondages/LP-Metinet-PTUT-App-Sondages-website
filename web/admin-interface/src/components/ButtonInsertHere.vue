@@ -1,6 +1,6 @@
 <template>
   <div class="text-center">
-    <button @click="emit($event)" class="btn btn-outline-primary" :class="classes">
+    <button @click="emit($event)" :disabled="isSubmittingPoll" class="btn btn-outline-primary" :class="classes">
       <i class="fa fa-plus-circle"></i>
       <slot></slot>
     </button>
@@ -8,6 +8,7 @@
 </template>
 
 <script>
+  import {mapGetters} from "vuex";
   export default {
     props: {
       size: {type: String, default: ''},
@@ -21,6 +22,9 @@
           'btn-lg': this.size === 'large',
         }
       }
+    },
+    computed: {
+      ...mapGetters(['isSubmittingPoll'])
     },
     methods: {
       emit(e) {

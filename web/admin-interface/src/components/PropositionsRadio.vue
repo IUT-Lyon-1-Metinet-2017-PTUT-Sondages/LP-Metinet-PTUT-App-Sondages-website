@@ -16,6 +16,7 @@
       <div class="col" :class="{'has-danger': proposition.title.error }">
         <input v-model="proposition.title.value"
                :name="'poll[pages][' + pageIndex + '][questions][' + questionIndex + '][propositions][' +  propositionIndex + '][title]'"
+               :disabled="isSubmittingPoll"
                :placeholder="$t('proposition.placeholder.proposition_x', {x: propositionIndex + 1})"
                class="form-control d-inline-block">
         <div v-if="proposition.title.error" class="form-control-feedback">{{ proposition.title.error }}</div>
@@ -25,7 +26,7 @@
       <div class="col col-auto ml-h">
         <button class="btn btn-outline-danger"
                 @click.prevent="removeProposition(proposition)"
-                :disabled="question.propositions.length <= 1">&times;
+                :disabled="isSubmittingPoll || question.propositions.length <= 1">&times;
         </button>
       </div>
     </div>
@@ -45,7 +46,7 @@
       questionIndex: {type: Number, required: true},
     },
     computed: {
-      ...mapGetters(['isEditingPoll'])
+      ...mapGetters(['isEditingPoll', 'isSubmittingPoll'])
     },
     data () {
       return {}
