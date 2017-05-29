@@ -12,7 +12,7 @@ class FrontController extends Controller
 {
     /**
      * Display and handle the Poll form.
-     * @Route("/{token}", name="answer_poll")
+     * @Route("/a/{token}", name="answer_poll")
      * @param Request $request
      * @param string  $token
      * @return \Symfony\Component\HttpFoundation\Response
