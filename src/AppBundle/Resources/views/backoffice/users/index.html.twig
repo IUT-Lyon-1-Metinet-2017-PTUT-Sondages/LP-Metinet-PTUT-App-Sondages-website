@@ -24,9 +24,11 @@
                 <td>
                     <a href="{{ path('backoffice_users_update', {'id': user.id}) }}"
                        class="btn btn-primary">Modifier</a>
-                    <a href="{{ path('backoffice_users_delete', {'id': user.id}) }}"
-                       onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur ?');"
-                       class="btn btn-danger">Supprimer</a>
+                    {% if not user.hasRole('ROLE_ADMIN') %}
+                        <a href="{{ path('backoffice_users_delete', {'id': user.id}) }}"
+                           onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur ?');"
+                           class="btn btn-danger">Supprimer</a>
+                    {% endif %}
                 </td>
             </tr>
         {% endfor %}

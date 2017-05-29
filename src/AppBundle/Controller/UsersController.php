@@ -36,7 +36,7 @@ class UsersController extends Controller
      * Update an User by it's id.
      * @Route("/backoffice/users/update/{id}", name="backoffice_users_update", requirements={"id": "\d+"})
      * @param Request $request
-     * @param int     $id
+     * @param int $id
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function updateAction(Request $request, $id)
@@ -78,7 +78,7 @@ class UsersController extends Controller
      * Delete an User by it's id.
      * @Route("/backoffice/users/delete/{id}", name="backoffice_users_delete", requirements={"id": "\d+"})
      * @param Request $request
-     * @param int     $id
+     * @param int $id
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function deleteAction(Request $request, $id)
@@ -86,13 +86,17 @@ class UsersController extends Controller
         $userManager = $this->get('fos_user.user_manager');
         $user = $userManager->findUserBy(['id' => $id]);
 
-        if (is_null($user)) {
+        if (is_null($user) || $user->hasRole('ROLE_ADMIN')) {
             $this->addFlash('danger', "Impossible de supprimer l'utilisateur.");
         } else {
             $userManager->deleteUser($user);
             $this->addFlash('success', "L'utilisateur a bien été supprimé !");
         }
 
-        return $this->redirect($request->headers->get('referer'));
+        if (($redirectUrl = $request->headers->get('referer')) !== null) {
+            return $this->redirect($redirectUrl);
+        }
+
+        return $this->redirectToRoute('backoffice_users');
     }
 }
