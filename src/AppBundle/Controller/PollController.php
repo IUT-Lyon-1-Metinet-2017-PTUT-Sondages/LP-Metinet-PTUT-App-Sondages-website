@@ -213,6 +213,26 @@ class PollController extends Controller
             $chart->addDataSet($dataSet);
             $chart->setLabels($labels);
             $chart->generateData();
+            $chart->setOptions([
+                    'legendCallback' =>
+                        'var text = [];
+                        for (var i=0; i<chart.data.datasets[0].data.length; i++) {
+                            text.push(\'<tr>\');
+                            text.push(\'<td width="16">\');
+                            text.push(\'<span style="display:block;width:16px;height:16px;background-color:\' + chart.data.datasets[0].backgroundColor[i] + \'"></span>\');
+                            text.push(\'</td>\');
+                            text.push(\'<td>\');
+                            text.push(chart.data.labels[i]);
+                            text.push(\'</td>\');
+                            text.push(\'<td>\');
+                            text.push(chart.data.datasets[0].data[i]);
+                            text.push(\'</td>\');
+                            text.push(\'</tr>\');
+                        }
+                        return text.join(\'\');',
+                    'legend' => ['display' => false]
+                ]
+            );
             $charts[] = ['question' => $question, 'chart' => $chart];
         }
 
