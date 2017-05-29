@@ -5,7 +5,8 @@
 
       <div class="pull-right">
         <button class="btn btn-danger btn-sm" @click.prevent="removePage"
-                :disabled="totalPages <= 1">&times;
+                :disabled="isSubmittingPoll || totalPages <= 1">
+          &times;
         </button>
       </div>
     </div>
@@ -17,8 +18,8 @@
 
         <!-- Le titre de la page -->
         <div class="form-group" :class="{'has-danger': page.title.error || page.title.length == 0}">
-          <input v-model="page.title.value"
-                 :name="'poll[pages][' + pageIndex + '][title]'"
+          <input v-model="page.title.value" :name="'poll[pages][' + pageIndex + '][title]'"
+                 :disabled="isSubmittingPoll"
                  :placeholder="$t('page.placeholder.title')"
                  class="form-control form-control-md">
           <div v-if="page.title.error" class="form-control-feedback">{{ page.title.error }}</div>
@@ -26,8 +27,8 @@
 
         <!-- La description de la page -->
         <div class="form-group">
-          <textarea v-model="page.description.value"
-                    :name="'poll[pages][' + pageIndex + '][description]'"
+          <textarea v-model="page.description.value" :name="'poll[pages][' + pageIndex + '][description]'"
+                    :disabled="isSubmittingPoll"
                     :placeholder="$t('page.placeholder.description')"
                     class="form-control"></textarea>
         </div>
@@ -64,7 +65,7 @@
       pageIndex: {type: Number, required: true}
     },
     computed: {
-      ...mapGetters(['isEditingPoll']),
+      ...mapGetters(['isEditingPoll', 'isSubmittingPoll']),
       totalPages () {
         return this.poll.pages.length;
       }

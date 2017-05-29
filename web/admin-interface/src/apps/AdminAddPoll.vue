@@ -16,6 +16,7 @@
     <!-- Titre du sondage -->
     <div class="form-group" :class="{'has-danger': poll.title.error}">
       <input v-model="poll.title.value" name="poll[title]"
+             :disabled="isSubmittingPoll"
              :placeholder="$t('poll.placeholder.title')"
              class="form-control form-control-lg">
       <div v-if="poll.title.error" class="form-control-feedback">{{ poll.title.error }}</div>
@@ -23,9 +24,10 @@
 
     <!-- Description du sondage -->
     <div class="form-group" :class="{'has-danger': poll.description.error}">
-      <textarea v-model="poll.description.value"
+      <textarea v-model="poll.description.value" name="poll[description]"
+                :disabled="isSubmittingPoll"
                 :placeholder="$t('poll.placeholder.description')"
-                name="poll[description]" class="form-control"></textarea>
+                class="form-control"></textarea>
       <div v-if="poll.description.error" class="form-control-feedback">{{ poll.description.error }}</div>
     </div>
 
@@ -43,8 +45,16 @@
     <hr>
 
     <div class="text-center">
-      <button :disabled="submitting" type="submit" class="btn btn-primary btn-lg">
-        {{ isEditingPoll ? $t('poll.update') : $t('poll.create') }}
+      <button :disabled="isSubmittingPoll" type="submit" class="btn btn-primary btn-lg">
+        <template v-if="isSubmittingPoll">
+          <i v-if="isSubmittingPoll" class="fa fa-cog fa-spin fa-fw"></i> {{ $t('loading') }} ...
+        </template>
+        <template v-else-if="isEditingPoll">
+          {{ $t('poll.update') }}
+        </template>
+        <template v-else>
+          {{ $t('poll.create') }}
+        </template>
       </button>
     </div>
   </form>
@@ -68,14 +78,14 @@
       }
     },
     computed: {
-      ...mapGetters(['isEditingPoll', 'poll', 'variants', 'formAction'])
+      ...mapGetters(['isEditingPoll', 'isSubmittingPoll', 'poll', 'variants', 'formAction'])
     },
     methods: {
       /**
        * Appelée lors de la soumission du formulaire
        */
       onSubmit() {
-        this.submitting = true;
+        this.$store.commit('pollIsSubmitting');
         const $$form = $(this.$el);
 
         /*
@@ -149,12 +159,12 @@
             /*
              * On peut ré-activer le bouton de soumission
              */
-            this.submitting = false;
+            this.$store.commit('pollIsNotSubmitting');
           })
           .catch(error => {
             console.error('Erreur durant la validation', error);
             alert('Erreur durant la validation du sondage.');
-            this.submitting = false;
+            this.$store.commit('pollIsNotSubmitting');
           });
       },
 
@@ -289,14 +299,19 @@
         this.addPage();
       }
     },
-    mounted () {
-    }
   }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
   form {
     max-width: 1024px;
+    position: relative;
+  }
+</style>
+
+<style lang="scss">
+  .form-control:disabled, .form-control[readonly] {
+    background-color: rgba(#cfd8dc, .3);
   }
 </style>
 
