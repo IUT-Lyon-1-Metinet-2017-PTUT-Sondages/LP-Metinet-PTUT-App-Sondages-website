@@ -2,7 +2,9 @@
   <transition name="fade" appear>
     <div class="form-inline justify-content-center">
       <!-- <select> valeur minimale -->
-      <select v-model="min" class="form-control">
+      <select v-model="min"
+              :disabled="isSubmittingPoll"
+              class="form-control">
         <option v-for="v in [0, 1]" :value="v">{{v}}</option>
       </select>
 
@@ -11,7 +13,9 @@
       </span>
 
       <!-- <select> valeur maximale -->
-      <select v-model="max" class="form-control">
+      <select v-model="max"
+              :disabled="isSubmittingPoll"
+              class="form-control">
         <option v-for="v in [2, 3, 4, 5, 6, 7, 8, 9, 10]" :value="v">{{v}}</option>
       </select>
 
@@ -40,7 +44,7 @@
       questionIndex: {type: Number, required: true},
     },
     computed: {
-      ...mapGetters(['isEditingPoll'])
+      ...mapGetters(['isEditingPoll', 'isSubmittingPoll'])
     },
     data () {
       return {
@@ -76,8 +80,6 @@
         this.question.propositions = [];
         this.generatePropositions();
       } else {
-        console.log(JSON.stringify(this.question, null, 2));
-        console.log(JSON.stringify(this.question.propositions, null, 2));
         const values = this.question.propositions.map(p => parseInt(p.title.value, 10));
         const min = Math.min(...values);
         const max = Math.max(...values);

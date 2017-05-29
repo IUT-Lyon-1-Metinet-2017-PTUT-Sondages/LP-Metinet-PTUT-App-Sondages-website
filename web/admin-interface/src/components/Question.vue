@@ -4,7 +4,8 @@
       {{ $t('question.x_on_y', {x: questionIndex + 1, y: totalPageQuestions}) }}
 
       <div class="pull-right">
-        <button @click.prevent="removeQuestion" :disabled="totalPageQuestions <= 1"
+        <button @click.prevent="removeQuestion"
+                :disabled="isSubmittingPoll || totalPageQuestions <= 1"
                 class="btn btn-danger btn-sm">
           &times;
         </button>
@@ -12,7 +13,7 @@
     </div>
     <div class="card-block">
       <div class="row">
-        <input v-if="isEditingPoll && 'in' " :value="question.id"
+        <input v-if="isEditingPoll && 'id' in question " :value="question.id"
                :name="'poll[pages][' + pageIndex + '][questions][' + questionIndex + '][id]'"
                type="hidden">
 
@@ -21,6 +22,7 @@
              :class="{'has-danger': question.title.error}">
           <input v-model="question.title.value"
                  :name="'poll[pages][' + pageIndex + '][questions][' + questionIndex + '][title]'"
+                 :disabled="isSubmittingPoll"
                  :placeholder="$t('question.placeholder.title')"
                  class="form-control">
           <div v-if="question.title.error" class="form-control-feedback">{{ question.title.error }}</div>
@@ -30,6 +32,7 @@
         <div class="col-md-4 col-sm-6 form-group">
           <select v-model="question.variant.name" class="form-control"
                   :name="'poll[pages][' + pageIndex + '][questions][' + questionIndex + '][variant][name]'"
+                  :disabled="isSubmittingPoll"
                   :title="$t('question.type')">
             <option v-for="variant in variants" :value="variant">
               {{ $t('proposition.variants.types.' + variant) }}
@@ -69,7 +72,7 @@
       return {}
     },
     computed: {
-      ...mapGetters(['isEditingPoll', 'variants']),
+      ...mapGetters(['isEditingPoll', 'isSubmittingPoll', 'variants']),
       totalPageQuestions () {
         return this.page.questions.length;
       }
