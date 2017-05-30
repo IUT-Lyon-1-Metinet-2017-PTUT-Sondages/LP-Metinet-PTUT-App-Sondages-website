@@ -140,3 +140,15 @@ function init(url) {
   $('[rel="popover"],[data-rel="popover"],[data-toggle="popover"]').popover();
 
 }
+$('#copy').click(function(){
+    target = document.querySelector('#thisPollId');
+    target.focus();
+    target.setSelectionRange(0, target.value.length);
+    document.execCommand("copy");
+
+});
+
+$('#shapeModal').on('shown.bs.modal', function () {
+
+});
+
