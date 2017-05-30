@@ -1,5 +1,6 @@
 loading: 'Chargement'
 
+polls_list: 'Liste des sondages'
 create_new_poll: 'Créer un nouveau sondage'
 title: 'Titre'
 author: 'Auteur'
@@ -14,6 +15,8 @@ delete_confirmation: 'Voulez-vous vraiment supprimer ce sondage ? Il sera ensuit
 answers: 'Réponses'
 share: 'Partager'
 about_the_poll: 'À propos du sondage « {title} »'
+
+poll_results: 'Résultats du sondage'
 
 poll:
   creation: 'Création d''un sondage'

@@ -1,5 +1,6 @@
 loading: 'Loading'
 
+polls_list: 'Polls list'
 create_new_poll: 'Create a new poll'
 title: 'Title'
 author: 'Author'
@@ -14,6 +15,8 @@ delete_confirmation: 'Do you really want to delete this poll?\n\nIt will be impo
 answers: 'Answers'
 share: 'Share'
 about_the_poll: 'About the poll "{title}"'
+
+poll_results: 'Poll results'
 
 poll:
   creation: 'Poll creation'
