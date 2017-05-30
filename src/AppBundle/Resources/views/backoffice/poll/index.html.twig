@@ -62,14 +62,36 @@
                                    class="btn btn-outline-primary">
                                     <i class="fa fa-pencil"></i>&nbsp;{{ 'admin_poll.table_values.edit' | trans }}
                                 </a>
+                            </td>
+                            <td>
+                                {% if poll.published %}
+                                    Oui
+                                {% else %}
+                                    Non
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if poll.published %}
+                                    <a href="{{ path('backoffice_poll_results', {'id': poll.id}) }}"
+                                       class="btn btn-success">
+                                        <i class="fa fa-eye"></i>&nbsp;Réponses
+                                    </a>
+                                    <button  data-toggle="modal" data-target="shareModal"
+                                       class="btn btn-info">
+                                        <i class="fa fa-share"></i>&nbsp;Partager
+                                    </button>
+                                {% else %}
+                                    <a href="{{ path('backoffice_poll_edit', {'id': poll.id}) }}"
+                                       class="btn btn-outline-primary">
+                                        <i class="fa fa-pencil"></i>&nbsp;Editer
+                                    </a>
 
-                                <a href="{{ path('backoffice_poll_publish', {'id': poll.id}) }}"
-                                   onclick="return confirm('{{ 'admin_poll.table_values.publish_confirmation' | trans }}')"
-                                   class="btn btn-primary">
-                                    <i class="fa fa-fighter-jet"></i>&nbsp;{{ 'admin_poll.table_values.publish' | trans }}
-                                </a>
-                            {% endif %}
-
+                                    <a href="{{ path('backoffice_poll_publish', {'id': poll.id}) }}"
+                                       onclick="return confirm('{{ 'admin_poll.table_values.publish_confirmation' | trans }}')"
+                                       class="btn btn-primary">
+                                        <i class="fa fa-fighter-jet"></i>&nbsp;{{ 'admin_poll.table_values.publish' | trans }}
+                                    </a>
+                                {% endif %}
                             <a href="{{ path('backoffice_poll_delete', {'id': poll.id}) }}"
                                onclick="return confirm('{{ 'admin_poll.table_values.delete_confirmation' | trans }}')"
                                class="btn btn-danger">
@@ -82,4 +104,5 @@
             </table>
         </div>
     </div>
+
 {% endblock %}
