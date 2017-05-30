@@ -62,8 +62,8 @@ class UsersController extends Controller
                 $user->setLastName($data->getLastName());
                 $userManager->updateUser($user);
                 $this->addFlash('success', "L'utilisateur a bien été modifié");
-            } else {
-                $this->addFlash('danger', "Le formulaire n'est pas valide !");
+                
+                return $this->redirectToRoute('backoffice_users');
             }
         } else {
             $form->setData($user);

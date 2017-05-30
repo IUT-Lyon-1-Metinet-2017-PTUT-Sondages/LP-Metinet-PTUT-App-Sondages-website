@@ -30,9 +30,11 @@ class UserUpdateType extends AbstractType
             ])
             ->remove('email')
             ->remove('plainPassword')
-            ->add('Modifier', SubmitType::class, [
+            ->add('submit', SubmitType::class, [
+                'label' => 'profile.edit.submit',
+                'translation_domain' => 'FOSUserBundle',
                 'attr' => [
-                    'class' => 'btn btn-primary',
+                    'class' => 'btn btn-primary btn-lg',
                 ],
             ]);
     }

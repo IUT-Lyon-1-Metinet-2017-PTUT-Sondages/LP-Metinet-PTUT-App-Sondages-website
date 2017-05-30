@@ -1,0 +1,7 @@
+answer_to_poll: 'Répondre au sondage « {title} »'
+page_x_on_y: 'Page {x} sur {y}'
+send: 'Envoyer'
+
+error_poll_not_existing: 'Le sondage que vous recherchez n''existe pas'
+message_preview_for_author: 'Ceci est un aperçu du rendu final du sondage, toute interaction a été désactivée.<br>Le sondage n''est pour l''instant uniquement accessible que par vous-même.'
+error_message_preview_for_not_author: 'Vous n''avez pas encore accès à ce sondage.'

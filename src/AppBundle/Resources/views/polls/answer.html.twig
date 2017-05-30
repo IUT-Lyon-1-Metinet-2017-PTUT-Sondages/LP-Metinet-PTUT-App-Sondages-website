@@ -1,11 +1,12 @@
 {% extends '::base.html.twig' %}
+{% trans_default_domain 'poll' %}
 
 {% block stylesheets %}
     <link rel="stylesheet" href="{{ asset('front/assets/css/kdt-inputs.css') }}" type="text/css">
 {% endblock %}
 
 {% block title %}
-    Répondre au sondage « {{ poll.title }} »
+    {{ 'answer_to_poll' | trans({'{title}': poll.title}) }}
 {% endblock %}
 
 {% block poll_title %}
@@ -72,15 +73,20 @@
 {% endblock %}
 
 {% block content %}
-    {{ form_start(pollView,{attr: {'novalidate':'novalidate'}}) }}
+    {{ form_start(pollView, {attr: {'novalidate':'novalidate'}}) }}
+
     {% for page in poll.pages %}
         <div class="row">
             <div class="col"><h3 class="p-3">{{ page.title }}</h3></div>
-            <div class="col text-right"><h4>Page {{ loop.index }} sur {{ poll.pages|length }}</h4></div>
+            <div class="col text-right">
+                <h4>{{ 'page_x_on_y' | trans({'{x}': loop.index, '{y}': poll.pages | length}) }}</h4>
+            </div>
         </div>
         {% for question in page.questions %}
             {{ form_widget(attribute(pollView, 'question' ~ question.id)) }}
         {% endfor %}
+        <hr>
     {% endfor %}
+
     {{ form_end(pollView) }}
 {% endblock %}

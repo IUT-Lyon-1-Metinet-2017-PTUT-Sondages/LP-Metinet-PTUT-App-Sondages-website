@@ -1,0 +1,7 @@
+answer_to_poll: 'Answer the poll "{title}"'
+page_x_on_y: 'Page {x} on {y}'
+send: 'Send'
+
+error_poll_not_existing: 'The poll you are searching for does not exist.'
+message_preview_for_author: 'This is a preview of the final rendering of the poll, all interactions have been disabled.<br>The poll is only accessible for yourself at the moment.'
+error_message_preview_for_not_author: 'You do not have access to this poll yet.'

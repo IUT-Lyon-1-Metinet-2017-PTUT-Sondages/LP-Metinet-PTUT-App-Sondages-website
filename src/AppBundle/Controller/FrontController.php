@@ -14,30 +14,27 @@ class FrontController extends Controller
      * Display and handle the Poll form.
      * @Route("/a/{token}", name="answer_poll")
      * @param Request $request
-     * @param string  $token
+     * @param string $token
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function answerPollAction(Request $request, $token)
     {
         /** @var PollRepositoryService $service */
         $service = $this->get('app.repository_service.poll');
+        $translator = $this->get('translator');
         $poll = $service->getPoll(['accessToken' => $token]);
 
         if (is_null($poll)) {
-            throw $this->createNotFoundException('Le sondage que vous recherchez n\'existe pas');
+            throw $this->createNotFoundException($translator->trans('error_poll_not_existing', [], 'poll'));
         }
 
         $currentUserHasCreatedThisPoll = $poll->getUser() === $this->getUser() || $this->isGranted('ROLE_ADMIN');
 
         if (!$poll->isPublished()) {
             if ($currentUserHasCreatedThisPoll) {
-                $this->addFlash(
-                    'warning',
-                    "Ceci est un aperçu du rendu final du sondage, toute interaction a été désactivée.<br>"
-                    . " Le sondage n'est pour l'instant uniquement accessible que par vous-même."
-                );
+                $this->addFlash('warning', $translator->trans('message_preview_for_author', [], 'poll'));
             } else {
-                $this->addFlash('danger', "Vous n'avez pas encore accès à ce sondage.");
+                $this->addFlash('danger', $translator->trans('error_message_preview_for_not_author', [], 'poll'));
 
                 return $this->redirectToRoute('homepage');
             }
@@ -60,11 +57,11 @@ class FrontController extends Controller
                     'poll' => $poll,
                 ]);
             }
-        }
+}
 
-        return $this->render('@App/polls/answer.html.twig', [
-            'pollView' => $form->createView(),
-            'poll' => $poll,
-        ]);
-    }
+return $this->render('@App/polls/answer.html.twig', [
+    'pollView' => $form->createView(),
+    'poll' => $poll,
+]);
+}
 }

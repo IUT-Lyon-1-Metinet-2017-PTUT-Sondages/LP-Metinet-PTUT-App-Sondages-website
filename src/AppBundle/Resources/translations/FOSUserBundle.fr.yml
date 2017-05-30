@@ -16,5 +16,6 @@ resetting:
     username: 'Adresse e-mail'
 
 update_profile: 'Modifier mon profil'
+update_a_profile: 'Modifier un profil'
 update_password: 'Modifier mon mot de passe'
 delete_account: 'Supprimer mon compte'
