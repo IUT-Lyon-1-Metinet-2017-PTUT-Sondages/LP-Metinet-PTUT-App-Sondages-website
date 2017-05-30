@@ -107,6 +107,9 @@ class ValidationService
                     $this->validatePageAndThrowIfErrors($page);
                     $poll->addPage($page);
 
+                    /**
+                     * Validation des questions
+                     */
                     if (isset($pageFromRequest['questions'])
                         && ($questionsFromRequest = $pageFromRequest['questions']) !== null
                     ) {

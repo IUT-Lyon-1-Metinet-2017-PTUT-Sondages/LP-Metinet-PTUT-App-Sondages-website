@@ -18,6 +18,7 @@
       <input v-model="poll.title.value" name="poll[title]"
              :disabled="isSubmittingPoll"
              :placeholder="$t('poll.placeholder.title')"
+             maxlength="255"
              class="form-control form-control-lg">
       <div v-if="poll.title.error" class="form-control-feedback">{{ poll.title.error }}</div>
     </div>
@@ -27,6 +28,7 @@
       <textarea v-model="poll.description.value" name="poll[description]"
                 :disabled="isSubmittingPoll"
                 :placeholder="$t('poll.placeholder.description')"
+                maxlength="2048"
                 class="form-control"></textarea>
       <div v-if="poll.description.error" class="form-control-feedback">{{ poll.description.error }}</div>
     </div>
@@ -106,10 +108,8 @@
 
         function handleError(entity, error) {
           const field = entity[error['property']];
-
-          if (error['constraintName'] === 'NotBlank' && field.value.length === 0) {
-            field.error = error.message
-          }
+          field.error = error.message;
+          field.value = field.value.trim()
         }
 
         // Envoi du formulaire en AJAX

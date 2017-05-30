@@ -24,6 +24,7 @@
                  :name="'poll[pages][' + pageIndex + '][questions][' + questionIndex + '][title]'"
                  :disabled="isSubmittingPoll"
                  :placeholder="$t('question.placeholder.title')"
+                 maxlength="255"
                  class="form-control">
           <div v-if="question.title.error" class="form-control-feedback">{{ question.title.error }}</div>
         </div>
