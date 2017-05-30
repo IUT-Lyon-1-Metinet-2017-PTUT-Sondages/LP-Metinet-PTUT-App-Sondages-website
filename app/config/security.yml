@@ -33,4 +33,5 @@ security:
         - { path: ^/backoffice/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/backoffice/, role: ROLE_USER }
         - { path: ^/backoffice, role: ROLE_USER }
+        - { path: ^/profile, role: ROLE_USER }
         - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }

@@ -2,8 +2,13 @@ form:
   email: 'Adresse e-mail (Domaine de l''Université Lyon 1)'
   first_name: 'Prénom'
   last_name: 'Nom'
+
+  delete_account: 'Supprimer mon compte'
+  delete_account_confirmation: 'Je suis sûr de moi et je souhaite supprimer mon compte'
+
 profile:
   show: 'Voir mon profil'
+
 resetting:
   request:
     username: 'Adresse e-mail'

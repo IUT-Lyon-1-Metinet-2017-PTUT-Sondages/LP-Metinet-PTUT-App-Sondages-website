@@ -17,3 +17,4 @@ layout:
 
 update_profile: 'Update my profile'
 update_password: 'Update my password'
+delete_account: 'Delete my account'

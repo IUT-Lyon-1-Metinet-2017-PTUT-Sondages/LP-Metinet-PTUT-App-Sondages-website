@@ -3,21 +3,25 @@
 <h1 class="text-center">Aperçu du profil</h1>
 <hr>
 
-<div class="fos_user_user_show">
-    <p><b>{{ 'profile.show.username'|trans }}</b> : {{ user.username }}</p>
-    <p><b>{{ 'profile.show.email'|trans }}</b> : {{ user.email }}</p>
-    <p><b>{{ 'form.last_name'|trans }}</b> : {{ user.lastName }}</p>
-    <p><b>{{ 'form.first_name'|trans }}</b> : {{ user.firstName }}</p>
+<div class="fos_user_user_show row justify-content-center">
+    <div class="col-md-4 p-1">
+        <p><b>{{ 'profile.show.username'|trans }}</b> : {{ user.username }}</p>
+        <p><b>{{ 'profile.show.email'|trans }}</b> : {{ user.email }}</p>
+        <p><b>{{ 'form.last_name'|trans }}</b> : {{ user.lastName }}</p>
+        <p><b>{{ 'form.first_name'|trans }}</b> : {{ user.firstName }}</p>
 
-    <a href="{{ path('fos_user_profile_edit') }}" class="btn btn-primary">
-        {{ 'update_profile' | trans }}
-    </a>
+        <a href="{{ path('fos_user_profile_edit') }}" class="btn btn-primary btn-block">
+            {{ 'update_profile' | trans }}
+        </a>
 
-    <a href="{{ path('fos_user_change_password') }}" class="btn btn-primary">
-        {{ 'update_password' | trans }}
-    </a>
+        <a href="{{ path('fos_user_change_password') }}" class="btn btn-primary btn-block">
+            {{ 'update_password' | trans }}
+        </a>
 
-    <a href="#" class="btn btn-danger" onclick="alert('CNIL / suppression de compte ... en cours !')">
-        Supprimer mon compte
-    </a>
+        {% if not user.hasRole('ROLE_ADMIN') %}
+            <a href="{{ path('backoffice_profile_delete') }}" class="btn btn-danger btn-block">
+                {{ 'delete_account' | trans }}
+            </a>
+        {% endif %}
+    </div>
 </div>
