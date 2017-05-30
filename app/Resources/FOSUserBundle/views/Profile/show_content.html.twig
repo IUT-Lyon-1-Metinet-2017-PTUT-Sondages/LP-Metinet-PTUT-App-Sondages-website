@@ -17,7 +17,9 @@
         {{ 'update_password' | trans }}
     </a>
 
-    <a href="#" class="btn btn-danger" onclick="alert('CNIL / suppression de compte ... en cours !')">
-        Supprimer mon compte
-    </a>
+    {% if not user.hasRole('ROLE_ADMIN') %}
+        <a href="{{ path('backoffice_profile_delete') }}" class="btn btn-danger">
+            {{ 'delete_account' | trans }}
+        </a>
+    {% endif %}
 </div>

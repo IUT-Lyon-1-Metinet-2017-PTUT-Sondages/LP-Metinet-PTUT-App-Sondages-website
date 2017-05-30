@@ -15,4 +15,5 @@ resetting:
     text: 'Demandez un nouveau mot de passe'
     username: 'Adresse e-mail'
 update_profile: 'Modifier mon profil'
-update_password: 'Modifier mon mot de passe'
+update_password: 'Modifier mon mot de passe'delete_account: 'Supprimer mon compte'
+delete_account: 'Supprimer mon compte'
