@@ -23,9 +23,10 @@
                             <th></th>
                             <th>Proposition</th>
                             <th>Quantité</th>
+                            <th>Pourcentage</th>
                         </tr>
                         </thead>
-                        <tbody class="chart-legend-{{ chart.chart.id }}">
+                        <tbody class="chart-legend-{{ chart.chart.id }}" data-type="{{ chart.question.qType }}">
                         </tbody>
                     </table>
                 </div>
@@ -33,6 +34,14 @@
                     {{ chartjs_render_html(chart.chart) }}
                 </div>
             </div>
+            {% if chart.question.qType == 'LinearScale' %}
+                <div class="row justify-content-center" style="font-style: italic;
+        text-decoration: underline;">
+                    <span>
+                        Moyenne des réponses au sondage : <strong class="average-linear-{{ chart.chart.id }}"></strong>
+                    </span>
+                </div>
+            {% endif %}
         {% endfor %}
     </div>
 

@@ -5,8 +5,11 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Poll;
 use AppBundle\Exception\InvalidVariantException;
 use AppBundle\Exception\ValidationFailedException;
+use AppBundle\Services\PollRepositoryService;
 use AppBundle\Services\ValidationService;
+use Avegao\ChartjsBundle\Chart\BarChart;
 use Avegao\ChartjsBundle\Chart\PieChart;
+use Avegao\ChartjsBundle\DataSet\BarDataSet;
 use Avegao\ChartjsBundle\DataSet\PieDataSet;
 use Doctrine\ORM\ORMInvalidArgumentException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -162,6 +165,7 @@ class PollController extends Controller
      */
     public function resultsAction($id)
     {
+        /** @var PollRepositoryService $service */
         $service = $this->get('app.repository_service.poll');
         $poll = $service->getPoll(['id' => $id]);
 
@@ -200,23 +204,46 @@ class PollController extends Controller
         }
 
         foreach ($questionsAnswersAfterTreatment as $question) {
-            $chart = new PieChart();
-            $dataSet = new PieDataSet();
+            /** @var PieChart|BarChart $dataSet */
+            $chart   = null;
+            /** @var PieDataSet|BarDataSet $dataSet */
+            $dataSet = null;
+            $options = [];
+            if ($question['qType'] == 'Checkbox' || $question['qType'] == 'LinearScale') {
+                $chart   = new BarChart();
+                $dataSet = new BarDataSet();
+                $options['scales'] = [
+                    'yAxes' => [
+                        [
+                            'ticks' => [
+                                'beginAtZero' => true
+                            ]
+                        ]
+                    ]
+                ];
+            } elseif ($question['qType'] == 'Radio') {
+                $chart   = new PieChart();
+                $dataSet = new PieDataSet();
+            }
             $data = [];
             $labels = [];
             foreach ($question['props'] as $index => $proposition) {
                 $labels[] = $proposition['title'];
-                $data[] = $proposition['amount'];
+                $data[]   = $proposition['amount'];
                 $dataSet->addBackgroundColor($this->getParameter('graph_colors')[$index]);
             }
             $dataSet->setData($data);
             $chart->addDataSet($dataSet);
             $chart->setLabels($labels);
             $chart->generateData();
-            $chart->setOptions([
+            $chart->setOptions(array_merge($options, [
                     'legendCallback' =>
-                        'var text = [];
+                        '
+                        var text = [];
+                        var sum  = 0.0;
+                        var totalAnswer = chart.data.datasets[0].data.reduce((pv, cv) => pv + parseInt(cv, 10), 0);
                         for (var i=0; i<chart.data.datasets[0].data.length; i++) {
+                            sum += parseInt(chart.data.labels[i], 10) * parseInt(chart.data.datasets[0].data[i], 10);
                             text.push(\'<tr>\');
                             text.push(\'<td width="16">\');
                             text.push(\'<span style="display:block;width:16px;height:16px;background-color:\' + chart.data.datasets[0].backgroundColor[i] + \'"></span>\');
@@ -227,12 +254,32 @@ class PollController extends Controller
                             text.push(\'<td>\');
                             text.push(chart.data.datasets[0].data[i]);
                             text.push(\'</td>\');
+                            text.push(\'<td>\');
+                            text.push(Math.round(chart.data.datasets[0].data[i] / totalAnswer * 10000)/100 + \'&nbsp;%\');
+                            text.push(\'</td>\');
                             text.push(\'</tr>\');
+                        }
+                        text.push(\'<tr>\');
+                        text.push(\'<td>\');
+                        text.push(\'</td>\');
+                        text.push(\'<td>\');
+                        text.push(\'<span class="font-weight-bold">Total</span>\');
+                        text.push(\'</td>\');
+                        text.push(\'<td>\');
+                        text.push(totalAnswer);
+                        text.push(\'</td>\');
+                        text.push(\'<td>\');
+                        text.push(\'100&nbsp;%\');
+                        text.push(\'</td>\');
+                        text.push(\'</tr>\');
+                        var averageInput = jQuery(\'.average-linear-\' + chart.canvas.id);
+                        if(averageInput !== undefined) {
+                            averageInput.html(Math.round(sum/totalAnswer*100)/100);
                         }
                         return text.join(\'\');',
                     'legend' => ['display' => false]
                 ]
-            );
+            ));
             $charts[] = ['question' => $question, 'chart' => $chart];
         }
 
