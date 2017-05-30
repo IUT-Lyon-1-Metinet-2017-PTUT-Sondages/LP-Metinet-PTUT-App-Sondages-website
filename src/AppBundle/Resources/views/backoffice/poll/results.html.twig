@@ -20,26 +20,17 @@
                     <table class="table table-bordered table-striped table-condensed">
                         <thead>
                         <tr>
+                            <th></th>
                             <th>Proposition</th>
                             <th>Quantité</th>
                         </tr>
                         </thead>
-                        <tbody>
-                        {% for prop in chart.question.props %}
-                            <tr>
-                                <td>
-                                    {{ prop.title }}
-                                </td>
-                                <td>
-                                    {{ prop.amount }}
-                                </td>
-                            </tr>
-                        {% endfor %}
+                        <tbody class="chart-legend-{{ chart.chart.id }}">
                         </tbody>
                     </table>
                 </div>
-                <div class="col-5">
-                    {{ chartjs_render_html(chart.chart, 100, 100) }}
+                <div class="col-3">
+                    {{ chartjs_render_html(chart.chart) }}
                 </div>
             </div>
         {% endfor %}
@@ -47,6 +38,7 @@
 
     {% block javascripts %}
         <!-- ChartJSStart -->
+        <script src="{{ asset('CoreUI/bower_components/jquery/dist/jquery.min.js') }}"></script>
         <script src="{{ asset('CoreUI/bower_components/chart.js/dist/Chart.min.js') }}"></script>
         <script>
             //            Chart.defaults.global.animation.duration = 0;
