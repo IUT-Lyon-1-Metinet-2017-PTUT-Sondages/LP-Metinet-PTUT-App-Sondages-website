@@ -43,7 +43,7 @@ class ProfileDeleteType extends AbstractType
                 'label' => 'form.delete_account',
                 'translation_domain' => 'FOSUserBundle',
                 'attr' => [
-                    'class' => 'btn btn-danger btn'
+                    'class' => 'btn btn-danger btn-lg'
                 ]
             ]);
     }
