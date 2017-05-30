@@ -24,41 +24,45 @@
                     {% for poll in polls %}
                         <tr>
                             <td>
-                                <a target="_blank" href="{{ path('answer_poll', {'token':poll.accessToken}) }}">
-                                    {{ poll.title }} &nbsp;
+                                <a target="_blank" href="{{ path('answer_poll', {'token':poll.0.accessToken}) }}">
+                                    {{ poll.0.title }} &nbsp;
                                     <i class="fa fa-external-link" aria-hidden="true"></i></a>
                             </td>
                             <td>
-                                <a href="mailto:{{ poll.user.email }}?subject=À propos du sondage « {{ poll.title }} »">
-                                    {{ poll.user.email }}
+                                <a href="mailto:{{ poll.email }}?subject=À propos du sondage « {{ poll.0.title }} »">
+                                    {{ poll.email }}
                                 </a>
                             </td>
                             <td>
-                                {% if poll.published %}
+                                {% if poll.0.published %}
                                     Oui
                                 {% else %}
                                     Non
                                 {% endif %}
                             </td>
                             <td>
-                                {% if poll.published %}
-                                    <a href="{{ path('backoffice_poll_results', {'id': poll.id}) }}"
+                                {% if poll.0.published %}
+                                    <a href="{{ path('backoffice_poll_results', {'id': poll.0.id}) }}"
                                        class="btn btn-success">
                                         <i class="fa fa-eye"></i>&nbsp;Réponses
                                     </a>
+                                    <a href="#"
+                                       class="btn btn-primary">
+                                        <i class="fa fa-share"></i>&nbsp;Partager
+                                    </a>
                                 {% else %}
-                                    <a href="{{ path('backoffice_poll_edit', {'id': poll.id}) }}"
+                                    <a href="{{ path('backoffice_poll_edit', {'id': poll.0.id}) }}"
                                        class="btn btn-outline-primary">
                                         <i class="fa fa-pencil"></i>&nbsp;Editer
                                     </a>
 
-                                    <a href="{{ path('backoffice_poll_publish', {'id': poll.id}) }}"
+                                    <a href="{{ path('backoffice_poll_publish', {'id': poll.0.id}) }}"
                                        class="btn btn-primary">
                                         <i class="fa fa-fighter-jet"></i>&nbsp;Publier
                                     </a>
                                 {% endif %}
 
-                                <a href="{{ path('backoffice_poll_delete', {'id': poll.id}) }}"
+                                <a href="{{ path('backoffice_poll_delete', {'id': poll.0.id}) }}"
                                    class="btn btn-danger">
                                     <i class="fa fa-trash"></i>&nbsp;Supprimer
                                 </a>
