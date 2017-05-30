@@ -1,5 +1,20 @@
 loading: 'Chargement'
 
+create_new_poll: 'Créer un nouveau sondage'
+title: 'Titre'
+author: 'Auteur'
+is_published: 'Publié ?'
+yes: 'Oui'
+no: 'Non'
+edit: 'Éditer'
+publish: 'Publier'
+publish_confirmation: 'Voulez-vous vraiment publier ce sondage ? Il sera ensuite impossible de le dé-publier.'
+delete: 'Supprimer'
+delete_confirmation: 'Voulez-vous vraiment supprimer ce sondage ? Il sera ensuite impossible de le récupérer.'
+answers: 'Réponses'
+share: 'Partager'
+about_the_poll: 'À propos du sondage « {title} »'
+
 poll:
   creation: 'Création d''un sondage'
   create: 'Créer le sondage'

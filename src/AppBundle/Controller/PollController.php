@@ -31,12 +31,14 @@ class PollController extends Controller
         $user = $this->getUser();
 
         if ($user->hasRole('ROLE_ADMIN')) {
-            $polls = $service->getPolls([]);
+            $entries = $service->getPolls([]);
         } else {
-            $polls = $service->getPolls(['user' => $user]);
+            $entries = $service->getPolls(['user' => $user]);
         }
 
-        return $this->render('@App/backoffice/poll/index.html.twig', ['polls' => $polls]);
+        return $this->render('@App/backoffice/poll/index.html.twig', [
+            'entries' => $entries
+        ]);
     }
 
     /**
@@ -121,7 +123,7 @@ class PollController extends Controller
         $service = $this->get('app.repository_service.poll');
 
         try {
-            $service->deleteById(['id' => $id]);
+            $service->deleteById($id);
         } catch (ORMInvalidArgumentException $e) {
             $this->addFlash('danger', $e->getMessage());
 

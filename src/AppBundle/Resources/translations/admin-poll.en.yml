@@ -1,5 +1,20 @@
 loading: 'Loading'
 
+create_new_poll: 'Create a new poll'
+title: 'Title'
+author: 'Author'
+is_published: 'Published?'
+yes: 'Yes'
+no: 'No'
+edit: 'Edit'
+publish: 'Publish'
+publish_confirmation: 'Do you really want to publish this poll?\n\nIt will be impossible to un-publish it later.'
+delete: 'Delete'
+delete_confirmation: 'Do you really want to delete this poll?\n\nIt will be impossible to recover it later.'
+answers: 'Answers'
+share: 'Share'
+about_the_poll: 'About the poll "{title}"'
+
 poll:
   creation: 'Poll creation'
   create: 'Create the poll'

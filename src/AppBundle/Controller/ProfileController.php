@@ -44,7 +44,7 @@ class ProfileController extends Controller
             }
         }
 
-        return $this->render('AppBundle:Profile:delete.html.twig', [
+        return $this->render('AppBundle:profile:delete.html.twig', [
             'form' => $form->createView()
         ]);
     }
