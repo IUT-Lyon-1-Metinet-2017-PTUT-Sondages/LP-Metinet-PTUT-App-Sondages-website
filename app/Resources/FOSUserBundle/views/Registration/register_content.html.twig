@@ -1,12 +1,12 @@
-
 {% trans_default_domain 'FOSUserBundle' %}
+
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-6">
             <div class="card mx-2">
                 <div class="card-block p-2">
-                    <h1>{{ 'layout.register'|trans({}, 'FOSUserBundle') }}</h1>
-                    <p class="text-muted">{{ 'layout.register.title'|trans({}, 'FOSUserBundle') }}</p>
+                    <h1>{{ 'layout.register' | trans }}</h1>
+                    <p class="text-muted">{{ 'layout.register.title' | trans }}</p>
 
                     {{ form_start(form, {'method': 'post', 'action': path('fos_user_registration_register'), 'attr': {'class': 'fos_user_registration_register', 'id': 'fos_user_registration_register'}}) }}
                         {{ form_row(form.email, {'attr': {'placeholder': 'prenom.nom@univ-lyon1.fr', 'pattern': '\\w+\\.\\w+@(\\w+\\.)*univ-lyon1\\.fr'}}) }}

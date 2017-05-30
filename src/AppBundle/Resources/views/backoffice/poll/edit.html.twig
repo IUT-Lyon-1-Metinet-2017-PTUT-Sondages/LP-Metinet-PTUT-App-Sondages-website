@@ -1,4 +1,7 @@
 {% extends "::backoffice_base.html.twig" %}
+{% trans_default_domain 'admin-poll' %}
+
+{% block title %}{{ 'poll.updating' | trans }}{% endblock %}
 
 {% block stylesheets %}
     <link rel="stylesheet" href="{{ asset('front/assets/css/kdt-inputs.css') }}" type="text/css"/>

@@ -30,6 +30,7 @@ class Page
      * @Groups({"backOffice"})
      * @ORM\Column(type="text", length = 255, name="title", nullable = true)
      * @ORM\Column(name="title", type="string", length = 255)
+     * @Assert\NotBlank()
      */
     private $title;
 
@@ -80,7 +81,7 @@ class Page
      */
     public function setTitle($title)
     {
-        $this->title = $title;
+        $this->title = trim($title);
 
         return $this;
     }
@@ -151,7 +152,7 @@ class Page
      */
     public function setDescription($description)
     {
-        $this->description = $description;
+        $this->description = trim($description);
 
         return $this;
     }

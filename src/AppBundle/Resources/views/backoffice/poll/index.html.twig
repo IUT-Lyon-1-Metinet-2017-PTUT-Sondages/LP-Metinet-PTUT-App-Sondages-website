@@ -1,74 +1,85 @@
 {% extends "::backoffice_base.html.twig" %}
+{% trans_default_domain 'admin-poll' %}
+
+{% block title %}{{ 'polls_list' | trans }}{% endblock %}
 
 {% block bodyclass %}app header-fixed sidebar-fixed aside-menu-fixed aside-menu-hidden{% endblock %}
+
 {% block main %}
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-12">
-                <a target="_blank" href="{{ path('backoffice_polls_add') }}" class="btn btn-primary btn-lg btn-block">
-                    <i class="fa fa-plus-circle"></i> Créer un nouveau sondage
-                </a>
-            </div>
+    <h1 class="text-center">{{ 'polls_list' | trans }}</h1>
+    <hr>
+
+    <div class="row mb-1">
+        <div class="col-md-12">
+            <a target="_blank" href="{{ path('backoffice_polls_add') }}" class="btn btn-primary btn-lg btn-block">
+                <i class="fa fa-plus-circle"></i>&nbsp;{{ 'create_new_poll' | trans }}
+            </a>
         </div>
-        <div class="row show-grid">
-            <div class="col-md-12">
-                <table class="table table-bordered table-striped table-condensed">
-                    <thead>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-bordered table-striped table-condensed">
+                <thead>
+                <tr>
+                    <th>{{ 'title' | trans }}</th>
+                    <th>{{ 'author' | trans }}</th>
+                    <th>{{ 'is_published' | trans }}</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for entry in entries %}
+                    {% set poll = entry.0 %}
                     <tr>
-                        <th>Titre</th>
-                        <th>Auteur</th>
-                        <th>Publié ?</th>
+                        <td>
+                            <a target="_blank" href="{{ path('answer_poll', {'token':poll.accessToken}) }}">
+                                {{ poll.title }}&nbsp;<i class="fa fa-external-link" aria-hidden="true"></i></a>
+                        </td>
+                        <td>
+                            <a href="mailto:{{ entry.email }}?subject={{ 'about_the_poll' | trans({'{title}': poll.title}) }}">
+                                {{ entry.email }}
+                            </a>
+                        </td>
+                        <td>
+                            {% if poll.published %}
+                                {{ 'yes' | trans }}
+                            {% else %}
+                                {{ 'no' | trans }}
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if poll.published %}
+                                <a href="{{ path('backoffice_poll_results', {'id': poll.id}) }}"
+                                   class="btn btn-success">
+                                    <i class="fa fa-eye"></i>&nbsp;{{ 'answers' | trans }}
+                                </a>
+                                <a href="#"
+                                   class="btn btn-primary">
+                                    <i class="fa fa-share"></i>&nbsp;{{ 'share' | trans }}
+                                </a>
+                            {% else %}
+                                <a href="{{ path('backoffice_poll_edit', {'id': poll.id}) }}"
+                                   class="btn btn-outline-primary">
+                                    <i class="fa fa-pencil"></i>&nbsp;{{ 'edit' | trans }}
+                                </a>
+
+                                <a href="{{ path('backoffice_poll_publish', {'id': poll.id}) }}"
+                                   onclick="return confirm('{{ 'publish_confirmation' | trans }}')"
+                                   class="btn btn-primary">
+                                    <i class="fa fa-fighter-jet"></i>&nbsp;{{ 'publish' | trans }}
+                                </a>
+                            {% endif %}
+
+                            <a href="{{ path('backoffice_poll_delete', {'id': poll.id}) }}"
+                               onclick="return confirm('{{ 'delete_confirmation' | trans }}')"
+                               class="btn btn-danger">
+                                <i class="fa fa-trash"></i>&nbsp;{{ 'delete' | trans }}
+                            </a>
+                        </td>
                     </tr>
-                    </thead>
-                    <tbody>
-                    {% for poll in polls %}
-                        <tr>
-                            <td>
-                                <a target="_blank" href="{{ path('answer_poll', {'token':poll.accessToken}) }}">
-                                    {{ poll.title }} &nbsp;
-                                    <i class="fa fa-external-link" aria-hidden="true"></i></a>
-                            </td>
-                            <td>
-                                <a href="mailto:{{ poll.user.email }}?subject=À propos du sondage « {{ poll.title }} »">
-                                    {{ poll.user.email }}
-                                </a>
-                            </td>
-                            <td>
-                                {% if poll.published %}
-                                    Oui
-                                {% else %}
-                                    Non
-                                {% endif %}
-                            </td>
-                            <td>
-                                {% if poll.published %}
-                                    <a href="{{ path('backoffice_poll_results', {'id': poll.id}) }}"
-                                       class="btn btn-success">
-                                        <i class="fa fa-eye"></i>&nbsp;Réponses
-                                    </a>
-                                {% else %}
-                                    <a href="{{ path('backoffice_poll_edit', {'id': poll.id}) }}"
-                                       class="btn btn-outline-primary">
-                                        <i class="fa fa-pencil"></i>&nbsp;Editer
-                                    </a>
-
-                                    <a href="{{ path('backoffice_poll_publish', {'id': poll.id}) }}"
-                                       class="btn btn-primary">
-                                        <i class="fa fa-fighter-jet"></i>&nbsp;Publier
-                                    </a>
-                                {% endif %}
-
-                                <a href="{{ path('backoffice_poll_delete', {'id': poll.id}) }}"
-                                   class="btn btn-danger">
-                                    <i class="fa fa-trash"></i>&nbsp;Supprimer
-                                </a>
-                            </td>
-                        </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
-            </div>
+                {% endfor %}
+                </tbody>
+            </table>
         </div>
-
     </div>
 {% endblock %}

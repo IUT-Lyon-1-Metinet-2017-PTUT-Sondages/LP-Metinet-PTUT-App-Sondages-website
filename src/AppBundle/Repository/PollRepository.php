@@ -40,4 +40,23 @@ GROUP BY pr.id';
 
         return $query->getQuery()->getSingleScalarResult();
     }
+    public function findBy(array $criteria, array $orderBy = NULL, $limit = NULL, $offset = NULL)
+    {
+        $polls = $this->createQueryBuilder('p');
+
+        foreach($criteria as $column => $value){
+            $polls = $polls->where($column, $value);
+        }
+
+        $polls = $polls->leftJoin('p.user', 'u')
+            ->addSelect('u.email')
+            ->groupBy('p.id')
+            ->add('orderBy', "p.{$orderBy[0]} {$orderBy[1]}")
+            ->setFirstResult($offset)
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+
+        return ($polls);
+    }
 }

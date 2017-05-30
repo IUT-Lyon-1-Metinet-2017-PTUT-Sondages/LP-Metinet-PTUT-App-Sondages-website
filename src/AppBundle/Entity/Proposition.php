@@ -93,7 +93,7 @@ class Proposition
      */
     public function setTitle($title)
     {
-        $this->title = $title;
+        $this->title = trim($title);
 
         return $this;
     }

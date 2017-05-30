@@ -120,7 +120,7 @@ class Poll
      */
     public function setTitle($title)
     {
-        $this->title = $title;
+        $this->title = trim($title);
 
         return $this;
     }
@@ -141,7 +141,7 @@ class Poll
      */
     public function setDescription($description)
     {
-        $this->description = $description;
+        $this->description = trim($description);
 
         return $this;
     }

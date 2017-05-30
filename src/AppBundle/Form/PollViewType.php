@@ -65,7 +65,8 @@ class PollViewType extends AbstractType
         }
 
         $builder->add('submit_poll', SubmitType::class, [
-            'label' => 'Envoyer',
+            'label' => 'send',
+            'translation_domain' => 'poll',
             'attr' => ['class' => 'btn btn-send col-xs-12 float-right'],
             'disabled' => $shouldDisableInputs,
         ]);

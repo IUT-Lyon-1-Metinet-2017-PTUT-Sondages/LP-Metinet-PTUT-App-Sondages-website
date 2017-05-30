@@ -21,6 +21,7 @@
           <input v-model="page.title.value" :name="'poll[pages][' + pageIndex + '][title]'"
                  :disabled="isSubmittingPoll"
                  :placeholder="$t('page.placeholder.title')"
+                 maxlength="255"
                  class="form-control form-control-md">
           <div v-if="page.title.error" class="form-control-feedback">{{ page.title.error }}</div>
         </div>
@@ -29,6 +30,7 @@
         <div class="form-group">
           <textarea v-model="page.description.value" :name="'poll[pages][' + pageIndex + '][description]'"
                     :disabled="isSubmittingPoll"
+                    maxlength="2048"
                     :placeholder="$t('page.placeholder.description')"
                     class="form-control"></textarea>
         </div>

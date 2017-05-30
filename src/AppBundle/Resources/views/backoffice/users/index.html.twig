@@ -1,16 +1,28 @@
 {% extends "::backoffice_base.html.twig" %}
+{% trans_default_domain 'users' %}
+
+{% block title %}{{ 'users_list' | trans }}{% endblock %}
 
 {% block bodyclass %}app header-fixed sidebar-fixed aside-menu-fixed aside-menu-hidden{% endblock %}
+
 {% block main %}
-    <h1 class="text-center pb-2">Liste des utilisateurs</h1>
+    <h1 class="text-center pb-2">{{ 'users_list' | trans }}</h1>
     <table class="table">
         <thead>
         <tr>
-            <th{% if pagination.isSorted('a.id') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, '#', 'a.id') }}</th>
-            <th{% if pagination.isSorted('a.firstname') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Prénom', 'a.firstname') }}</th>
-            <th{% if pagination.isSorted('a.lastname') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Nom', 'a.lastname') }}</th>
-            <th{% if pagination.isSorted('a.email') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Email', 'a.email') }}</th>
-            <th>Actions</th>
+            <th{% if pagination.isSorted('a.id') %} class="sorted"{% endif %}>
+                {{ knp_pagination_sortable(pagination, '#', 'a.id') }}
+            </th>
+            <th{% if pagination.isSorted('a.firstname') %} class="sorted"{% endif %}>
+                {{ knp_pagination_sortable(pagination, 'first_name' | trans, 'a.firstname') }}
+            </th>
+            <th{% if pagination.isSorted('a.lastname') %} class="sorted"{% endif %}>
+                {{ knp_pagination_sortable(pagination, 'last_name' | trans, 'a.lastname') }}
+            </th>
+            <th{% if pagination.isSorted('a.email') %} class="sorted"{% endif %}>
+                {{ knp_pagination_sortable(pagination, 'email' | trans, 'a.email') }}
+            </th>
+            <th></th>
         </tr>
         </thead>
         <tbody>
@@ -23,11 +35,15 @@
                 <td>{{ user.email }}</td>
                 <td>
                     <a href="{{ path('backoffice_users_update', {'id': user.id}) }}"
-                       class="btn btn-primary">Modifier</a>
+                       class="btn btn-primary">
+                        <i class="fa fa-pencil"></i>&nbsp;{{ 'update' | trans }}
+                    </a>
                     {% if not user.hasRole('ROLE_ADMIN') %}
                         <a href="{{ path('backoffice_users_delete', {'id': user.id}) }}"
-                           onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur ?');"
-                           class="btn btn-danger">Supprimer</a>
+                           onclick="return confirm('{{ 'delete_confirmation' | trans }}');"
+                           class="btn btn-danger">
+                            <i class="fa fa-trash"></i>&nbsp;{{ 'delete' | trans }}
+                        </a>
                     {% endif %}
                 </td>
             </tr>

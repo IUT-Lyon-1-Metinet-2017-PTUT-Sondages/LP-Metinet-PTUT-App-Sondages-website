@@ -16,4 +16,6 @@ layout:
   logged_in_as: 'Logged in as %username%'
 
 update_profile: 'Update my profile'
+update_a_profile: 'Update a profile'
 update_password: 'Update my password'
+delete_account: 'Delete my account'

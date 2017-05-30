@@ -1,27 +1,28 @@
+{% trans_default_domain 'sidebar' %}
 <div class="sidebar">
     <nav class="sidebar-nav">
         <ul class="nav">
             <li class="nav-item">
                 <a href="{{ path('backoffice') }}" class="nav-link">
                     <i class="icon-home"></i>
-                    Accueil
+                    {{ 'homepage' | trans }}
                 </a>
             </li>
             <li class="nav-item">
                 <a href="{{ path('backoffice_polls_add') }}" class="nav-link">
                     <i class="icon-plus"></i>
-                    Ajouter un sondage
+                    {{ 'add_poll' | trans }}
                 </a>
                 <a href="{{ path('backoffice_polls') }}" class="nav-link">
                     <i class="icon-list"></i>
-                    Liste des sondages
+                    {{ 'polls_list' | trans }}
                 </a>
             </li>
             {% if is_granted('ROLE_ADMIN') %}
                 <li class="nav-item">
                     <a href="{{ path('backoffice_users') }}" class="nav-link">
                         <i class="icon-user"></i>
-                        Liste des utilisateurs
+                        {{ 'users_list' | trans }}
                     </a>
                 </li>
             {% endif %}

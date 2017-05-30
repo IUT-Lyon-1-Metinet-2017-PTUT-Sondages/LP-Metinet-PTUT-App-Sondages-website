@@ -17,6 +17,7 @@
         <input v-model="proposition.title.value"
                :name="'poll[pages][' + pageIndex + '][questions][' + questionIndex + '][propositions][' +  propositionIndex + '][title]'"
                :disabled="isSubmittingPoll"
+               maxlength="255"
                :placeholder="$t('proposition.placeholder.proposition_x', {x: propositionIndex + 1})"
                class="form-control d-inline-block">
         <div v-if="proposition.title.error" class="form-control-feedback">{{ proposition.title.error }}</div>
