@@ -92,4 +92,4 @@ services:
     #Mailer
     app.mailer_service:
         class: AppBundle\Services\MailerService
-        arguments: ["@mailer","@doctrine.orm.entity_manager","@router" ]
+        arguments: ["@mailer","@doctrine.orm.entity_manager","@router" ,"@templating"]

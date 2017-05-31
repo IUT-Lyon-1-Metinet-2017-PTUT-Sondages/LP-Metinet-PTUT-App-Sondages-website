@@ -154,11 +154,15 @@ $('.send-mail-modal').click(function () {
     var id = $(this).data('id');
     $('#thisPollId').val(url);
     $('#poll_id').val(id);
-    $('#mail_errors').hide();
+    $('.state').hide();
 });
 
 $('#shareModal').on('hide.bs.modal', function () {
     $('#thisPollId').val('Erreur');
+    $('#poll_id').val('');
+    $('#user_email').val('');
+    $('.state').hide();
+    $('#mail-input-group').show();
     $('#copy').html('<i class="fa fa-clipboard"></i>&nbsp;Copier');
 });
 
@@ -167,16 +171,19 @@ $('#send-mail').click(function () {
     var mail = $('#user_email').val();
     postTo = $(this).data('post');
 
-    if (validateEmail(mail) && postTo && Number.isInteger(id)) {
+    if (validateEmail(mail) && postTo) {
         $.ajax({
             method: "POST",
             url: postTo,
             data: { id: id, email: mail }
-        }).done(function( msg ) {
-                console.log( "Data Saved: " + msg );
+            }).done(function( msg ) {
+                $('.state').hide();
+                $('#mail-input-group').hide();
+                $('#mail-share-success').show();
             })
             .fail(function( jqXHR, textStatus ) {
-                alert( "Request failed: " + textStatus );
+                $('#user_email').css('border', '1px solid red');
+                $('#mail_errors').show();
             });
     } else {
         $('#user_email').css('border', '1px solid red');

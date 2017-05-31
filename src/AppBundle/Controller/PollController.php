@@ -147,12 +147,13 @@ class PollController extends Controller
         if($request->isXmlHttpRequest()) {
             $mail = $request->get('email');
             $id = $request->get('id');
-            $mailService = $this->get('app.mail_service');
-
-            $response = new JsonResponse('mail : '.$mail.' id:'.$id);
+            $mailService = $this->get('app.mailer_service');
+            $userMail = $this->getUser()->getEmail();
+            $response = $mailService->sharePoll($userMail, $mail,$id);
+            $response = new JsonResponse($response);
             return $response;
         } else {
-            $response = new JsonResponse($request->isXmlHttpRequest());
+            $response = new JsonResponse(false);
             return $response;
         }
     }
