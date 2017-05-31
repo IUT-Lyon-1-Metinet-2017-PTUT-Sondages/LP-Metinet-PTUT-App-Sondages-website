@@ -1,12 +1,12 @@
 {% extends "::backoffice_base.html.twig" %}
-{% trans_default_domain 'admin-poll' %}
+{% trans_default_domain 'AppBundle' %}
 
-{% block title %}{{ 'poll_results' | trans }}{% endblock %}
+{% block title %}{{ 'admin_poll.poll_results' | trans }}{% endblock %}
 
 {% block bodyclass %}app header-fixed sidebar-fixed aside-menu-fixed aside-menu-hidden{% endblock %}
 
 {% block main %}
-    <h1 class="text-center">{{ 'poll_results' | trans }}</h1>
+    <h1 class="text-center">{{ 'admin_poll.poll_results' | trans }}</h1>
     <hr>
 
     <div class="row">

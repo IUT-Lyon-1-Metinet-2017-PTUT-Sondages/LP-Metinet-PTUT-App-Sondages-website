@@ -6,6 +6,7 @@ use AppBundle\Entity\Variant;
 use AppBundle\Helper;
 use AppBundle\Services\VariantRepositoryService;
 use Symfony\Bundle\FrameworkBundle\Translation\Translator;
+use Symfony\Component\PropertyAccess\PropertyAccess;
 
 class AppExtension extends \Twig_Extension
 {
@@ -26,15 +27,16 @@ class AppExtension extends \Twig_Extension
 
     /**
      * AppExtension constructor.
-     * @param Helper                   $helper
-     * @param Translator               $translator
+     * @param Helper $helper
+     * @param Translator $translator
      * @param VariantRepositoryService $variantRepositoryService
      */
     public function __construct(
         Helper $helper,
         Translator $translator,
         VariantRepositoryService $variantRepositoryService
-    ) {
+    )
+    {
         $this->helper = $helper;
         $this->translator = $translator;
         $this->variantRepositoryService = $variantRepositoryService;
@@ -65,12 +67,16 @@ class AppExtension extends \Twig_Extension
 
     /**
      * @param string $domain
+     * @param string $path
      * @return string
      */
-    public function loadTranslationsForVueJSFunction($domain)
+    public function loadTranslationsForVueJSFunction($domain, $path = '*')
     {
+        $accessor = PropertyAccess::createPropertyAccessor();
         $locale = $this->translator->getLocale();
+
         $translations = $this->helper->loadTranslations($domain, $locale);
+        $translations = $accessor->getValue($translations, $path);
         $translations = json_encode($translations);
 
         return <<<HEREDOC

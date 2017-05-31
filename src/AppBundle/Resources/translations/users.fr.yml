@@ -1,8 +1,0 @@
-users_list: 'Liste des utilisateurs'
-first_name: 'Prénom'
-last_name: 'Nom'
-email: 'Adresse E-mail'
-
-update: 'Modifier'
-delete_confirmation: 'Voulez-vous vraiment supprimer cet utilisateur ?'
-delete: 'Supprimer'
