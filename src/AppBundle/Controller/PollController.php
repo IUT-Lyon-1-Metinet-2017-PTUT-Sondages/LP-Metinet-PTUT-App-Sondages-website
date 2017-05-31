@@ -12,6 +12,7 @@ use Avegao\ChartjsBundle\Chart\PieChart;
 use Avegao\ChartjsBundle\DataSet\BarDataSet;
 use Avegao\ChartjsBundle\DataSet\PieDataSet;
 use Doctrine\ORM\ORMInvalidArgumentException;
+use function MongoDB\BSON\toJSON;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -135,9 +136,29 @@ class PollController extends Controller
 
         return $this->redirectToRoute('backoffice_polls');
     }
+    /**
+     * Send a mail
+     * @Route("/backoffice/send-mail", name="backoffice_send_mail")
+     * @param Request $request
+     * @return RedirectResponse|JsonResponse
+     */
+    public function sendMailAction(Request $request)
+    {
+        if($request->isXmlHttpRequest()) {
+            $mail = $request->get('email');
+            $id = $request->get('id');
+            $mailService = $this->get('app.mail_service');
+
+            $response = new JsonResponse('mail : '.$mail.' id:'.$id);
+            return $response;
+        } else {
+            $response = new JsonResponse($request->isXmlHttpRequest());
+            return $response;
+        }
+    }
 
     /**
-     * Public a Poll.
+     * Publish a Poll.
      * @Route("/backoffice/polls/{id}/publish", name="backoffice_poll_publish")
      * @param int $id
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
