@@ -17,7 +17,9 @@
 
     <body>
         <header>
-            <img title="logo" class="logo" alt="logo" src="{{ asset('front/assets/img/logo.png') }}">
+            <a href="{{ path('homepage') }}">
+                <img title="logo" class="logo" alt="logo" src="{{ asset('front/assets/img/logo.png') }}">
+            </a>
             <h1>{% block poll_title %}Kodrastan{% endblock %}</h1>
         </header>
         <div class="container">
