@@ -53,6 +53,7 @@ class Question
      * @Groups({"backOffice"})
      * One question has Many propositions.
      * @ORM\OneToMany(targetEntity="Proposition", mappedBy="question", cascade={"persist", "remove"})
+     * @Assert\Valid
      */
     private $propositions;
 

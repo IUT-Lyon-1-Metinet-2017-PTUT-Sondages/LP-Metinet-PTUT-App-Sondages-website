@@ -61,6 +61,7 @@ class Poll
      * @var Question[]
      * One Poll has Many Questions.
      * @ORM\OneToMany(targetEntity="Question", mappedBy="poll", cascade={"persist", "remove"})
+     * @Assert\Valid
      */
     private $questions;
 

@@ -1,5 +1,8 @@
 page_x_on_y: 'Page {x} on {y}'
-send: 'Send'
+validation_error:
+  checkbox: 'Please select at least one proposition.'
+  radio: 'Please select a proposition.'
+answer_to_poll: 'Answer'
 
 error_poll_not_existing: 'The poll you are searching for does not exist.'
 message_preview_for_author: 'This is a preview of the final rendering of the poll, all interactions have been disabled.<br>The poll is only accessible for yourself at the moment.'

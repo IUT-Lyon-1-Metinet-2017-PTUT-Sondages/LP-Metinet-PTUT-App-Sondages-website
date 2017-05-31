@@ -57,11 +57,11 @@ class FrontController extends Controller
                     'poll' => $poll,
                 ]);
             }
-}
+        }
 
-return $this->render('@App/polls/answer.html.twig', [
-    'pollView' => $form->createView(),
-    'poll' => $poll,
-]);
-}
+        return $this->render('@App/polls/answer.html.twig', [
+            'pollView' => $form->createView(),
+            'poll' => $poll,
+        ]);
+    }
 }

@@ -1,5 +1,8 @@
 page_x_on_y: 'Page {x} sur {y}'
-send: 'Envoyer'
+validation_error:
+  checkbox: 'Veuillez sélectionner un moins une proposition.'
+  radio: 'Veuillez sélectionner une proposition.'
+answer_to_poll: 'Répondre'
 
 error_poll_not_existing: 'Le sondage que vous recherchez n''existe pas'
 message_preview_for_author: 'Ceci est un aperçu du rendu final du sondage, toute interaction a été désactivée.<br>Le sondage n''est pour l''instant uniquement accessible que par vous-même.'
