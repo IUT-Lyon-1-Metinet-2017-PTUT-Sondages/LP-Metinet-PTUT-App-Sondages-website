@@ -50,53 +50,53 @@
                             {% endif %}
                         </td>
                         <td>
+                            <a href="{{ path('backoffice_poll_delete', {'id': poll.id}) }}"
+                               onclick="return confirm('{{ 'admin_poll.table_values.delete_confirmation' | trans }}')"
+                               class="btn btn-danger btn-xs-block">
+                                <i class="fa fa-trash"></i>&nbsp;<span
+                                        class="hidden-sm-down">{{ 'admin_poll.table_values.delete' | trans }}</span>
+                            </a>
+
                             {% if not poll.published %}
                                 <a href="{{ path('backoffice_poll_edit', {'id': poll.id}) }}"
-                                   class="btn btn-outline-primary btn-sm-block">
+                                   class="btn btn-outline-primary btn-xs-block">
                                     <i class="fa fa-pencil"></i>&nbsp;<span
                                             class="hidden-sm-down">{{ 'admin_poll.table_values.edit' | trans }}</span>
                                 </a>
 
                                 <a href="{{ path('backoffice_poll_publish', {'id': poll.id}) }}"
                                    onclick="return confirm('{{ 'admin_poll.table_values.publish_confirmation' | trans }}')"
-                                   class="btn btn-primary btn-sm-block">
+                                   class="btn btn-primary btn-xs-block">
                                     <i class="fa fa-bullhorn "></i>&nbsp;<span
                                             class="hidden-sm-down">{{ 'admin_poll.table_values.publish' | trans }}</span>
                                 </a>
                             {% else %}
                                 <a href="{{ path('backoffice_poll_results', {'id': poll.id}) }}"
-                                   class="btn btn-success">
-                                    <i class="fa fa-eye"></i>&nbsp;Réponses
+                                   class="btn btn-success btn-xs-block">
+                                    <i class="fa fa-eye"></i>&nbsp;<span class="hidden-sm-down">{{ 'admin_poll.table_values.answers' | trans }}</span>
                                 </a>
 
                                 <button data-toggle="modal" data-target="#shareModal"
                                         data-url="{{ url('answer_poll', {'token':poll.accessToken}) }}"
                                         data-id="{{ poll.id }}"
-                                        class="btn btn-info send-mail-modal" title="Envoyer par mail">
+                                        class="btn btn-info btn-xs-block send-mail-modal" title="Envoyer par mail">
                                     <i class="fa fa-envelope"></i>
                                 </button>
 
-                                <a class="btn btn-info" title="Partager sur facebook"
+                                <a class="btn btn-info btn-xs-block" title="Partager sur facebook"
                                    href="https://www.facebook.com/sharer.php?u={{ url('answer_poll', {'token':poll.accessToken}) }}"
                                    onclick="return !window.open(this.href, 'Share on Facebook', 'width=500,height=500')"
                                    target="_blank">
                                     <i class="fa fa-facebook"></i>
                                 </a>
 
-                                <a class="btn btn-info" title="Partager sur Twitter"
+                                <a class="btn btn-info btn-xs-block" title="Partager sur Twitter"
                                    href="https://twitter.com/intent/tweet?&url={{ url('answer_poll', {'token':poll.accessToken}) }}"
                                    onclick="return !window.open(this.href, 'Share on Twitter', 'width=500,height=500')"
                                    target="_blank">
                                     <i class="fa fa-twitter"></i>
                                 </a>
                             {% endif %}
-
-                            <a href="{{ path('backoffice_poll_delete', {'id': poll.id}) }}"
-                               onclick="return confirm('{{ 'admin_poll.table_values.delete_confirmation' | trans }}')"
-                               class="btn btn-danger btn-sm-block">
-                                <i class="fa fa-trash"></i>&nbsp;<span
-                                        class="hidden-sm-down">{{ 'admin_poll.table_values.delete' | trans }}</span>
-                            </a>
                         </td>
                     </tr>
                 {% endfor %}
