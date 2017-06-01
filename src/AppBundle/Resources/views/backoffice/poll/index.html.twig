@@ -2,190 +2,138 @@
 {% trans_default_domain 'AppBundle' %}
 
 {% block title %}{{ 'admin_poll.polls_list' | trans }}{% endblock %}
-
 {% block bodyclass %}app header-fixed sidebar-fixed aside-menu-fixed aside-menu-hidden{% endblock %}
-<h1 class="text-center">{{ 'admin_poll.polls_list' | trans }}</h1>
-<hr>
-<a href="{{ path('backoffice_poll_publish', {'id': poll.id}) }}"
-   class="btn btn-primary">
-    <i class="fa fa-bullhorn "></i>&nbsp;Publier
-</a>
-{% else %}
-<a href="{{ path('backoffice_poll_results', {'id': poll.id}) }}"
-   class="btn btn-success">
-    <i class="fa fa-eye"></i>&nbsp;Réponses
-</a>
-<button data-toggle="modal" data-target="#shareModal"
-        data-url="{{ url('answer_poll', {'token':poll.accessToken}) }}"
-        data-id="{{ poll.id }}"
-        class="btn btn-info send-mail-modal" title="Envoyer par mail">
-    <i class="fa fa-envelope"></i>
-</button>
-<a class="btn btn-info" title="Partager sur facebook"
-   href="https://www.facebook.com/sharer.php?u={{ url('answer_poll', {'token':poll.accessToken}) }}"
-   onclick="return !window.open(this.href, 'Share on Facebook', 'width=500,height=500')"
-   target="_blank">
-    <i class="fa fa-facebook"></i>
-</a>
-<a class="btn btn-info" title="Partager sur Twitter"
-   href="https://twitter.com/intent/tweet?&url={{ url('answer_poll', {'token':poll.accessToken}) }}"
-   onclick="return !window.open(this.href, 'Share on Twitter', 'width=500,height=500')"
-   target="_blank">
-    <i class="fa fa-twitter"></i>
-</a>
-<div class="row mb-1">
-    <div class="col-md-12">
-        <a target="_blank" href="{{ path('backoffice_polls_add') }}" class="btn btn-primary btn-lg btn-block">
-            <i class="fa fa-plus-circle"></i>&nbsp;{{ 'admin_poll.create_new_poll' | trans }}
-        </a>
+{% block main %}
+
+    <h1 class="text-center">{{ 'admin_poll.polls_list' | trans }}</h1>
+    <hr>
+
+    <div class="row mb-1">
+        <div class="col-md-12">
+            <a target="_blank" href="{{ path('backoffice_polls_add') }}" class="btn btn-primary btn-lg btn-block">
+                <i class="fa fa-plus-circle"></i>&nbsp;{{ 'admin_poll.create_new_poll' | trans }}
+            </a>
+        </div>
     </div>
-</div>
-<div class="row">
-    <div class="col-md-12">
-        <table class="table table-bordered table-striped table-condensed">
-            <thead>
-            <tr>
-                <th>{{ 'admin_poll.table.title' | trans }}</th>
-                <th>{{ 'admin_poll.table.author' | trans }}</th>
-                <th>{{ 'admin_poll.table.is_published' | trans }}</th>
-                <th></th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for entry in entries %}
-            {% set poll = entry.0 %}
-            <tr>
-                <td>
-                    <a target="_blank" href="{{ path('answer_poll', {'token':poll.accessToken}) }}">
-                        {{ poll.title }}&nbsp;<i class="fa fa-external-link" aria-hidden="true"></i></a>
-                </td>
-                <td>
-                    <a href="mailto:{{ entry.email }}?subject={{ 'admin_poll.table_values.about_the_poll' | trans({'{title}': poll.title}) }}">
-                        {{ entry.email }}
-                    </a>
-                </td>
-                <td>
-                    {% if poll.published %}
-                        {{ 'admin_poll.table_values.yes' | trans }}
-                    {% else %}
-                        {{ 'admin_poll.table_values.no' | trans }}
-                    {% endif %}
-                </td>
-                <td>
-                    {% if poll.published %}
-                    <a href="{{ path('backoffice_poll_results', {'id': poll.id}) }}"
-                       class="btn btn-success">
-                        <i class="fa fa-eye"></i>&nbsp;{{ 'admin_poll.table_values.answers' | trans }}
-                    </a>
-                    <a href="#"
-                       class="btn btn-primary">
-                        <i class="fa fa-share"></i>&nbsp;{{ 'admin_poll.table_values.share' | trans }}
-                    </a>
-                    {% else %}
-                    <a href="{{ path('backoffice_poll_edit', {'id': poll.id}) }}"
-                       class="btn btn-outline-primary">
-                        <i class="fa fa-pencil"></i>&nbsp;{{ 'admin_poll.table_values.edit' | trans }}
-                    </a>
-                </td>
-                <td>
-                    {% if poll.published %}
-                        Oui
-                    {% else %}
-                        Non
-                    {% endif %}
-                </td>
-                <td>
-                    <a href="{{ path('backoffice_poll_delete', {'id': poll.id}) }}"
-                       onclick="return confirm('{{ 'admin_poll.table_values.delete_confirmation' | trans }}')"
-                       class="btn btn-danger">
-                        <i class="fa fa-trash"></i>&nbsp;{{ 'admin_poll.table_values.delete' | trans }}
-                    </a>
-                    {% if not poll.published %}
-                        <a href="{{ path('backoffice_poll_edit', {'id': poll.id}) }}"
-                           class="btn btn-outline-primary">
-                            <i class="fa fa-pencil"></i>&nbsp;Editer
-                        </a>
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-bordered table-striped table-condensed">
+                <thead>
+                <tr>
+                    <th>{{ 'admin_poll.table.title' | trans }}</th>
+                    <th>{{ 'admin_poll.table.author' | trans }}</th>
+                    <th>{{ 'admin_poll.table.is_published' | trans }}</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for entry in entries %}
+                    {% set poll = entry.0 %}
+                    <tr>
+                        <td>
+                            <a target="_blank" href="{{ path('answer_poll', {'token':poll.accessToken}) }}">
+                                {{ poll.title }}&nbsp;<i class="fa fa-external-link" aria-hidden="true"></i></a>
+                        </td>
+                        <td>
+                            <a href="mailto:{{ entry.email }}?subject={{ 'admin_poll.table_values.about_the_poll' | trans({'{title}': poll.title}) }}">
+                                {{ entry.email }}
+                            </a>
+                        </td>
+                        <td>
+                            {% if poll.published %}
+                                {{ 'admin_poll.table_values.yes' | trans }}
+                            {% else %}
+                                {{ 'admin_poll.table_values.no' | trans }}
+                            {% endif %}
+                        </td>
+                        <td>
+                            <a href="{{ path('backoffice_poll_delete', {'id': poll.id}) }}"
+                               onclick="return confirm('{{ 'admin_poll.table_values.delete_confirmation' | trans }}')"
+                               class="btn btn-danger">
+                                <i class="fa fa-trash"></i>&nbsp;{{ 'admin_poll.table_values.delete' | trans }}
+                            </a>
+                            {% if not poll.published %}
+                                <a href="{{ path('backoffice_poll_edit', {'id': poll.id}) }}"
+                                   class="btn btn-outline-primary">
+                                    <i class="fa fa-pencil"></i>&nbsp;Editer
+                                </a>
 
-                        <a href="{{ path('backoffice_poll_publish', {'id': poll.id}) }}"
-                           onclick="return confirm('{{ 'admin_poll.table_values.publish_confirmation' | trans }}')"
-                           class="btn btn-primary">
-                            <i class="fa fa-bullhorn "></i>&nbsp;{{ 'admin_poll.table_values.publish' | trans }}
-                        </a>
-                    {% else %}
-                        <a href="{{ path('backoffice_poll_results', {'id': poll.id}) }}"
-                           class="btn btn-success">
-                            <i class="fa fa-eye"></i>&nbsp;Réponses
-                        </a>
-                        <button data-toggle="modal" data-target="#shareModal"
-                                data-url="{{ url('answer_poll', {'token':poll.accessToken}) }}"
-                                class="btn btn-info" title="Envoyer par mail">
-                            <i class="fa fa-envelope"></i>
-                        </button>
-                        <a class="btn btn-info" title="Partager sur facebook"
-                           href="https://www.facebook.com/sharer.php?u={{ url('answer_poll', {'token':poll.accessToken}) }}"
-                           onclick="return !window.open(this.href, 'Share on Facebook', 'width=500,height=500')"
-                           target="_blank">
-                            <i class="fa fa-facebook"></i>
-                        </a>
-                        <a class="btn btn-info" title="Partager sur Twitter"
-                           href="https://twitter.com/intent/tweet?&url={{ url('answer_poll', {'token':poll.accessToken}) }}"
-                           onclick="return !window.open(this.href, 'Share on Twitter', 'width=500,height=500')"
-                           target="_blank">
-                            <i class="fa fa-twitter"></i>
-                        </a>
+                                <a href="{{ path('backoffice_poll_publish', {'id': poll.id}) }}"
+                                   onclick="return confirm('{{ 'admin_poll.table_values.publish_confirmation' | trans }}')"
+                                   class="btn btn-primary">
+                                    <i class="fa fa-bullhorn "></i>&nbsp;{{ 'admin_poll.table_values.publish' | trans }}
+                                </a>
+                            {% else %}
+                                <a href="{{ path('backoffice_poll_results', {'id': poll.id}) }}"
+                                   class="btn btn-success">
+                                    <i class="fa fa-eye"></i>&nbsp;Réponses
+                                </a>
+                                <button data-toggle="modal" data-target="#shareModal"
+                                        data-url="{{ url('answer_poll', {'token':poll.accessToken}) }}"
+                                        data-id="{{ poll.id }}"
+                                        class="btn btn-info send-mail-modal" title="Envoyer par mail">
+                                    <i class="fa fa-envelope"></i>
+                                </button>
+                                <a class="btn btn-info" title="Partager sur facebook"
+                                   href="https://www.facebook.com/sharer.php?u={{ url('answer_poll', {'token':poll.accessToken}) }}"
+                                   onclick="return !window.open(this.href, 'Share on Facebook', 'width=500,height=500')"
+                                   target="_blank">
+                                    <i class="fa fa-facebook"></i>
+                                </a>
+                                <a class="btn btn-info" title="Partager sur Twitter"
+                                   href="https://twitter.com/intent/tweet?&url={{ url('answer_poll', {'token':poll.accessToken}) }}"
+                                   onclick="return !window.open(this.href, 'Share on Twitter', 'width=500,height=500')"
+                                   target="_blank">
+                                    <i class="fa fa-twitter"></i>
+                                </a>
 
-                    {% endif %}
-                </td>
-            </tr>
-            {% endfor %}
-            </tbody>
-        </table>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </div>
-</div>
-<div class="modal fade" id="shareModal" tabindex="-1" role="dialog" aria-labelledby="shareModalLabel"
-     aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="shareModalLabel"><i class="fa fa-envelope"></i>&nbsp;Envoie par mail
-                </h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body text-center">
-                <div class="col-md-12">
-                    Vous pouvez partager ce sondage via ce lien :
-
-                    <div class="input-group">
-                        <input type="text" id="thisPollId" class="form-control" readonly="readonly" value="Erreur">
-                        <span class="input-group-btn">
-                                <button id="copy" class="btn btn-secondary" type="button">
-                                    <i class="fa fa-clipboard" aria-hidden="true"></i>
-                              </span>
-                    </div>
-
+    <div class="modal fade" id="shareModal" tabindex="-1" role="dialog" aria-labelledby="shareModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="shareModalLabel"><i class="fa fa-envelope"></i>&nbsp;Envoie par mail
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
-                <hr class="divider">
-                <div class="col-md-12" id="mail-input-group">
-                    Envoyer ce sondage à une adresse e-mail :
-                    <div class="input-group">
+                <div class="modal-body text-center">
+                    <div class="col-md-12">
+                        Vous pouvez partager ce sondage via ce lien :
 
+                        <div class="input-group">
+                            <input type="text" id="thisPollId" class="form-control" readonly="readonly" value="Erreur">
+                            <span class="input-group-btn">
+                                <button id="copy" class="btn btn-secondary" type="button">
+                                    <i class="fa fa-clipboard" aria-hidden="true"></i>&nbsp;Copier
+                                </button>
+                        </span>
+                        </div>
                     </div>
                     <hr class="divider">
-                    <div class="col-md-12">
+                    <div class="col-md-12" id="mail-input-group">
                         Envoyer ce sondage à une adresse e-mail :
                         <div class="input-group">
                             <input class="form-control" placeholder="Saisissez une adresse e-mail" type="email"
                                    name="user_email" id="user_email">
-                            <input class="hidden-xs-up" type="number" name="poll_id" readonly="readonly" id="poll_id">
                             <span class="input-group-btn">
-                                <button class="btn btn-info" id="send-mail"
-                                        data-post="{{ path('backoffice_send_mail') }}" type="button"><i
-                                            class="fa fa-envelope-o"
-                                            aria-hidden="true"></i>&nbsp;Envoyer</button>
-                            </span>
+                            <button class="btn btn-info" id="send-mail"
+                                    data-post="{{ path('backoffice_send_mail') }}" type="button"><i
+                                        class="fa fa-envelope-o"
+                                        aria-hidden="true"></i>&nbsp;Envoyer
+                            </button>
+                        </span>
                         </div>
+                        <input class="hidden-xs-up" type="number" name="poll_id" readonly="readonly" id="poll_id">
                     </div>
                     <div class="col-md-12 card card-success state" id="mail-share-success">
                         <div class="card-body">
@@ -197,23 +145,12 @@
                         Une erreur est survenue ,verifiez que l'adresse e-mail et valide. Si l'erreur persiste contactez
                         votre administrateur.
                     </div>
+                </div>
 
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
                 </div>
-                <div class="col-md-12 mt-1" id="mail_errors">
-                    Une erreur est survenue ,verifiez que l'adresse e-mail et valide. Si l'erreur persiste contactez
-                    votre administrateur.
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
             </div>
         </div>
     </div>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
-    </div>
-</div>
-
-
-
 {% endblock %}

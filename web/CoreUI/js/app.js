@@ -169,7 +169,7 @@ $('#shareModal').on('hide.bs.modal', function () {
 $('#send-mail').click(function () {
     var id = $('#poll_id').val();
     var mail = $('#user_email').val();
-    postTo = $(this).data('post');
+    var postTo = $(this).data('post');
 
     if (validateEmail(mail) && postTo) {
         $.ajax({
