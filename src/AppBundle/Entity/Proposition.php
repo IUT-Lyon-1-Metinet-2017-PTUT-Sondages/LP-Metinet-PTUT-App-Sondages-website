@@ -54,6 +54,7 @@ class Proposition
      * @var Answer[]
      * One proposition has Many answers.
      * @ORM\OneToMany(targetEntity="Answer", mappedBy="proposition", cascade={"persist", "remove"})
+     * @Assert\Valid
      */
     private $answers;
 

@@ -1,18 +1,17 @@
 {% extends "::backoffice_base.html.twig" %}
-{% trans_default_domain 'admin-poll' %}
+{% trans_default_domain 'AppBundle' %}
 
-{% block title %}{{ 'poll_results' | trans }}{% endblock %}
+{% block title %}{{ 'admin_poll.poll_results' | trans }}{% endblock %}
 
 {% block bodyclass %}app header-fixed sidebar-fixed aside-menu-fixed aside-menu-hidden{% endblock %}
 
 {% block main %}
     <h1 class="text-center">
-        {{ 'poll_results' | trans }}
+        {{ 'admin_poll.poll_results' | trans }}
         <a href="{{ path('backoffice_poll_export', {'id': poll.id}) }}" class="btn btn-success">
             <i class="fa fa-file-excel-o" aria-hidden="true"></i>
         </a>
     </h1>
-    <hr>
 
     <div class="row">
         <div class="col-12 mb-1">

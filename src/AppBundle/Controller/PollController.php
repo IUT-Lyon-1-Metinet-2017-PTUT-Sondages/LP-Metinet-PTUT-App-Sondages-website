@@ -18,6 +18,7 @@ use Liuggio\ExcelBundle\Factory;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 
@@ -139,9 +140,30 @@ class PollController extends Controller
 
         return $this->redirectToRoute('backoffice_polls');
     }
+    /**
+     * Send a mail
+     * @Route("/backoffice/send-mail", name="backoffice_send_mail")
+     * @param Request $request
+     * @return RedirectResponse|JsonResponse
+     */
+    public function sendMailAction(Request $request)
+    {
+        if($request->isXmlHttpRequest()) {
+            $mail = $request->get('email');
+            $id = $request->get('id');
+            $mailService = $this->get('app.mailer_service');
+            $userMail = $this->getUser()->getEmail();
+            $response = $mailService->sharePoll($userMail, $mail,$id);
+            $response = new JsonResponse($response);
+            return $response;
+        } else {
+            $response = new JsonResponse(false);
+            return $response;
+        }
+    }
 
     /**
-     * Public a Poll.
+     * Publish a Poll.
      * @Route("/backoffice/polls/{id}/publish", name="backoffice_poll_publish")
      * @param int $id
      * @return \Symfony\Component\HttpFoundation\RedirectResponse

@@ -17,7 +17,8 @@ class Answer
      * Many answers have One proposition.
      * @ORM\Id
      * @ORM\ManyToOne(targetEntity="Proposition", inversedBy="answers")
-     * @ORM\JoinColumn(name="proposition_id", referencedColumnName="id", onDelete="CASCADE")
+     * @ORM\JoinColumn(name="proposition_id", referencedColumnName="id", onDelete="CASCADE", nullable=false)
+     * @Assert\Valid
      */
     private $proposition;
 

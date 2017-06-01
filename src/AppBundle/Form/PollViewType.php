@@ -11,6 +11,11 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Count;
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\NotNull;
+use Symfony\Component\Validator\Constraints\Required;
 
 /**
  * Class PollViewType
@@ -55,19 +60,30 @@ class PollViewType extends AbstractType
                 $choices[$proposition->getTitle()] = $proposition->getId();
             }
 
+            $inputType = $this->convertVariantToInputType($variantId);
+            $isCheckbox = $inputType === 0;
+            $constraints = [
+                new NotBlank()
+            ];
+
+            if($isCheckbox) {
+                $constraints[] = new Count(['min' => 1]);
+            }
+
             $builder->add('question' . $question->getId(), ChoiceType::class, [
                 'choices' => $choices,
-                'expanded' => $this->convertVariantToInputType($variantId) == 2,
-                'multiple' => !$this->convertVariantToInputType($variantId),
+                'expanded' => $inputType == 2,
+                'multiple' => $isCheckbox,
                 'label' => $question->getTitle(),
                 'disabled' => $shouldDisableInputs,
+                'constraints' => $constraints
             ]);
         }
 
         $builder->add('submit_poll', SubmitType::class, [
-            'label' => 'send',
+            'label' => 'answer_to_poll',
             'translation_domain' => 'poll',
-            'attr' => ['class' => 'btn btn-send col-xs-12 float-right'],
+            'attr' => ['class' => 'btn btn-lg btn-primary'],
             'disabled' => $shouldDisableInputs,
         ]);
     }
