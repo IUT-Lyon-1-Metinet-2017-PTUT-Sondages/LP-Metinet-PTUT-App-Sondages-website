@@ -79,6 +79,8 @@ class RegistrationController extends BaseController
                     new FilterUserResponseEvent($user, $request, $response)
                 );
 
+                $this->get('session')->getFlashBag()->clear();
+
                 return $response;
             }
             if ($captchaIsValid) {

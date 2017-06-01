@@ -1,4 +1,5 @@
-homepage: Accueil
+homepage: 'Accueil'
+return_to_homepage: 'Retour à l''accueil'
 
 admin_poll:
   loading: 'Chargement'
