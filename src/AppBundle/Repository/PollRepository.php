@@ -43,15 +43,17 @@ GROUP BY pr.id';
     }
     public function findBy(array $criteria, array $orderBy = NULL, $limit = NULL, $offset = NULL)
     {
-        $polls = $this->createQueryBuilder('p');
+        $polls = $this->createQueryBuilder('p')
+                    ->leftJoin('p.user', 'u')
+                    ->addSelect('u.email');
 
         foreach($criteria as $column => $value){
-            $polls = $polls->where($column, $value);
+            $polls = $polls->where($column .'= :param')
+                           ->setParameter('param',$value);
+
         }
 
-        $polls = $polls->leftJoin('p.user', 'u')
-            ->addSelect('u.email')
-            ->groupBy('p.id')
+        $polls = $polls->groupBy('p.id')
             ->add('orderBy', "p.{$orderBy[0]} {$orderBy[1]}")
             ->setFirstResult($offset)
             ->setMaxResults($limit)

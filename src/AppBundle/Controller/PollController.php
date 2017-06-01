@@ -41,7 +41,7 @@ class PollController extends Controller
         if ($user->hasRole('ROLE_ADMIN')) {
             $entries = $service->getPolls([]);
         } else {
-            $entries = $service->getPolls(['user' => $user]);
+            $entries = $service->getPolls(['u.email' => $user->getEmail()]);
         }
 
         return $this->render('@App/backoffice/poll/index.html.twig', [
