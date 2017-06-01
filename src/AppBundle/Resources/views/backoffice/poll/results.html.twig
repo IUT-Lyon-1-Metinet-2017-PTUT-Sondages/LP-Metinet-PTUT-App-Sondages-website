@@ -6,16 +6,24 @@
 {% block bodyclass %}app header-fixed sidebar-fixed aside-menu-fixed aside-menu-hidden{% endblock %}
 {% block mainclass %}main p-1 p-1-result{% endblock %}
 {% block main %}
-    <h1 class="text-center">
-        {{ 'admin_poll.poll_results' | trans }}
-        <a href="{{ path('backoffice_poll_export', {'id': poll.id}) }}" class="btn btn-success">
-            <i class="fa fa-file-excel-o" aria-hidden="true"></i>
-        </a>
-    </h1>
 
-    <div class="row">
-        <div class="col-12 mb-1">
-            <h2 class="text-center">{{ poll.title }}</h2>
+
+    <div class="row d-flex justify-content-center">
+        <div class="col-sm-offset-3 col-sm-6 col-md-offset-4 col-md-4">
+            <div class="card card-inverse card-info text-xs-center">
+                <div class="card-block">
+                    <blockquote class="card-blockquote">
+                        <h2 class="text-center">{{ 'admin_poll.poll_results' | trans }} : {{ poll.title }}</h2>
+                    </blockquote>
+                </div>
+                <div class="card-footer d-flex justify-content-center">
+                    <button class="btn btn-default">
+                    <a href="{{ path('backoffice_poll_export', {'id': poll.id}) }}" >
+                        <i class="fa fa-file-excel-o" aria-hidden="true"></i> Exporter vers excel
+                    </a>
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
     <div class="row">
