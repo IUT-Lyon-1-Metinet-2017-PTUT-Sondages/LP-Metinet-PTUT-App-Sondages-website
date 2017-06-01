@@ -44,3 +44,11 @@
     padding: 0;
   }
 }
+
+@include media-breakpoint-down(xs) {
+  .p-1-result{
+    padding: 0 !important;
+  }
+}
+
+

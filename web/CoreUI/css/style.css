@@ -8949,3 +8949,7 @@ base-chart.chart {
 @media (max-width: 767px) {
   .main .container-fluid {
     padding: 0; } }
+
+@media (max-width: 575px) {
+  .p-1-result {
+    padding: 0 !important; } }

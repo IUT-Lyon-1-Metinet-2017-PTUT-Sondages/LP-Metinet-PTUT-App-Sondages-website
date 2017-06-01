@@ -4,7 +4,7 @@
 {% block title %}{{ 'admin_poll.poll_results' | trans }}{% endblock %}
 
 {% block bodyclass %}app header-fixed sidebar-fixed aside-menu-fixed aside-menu-hidden{% endblock %}
-
+{% block mainclass %}main p-1 p-1-result{% endblock %}
 {% block main %}
     <h1 class="text-center">
         {{ 'admin_poll.poll_results' | trans }}
@@ -18,49 +18,57 @@
             <h2 class="text-center">{{ poll.title }}</h2>
         </div>
     </div>
-    {% for chart in charts %}
-        <div class="row">
-            <div class="col-12">
-                <h3 class="text-center">{{ chart.question.qTitle }}</h3>
+    <div class="row">
+
+        {% for chart in charts %}
+            <div class="col-md-12">
+                <div class="card card-default">
+                    <div class="card-header">
+                        {{ chart.question.qTitle }}
+                        {% if chart.question.qType == 'LinearScale' %}
+                            <span class="pull-right">
+                                Moyenne des réponses au sondage : <strong
+                                        class="average-linear-{{ chart.chart.id }}"></strong>
+                            </span>
+                        {% endif %}
+                    </div>
+                    <div class="card-block row">
+                        <div class=" col-md-6 col-12">
+                            <table class="table table-bordered table-striped table-condensed table-sm">
+                                <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Proposition</th>
+                                    <th>Quantité</th>
+                                    <th>Pourcentage</th>
+                                </tr>
+                                </thead>
+                                <tbody class="chart-legend-{{ chart.chart.id }}" data-type="{{ chart.question.qType }}">
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-md-6 col-12 row">
+                            <div class="col-md-2 hidden-xs-down"></div>
+                            <div class="chart-wrapper col-md-10 col-12">
+                                {{ chartjs_render_html(chart.chart) }}
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="row justify-content-center">
-            <div class="col-5" style="padding-right: 20px">
-                <table class="table table-bordered table-striped table-condensed">
-                    <thead>
-                    <tr>
-                        <th></th>
-                        <th>Proposition</th>
-                        <th>Quantité</th>
-                        <th>Pourcentage</th>
-                    </tr>
-                    </thead>
-                    <tbody class="chart-legend-{{ chart.chart.id }}" data-type="{{ chart.question.qType }}">
-                    </tbody>
-                </table>
-            </div>
-            <div class="col-3">
-                {{ chartjs_render_html(chart.chart) }}
-            </div>
-        </div>
-        {% if chart.question.qType == 'LinearScale' %}
-            <div class="row justify-content-center" style="font-style: italic;
-    text-decoration: underline;">
-                <span>
-                    Moyenne des réponses au sondage : <strong class="average-linear-{{ chart.chart.id }}"></strong>
-                </span>
-            </div>
-        {% endif %}
-    {% endfor %}
+        {% endfor %}
+    </div>
+
     {% block javascripts %}
         <!-- ChartJSStart -->
         <script src="{{ asset('CoreUI/bower_components/jquery/dist/jquery.min.js') }}"></script>
         <script src="{{ asset('CoreUI/bower_components/chart.js/dist/Chart.min.js') }}"></script>
         <script>
-          //            Chart.defaults.global.animation.duration = 0;
-          {% for chart in charts %}
-          {{ chartjs_render_js(chart.chart) }}
-          {% endfor %}
+            //            Chart.defaults.global.animation.duration = 0;
+            {% for chart in charts %}
+            {{ chartjs_render_js(chart.chart) }}
+            {% endfor %}
         </script>
         <!-- ChartJSEnd -->
     {% endblock %}
