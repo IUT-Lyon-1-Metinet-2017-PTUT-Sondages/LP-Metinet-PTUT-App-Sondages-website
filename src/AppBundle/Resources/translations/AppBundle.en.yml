@@ -1,4 +1,5 @@
-homepage: Homepage
+homepage: 'Homepage'
+return_to_homepage: 'Return to homepage'
 
 admin_poll:
   loading: 'Loading'

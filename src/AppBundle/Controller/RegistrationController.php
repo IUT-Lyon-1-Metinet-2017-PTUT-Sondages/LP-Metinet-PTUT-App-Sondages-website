@@ -79,6 +79,8 @@ class RegistrationController extends BaseController
                     new FilterUserResponseEvent($user, $request, $response)
                 );
 
+                $this->get('session')->getFlashBag()->clear();
+
                 return $response;
             }
             if ($captchaIsValid) {
@@ -126,7 +128,7 @@ class RegistrationController extends BaseController
 
             curl_setopt_array($curl, [
                 CURLOPT_URL => $url,
-                CURLOPT_POST => true,
+                CURLOPT_POST => false,
                 CURLOPT_RETURNTRANSFER => 1,
                 CURLOPT_SSL_VERIFYPEER => false,
                 CURLOPT_SSL_VERIFYHOST => false,
