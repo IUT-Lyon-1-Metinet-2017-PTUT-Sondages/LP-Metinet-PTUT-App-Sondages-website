@@ -2,8 +2,6 @@ homepage: 'Accueil'
 return_to_homepage: 'Retour à l''accueil'
 
 admin_poll:
-  loading: 'Chargement'
-
   polls_list: 'Liste des sondages'
   poll_results: 'Résultats du sondage'
   create_poll: 'Créer un sondage'
@@ -26,6 +24,8 @@ admin_poll:
     about_the_poll: 'À propos du sondage « {title} »'
   
   form:
+    loading: 'Chargement'
+
     poll:
       creation: 'Création d''un sondage'
       create: 'Créer le sondage'

@@ -2,8 +2,6 @@ homepage: 'Homepage'
 return_to_homepage: 'Return to homepage'
 
 admin_poll:
-  loading: 'Loading'
-
   polls_list: 'Polls list'
   poll_results: 'Poll results'
   create_poll: 'Create a poll'
@@ -26,6 +24,8 @@ admin_poll:
     about_the_poll: 'About the poll "{title}"'
 
   form:
+    loading: 'Loading'
+
     poll:
       creation: 'Poll creation'
       create: 'Create the poll'
