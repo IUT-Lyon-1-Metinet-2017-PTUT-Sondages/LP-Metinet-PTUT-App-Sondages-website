@@ -70,6 +70,7 @@ step_coreui () {
     run cd "${ROOT}/web/CoreUI"
     run ${NPM} install
     run ./node_modules/.bin/bower install
+    run ./node_modules/.bin/gulp sass
     run ./node_modules/.bin/gulp build:dist
     run cd "${ROOT}"
 }
