@@ -2,9 +2,9 @@
 
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-md-5 col-lg-8 col-sm-7 col-12">
             <div class="card-group mb-0">
-                <div class="card p-2">
+                <div class="card">
 
                     <form action="{{ path("fos_user_security_check") }}" method="post" class="card-block">
                         <h1>{{ 'layout.login.title' | trans }}</h1>
@@ -29,14 +29,18 @@
                         <input type="checkbox" id="remember_me" name="_remember_me" value="on"/>
                         <label for="remember_me">{{ 'security.login.remember_me'|trans }}</label>
                         <div class="row">
-                            <div class="col-6">
+                            <div class="col-12">
                                 <input type="submit" id="_submit" class="btn btn-primary px-2" name="_submit"
                                        value="{{ 'security.login.submit'|trans }}"/>
                             </div>
-                            <div class="col-6 text-right">
+                            <div class="col-12">
                                 <a href="{{ path('fos_user_resetting_request') }}"
                                    class="btn btn-link px-0">{{ 'layout.login.password.forgot'|trans }}</a>
 
+                            </div>
+                            <div class="col-12 hidden-lg-up px-0">
+                                <a href="{{ path('fos_user_registration_register') }}"
+                                   class="btn btn-link">{{ 'layout.register.submit'|trans }}</a>
                             </div>
                         </div>
                     </form>
