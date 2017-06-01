@@ -1,3 +1,7 @@
+/**
+ * Created by lp on 10/05/2017.
+ */
+
 import Vue from "vue";
 import Vuex from "vuex";
 
@@ -5,7 +9,6 @@ Vue.use(Vuex);
 
 const state = {
   isEditingPoll: false,
-  isSubmittingPoll: false,
   poll: {},
   variants: {},
   formAction: '',
@@ -14,9 +17,6 @@ const state = {
 const getters = {
   isEditingPoll(state) {
     return state.isEditingPoll
-  },
-  isSubmittingPoll(state) {
-    return state.isSubmittingPoll;
   },
   poll (state) {
     return state.poll;
@@ -33,20 +33,10 @@ const mutations = {
   pollIsEditing(state) {
     state.isEditingPoll = true;
   },
-  pollIsSubmitting(state) {
-    state.isSubmittingPoll = true;
-  },
-  pollIsNotSubmitting(state) {
-    state.isSubmittingPoll = false;
-  },
   setPoll(state, poll) {
     poll['pages'].forEach(page => {
       page['questions'].forEach(question => {
-        if (question['propositions'].length > 0) {
-          question['variant'] = {...question['propositions'][0]['variant']};
-        } else {
-          question['variant'] = {}
-        }
+        question['variant'] = {...question['propositions'][0]['variant']};
         question['propositions'].forEach(proposition => {
           delete proposition['variant'];
         });

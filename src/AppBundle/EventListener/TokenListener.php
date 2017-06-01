@@ -2,7 +2,7 @@
 
 namespace AppBundle\EventListener;
 
-use AppBundle\Controller\Api\TokenAuthenticatedControllerInterface;
+use AppBundle\Controller\Api\TokenAuthenticatedController;
 use AppBundle\Exception\ApiAuthenticationFailedException;
 use AppBundle\Services\ApiAuthService;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -16,18 +16,11 @@ class TokenListener
 {
     private $apiAuthService;
 
-    /**
-     * TokenListener constructor.
-     * @param ApiAuthService $apiAuthService
-     */
     public function __construct(ApiAuthService $apiAuthService)
     {
         $this->apiAuthService = $apiAuthService;
     }
 
-    /**
-     * @param FilterControllerEvent $event
-     */
     public function onKernelController(FilterControllerEvent $event)
     {
         $controller = $event->getController();
@@ -41,14 +34,11 @@ class TokenListener
             return;
         }
 
-        if ($controller[0] instanceof TokenAuthenticatedControllerInterface) {
+        if ($controller[0] instanceof TokenAuthenticatedController) {
             $this->apiAuthService->checkToken();
         }
     }
 
-    /**
-     * @param GetResponseForExceptionEvent $event
-     */
     public function onKernelException(GetResponseForExceptionEvent $event)
     {
         $exception = $event->getException();
@@ -58,12 +48,7 @@ class TokenListener
         }
 
         $response = new JsonResponse(
-            [
-                'error' => [
-                    'code' => $exception->getCode(),
-                    'message' => $exception->getMessage(),
-                ],
-            ],
+            ['error' => ['code' => $exception->getCode(), 'message' => $exception->getMessage()]],
             $exception->getCode()
         );
 

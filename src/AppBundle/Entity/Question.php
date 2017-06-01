@@ -2,10 +2,12 @@
 
 namespace AppBundle\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation\Groups;
+use Doctrine\Common\Collections\ArrayCollection;
+use JMS\Serializer\Annotation as Serializer;
 use Symfony\Component\Validator\Constraints as Assert;
+use Knp\DoctrineBehaviors\Model as ORMBehaviors;
+use JMS\Serializer\Annotation\Groups;
 
 /**
  * Question
@@ -33,7 +35,7 @@ class Question
     private $title;
 
     /**
-     * @var Poll
+     *
      * Many questions have One Poll.
      * @ORM\ManyToOne(targetEntity="Poll", inversedBy="questions")
      * @ORM\JoinColumn(name="poll_id", referencedColumnName="id", onDelete="CASCADE")
@@ -41,7 +43,7 @@ class Question
     private $poll;
 
     /**
-     * @var Page
+     *
      * Many questions have One Page.
      * @ORM\ManyToOne(targetEntity="Page", inversedBy="questions")
      * @ORM\JoinColumn(name="page_id", referencedColumnName="id", onDelete="CASCADE")
@@ -49,17 +51,14 @@ class Question
     private $page;
 
     /**
-     * @var Proposition[]
      * @Groups({"backOffice"})
      * One question has Many propositions.
      * @ORM\OneToMany(targetEntity="Proposition", mappedBy="question", cascade={"persist", "remove"})
-     * @Assert\Valid
      */
     private $propositions;
 
-    /**
-     * Question constructor.
-     */
+
+
     public function __construct()
     {
         $this->propositions = new ArrayCollection();
@@ -67,6 +66,7 @@ class Question
 
     /**
      * Get id
+     *
      * @return int
      */
     public function getId()
@@ -76,18 +76,21 @@ class Question
 
     /**
      * Set title
+     *
      * @param string $title
-     * @return $this
+     *
+     * @return Question
      */
     public function setTitle($title)
     {
-        $this->title = trim($title);
+        $this->title = $title;
 
         return $this;
     }
 
     /**
      * Get title
+     *
      * @return string
      */
     public function getTitle()
@@ -95,29 +98,32 @@ class Question
         return $this->title;
     }
 
+
     /**
      * Add proposition.
+     *
      * @param Proposition $proposition
-     * @return $this
+     *
+     * @return self
      */
     public function addProposition(Proposition $proposition)
     {
         $this->propositions[] = $proposition;
-
+        
         return $this;
     }
-
     /**
      * Remove proposition.
+     *
      * @param Proposition $proposition
      */
     public function removeProposition(Proposition $proposition)
     {
         $this->propositions->removeElement($proposition);
     }
-
     /**
      * Get propositions.
+     *
      * @return \Doctrine\Common\Collections\Collection
      */
     public function getPropositions()
@@ -125,8 +131,11 @@ class Question
         return $this->propositions;
     }
 
+
     /**
-     * @return Poll
+     * Gets the Poll
+     *
+     * @return mixed
      */
     public function getPoll()
     {
@@ -135,10 +144,12 @@ class Question
 
     /**
      * Sets the Poll
+     *
      * @param mixed $poll the poll
-     * @return $this
+     *
+     * @return self
      */
-    public function setPoll(Poll $poll)
+    public function setPoll($poll)
     {
         $this->poll = $poll;
 
@@ -147,7 +158,8 @@ class Question
 
     /**
      * Gets the Page
-     * @return Page
+     *
+     * @return mixed
      */
     public function getPage()
     {
@@ -156,10 +168,12 @@ class Question
 
     /**
      * Sets the Page
-     * @param Page $page the page
-     * @return $this
+     *
+     * @param mixed $page the page
+     *
+     * @return self
      */
-    public function setPage(Page $page)
+    public function setPage($page)
     {
         $this->page = $page;
 

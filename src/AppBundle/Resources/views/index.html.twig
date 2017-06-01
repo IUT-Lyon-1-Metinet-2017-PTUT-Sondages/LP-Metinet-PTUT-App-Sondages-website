@@ -1,20 +1,10 @@
 {% extends '::base.html.twig' %}
-{% trans_default_domain 'AppBundle' %}
 
 {% block content %}
-    {{ 'front.presentation' | trans | raw }}
-    <p>Page d'accueil à travailler</p>
-
-    {% if app.user %}
-        <a href="{{ path('backoffice') }}" class="btn btn-success">
-            Accéder au backoffice
-        </a>
-    {% else %}
-        <a href="{{ path('fos_user_registration_register') }}" class="btn btn-primary">
-            {{ 'layout.register' | trans({}, 'FOSUserBundle') }}
-        </a>
-        <a href="{{ path('fos_user_security_login') }}" class="btn btn-primary">
-            {{ 'layout.login' | trans({}, 'FOSUserBundle') }}
-        </a>
-    {% endif %}
+    <a href="{{ path('fos_user_registration_register') }}" class="btn btn-primary">
+        {{ 'layout.register' | trans({}, 'FOSUserBundle') }}
+    </a>
+    <a href="{{ path('fos_user_security_login') }}" class="btn btn-primary">
+        {{ 'layout.login' | trans({}, 'FOSUserBundle') }}
+    </a>
 {% endblock %}

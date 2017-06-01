@@ -4,6 +4,12 @@ namespace Tests\AppBundle;
 
 use Liip\FunctionalTestBundle\Test\WebTestCase;
 
+/**
+ * Created by PhpStorm.
+ * User: kocal
+ * Date: 09/03/17
+ * Time: 14:19
+ */
 class DomainTestCase extends WebTestCase
 {
     /**
@@ -11,9 +17,6 @@ class DomainTestCase extends WebTestCase
      */
     protected $em;
 
-    /**
-     * {@inheritdoc}
-     */
     protected function setUp()
     {
         $this->em = $this->getContainer()->get('doctrine')->getManager();
@@ -22,18 +25,11 @@ class DomainTestCase extends WebTestCase
         $this->runCommand('doctrine:schema:validate', [], true);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function tearDown()
     {
         $this->runCommand('doctrine:schema:drop', ['--force' => true], true);
     }
 
-    /**
-     * @param string $msg
-     * @return string
-     */
     protected function quote($msg)
     {
         return htmlspecialchars($msg, ENT_QUOTES);

@@ -11,11 +11,6 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\Count;
-use Symfony\Component\Validator\Constraints\Length;
-use Symfony\Component\Validator\Constraints\NotBlank;
-use Symfony\Component\Validator\Constraints\NotNull;
-use Symfony\Component\Validator\Constraints\Required;
 
 /**
  * Class PollViewType
@@ -23,15 +18,8 @@ use Symfony\Component\Validator\Constraints\Required;
  */
 class PollViewType extends AbstractType
 {
-    /**
-     * @var VariantRepositoryService
-     */
     private $variantRepositoryService;
 
-    /**
-     * PollViewType constructor.
-     * @param VariantRepositoryService $variantRepositoryService
-     */
     public function __construct(VariantRepositoryService $variantRepositoryService)
     {
         $this->variantRepositoryService = $variantRepositoryService;
@@ -44,73 +32,30 @@ class PollViewType extends AbstractType
     {
         /** @var Poll $poll */
         $poll = $options['poll'];
-        /** @var boolean $currentUserHasCreatedThisPoll */
-        $currentUserHasCreatedThisPoll = $options['currentUserHasCreatedThisPoll'];
-
-        $shouldDisableInputs = $currentUserHasCreatedThisPoll && !$poll->isPublished();
 
         /** @var Question $question */
         foreach ($poll->getQuestions() as $question) {
             $choices = [];
             $variantId = null;
-
             /** @var Proposition $proposition */
             foreach ($question->getPropositions() as $proposition) {
                 $variantId = $proposition->getVariant()->getId();
                 $choices[$proposition->getTitle()] = $proposition->getId();
             }
-
-            $inputType = $this->convertVariantToInputType($variantId);
-            $isCheckbox = $inputType === 0;
-            $constraints = [
-                new NotBlank()
-            ];
-
-            if($isCheckbox) {
-                $constraints[] = new Count(['min' => 1]);
-            }
-
             $builder->add('question' . $question->getId(), ChoiceType::class, [
-                'choices' => $choices,
-                'expanded' => $inputType == 2,
-                'multiple' => $isCheckbox,
-                'label' => $question->getTitle(),
-                'disabled' => $shouldDisableInputs,
-                'constraints' => $constraints
+                'choices'  => $choices,
+                'expanded' => $this->convertVariantToInputType($variantId) == 2,
+                'multiple' => !$this->convertVariantToInputType($variantId),
+                'label'    => $question->getTitle()
             ]);
         }
 
         $builder->add('submit_poll', SubmitType::class, [
-            'label' => 'answer_to_poll',
-            'translation_domain' => 'poll',
-            'attr' => ['class' => 'btn btn-lg btn-primary'],
-            'disabled' => $shouldDisableInputs,
+            'label' => 'Envoyer',
+            'attr' => ['class' => 'btn btn-send col-xs-12 float-right']
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function configureOptions(OptionsResolver $resolver)
-    {
-        $resolver->setDefaults([
-            'poll' => null,
-            'currentUserHasCreatedThisPoll' => false,
-        ]);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getBlockPrefix()
-    {
-        return 'appbundle_poll_view';
-    }
-
-    /**
-     * @param int $variantId
-     * @return int
-     */
     private function convertVariantToInputType(int $variantId)
     {
         switch ($variantId) {
@@ -127,5 +72,23 @@ class PollViewType extends AbstractType
                 return 0;
                 break;
         }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults([
+            'poll' => null
+        ]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getBlockPrefix()
+    {
+        return 'appbundle_poll_view';
     }
 }

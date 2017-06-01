@@ -1,0 +1,8 @@
+poll:
+  answer:
+    thanks: 'Merci d''avoir répondu à ce sondage'
+  error:
+    not_found: 'Le sondage que vous recherchez n''existe pas'
+error:
+  404:
+    message: 'Page introuvable'

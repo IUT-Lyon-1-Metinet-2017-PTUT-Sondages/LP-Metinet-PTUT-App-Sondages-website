@@ -4,92 +4,72 @@ parameters:
 #    parameter_name: value
 
 services:
-    # Repositories service
-    app.repository_service.poll:
-        class: AppBundle\Services\PollRepositoryService
-        arguments: ["@doctrine.orm.entity_manager","@jms_serializer"]
+    app.repository.poll:
+        class: AppBundle\Repository\PollRepository
 
-    app.repository_service.page:
-        class: AppBundle\Services\PageRepositoryService
-        arguments: ["@doctrine.orm.entity_manager"]
 
-    app.repository_service.question:
-        class: AppBundle\Services\QuestionRepositoryService
-        arguments: ["@doctrine.orm.entity_manager"]
-
-    app.repository_service.variant:
-        class: AppBundle\Services\VariantRepositoryService
-        arguments: ["@doctrine.orm.entity_manager"]
-
-    app.repository_service.proposition:
-        class: AppBundle\Services\PropositionRepositoryService
-        arguments: ["@doctrine.orm.entity_manager"]
-
-    app.repository_service.answer:
-        class: AppBundle\Services\AnswerRepositoryService
-        arguments: ["@doctrine.orm.entity_manager"]
-
-    app.repository_service.dashboard:
-        class: AppBundle\Services\DashboardRepositoryService
-        arguments: ["@doctrine.orm.entity_manager"]
-
-    # Validation & Validators
-    app.validation_service:
-        class: AppBundle\Services\ValidationService
-        arguments: ["@doctrine.orm.entity_manager","@validator","@app.repository_service.variant","@app.creation_service.poll"]
-
-    app.validator.variant:
-           class: AppBundle\Validator\Constraints\IsExistingVariantValidator
-           arguments: ["@app.repository_service.variant"]
-
-    # API
-    app.api.auth_service:
-          class: AppBundle\Services\ApiAuthService
-          arguments: ["@request_stack", "%api_token%"]
-
-    # Twig
-    app.twig_extension:
-        class: AppBundle\Twig\AppExtension
-        public: false
-        arguments: ["@app.helper", "@translator.default", "@app.repository_service.variant"]
-        tags:
-          - {name: twig.extension}
-
-    # Kernel
-    app.tokens.action_listener:
-        class: AppBundle\EventListener\TokenListener
-        arguments: ["@app.api.auth_service"]
-        tags:
-            - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }
-            - { name: kernel.event_listener, event: kernel.exception, method: onKernelException }
-
-    # Others
-    app.helper:
-        class: AppBundle\Helper
-
-    app.deletion_service:
-        class: AppBundle\Services\DeletionService
-        arguments: ["@doctrine.orm.entity_manager"]
-
-    app.creation_service.poll:
-        class: AppBundle\Services\PollCreationService
-        arguments: [ "@app.repository_service.poll", "@app.repository_service.page", "@app.repository_service.question", "@app.repository_service.proposition" ]
-
+    app.repository.page:
+        class: AppBundle\Repository\PageRepository
     app.form.registration:
         class: AppBundle\Form\RegistrationType
         tags:
             - { name: form.type, alias: app_user_registration }
+    app.variantValidator:
+                    class: AppBundle\Validator\Constraint\IsExistingVariantTypeValidator
+                    arguments: ["@doctrine.orm.entity_manager"]
 
+    app.pollRepositoryService:
+        class: AppBundle\Services\PollRepositoryService
+        arguments: ["@doctrine.orm.entity_manager","@jms_serializer"]
+    app.questionRepositoryService:
+            class: AppBundle\Services\QuestionRepositoryService
+            arguments: ["@doctrine.orm.entity_manager"]
+    app.propositionRepositoryService:
+            class: AppBundle\Services\PropositionRepositoryService
+            arguments: ["@doctrine.orm.entity_manager"]
+    app.answerRepositoryService:
+            class: AppBundle\Services\AnswerRepositoryService
+            arguments: ["@doctrine.orm.entity_manager"]
+    app.pageRepositoryService:
+            class: AppBundle\Services\PageRepositoryService
+            arguments: ["@doctrine.orm.entity_manager"]
+    app.variantRepositoryService:
+            class: AppBundle\Services\VariantRepositoryService
+            arguments: ["@doctrine.orm.entity_manager"]
+
+    app.dashboardRepositoryService:
+                class: AppBundle\Services\DashboardRepositoryService
+                arguments: ["@doctrine.orm.entity_manager"]
+
+    app.apiAuthService:
+        class: AppBundle\Services\ApiAuthService
+        arguments: ["@request_stack", "%api_token%"]
+
+    app.pollCreationService:
+                  class: AppBundle\Services\PollCreationService
+                  arguments: [ "@app.pollRepositoryService", "@app.pageRepositoryService", "@app.questionRepositoryService", "@app.propositionRepositoryService" ]
+    app.validationService:
+                      class: AppBundle\Services\ValidationService
+                      arguments: [ "@doctrine.orm.entity_manager", "@validator", "@app.variantRepositoryService", "@app.pollCreationService"]
+    app.twig_extension:
+        class: AppBundle\Twig\AppExtension
+        public: false
+        arguments: ["@app.helper", "@translator.default", "@app.variantrepositoryservice"]
+        tags:
+          - {name: twig.extension}
+    app.tokens.action_listener:
+        class: AppBundle\EventListener\TokenListener
+        arguments: ["@app.apiAuthService"]
+        tags:
+            - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }
+            - { name: kernel.event_listener, event: kernel.exception, method: onKernelException }
+    app.helper:
+        class: AppBundle\Helper
     app.poll.answers:
         class: AppBundle\Services\PollAnswersService
-        arguments: ["@app.repository_service.proposition", "@app.repository_service.answer"]
-
+        arguments: ["@app.propositionRepositoryService", "@app.answerRepositoryService"]
     app.poll.answer.form:
         class: AppBundle\Form\PollViewType
-        arguments: ["@app.repository_service.variant"]
+        arguments: ["@app.variantRepositoryService"]
         tags:
             - { name: form.type }
-    #Mailer
-    app.mailer_service:
-        class: AppBundle\Services\MailerService
-        arguments: ["@mailer","@doctrine.orm.entity_manager","@router" ,"@templating"]

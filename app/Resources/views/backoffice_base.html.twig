@@ -4,18 +4,24 @@
         <meta charset="UTF-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        {% block head_meta %}{% endblock %}
-        <title>{% block title %}{{ 'homepage' | trans({}, 'AppBundle') }}{% endblock %} | Backoffice | Kodastran</title>
+        {% block head_meta %}
+
+        {% endblock %}
+        <title>{% block title %}Kodastran Admin{% endblock %}</title>
         <!-- Generic top stylesheet -->
         <link rel="stylesheet" href="{{ asset('CoreUI/bower_components/bootstrap/dist/css/bootstrap.min.css') }}" type="text/css" />
         <link rel="stylesheet" href="{{ asset('CoreUI/bower_components/fontawesome/css/font-awesome.min.css') }}" type="text/css" />
         <link rel="stylesheet" href="{{ asset('CoreUI/bower_components/simple-line-icons/css/simple-line-icons.css') }}" type="text/css" />
         <link rel="stylesheet" href="{{ asset('CoreUI/css/style.css') }}" type="text/css" />
-        <link rel="stylesheet" href="{{ asset('front/assets/css/kdt-inputs.css') }}" type="text/css" />
+
 
         <!-- Generic favicon -->
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}"/>
         {% block stylesheets %}{% endblock %}
+        <style>
+            .has
+        </style>
+
     </head>
     <!-- BODY options, add following classes to body to change options
 
@@ -48,11 +54,11 @@
                 {% include '@App/backoffice/partial/_sidebar.html.twig' %}
             {% endif %}
             <!-- Main content -->
-            <main class="{% block mainclass %}main p-1{% endblock %}">
+            <main class="main p-2">
                 {% for type, flash_messages in app.session.flashBag.all %}
                     {% for flash_message in flash_messages %}
                         <div class="alert alert-{{ type }}">
-                            {{ flash_message | raw }}
+                            {{ flash_message }}
                         </div>
                     {% endfor %}
                 {% endfor %}

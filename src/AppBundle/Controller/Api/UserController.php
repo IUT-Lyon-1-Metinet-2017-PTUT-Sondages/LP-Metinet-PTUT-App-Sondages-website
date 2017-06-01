@@ -10,19 +10,19 @@ use FOS\RestBundle\Controller\FOSRestController;
  * Class UserController
  * @package AppBundle\Controller\Api
  */
-class UserController extends FOSRestController implements TokenAuthenticatedControllerInterface
+class UserController extends FOSRestController implements TokenAuthenticatedController
 {
 
     /**
-     * Return User's polls by it's id.
      * @View(serializerGroups={"Default", "Details"})
-     * @param int $id
+     * @param $id
      * @return array
      */
     public function getUserPollsAction($id)
     {
-        $pollRepository = $this->get('app.repository_service.poll');
-
-        return $pollRepository->getPolls(['user' => $id]);
+        /** @var PollRepositoryService $pollRepository */
+        $pollRepository = $this->get('app.pollrepositoryservice');
+        $polls = $pollRepository->getPolls(['user' => $id]);
+        return $polls;
     }
 }

@@ -1,11 +1,7 @@
-update_profile: 'Update my profile'
-update_a_profile: 'Update a profile'
-update_password: 'Update my password'
-delete_account: 'Delete my account'
-
-profile:
-  show: 'Show my profile'
-  preview: 'My profile preview'
+layout:
+  login:
+    title: 'Login'
+    long: 'Sign in to your account'
 
 layout:
   login:
@@ -19,10 +15,5 @@ layout:
     explanation: 'To register, you must use your university address.'
   logged_in_as: 'Logged in as %username%'
 
-form:
-  email: 'Email address (University Lyon 1 Domain)'
-  first_name: 'First name'
-  last_name: 'Last name'
-
-  delete_account: 'Supprimer mon compte'
-  delete_account_confirmation: 'Je suis sûr de moi et je souhaite supprimer mon compte'
+update_profile: 'Update my profile'
+update_password: 'Update my password'

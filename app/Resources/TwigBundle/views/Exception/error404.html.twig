@@ -1,12 +1,12 @@
 {% extends '::base.html.twig' %}
-{% trans_default_domain 'AppBundle' %}
+{% trans_default_domain 'front' %}
 
 {% block title %}
-    {{ 'Kodrastan - ' ~ 'front.error.not_found.message'|trans }}
+    {{ 'Kodrastan - ' ~ 'error.404.message'|trans }}
 {% endblock %}
 
 {% block poll_title %}
-    {{ 'front.error.not_found.message'|trans }}
+    {{ 'error.404.message'|trans }}
 {% endblock %}
 
 {% block content %}
@@ -15,7 +15,7 @@
             <div class="card">
                 <div class="card-block">
                     <h2 class="card-title text-center">
-                        {{ 'front.poll.error.not_found'|trans }}
+                        {{ 'poll.error.not_found'|trans }}
                         <br>
                         &#9785;
                     </h2>

@@ -1,29 +1,27 @@
-{% trans_default_domain 'AppBundle' %}
-
 <div class="sidebar">
     <nav class="sidebar-nav">
         <ul class="nav">
             <li class="nav-item">
                 <a href="{{ path('backoffice') }}" class="nav-link">
                     <i class="icon-home"></i>
-                    {{ 'sidebar.homepage' | trans }}
+                    Accueil
                 </a>
             </li>
             <li class="nav-item">
                 <a href="{{ path('backoffice_polls_add') }}" class="nav-link">
                     <i class="icon-plus"></i>
-                    {{ 'sidebar.add_poll' | trans }}
+                    Ajouter un sondage
                 </a>
                 <a href="{{ path('backoffice_polls') }}" class="nav-link">
                     <i class="icon-list"></i>
-                    {{ 'sidebar.polls_list' | trans }}
+                    Liste des sondages
                 </a>
             </li>
             {% if is_granted('ROLE_ADMIN') %}
                 <li class="nav-item">
                     <a href="{{ path('backoffice_users') }}" class="nav-link">
                         <i class="icon-user"></i>
-                        {{ 'sidebar.users_list' | trans }}
+                        Liste des utilisateurs
                     </a>
                 </li>
             {% endif %}

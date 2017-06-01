@@ -1,50 +1,41 @@
-{% trans_default_domain 'AppBundle' %}
 <!DOCTYPE html>
 <html>
     <head>
         <meta charset="UTF-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta property="og:site_name" content="Kodrastan">
-        {% block head_meta %}{% endblock %}
-        <title>{% block title %}{{ 'homepage' | trans }}{% endblock %} | Kodrastan</title>
+        {% block head_meta %}
+
+        {% endblock %}
+        <title>{% block title %}Quizz Kodrastan{% endblock %}</title>
         <!-- Generic top stylesheet -->
-        <link rel="stylesheet" href="{{ asset('CoreUI/bower_components/bootstrap/dist/css/bootstrap.min.css') }}" type="text/css" />
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"
+              integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ"
+              crossorigin="anonymous">
         <link rel="stylesheet" href="{{ asset('front/assets/css/style.css') }}" type="text/css">
 
         <!-- Generic favicon -->
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}"/>
         {% block stylesheets %}{% endblock %}
+        <script src="https://code.jquery.com/jquery-3.1.1.min.js"
+                integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+                crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"
+                integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn"
+                crossorigin="anonymous"></script>
     </head>
 
     <body>
-        <header>
-            <a href="{{ path('homepage') }}">
-                <img title="logo" class="logo" alt="logo" src="{{ asset('front/assets/img/logo.png') }}">
-            </a>
-            <h1>{% block poll_title %}Kodrastan{% endblock %}</h1>
-        </header>
-        <div class="container">
-            {% for type, flash_messages in app.session.flashBag.all %}
-                {% for flash_message in flash_messages %}
-                    <div class="alert alert-{{ type }}">
-                        {{ flash_message | raw }}
-                    </div>
-                {% endfor %}
-            {% endfor %}
-
-            {% block content %}{% endblock %}
-        </div>
-        <footer>
-            <img title="logo-iut" class="logo-iut" alt="logo-iut" src="{{ asset('front/assets/img/logo-iut.png') }}">
-            <p class="signature text-center">Hugo Alliaume, Anthony Margerand et Richard Raduly</p>
-        </footer>
-
-        <!-- Bootstrap and necessary plugins -->
-        <script src="{{ asset('CoreUI/bower_components/jquery/dist/jquery.min.js') }}"></script>
-        <script src="{{ asset('CoreUI/bower_components/tether/dist/js/tether.min.js') }}"></script>
-        <script src="{{ asset('CoreUI/bower_components/bootstrap/dist/js/bootstrap.min.js') }}"></script>
-
-        {% block javascripts %}{% endblock %}
+    <header>
+        <img title="logo" class="logo" alt="logo" src="{{ asset('front/assets/img/logo.png') }}">
+        <h1>{% block poll_title %}Nom de votre sondage{% endblock %}</h1>
+    </header>
+    <div class="container">
+        {% block content %}{% endblock %}
+    </div>
+    <footer>
+        <img title="logo-iut" class="logo-iut" alt="logo-iut" src="{{ asset('front/assets/img/logo-iut.png') }}">
+        <p class="signature">Hugo Alliaume, Anthony Margerand et Richard Raduly</p>
+    </footer>
     </body>
 </html>

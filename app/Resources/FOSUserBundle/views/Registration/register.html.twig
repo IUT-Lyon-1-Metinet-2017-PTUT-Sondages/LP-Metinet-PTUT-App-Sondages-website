@@ -1,17 +1,13 @@
 {% extends "FOSUserBundle::layout.html.twig" %}
-{% trans_default_domain 'FOSUserBundle' %}
-
-{% block title %}{{ 'layout.register' | trans }}{% endblock %}
 
 {% block fos_user_content %}
-    {% include "FOSUserBundle::Registration/register_content.html.twig" %}
+{% include "FOSUserBundle::Registration/register_content.html.twig" %}
 {% endblock fos_user_content %}
-
 {% block javascripts %}
-    <script src='https://www.google.com/recaptcha/api.js'></script>
+    <script src='https://www.google.com/recaptcha/api.js' async defer></script>
     <script>
-      function onSubmit(token) {
-        document.getElementById("fos_user_registration_register").submit();
-      }
+        function onSubmit(token) {
+            document.getElementById("fos_user_registration_register").submit();
+        }
     </script>
 {% endblock javascripts %}

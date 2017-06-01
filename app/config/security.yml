@@ -15,23 +15,23 @@ security:
             form_login:
                 provider: fos_userbundle
                 csrf_token_generator: security.csrf.token_manager
-                login_path: /login
-                check_path: /login_check
-                always_use_default_target_path: true
+                login_path: /backoffice/login
+                check_path: /backoffice/login_check
+                always_use_default_target_path: false
                 default_target_path:            /backoffice
                 # if you are using Symfony < 2.8, use the following config instead:
                 # csrf_provider: form.csrf_provider
             logout:
-              path: /logout
-            anonymous: true
+              path: /backoffice/logout
+            anonymous:    true
 
     access_control:
-        - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/backoffice/users/, role: ROLE_ADMIN }
         - { path: ^/backoffice/users$, role: ROLE_ADMIN }
         - { path: ^/backoffice/user/, role: ROLE_USER }
+        - { path: ^/backoffice/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/backoffice/login_check$, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/backoffice/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/backoffice/, role: ROLE_USER }
         - { path: ^/backoffice, role: ROLE_USER }
-        - { path: ^/profile, role: ROLE_USER }
         - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }

@@ -1,0 +1,5 @@
+form:
+  email: 'Adresse e-mail (Domaine de l''Université Lyon 1)'
+resetting:
+  request:
+    username: 'Adresse e-mail'

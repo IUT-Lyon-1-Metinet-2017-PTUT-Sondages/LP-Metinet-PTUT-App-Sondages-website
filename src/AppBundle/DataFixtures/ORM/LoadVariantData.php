@@ -13,9 +13,6 @@ use AppBundle\Entity\Variant;
  */
 class LoadVariantData extends AbstractFixture implements OrderedFixtureInterface
 {
-    /**
-     * {@inheritdoc}
-     */
     public function load(ObjectManager $manager)
     {
         $variants = [
@@ -31,10 +28,9 @@ class LoadVariantData extends AbstractFixture implements OrderedFixtureInterface
             $manager->flush();
         }
     }
+    // the order in which fixtures will be loaded
+    // the lower the number, the sooner that this fixture is loaded
 
-    /**
-     * {@inheritdoc}
-     */
     public function getOrder()
     {
         return 2;

@@ -11,37 +11,21 @@ use AppBundle\Entity\Poll;
  */
 class PollAnswersService
 {
-    /**
-     * @var PropositionRepositoryService
-     */
     private $propositionRepositoryService;
 
-    /**
-     * @var AnswerRepositoryService
-     */
     private $answerRepositoryService;
 
-    /**
-     * PollAnswersService constructor.
-     * @param PropositionRepositoryService $propositionRepositoryService
-     * @param AnswerRepositoryService      $answerRepositoryService
-     */
     public function __construct(
         PropositionRepositoryService $propositionRepositoryService,
         AnswerRepositoryService $answerRepositoryService
     ) {
         $this->propositionRepositoryService = $propositionRepositoryService;
-        $this->answerRepositoryService = $answerRepositoryService;
+        $this->answerRepositoryService      = $answerRepositoryService;
     }
 
-    /**
-     * @param Poll  $poll
-     * @param array $data
-     */
     public function registerAnswers(Poll $poll, array $data)
     {
         $sessionId = uniqid();
-
         foreach ($data as $propositions) {
             if (is_array($propositions)) {
                 foreach ($propositions as $propositionId) {
@@ -53,14 +37,10 @@ class PollAnswersService
         }
     }
 
-    /**
-     * @param int    $propositionId
-     * @param string $sessionId
-     */
     private function saveAnswer($propositionId, $sessionId)
     {
-        $proposition = $this->propositionRepositoryService->getProposition(['id' => $propositionId]);
         $answer = new Answer();
+        $proposition = $this->propositionRepositoryService->getProposition(['id' => $propositionId]);
         $answer->setProposition($proposition);
         $answer->setSessionId($sessionId);
         $this->answerRepositoryService->createAnswer($answer);

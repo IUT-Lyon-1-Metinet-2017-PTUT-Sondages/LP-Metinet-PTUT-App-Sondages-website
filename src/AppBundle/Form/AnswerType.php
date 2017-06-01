@@ -2,7 +2,6 @@
 
 namespace AppBundle\Form;
 
-use AppBundle\Entity\Answer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -20,15 +19,15 @@ class AnswerType extends AbstractType
     {
         $builder->add('sessionid')->add('variant');
     }
-
+    
     /**
      * {@inheritdoc}
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults([
-            'data_class' => Answer::class,
-        ]);
+        $resolver->setDefaults(array(
+            'data_class' => 'AppBundle\Entity\Answer'
+        ));
     }
 
     /**

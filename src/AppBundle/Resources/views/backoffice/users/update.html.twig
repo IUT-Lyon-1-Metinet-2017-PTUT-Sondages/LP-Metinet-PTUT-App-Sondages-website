@@ -1,25 +1,7 @@
 {% extends "::backoffice_base.html.twig" %}
-{% trans_default_domain 'FOSUserBundle' %}
-
-{% block title %}{{ 'update_a_profile' | trans }}{% endblock %}
 
 {% block bodyclass %}app header-fixed sidebar-fixed aside-menu-fixed aside-menu-hidden{% endblock %}
-
 {% block main %}
-    <h1 class="text-center pb-2">{{ 'update_a_profile' | trans }}</h1>
-    <hr>
-
-    <div class="row justify-content-center">
-        <div class="col-md-4 p-1">
-            {{ form_start(form) }}
-
-            {{ form_row(form.firstName) }}
-            {{ form_row(form.lastName) }}
-
-            <div class="text-center">
-                {{ form_row(form.submit) }}
-            </div>
-            {{ form_end(form) }}
-        </div>
-    </div>
+    <h1 class="text-center pb-2">Modifier un utilisateur</h1>
+    {{ form(form) }}
 {% endblock %}

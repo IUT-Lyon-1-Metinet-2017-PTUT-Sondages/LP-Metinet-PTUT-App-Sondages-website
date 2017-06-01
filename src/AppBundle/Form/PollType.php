@@ -2,7 +2,6 @@
 
 namespace AppBundle\Form;
 
-use AppBundle\Entity\Poll;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -20,8 +19,8 @@ class PollType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title', TextType::class)
-            ->add('description', TextType::class);
+                ->add('title', TextType::class)
+                ->add('description', TextType::class);
     }
 
     /**
@@ -29,9 +28,9 @@ class PollType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults([
-            'data_class' => Poll::class,
-        ]);
+        $resolver->setDefaults(array(
+            'data_class' => 'AppBundle\Entity\Poll'
+        ));
     }
 
     /**

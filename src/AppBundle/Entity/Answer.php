@@ -4,6 +4,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Knp\DoctrineBehaviors\Model as ORMBehaviors;
 
 /**
  * Answer
@@ -17,10 +18,11 @@ class Answer
      * Many answers have One proposition.
      * @ORM\Id
      * @ORM\ManyToOne(targetEntity="Proposition", inversedBy="answers")
-     * @ORM\JoinColumn(name="proposition_id", referencedColumnName="id", onDelete="CASCADE", nullable=false)
-     * @Assert\Valid
+     * @ORM\JoinColumn(name="proposition_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $proposition;
+
+
 
     /**
      * @var string
@@ -32,7 +34,9 @@ class Answer
 
     /**
      * Set sessionIdd
+     *
      * @param string $sessionId
+     *
      * @return Answer
      */
     public function setSessionId($sessionId)
@@ -44,29 +48,26 @@ class Answer
 
     /**
      * Get sessionIdd
+     *
      * @return string
      */
     public function getSessionId()
     {
         return $this->sessionId;
     }
-
-    /**
-     * @param mixed $proposition
-     * @return $this
-     */
-    public function setProposition($proposition)
-    {
-        $this->proposition = $proposition;
-
-        return $this;
-    }
-
     /**
      * @return mixed
      */
     public function getProposition()
     {
         return $this->proposition;
+    }
+
+    /**
+     * @param mixed $proposition
+     */
+    public function setProposition($proposition)
+    {
+        $this->proposition = $proposition;
     }
 }
