@@ -40,7 +40,8 @@
         "knplabs/knp-paginator-bundle": "^2.5",
         "fzaninotto/faker": "^1.6",
         "saad-tazi/g-chart-bundle": "^2.0",
-        "avegao/chartjs-bundle": "dev-master"
+        "avegao/chartjs-bundle": "dev-master",
+        "liuggio/excelbundle": "^2.1"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",
