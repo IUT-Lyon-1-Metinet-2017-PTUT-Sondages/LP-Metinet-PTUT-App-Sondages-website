@@ -1,6 +1,18 @@
 {% extends '::base.html.twig' %}
 {% trans_default_domain 'poll' %}
 
+{% block head_meta %}
+    <meta property="og:title" content="{{ poll.title }}" />
+    <meta property="og:description" content="{{ poll.description }}" />
+    <meta property="og:type" content="poll" />
+    <meta property="og:url" content="{{ url('answer_poll', {'token':poll.accessToken}) }}" />
+    <meta property="og:image" content="{{ absolute_url(asset('front/assets/img/logo.png')) }}" />
+    <meta property="og:locale" content="fr_FR" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="{{ poll.title }}" />
+    <meta name="twitter:description" content="{{ poll.description }}" />
+    <meta name="twitter:image" content="{{ absolute_url(asset('front/assets/img/logo.png')) }}" />
+{% endblock %}
 {% block stylesheets %}
     <link rel="stylesheet" href="{{ asset('front/assets/css/kdt-inputs.css') }}" type="text/css">
     <style>
