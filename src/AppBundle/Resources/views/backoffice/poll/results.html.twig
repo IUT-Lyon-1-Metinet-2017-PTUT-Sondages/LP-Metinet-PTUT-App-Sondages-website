@@ -6,8 +6,12 @@
 {% block bodyclass %}app header-fixed sidebar-fixed aside-menu-fixed aside-menu-hidden{% endblock %}
 
 {% block main %}
-    <h1 class="text-center">{{ 'admin_poll.poll_results' | trans }}</h1>
-    <hr>
+    <h1 class="text-center">
+        {{ 'admin_poll.poll_results' | trans }}
+        <a href="{{ path('backoffice_poll_export', {'id': poll.id}) }}" class="btn btn-success">
+            <i class="fa fa-file-excel-o" aria-hidden="true"></i>
+        </a>
+    </h1>
 
     <div class="row">
         <div class="col-12 mb-1">

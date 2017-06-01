@@ -2,7 +2,9 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Page;
 use AppBundle\Entity\Poll;
+use AppBundle\Entity\User;
 use AppBundle\Exception\InvalidVariantException;
 use AppBundle\Exception\ValidationFailedException;
 use AppBundle\Services\PollRepositoryService;
@@ -12,11 +14,13 @@ use Avegao\ChartjsBundle\Chart\PieChart;
 use Avegao\ChartjsBundle\DataSet\BarDataSet;
 use Avegao\ChartjsBundle\DataSet\PieDataSet;
 use Doctrine\ORM\ORMInvalidArgumentException;
-use function MongoDB\BSON\toJSON;
+use Liuggio\ExcelBundle\Factory;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 
 /**
  * Class PollController
@@ -32,7 +36,7 @@ class PollController extends Controller
     public function indexAction()
     {
         $service = $this->get('app.repository_service.poll');
-        $user = $this->getUser();
+        $user    = $this->getUser();
 
         if ($user->hasRole('ROLE_ADMIN')) {
             $entries = $service->getPolls([]);
@@ -63,7 +67,7 @@ class PollController extends Controller
                 return new JsonResponse($e->getErrors());
             } catch (InvalidVariantException $e) {
                 return new JsonResponse([
-                    'message' => $e->getMessage(),
+                    'message'  => $e->getMessage(),
                     'question' => $e->getQuestion(),
                 ]);
             }
@@ -78,7 +82,7 @@ class PollController extends Controller
      * Display and handle the Poll edition form.
      * @Route("/backoffice/polls/{id}/edit", name="backoffice_poll_edit")
      * @param Request $request
-     * @param int     $id
+     * @param int $id
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function editAction(Request $request, $id)
@@ -95,7 +99,7 @@ class PollController extends Controller
         }
 
         $validationService = $this->get('app.validation_service');
-        $deletionService = $this->get('app.deletion_service');
+        $deletionService   = $this->get('app.deletion_service');
 
         if ($request->getMethod() == 'POST') {
             try {
@@ -105,7 +109,7 @@ class PollController extends Controller
                 return new JsonResponse($e->getErrors());
             } catch (InvalidVariantException $e) {
                 return new JsonResponse([
-                    'message' => $e->getMessage(),
+                    'message'  => $e->getMessage(),
                     'question' => $e->getQuestion(),
                 ]);
             }
@@ -191,12 +195,12 @@ class PollController extends Controller
     {
         /** @var PollRepositoryService $service */
         $service = $this->get('app.repository_service.poll');
-        $poll = $service->getPoll(['id' => $id]);
+        $poll    = $service->getPoll(['id' => $id]);
 
-        $charts = [];
-        $questionsAnswers = $service->getResults($id);
+        $charts                         = [];
+        $questionsAnswers               = $service->getResults($id);
         $questionsAnswersAfterTreatment = [];
-        $checkId = -1;
+        $checkId                        = -1;
 
         foreach ($questionsAnswers as $questionAnswers) {
             if ($checkId === $questionAnswers['qId']) {
@@ -218,8 +222,8 @@ class PollController extends Controller
 
             foreach ($props as $j => $prop) {
                 $questionAnswers['props'][] = [
-                    'id' => $prop['propId'],
-                    'title' => $prop['propTitle'],
+                    'id'     => $prop['propId'],
+                    'title'  => $prop['propTitle'],
                     'amount' => $prop['amount'],
                 ];
             }
@@ -229,13 +233,13 @@ class PollController extends Controller
 
         foreach ($questionsAnswersAfterTreatment as $question) {
             /** @var PieChart|BarChart $dataSet */
-            $chart   = null;
+            $chart = null;
             /** @var PieDataSet|BarDataSet $dataSet */
             $dataSet = null;
             $options = [];
             if ($question['qType'] == 'Checkbox' || $question['qType'] == 'LinearScale') {
-                $chart   = new BarChart();
-                $dataSet = new BarDataSet();
+                $chart             = new BarChart();
+                $dataSet           = new BarDataSet();
                 $options['scales'] = [
                     'yAxes' => [
                         [
@@ -249,7 +253,7 @@ class PollController extends Controller
                 $chart   = new PieChart();
                 $dataSet = new PieDataSet();
             }
-            $data = [];
+            $data   = [];
             $labels = [];
             foreach ($question['props'] as $index => $proposition) {
                 $labels[] = $proposition['title'];
@@ -301,15 +305,192 @@ class PollController extends Controller
                             averageInput.html(Math.round(sum/totalAnswer*100)/100);
                         }
                         return text.join(\'\');',
-                    'legend' => ['display' => false]
+                    'legend'         => ['display' => false]
                 ]
             ));
             $charts[] = ['question' => $question, 'chart' => $chart];
         }
 
         return $this->render('@App/backoffice/poll/results.html.twig', [
-            'poll' => $poll,
+            'poll'   => $poll,
             'charts' => $charts,
         ]);
+    }
+
+    /**
+     * Export a Poll's results by its id as Excel.
+     * @Route("/backoffice/polls/{id}/export", name="backoffice_poll_export")
+     * @param int $id
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function exportExcelAction($id)
+    {
+        /** @var Factory $excelService */
+        $excelService   = $this->get('phpexcel');
+        $phpExcelObject = $excelService->createPHPExcelObject();
+        /** @var User $user */
+        $user = $this->getUser();
+        /** @var PollRepositoryService $service */
+        $service = $this->get('app.repository_service.poll');
+        $poll    = $service->getPoll(['id' => $id]);
+
+        $pages = $poll->getPages();
+
+        $phpExcelObject->getProperties()
+            ->setCreator($user->getFirstName() . ' ' . $user->getLastName())
+            ->setTitle($poll->getTitle())
+            ->setSubject($poll->getTitle());
+        $questionsAnswers = $service->getResults($id);
+
+        $questionsAnswersAfterTreatment = [];
+        $checkId                        = -1;
+
+        foreach ($questionsAnswers as $questionAnswers) {
+            if ($checkId === $questionAnswers['qId']) {
+                continue;
+            }
+
+            $checkId = $questionAnswers['qId'];
+
+            $props = array_filter(
+                $questionsAnswers,
+                function ($a) use ($checkId) {
+                    return $a['qId'] === $checkId;
+                }
+            );
+
+            unset($questionAnswers['propId']);
+            unset($questionAnswers['propTitle']);
+            unset($questionAnswers['amount']);
+
+            foreach ($props as $j => $prop) {
+                $questionAnswers['props'][] = [
+                    'id'     => $prop['propId'],
+                    'title'  => $prop['propTitle'],
+                    'amount' => $prop['amount'],
+                ];
+            }
+
+            $questionsAnswersAfterTreatment[] = $questionAnswers;
+        }
+
+        $phpExcelObject->removeSheetByIndex(0);
+
+        foreach ($questionsAnswersAfterTreatment as $questionIndex => $question) {
+            $pageIndex = 0;
+
+            foreach ($pages as $pageIndex => $page) {
+                /** @var Page $page */
+                if($page->getId() == $question['paId']) {
+                    break;
+                }
+            }
+
+            $currentQuestionSheet = new \PHPExcel_Worksheet(
+                $phpExcelObject, sprintf('Page %d - Question %d', $pageIndex + 1, $questionIndex + 1)
+            );
+            $currentQuestionSheet->setCellValue('A1', 'Proposition');
+            $currentQuestionSheet->setCellValue('B1', 'Quantité');
+            $currentQuestionSheet->setCellValue('C1', 'Pourcentage');
+
+            $dataSeriesLabels = [];
+            $dataSeriesValues = [];
+            foreach ($question['props'] as $index => $proposition) {
+                if ($question['qType'] == 'Checkbox' || $question['qType'] == 'LinearScale') {
+                    array_push($dataSeriesLabels, new \PHPExcel_Chart_DataSeriesValues('String', "'" . $currentQuestionSheet->getTitle() . "'" . '!A' . ($index + 2), null, 1));
+                    array_push($dataSeriesValues, new \PHPExcel_Chart_DataSeriesValues('Number', "'" . $currentQuestionSheet->getTitle() . "'" . '!B' . ($index + 2), null, 1));
+                }
+                $currentQuestionSheet->setCellValue('A' . ($index + 2), $proposition['title']);
+                $currentQuestionSheet->setCellValue('B' . ($index + 2), $proposition['amount']);
+            }
+
+            $xAxisTickValues = array(
+                new \PHPExcel_Chart_DataSeriesValues('String',"'" . $currentQuestionSheet->getTitle() . "'" . '!$B$1', NULL, 1),
+            );
+            if ($question['qType'] == 'Checkbox' || $question['qType'] == 'LinearScale') {
+                $series           = new \PHPExcel_Chart_DataSeries(
+                    \PHPExcel_Chart_DataSeries::TYPE_BARCHART,
+                    \PHPExcel_Chart_DataSeries::GROUPING_CLUSTERED,
+                    range(0, count($dataSeriesValues) - 1),
+                    $dataSeriesLabels,
+                    $xAxisTickValues,
+                    $dataSeriesValues
+                );
+                $series->setPlotDirection(\PHPExcel_Chart_DataSeries::DIRECTION_COL);
+                $plotArea = new \PHPExcel_Chart_PlotArea(null, array($series));
+                $legend   = new \PHPExcel_Chart_Legend(\PHPExcel_Chart_Legend::POSITION_RIGHT, null, false);
+                $title    = new \PHPExcel_Chart_Title('Graphique ' . $question['qTitle']);
+
+                $chart    = new \PHPExcel_Chart(
+                    'chart' . $question['qTitle'],
+                    $title,
+                    $legend,
+                    $plotArea,
+                    true,
+                    0,
+                    null,
+                    null
+                );
+
+                $chart->setTopLeftPosition('F1');
+                $chart->setBottomRightPosition('S30');
+                $currentQuestionSheet->addChart($chart);
+            } elseif ($question['qType'] == 'Radio') {
+                $dataSeriesLabels = [new \PHPExcel_Chart_DataSeriesValues('String', "'" . $currentQuestionSheet->getTitle() . "'" . '!$A$2:$A$' . (count($question['props']) + 1), null, count($question['props']) + 1)];
+                $dataSeriesValues = [new \PHPExcel_Chart_DataSeriesValues('Number', "'" . $currentQuestionSheet->getTitle() . "'" . '!$B$2:$B$' . (count($question['props']) + 1), null, count($question['props']) + 1)];
+                $series           = new \PHPExcel_Chart_DataSeries(
+                    \PHPExcel_Chart_DataSeries::TYPE_PIECHART,
+                    null,
+                    range(0, count($dataSeriesValues) - 1),
+                    null,
+                    $dataSeriesLabels,
+                    $dataSeriesValues
+                );
+                $layout = new \PHPExcel_Chart_Layout();
+                $layout->setShowVal(true);
+                $layout->setShowPercent(true);
+
+                $series->setPlotDirection(\PHPExcel_Chart_DataSeries::DIRECTION_BAR);
+                $plotArea = new \PHPExcel_Chart_PlotArea($layout, array($series));
+                $legend   = new \PHPExcel_Chart_Legend(\PHPExcel_Chart_Legend::POSITION_RIGHT, null, false);
+                $title    = new \PHPExcel_Chart_Title('Graphique ' . $question['qTitle']);
+                $chart    = new \PHPExcel_Chart(
+                    'chart' . $question['qTitle'],
+                    $title,
+                    $legend,
+                    $plotArea,
+                    true,
+                    0,
+                    null,
+                    null
+                );
+
+                $chart->setTopLeftPosition('F1');
+                $chart->setBottomRightPosition('S30');
+                $currentQuestionSheet->addChart($chart);
+            }
+
+            // Attach the worksheet to the file
+            $phpExcelObject->addSheet($currentQuestionSheet, $questionIndex);
+        }
+
+        // create the writer
+        /** @var \PHPExcel_Writer_Excel2007 $writer */
+        $writer = $excelService->createWriter($phpExcelObject, 'Excel2007');
+        // enable charts
+        $writer->setIncludeCharts(true);
+        // create the response
+        $response = $excelService->createStreamedResponse($writer);
+        // adding headers
+        $dispositionHeader = $response->headers->makeDisposition(
+            ResponseHeaderBag::DISPOSITION_ATTACHMENT,
+            preg_replace(array('/\s/', '/\.[\.]+/', '/[^\w_\.\-]/'), array('_', '.', ''), $poll->getTitle()) . '.xlsx'
+        );
+        $response->headers->set('Content-Type', 'text/vnd.ms-excel; charset=utf-8');
+        $response->headers->set('Pragma', 'public');
+        $response->headers->set('Cache-Control', 'maxage=1');
+        $response->headers->set('Content-Disposition', $dispositionHeader);
+
+        return $response;
     }
 }
