@@ -89,3 +89,7 @@ services:
         arguments: ["@app.repository_service.variant"]
         tags:
             - { name: form.type }
+    #Mailer
+    app.mailer_service:
+        class: AppBundle\Services\MailerService
+        arguments: ["@mailer","@doctrine.orm.entity_manager","@router" ,"@templating"]
