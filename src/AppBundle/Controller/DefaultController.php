@@ -8,6 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 class DefaultController extends Controller
 {
     /**
+     * Display the homepage.
      * @Route("/", name="homepage")
      * @return \Symfony\Component\HttpFoundation\Response
      */

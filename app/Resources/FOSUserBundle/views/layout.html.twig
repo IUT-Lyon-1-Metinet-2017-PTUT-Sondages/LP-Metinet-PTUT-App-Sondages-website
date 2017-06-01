@@ -1,26 +1,19 @@
-
 {% extends "::backoffice_base.html.twig" %}
 {% block title %}Kodastran Backoffice Login{% endblock %}
 {% block bodyclass %}app header-fixed footer-fixed{% endblock %}
 
+{% block mainclass %}main{% endblock %}
 {% block main %}
-        <br>
-        <br>
-        <br>
-        <br>
-        <!-- à modifier en css -->
-
-        {% for type, messages in app.session.flashBag.all %}
-            {% for message in messages %}
-                <div class="{{ type }}">
-                    {{ message|trans({}, 'FOSUserBundle') }}
-                </div>
-            {% endfor %}
+    {% for type, messages in app.session.flashBag.all %}
+        {% for message in messages %}
+            <div class="{{ type }}">
+                {{ message|trans({}, 'FOSUserBundle') }}
+            </div>
         {% endfor %}
+    {% endfor %}
 
-        <div>
-            {% block fos_user_content %}
-            {% endblock fos_user_content %}
-        </div>
-
+    <div>
+        {% block fos_user_content %}
+        {% endblock fos_user_content %}
+    </div>
 {% endblock %}

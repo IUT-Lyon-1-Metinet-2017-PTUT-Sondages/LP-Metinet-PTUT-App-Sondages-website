@@ -13,9 +13,11 @@ use AppBundle\Entity\Answer;
  */
 class LoadAnswerData extends AbstractFixture implements OrderedFixtureInterface
 {
+    /**
+     * {@inheritdoc}
+     */
     public function load(ObjectManager $manager)
     {
-
         $propositions = $manager->getRepository('AppBundle:Proposition')->findAll();
         foreach ($propositions as $key => $proposition) {
             $thisAnswer = new Answer();
@@ -25,11 +27,12 @@ class LoadAnswerData extends AbstractFixture implements OrderedFixtureInterface
             $manager->flush();
         }
     }
-    // the order in which fixtures will be loaded
-    // the lower the number, the sooner that this fixture is loaded
 
+    /**
+     * {@inheritdoc}
+     */
     public function getOrder()
     {
-        return 7;
+        return 4;
     }
 }

@@ -2,10 +2,15 @@
 
 namespace App\DataFixtures\ORM;
 
+use AppBundle\Entity\Page;
+use AppBundle\Entity\Poll;
+use AppBundle\Entity\Proposition;
+use AppBundle\Entity\Question;
+use AppBundle\Entity\User;
+use AppBundle\Entity\Variant;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use AppBundle\Entity\Poll;
 
 /**
  * Class LoadPollData
@@ -13,38 +18,111 @@ use AppBundle\Entity\Poll;
  */
 class LoadPollData extends AbstractFixture implements OrderedFixtureInterface
 {
+    /**
+     * @var ObjectManager
+     */
+    private $manager;
+
+    /**
+     * {@inheritdoc}
+     */
     public function load(ObjectManager $manager)
     {
-        $thisPoll = new Poll();
-        $thisPoll->setTitle('Premier sondage de test');
-        $thisPoll->setDescription('Description de mon premier sondage t a vu');
-        $questions = $manager->getRepository('AppBundle:Question')->findAll();
-        foreach ($questions as $key => $question) {
-            $thisPoll->addQuestion($question);
-            $question->setPoll($thisPoll);
-            $manager->persist($question);
+        $this->manager = $manager;
+        $users = $this->manager->getRepository('AppBundle:User')->findAll();
+
+        foreach ($users as $user) {
+            $this->createPollsForUser($user);
         }
-        $users = $manager->getRepository('AppBundle:User')->findAll();
-        foreach ($users as $key => $user) {
-            $thisPoll->setUser($user);
-            $user->addPoll($thisPoll);
-            $manager->persist($user);
-        }
-        $pages = $manager->getRepository('AppBundle:Page')->findAll();
-        foreach ($pages as $key => $page) {
-            $thisPoll->addPage($page);
-            $page->setPoll($thisPoll);
-            $manager->persist($page);
-        }
-        $manager->persist($thisPoll);
-        $manager->flush();
+
+        $this->manager->flush();
     }
 
-    // the order in which fixtures will be loaded
-    // the lower the number, the sooner that this fixture is loaded
-
+    /**
+     * {@inheritdoc}
+     */
     public function getOrder()
     {
-        return 6;
+        return 3;
+    }
+
+    /**
+     * @param User $user
+     */
+    private function createPollsForUser(User $user)
+    {
+        for ($i = 0; $i < 2; $i++) {
+            $poll = new Poll();
+            $poll->setTitle(sprintf('Sondage n°%d de %s', $i, $user->getFirstName()));
+            $poll->setDescription("La description du sondage");
+            $poll->setUser($user);
+            $user->addPoll($poll);
+
+            $this->createPagesForPoll($poll);
+
+            $this->manager->persist($poll);
+            $this->manager->persist($user);
+        }
+    }
+
+    /**
+     * @param Poll $poll
+     */
+    private function createPagesForPoll(Poll $poll)
+    {
+        for ($i = 0; $i < 2; $i++) {
+            $page = new Page();
+            $page->setTitle(sprintf("La page n°%d", $i));
+            $page->setDescription(sprintf("La description de la page n°%d", $i));
+            $page->setPoll($poll);
+            $poll->addPage($page);
+            $this->createQuestionsForPage($poll, $page);
+
+            $this->manager->persist($page);
+            $this->manager->persist($poll);
+        }
+    }
+
+    /**
+     * @param Poll $poll
+     * @param Page $page
+     */
+    private function createQuestionsForPage(Poll $poll, Page $page)
+    {
+        $variants = $this->manager->getRepository('AppBundle:Variant')->findAll();
+
+        foreach ($variants as $variant) {
+            $question = new Question();
+            $question->setTitle(sprintf("Question de type %s", $variant->getName()));
+            $question->setPoll($poll);
+            $question->setPage($page);
+            $page->addQuestion($question);
+            $this->createPropositionsForQuestion($question, $variant);
+
+            $this->manager->persist($question);
+        }
+    }
+
+    /**
+     * @param Question $question
+     * @param Variant  $variant
+     */
+    private function createPropositionsForQuestion(Question $question, Variant $variant)
+    {
+        for ($i = 0; $i < 5; $i++) {
+            $proposition = new Proposition();
+            $proposition->setTitle(sprintf("Proposition n°%d", $i));
+
+            if ($variant->getName() === 'LinearScale') {
+                $proposition->setTitle($i);
+            }
+
+            $proposition->setQuestion($question);
+            $proposition->setVariant($variant);
+            $question->addProposition($proposition);
+
+            $this->manager->persist($proposition);
+            $this->manager->persist($question);
+        }
     }
 }

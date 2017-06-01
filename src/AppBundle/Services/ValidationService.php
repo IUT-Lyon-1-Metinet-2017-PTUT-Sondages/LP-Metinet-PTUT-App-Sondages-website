@@ -2,12 +2,16 @@
 
 namespace AppBundle\Services;
 
-use AppBundle\Entity\Poll;
-use AppBundle\Entity\Question;
 use AppBundle\Entity\Page;
+use AppBundle\Entity\Poll;
 use AppBundle\Entity\Proposition;
+use AppBundle\Entity\Question;
+use AppBundle\Entity\User;
+use AppBundle\Entity\Variant;
+use AppBundle\Exception\ValidationFailedException;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Validator\Exception\ValidatorException;
 use Symfony\Component\Validator\Validator\ValidatorInterface as Validator;
 
 /**
@@ -17,37 +21,52 @@ use Symfony\Component\Validator\Validator\ValidatorInterface as Validator;
 class ValidationService
 {
     /**
+     * @var EntityManager
+     */
+    private $em;
+
+    /**
      * @var Validator
      */
-    protected $validator;
-    public $variantRepositoryService;
-    public $pollCreationService;
-    public $em;
+    private $validator;
 
+    /**
+     * @var VariantRepositoryService
+     */
+    private $variantRepositoryService;
+
+    /**
+     * @var PollCreationService
+     */
+    private $pollCreationService;
 
     /**
      * ValidationService constructor.
-     * @param EntityManager                           $entityManager
-     * @param Validator                               $validator
-     * @param VariantRepositoryService                $variantRepositoryService
-     * @param \AppBundle\Services\pollCreationService $pollCreationService
+     *
+     * @param EntityManager            $entityManager
+     * @param Validator                $validator
+     * @param VariantRepositoryService $variantRepositoryService
+     * @param PollCreationService      $pollCreationService
      */
     public function __construct(
         EntityManager $entityManager,
         Validator $validator,
         VariantRepositoryService $variantRepositoryService,
         PollCreationService $pollCreationService
-
     ) {
-        $this->em                       = $entityManager;
-        $this->validator                = $validator;
+        $this->em = $entityManager;
+        $this->validator = $validator;
         $this->variantRepositoryService = $variantRepositoryService;
-        $this->pollCreationService      = $pollCreationService;
+        $this->pollCreationService = $pollCreationService;
     }
 
-    public function findIfExistOrCreateNew($array, $entity)
+    /**
+     * @param array  $array
+     * @param string $entity
+     * @return Poll|Page|Question|Proposition
+     */
+    public function findIfExistOrCreateNew(array $array, string $entity)
     {
-
         if (!array_key_exists('id', $array) || null == $array['id']) {
             return new $entity();
         }
@@ -55,86 +74,86 @@ class ValidationService
         return $this->em->getRepository($entity)->findOneById($array['id']);
     }
 
+    /**
+     * @param Request $request
+     * @param User    $user
+     */
     public function validateAndCreatePollFromRequest(Request $request, $user)
     {
-        if (null !== $request->get('poll')) {
+        /*
+         * Validation du poll
+         */
+        if (($pollFromRequest = $request->get('poll')) !== null) {
             /** @var Poll $poll */
-            $poll = $this->findIfExistOrCreateNew($request->get('poll'), Poll::class);
-            $poll->setTitle($request->get('poll')['title']);
-            $poll->setDescription($request->get('poll')['description']);
+            $poll = $this->findIfExistOrCreateNew($pollFromRequest, Poll::class);
+            $poll->setTitle($pollFromRequest['title']);
+            $poll->setDescription($pollFromRequest['description']);
+            $this->validatePollAndThrowIfErrors($poll);
 
-            $pollErrors = $this->validatePoll($poll);
-
-            if (count($pollErrors) > 0) {
-                return $pollErrors;
+            if ($poll->getUser() !== null) {
+                $user = $poll->getUser();
             }
-            if (null !== $request->get('poll')['pages'] && isset($request->get('poll')['pages'])) {
-                foreach ($request->get('poll')['pages'] as $key => $page) {
-                    /** @var Page $thisPage */
-                    $thisPage = $this->findIfExistOrCreateNew($page, Page::class);
-                    $thisPage->setTitle($page['title']);
-                    $thisPage->setDescription($page['description']);
-                    $pageErrors = $this->validatePage($thisPage);
 
-                    if (count($pageErrors) > 0) {
-                        return $pageErrors;
-                    }
-                    $thisPage->setPoll($poll);
-                    $poll->addPage($thisPage);
-                    if (null !== $page['questions'] && isset($page['questions'])) {
-                        foreach ($page['questions'] as $question) {
-                            /** @var Question $thisQuestion */
-                            $thisQuestion = $this->findIfExistOrCreateNew($question, Question::class);
-                            $thisQuestion->setTitle($question['title']);
+            /*
+             * Validation des pages
+             */
+            if (isset($pollFromRequest['pages']) && ($pagesFromRequest = $pollFromRequest['pages']) !== null) {
+                foreach ($pagesFromRequest as $pageFromRequest) {
+                    /** @var Page $page */
+                    $page = $this->findIfExistOrCreateNew($pageFromRequest, Page::class);
+                    $page->setPoll($poll);
+                    $page->setTitle($pageFromRequest['title']);
+                    $page->setDescription($pageFromRequest['description']);
+                    $this->validatePageAndThrowIfErrors($page);
+                    $poll->addPage($page);
 
+                    /**
+                     * Validation des questions
+                     */
+                    if (isset($pageFromRequest['questions'])
+                        && ($questionsFromRequest = $pageFromRequest['questions']) !== null
+                    ) {
+                        foreach ($questionsFromRequest as $questionFromRequest) {
+                            /** @var Question $question */
+                            $question = $this->findIfExistOrCreateNew($questionFromRequest, Question::class);
+                            $question->setTitle($questionFromRequest['title']);
+                            $question->setPage($page);
+                            $question->setPoll($poll);
+                            $this->validateQuestionAndThrowIfErrors($question);
+                            $page->addQuestion($question);
 
-                            $questionErrors = $this->validateQuestion($question);
+                            $variant = $this->variantRepositoryService->getVariant([
+                                'name' => $questionFromRequest['variant']['name'],
+                            ]);
 
-                            if (count($questionErrors) > 0) {
-                                return $questionErrors;
-                            }
-                            $thisQuestion->setPage($thisPage);
-                            $thisPage->addQuestion($thisQuestion);
-                            $thisQuestion->setPoll($poll);
-                            $poll->addQuestion($thisQuestion);
-
-
-                            $variant = $this->variantRepositoryService->getVariant(['name' => $question['variant']]);
-                            if (null !== $variant) {
-                                $variantErrors = $this->validateVariant($variant);
+                            if (is_null($variant)) {
+                                throw new ValidatorException($questionFromRequest['variant'], $question);
                             } else {
-                                return ['Variant does not exist '.implode(",", $question['variant']).'.. '];
-                            }
-                            if (count($variantErrors) > 0) {
-                                return $variantErrors;
+                                $this->validateVariantAndThrowIfErrors($variant);
                             }
 
-                            if (null !== $question['propositions'] && isset($question['propositions'])) {
-                                foreach ($question['propositions'] as $proposition) {
-                                    /** @var Proposition $thisProposition */
-                                    $thisProposition = $this->findIfExistOrCreateNew(
-                                        $proposition,
+                            if (isset($questionFromRequest['propositions'])
+                                && ($propositionsFromRequest = $questionFromRequest['propositions']) !== null
+                            ) {
+                                foreach ($propositionsFromRequest as $propositionFromRequest) {
+                                    /** @var Proposition $proposition */
+                                    $proposition = $this->findIfExistOrCreateNew(
+                                        $propositionFromRequest,
                                         Proposition::class
                                     );
-                                    $thisProposition->setTitle($proposition['title']);
-                                    $thisProposition->setVariant($variant);
-                                    $thisProposition->setQuestion($thisQuestion);
-                                    $thisQuestion->addProposition($thisProposition);
-
-                                    $propositionErrors = $this->validateProposition($proposition);
-
-                                    if (count($propositionErrors) > 0) {
-                                        return $propositionErrors;
-                                    }
+                                    $proposition->setTitle($propositionFromRequest['title']);
+                                    $proposition->setVariant($variant);
+                                    $proposition->setQuestion($question);
+                                    $this->validatePropositionAndThrowIfErrors($proposition);
+                                    $question->addProposition($proposition);
 
                                     $this->pollCreationService->createPoll(
                                         $poll,
-                                        $thisPage,
-                                        $thisQuestion,
-                                        $thisProposition,
+                                        $page,
+                                        $question,
+                                        $proposition,
                                         $user
                                     );
-
                                 }
                             }
                         }
@@ -147,68 +166,112 @@ class ValidationService
     }
 
     /**
-     * @param $poll
-     * @return \Symfony\Component\Validator\ConstraintViolationListInterface
+     * @param Poll $poll
+     * @throws ValidationFailedException
      */
-    public function validatePoll($poll)
+    public function validatePollAndThrowIfErrors(Poll $poll)
     {
-        $errors = $this->validator->validate($poll);
+        $errors = $this->validatePoll($poll);
 
-        return $errors;
+        if (count($errors) > 0) {
+            throw new ValidationFailedException($errors);
+        }
     }
 
     /**
-     * @param $page
+     * @param Poll $poll
      * @return \Symfony\Component\Validator\ConstraintViolationListInterface
      */
-    public function validatePage($page)
+    public function validatePoll(Poll $poll)
     {
-        $errors = $this->validator->validate($page);
-
-        return $errors;
+        return $this->validator->validate($poll);
     }
 
     /**
-     * @param $variant
+     * @param Page $page
+     * @throws ValidationFailedException
+     */
+    public function validatePageAndThrowIfErrors(Page $page)
+    {
+        $errors = $this->validatePage($page);
+
+        if (count($errors) > 0) {
+            throw new ValidationFailedException($errors);
+        }
+    }
+
+    /**
+     * @param Page $page
+     * @return \Symfony\Component\Validator\ConstraintViolationListInterface
+     */
+    public function validatePage(Page $page)
+    {
+        return $this->validator->validate($page);
+    }
+
+    /**
+     * @param Question $question
+     * @throws ValidationFailedException
+     */
+    public function validateQuestionAndThrowIfErrors(Question $question)
+    {
+        $errors = $this->validateQuestion($question);
+
+        if (count($errors) > 0) {
+            throw new ValidationFailedException($errors);
+        }
+    }
+
+    /**
+     * @param Question $question
+     * @return \Symfony\Component\Validator\ConstraintViolationListInterface
+     */
+    public function validateQuestion(Question $question)
+    {
+        return $this->validator->validate($question);
+    }
+
+    /**
+     * @param Variant $variant
+     * @throws ValidationFailedException
+     */
+    public function validateVariantAndThrowIfErrors(Variant $variant)
+    {
+        $errors = $this->validateVariant($variant);
+
+        if (count($errors) > 0) {
+            throw new ValidationFailedException($errors);
+        }
+    }
+
+    /**
+     * @param Variant $variant
      * @return \Symfony\Component\Validator\ConstraintViolationListInterface
      */
     public function validateVariant($variant)
     {
-        $errors = $this->validator->validate($variant);
-
-        return $errors;
+        return $this->validator->validate($variant);
     }
 
     /**
-     * @param $question
-     * @return \Symfony\Component\Validator\ConstraintViolationListInterface
+     * @param Proposition $proposition
+     * @throws ValidationFailedException
      */
-    public function validateQuestion($question)
+    public function validatePropositionAndThrowIfErrors(Proposition $proposition)
     {
-        $errors = $this->validator->validate($question);
+        $errors = $this->validateProposition($proposition);
 
-        return $errors;
+        if (count($errors) > 0) {
+            throw new ValidationFailedException($errors);
+        }
     }
 
     /**
-     * @param $proposition
+     * @param Proposition $proposition
      * @return \Symfony\Component\Validator\ConstraintViolationListInterface
      */
-    public function validateProposition($proposition)
+    public function validateProposition(Proposition $proposition)
     {
-        $errors = $this->validator->validate($proposition);
-
-        return $errors;
-    }
-
-    /**
-     * @param $answer
-     * @return \Symfony\Component\Validator\ConstraintViolationListInterface
-     */
-    public function validateAnswer($answer)
-    {
-        $errors = $this->validator->validate($answer);
-
-        return $errors;
+        return $this->validator->validate($proposition);
     }
 }

@@ -10,7 +10,7 @@ parameters:
 
 framework:
     #esi:             ~
-    translator:      { fallbacks: ["%locale%"] }
+    translator:      { fallbacks: ["%locale%", "en"] }
     secret:          "%secret%"
     router:
         resource: "%kernel.root_dir%/config/routing.yml"
@@ -48,6 +48,10 @@ fos_user:
             enabled: true
         form:
             type: AppBundle\Form\RegistrationType
+    profile:
+        form:
+          type: AppBundle\Form\ProfileFormType
+
 fos_rest:
     param_fetcher_listener: true
     body_listener: true
@@ -65,14 +69,14 @@ fos_rest:
         default_engine: twig
     routing_loader:
         default_format: json
+
 twig:
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"
     form_themes:
-        - 'bootstrap_3_layout.html.twig'
+        - 'custom_bootstrap_3_layout.html.twig'
     globals:
         recaptcha_client_secret: '%recaptcha_client_secret%'
-
 
 # Doctrine Configuration
 doctrine:
@@ -100,9 +104,6 @@ doctrine:
                 class: AppBundle\Filters\SoftDeleteableFilter
                 enabled: true
 
-
-
-
 # Swiftmailer Configuration
 swiftmailer:
     transport: "%mailer_transport%"
@@ -110,6 +111,7 @@ swiftmailer:
     username:  "%mailer_user%"
     password:  "%mailer_password%"
     spool:     { type: memory }
+
 knp_doctrine_behaviors:
     blameable:      false
     geocodable:     ~     # Here null is converted to false

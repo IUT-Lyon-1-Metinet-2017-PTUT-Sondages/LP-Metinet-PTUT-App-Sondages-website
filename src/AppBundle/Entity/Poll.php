@@ -2,13 +2,13 @@
 
 namespace AppBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Component\Validator\Constraints as Assert;
-use Knp\DoctrineBehaviors\Model as ORMBehaviors;
-use JMS\Serializer\Annotation\Groups;
+use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation\ExclusionPolicy;
 use JMS\Serializer\Annotation\Expose;
+use JMS\Serializer\Annotation\Groups;
+use Knp\DoctrineBehaviors\Model as ORMBehaviors;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Table(name="poll")
@@ -19,8 +19,7 @@ class Poll
 {
     use ORMBehaviors\Sluggable\Sluggable,
         ORMBehaviors\SoftDeletable\SoftDeletable,
-        ORMBehaviors\Timestampable\Timestampable
-    ;
+        ORMBehaviors\Timestampable\Timestampable;
     /**
      * @var int
      * @Expose
@@ -32,56 +31,72 @@ class Poll
     private $id;
 
     /**
+     * @var string
      * @Expose
      * @Groups({"Default", "backOffice"})
      * @ORM\Column(type="string", length = 120, name="title", nullable = false)
      * @Assert\NotBlank()
-     * @var string
      */
     private $title;
 
     /**
+     * @var string
      * @Expose
      * @Groups({"Default", "backOffice"})
      * @ORM\Column(type="text", length = 255, name="description", nullable = false)
      * @Assert\NotBlank()
-     * @var string
      */
     private $description;
 
     /**
-     * One Poll has Many Questions.
-     * @ORM\OneToMany(targetEntity="Question", mappedBy="poll", cascade={"persist", "remove"})
-     */
-    private $questions;
-
-     /**
-     * One Poll has Many Pages.
+     * @var Page[]
      * @Expose
      * @Groups({"Details", "backOffice"})
+     * One Poll has Many Pages.
      * @ORM\OneToMany(targetEntity="Page", mappedBy="poll", cascade={"persist", "remove"})
      */
     private $pages;
 
     /**
-     * Many polls have One user.
+     * @var Question[]
+     * One Poll has Many Questions.
+     * @ORM\OneToMany(targetEntity="Question", mappedBy="poll", cascade={"persist", "remove"})
+     * @Assert\Valid
+     */
+    private $questions;
+
+    /**
+     * @var User
      * @Expose
      * @Groups({"User"})
+     * Many polls have One user.
      * @ORM\ManyToOne(targetEntity="User", inversedBy="polls")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $user;
 
     /**
-     * Access token of the poll
+     * @var string
      * @Expose
      * @ORM\Column(type="text", length = 255, name="access_token", nullable = false)
      */
     private $accessToken;
 
+    /**
+     * @var bool
+     * @Expose
+     * @ORM\Column(type="boolean", name="published")
+     */
+    private $published = false;
+
+    /**
+     * Poll constructor.
+     */
     public function __construct()
     {
-        $this->questions   = new ArrayCollection();
+        $this->pages = new ArrayCollection();
+        $this->questions = new ArrayCollection();
+
         $accessToken = '';
         $characterList = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $max = mb_strlen($characterList, '8bit') - 1;
@@ -92,31 +107,27 @@ class Poll
     }
 
     /**
-     * Get id
-     *
      * @return int
      */
     public function getId()
     {
         return $this->id;
     }
+
     /**
      * Set title
-     *
      * @param string $title
-     *
-     * @return Poll
+     * @return $this
      */
     public function setTitle($title)
     {
-        $this->title = $title;
+        $this->title = trim($title);
 
         return $this;
     }
 
     /**
      * Get title
-     *
      * @return string
      */
     public function getTitle()
@@ -126,21 +137,17 @@ class Poll
 
     /**
      * Set description
-     *
      * @param string $description
-     *
      * @return Poll
      */
     public function setDescription($description)
     {
-        $this->description = $description;
+        $this->description = trim($description);
 
         return $this;
     }
 
     /**
-     * Get description
-     *
      * @return string
      */
     public function getDescription()
@@ -148,18 +155,18 @@ class Poll
         return $this->description;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getSluggableFields()
     {
-        return [ 'title' ];
+        return ['title'];
     }
-
 
     /**
      * Add question.
-     *
      * @param Question $question
-     *
-     * @return self
+     * @return $this
      */
     public function addQuestion(Question $question)
     {
@@ -167,15 +174,16 @@ class Poll
 
         return $this;
     }
+
     /**
      * Remove question.
-     *
      * @param Question $question
      */
     public function removeQuestion(Question $question)
     {
         $this->questions->removeElement($question);
     }
+
     /**
      * Get questions.
      *
@@ -188,9 +196,7 @@ class Poll
 
     /**
      * Add page.
-     *
      * @param Page $page
-     *
      * @return self
      */
     public function addPage(Page $page)
@@ -199,6 +205,7 @@ class Poll
 
         return $this;
     }
+
     /**
      * Remove page.
      *
@@ -208,6 +215,7 @@ class Poll
     {
         $this->pages->removeElement($page);
     }
+
     /**
      * Get pages.
      *
@@ -217,8 +225,6 @@ class Poll
     {
         return $this->pages;
     }
-
-
 
     /**
      * Gets user
@@ -253,12 +259,30 @@ class Poll
     }
 
     /**
-     * @param $accessToken
+     * @param string $accessToken
      * @return $this
      */
     public function setAccessToken($accessToken)
     {
         $this->accessToken = $accessToken;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isPublished()
+    {
+        return $this->published;
+    }
+
+    /**
+     * @return $this
+     */
+    public function publish()
+    {
+        $this->published = true;
 
         return $this;
     }

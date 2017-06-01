@@ -13,6 +13,9 @@ use Doctrine\Common\Persistence\ObjectManager;
  */
 class LoadUserData extends AbstractFixture implements OrderedFixtureInterface
 {
+    /**
+     * {@inheritdoc}
+     */
     public function load(ObjectManager $manager)
     {
         // An admin
@@ -24,7 +27,6 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface
         $manager->persist($userAdmin);
 
         // An user
-
         $user = new User();
         $user->setEmail('hugo.alliaume@etu.univ-lyon1.fr');
         $user->setPlainPassword('hugo');
@@ -58,9 +60,10 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface
         $manager->flush();
         $manager->clear();
     }
-    // the order in which fixtures will be loaded
-    // the lower the number, the sooner that this fixture is loaded
 
+    /**
+     * {@inheritdoc}
+     */
     public function getOrder()
     {
         return 1;

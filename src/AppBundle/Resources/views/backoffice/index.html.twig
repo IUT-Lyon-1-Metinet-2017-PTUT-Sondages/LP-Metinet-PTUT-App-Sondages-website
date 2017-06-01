@@ -1,51 +1,53 @@
 {% extends "::backoffice_base.html.twig" %}
-{% trans_default_domain 'home' %}
+{% trans_default_domain 'AppBundle' %}
+
 {% block bodyclass %}app header-fixed sidebar-fixed aside-menu-fixed aside-menu-hidden{% endblock %}
+
 {% block main %}
-        <div class="animated fadeIn">
-            <div class="row">
-                {% if is_granted('ROLE_ADMIN') %}
+    <div class="animated fadeIn">
+        <div class="row">
+            {% if is_granted('ROLE_ADMIN') %}
                 <div class="col-sm-6 col-lg-3">
                     <div class="card card-inverse card-primary">
                         <div class="card-block pb-0">
                             <h4 class="mb-0">{{ data.nbUsers }}</h4>
-                            <p>{{ 'nb_registred_users'|trans }}</p>
+                            <p>{{ 'backoffice_home.nb_registred_users' | trans }}</p>
                         </div>
                         <div class="chart-wrapper px-1" style="height:70px;">
                             <canvas id="card-chart1" class="chart" height="70"></canvas>
                         </div>
                     </div>
                 </div>
-                {% endif %}
-                <!--/.col-->
+            {% endif %}
+            <!--/.col-->
 
-                <div class="col-sm-6 col-lg-3">
-                    <div class="card card-inverse card-info">
-                        <div class="card-block pb-0">
-                            <h4 class="mb-0">{{ data.nbPolls }}</h4>
-                            <p>{{ 'nb_polls'|trans }}</p>
-                        </div>
-                        <div class="chart-wrapper px-1" style="height:70px;">
-                            <canvas id="card-chart2" class="chart" height="70"></canvas>
-                        </div>
+            <div class="col-sm-6 col-lg-3">
+                <div class="card card-inverse card-info">
+                    <div class="card-block pb-0">
+                        <h4 class="mb-0">{{ data.nbPolls }}</h4>
+                        <p>{{ 'backoffice_home.nb_polls' | trans }}</p>
+                    </div>
+                    <div class="chart-wrapper px-1" style="height:70px;">
+                        <canvas id="card-chart2" class="chart" height="70"></canvas>
                     </div>
                 </div>
-                <!--/.col-->
-
-                <div class="col-sm-6 col-lg-3">
-                    <div class="card card-inverse card-warning">
-                        <div class="card-block pb-0">
-
-                            <h4 class="mb-0">{{ data.nbAnswers }}</h4>
-                            <p>{{ 'nb_answers'|trans }}</p>
-                        </div>
-                        <div class="chart-wrapper" style="height:70px;">
-                            <canvas id="card-chart3" class="chart" height="70"></canvas>
-                        </div>
-                    </div>
-                </div>
-
             </div>
-            <!--/.row-->
+            <!--/.col-->
+
+            <div class="col-sm-6 col-lg-3">
+                <div class="card card-inverse card-warning">
+                    <div class="card-block pb-0">
+
+                        <h4 class="mb-0">{{ data.nbAnswers }}</h4>
+                        <p>{{ 'backoffice_home.nb_answers' | trans }}</p>
+                    </div>
+                    <div class="chart-wrapper" style="height:70px;">
+                        <canvas id="card-chart3" class="chart" height="70"></canvas>
+                    </div>
+                </div>
+            </div>
+
         </div>
+        <!--/.row-->
+    </div>
 {% endblock %}

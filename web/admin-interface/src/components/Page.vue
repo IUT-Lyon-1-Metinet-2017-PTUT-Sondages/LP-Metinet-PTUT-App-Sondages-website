@@ -1,62 +1,57 @@
 <template>
-  <div class="asided">
+  <div class="card">
+    <div class="card-header">
+      {{ $t('page.x_on_y', {x: pageIndex + 1, y: totalPages}) }}
 
-    <!-- Bouton pour ajouter une page avant -->
-    <button-insert-here v-if="pageIndex === 0" @click.prevent="addPageBefore(pageIndex)" :block="true" size="large">
-      {{ $t('page.insert') }}
-    </button-insert-here>
-
-    <!-- La page -->
-    <div class="card">
-      <div class="card-header">
-        {{ $t('page.x_on_y', {x: pageIndex + 1, y: totalPages}) }}
-
-        <div class="pull-right">
-          <button class="btn btn-danger btn-sm" @click.prevent="removePage"
-                  :disabled="totalPages <= 1">&times;
-          </button>
-        </div>
-      </div>
-
-      <div class="card-block">
-        <div class="page--meta">
-          <input v-if="isEditingPoll && 'id' in page" :value="page.id" :name="'poll[pages][' + pageIndex + '][id]'"
-                 type="hidden">
-
-          <!-- Le titre de la page -->
-          <div class="form-group" :class="{'has-danger': page.title.length == 0}">
-            <input v-model="page.title" required
-                   :name="'poll[pages][' + pageIndex + '][title]'"
-                   :placeholder="$t('page.placeholder.title')"
-                   class="form-control form-control-md">
-          </div>
-
-          <!-- La description de la page -->
-          <div class="form-group">
-                        <textarea v-model="page.description"
-                                  :name="'poll[pages][' + pageIndex + '][description]'"
-                                  :placeholder="$t('page.placeholder.description')"
-                                  class="form-control"></textarea>
-          </div>
-        </div>
-
-        <div class="page--content">
-          <!-- Le rendu des questions de la page actuelle -->
-          <transition-group name="fade" tag="div">
-            <template v-for="question, questionIndex in page.questions">
-              <question :key="questionIndex"
-                        :page="page" :pageIndex="pageIndex"
-                        :question="question" :questionIndex="questionIndex"></question>
-            </template>
-          </transition-group>
-        </div>
+      <div class="pull-right">
+        <button class="btn btn-danger btn-sm" @click.prevent="removePage"
+                :disabled="isSubmittingPoll || totalPages <= 1">
+          &times;
+        </button>
       </div>
     </div>
 
-    <!-- Bouton pour ajouter une page après -->
-    <button-insert-here @click.prevent="addPageAfter(pageIndex)" :block="true" size="large">
-      {{ $t('page.insert') }}
-    </button-insert-here>
+    <div class="card-block">
+      <div class="page--meta">
+        <input v-if="isEditingPoll && 'id' in page" :value="page.id" :name="'poll[pages][' + pageIndex + '][id]'"
+               type="hidden">
+
+        <!-- Le titre de la page -->
+        <div class="form-group" :class="{'has-danger': page.title.error || page.title.length == 0}">
+          <input v-model="page.title.value" :name="'poll[pages][' + pageIndex + '][title]'"
+                 :disabled="isSubmittingPoll"
+                 :placeholder="$t('page.placeholder.title')"
+                 maxlength="255"
+                 class="form-control form-control-md">
+          <div v-if="page.title.error" class="form-control-feedback">{{ page.title.error }}</div>
+        </div>
+
+        <!-- La description de la page -->
+        <div class="form-group">
+          <textarea v-model="page.description.value" :name="'poll[pages][' + pageIndex + '][description]'"
+                    :disabled="isSubmittingPoll"
+                    maxlength="2048"
+                    :placeholder="$t('page.placeholder.description')"
+                    class="form-control"></textarea>
+        </div>
+      </div>
+
+      <div class="page--content">
+        <!-- Le rendu des questions de la page actuelle -->
+        <transition-group name="fade" tag="div">
+          <template v-for="question, questionIndex in page.questions">
+            <question :key="questionIndex"
+                      :page="page" :pageIndex="pageIndex"
+                      :question="question" :questionIndex="questionIndex"></question>
+          </template>
+        </transition-group>
+
+        <!-- Bouton pour ajouter une question avant -->
+        <button-insert-here @click.prevent="addQuestion" :block="true">
+          {{ $t('question.add') }}
+        </button-insert-here>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -72,17 +67,14 @@
       pageIndex: {type: Number, required: true}
     },
     computed: {
-      ...mapGetters(['isEditingPoll']),
+      ...mapGetters(['isEditingPoll', 'isSubmittingPoll']),
       totalPages () {
         return this.poll.pages.length;
       }
     },
     methods: {
-      addPageBefore(pageIndex) {
-        Bus.$emit(Event.ADD_PAGE_BEFORE, pageIndex);
-      },
-      addPageAfter(pageIndex) {
-        Bus.$emit(Event.ADD_PAGE_AFTER, pageIndex);
+      addQuestion() {
+        Bus.$emit(Event.ADD_QUESTION, this.page)
       },
       removePage() {
         Bus.$emit(Event.REMOVE_PAGE, this.page);

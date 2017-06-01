@@ -12,57 +12,54 @@ class PollRepository extends EntityRepository
 {
     public function findResultsFromPoll($id)
     {
-        return $this->createQueryBuilder('p')
-                    ->select('q.id', 'q.title', 'pr.id', 'pr.title', 'COUNT(pr.id) as amount')
-                    ->innerJoin('p.questions', 'q')
-                    ->innerJoin('q.propositions', 'pr')
-                    ->innerJoin('pr.answers', 'a')
-                    ->groupBy('pr.id')
-                    ->where('p.id = :id')
-                    ->setParameter('id', $id)
-                    ->getQuery()
-                    ->getResult();
-    }
+        $sql = 'SELECT pa.id as paId, q.id as qId, q.title as qTitle, pr.id as propId, pr.title as propTitle, COUNT(pr.id)
+as amount, v.name as qType FROM poll p
+INNER JOIN question q ON q.poll_id = p.id
+INNER JOIN page pa ON q.page_id = pa.id
+INNER JOIN proposition pr ON pr.question_id = q.id
+INNER JOIN answer a ON a.proposition_id = pr.id
+INNER JOIN variant v ON pr.variant_id=v.id
+WHERE p.id = :id
+GROUP BY pr.id';
+        $stmt = $this->getEntityManager()->getConnection()->prepare($sql);
+        $stmt->execute(['id' => $id]);
+        return $stmt->fetchAll();
 
-
-
-
-    public function findFullObjectById($id)
-    {
-        return $this->createQueryBuilder('p')
-                    ->select(
-                        'p.id',
-                        'p.description',
-                        'p.title',
-                        'pages',
-                        'q',
-                        'pr',
-                        'v'
-                    )
-                    ->innerJoin('p.pages', 'pages')
-                    ->innerJoin('pages.questions', 'q')
-                    ->innerJoin('q.propositions', 'pr')
-                    ->innerJoin('pr.variant', 'v')
-                    ->groupBy('p.id')
-                    ->where('p.id = :id')
-                    ->setParameter('id', $id)
-                    ->getQuery()
-                    ->getResult();
     }
 
     public function findNbAnsweredPoll($user)
     {
-       $query= $this->createQueryBuilder('p')
+        $query = $this->createQueryBuilder('p')
             ->select('COUNT(DISTINCT(a.sessionId)) as nbAnsweredPoll')
             ->innerJoin('p.questions', 'q')
             ->innerJoin('q.propositions', 'pr')
             ->innerJoin('pr.answers', 'a');
-        if(null !== $user){
+        if (null !== $user) {
             $query->andWhere('p.user = :user')
-                  ->setParameter('user', $user);
+                ->setParameter('user', $user);
         }
 
-
         return $query->getQuery()->getSingleScalarResult();
+    }
+    public function findBy(array $criteria, array $orderBy = NULL, $limit = NULL, $offset = NULL)
+    {
+        $polls = $this->createQueryBuilder('p')
+                    ->leftJoin('p.user', 'u')
+                    ->addSelect('u.email');
+
+        foreach($criteria as $column => $value){
+            $polls = $polls->where($column .'= :param')
+                           ->setParameter('param',$value);
+
+        }
+
+        $polls = $polls->groupBy('p.id')
+            ->add('orderBy', "p.{$orderBy[0]} {$orderBy[1]}")
+            ->setFirstResult($offset)
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+
+        return ($polls);
     }
 }

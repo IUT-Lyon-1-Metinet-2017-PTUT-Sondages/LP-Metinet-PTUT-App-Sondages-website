@@ -3,9 +3,10 @@
 namespace AppBundle\Entity;
 
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-use AppBundle\Validator\Constraint as AcmeAssert;
+use AppBundle\Validator\Constraints as AcmeAssert;
 use Knp\DoctrineBehaviors\Model as ORMBehaviors;
 use JMS\Serializer\Annotation\ExclusionPolicy;
 use JMS\Serializer\Annotation\Expose;
@@ -40,17 +41,20 @@ class Proposition
     private $title;
 
     /**
-     * Many propostions have One question.
+     * @var Question
      * @Expose
      * @Groups({"Default"})
+     * Many propositions have One question.
      * @ORM\ManyToOne(targetEntity="Question", inversedBy="propositions")
      * @ORM\JoinColumn(name="question_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $question;
 
     /**
+     * @var Answer[]
      * One proposition has Many answers.
      * @ORM\OneToMany(targetEntity="Answer", mappedBy="proposition", cascade={"persist", "remove"})
+     * @Assert\Valid
      */
     private $answers;
 
@@ -60,11 +64,19 @@ class Proposition
      * @Groups({"backOffice"})
      * @ORM\ManyToOne(targetEntity="Variant", inversedBy="propositions")
      * @ORM\JoinColumn(name="variant_id", referencedColumnName="id", onDelete="CASCADE")
-     * @AcmeAssert\IsExistingVariant
+     // @ AcmeAssert\IsExistingVariant
+     // Type error: Argument 1 passed to AppBundle\Validator\Constraints\IsExistingVariantValidator::__construct() must be an instance of AppBundle\Services\VariantRepositoryService, none given, called in /home/kocal/Dev/Sites/LP-Metinet-PTUT-App-Sondages/website/vendor/symfony/symfony/src/Symfony/Bundle/FrameworkBundle/Validator/ConstraintValidatorFactory.php on line 77
      */
     private $variant;
 
-
+    /**
+     * Proposition constructor.
+     */
+    public function __construct()
+    {
+        $this->answers = new ArrayCollection();
+    }
+    
     /**
      * Get id
      * @return int
@@ -82,7 +94,7 @@ class Proposition
      */
     public function setTitle($title)
     {
-        $this->title = $title;
+        $this->title = trim($title);
 
         return $this;
     }
@@ -97,7 +109,7 @@ class Proposition
     }
 
     /**
-     * Gets the Many propostions have One question.
+     * Gets the Many propositions have One question.
      * @return mixed
      */
     public function getQuestion()
@@ -109,7 +121,7 @@ class Proposition
      * Sets question
      * @param mixed $question the question
      *
-     * @return self
+     * @return $this
      */
     public function setQuestion($question)
     {
@@ -130,8 +142,7 @@ class Proposition
     /**
      * Sets the Many propositions have One variant.
      * @param mixed $variant the variant
-     *
-     * @return self
+     * @return $this
      */
     public function setVariant($variant)
     {
@@ -139,6 +150,7 @@ class Proposition
 
         return $this;
     }
+
     /**
      * @return mixed
      */
@@ -149,10 +161,8 @@ class Proposition
 
     /**
      * Add answer.
-     *
      * @param Answer $answer
-     *
-     * @return self
+     * @return $this
      */
     public function addAnswer(Answer $answer)
     {
@@ -160,9 +170,9 @@ class Proposition
 
         return $this;
     }
+
     /**
      * Remove answer.
-     *
      * @param Answer $answer
      */
     public function removeAnswer(Answer $answer)

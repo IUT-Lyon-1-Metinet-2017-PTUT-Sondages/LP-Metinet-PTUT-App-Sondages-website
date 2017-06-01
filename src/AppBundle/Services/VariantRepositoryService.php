@@ -3,7 +3,6 @@
 namespace AppBundle\Services;
 
 use AppBundle\Entity\Variant;
-use AppBundle\Repository\VariantRepository;
 use Doctrine\ORM\EntityManager;
 
 /**
@@ -12,19 +11,34 @@ use Doctrine\ORM\EntityManager;
  */
 class VariantRepositoryService
 {
+    /**
+     * @var EntityManager
+     */
     private $em;
 
+    /**
+     * VariantRepositoryService constructor.
+     * @param EntityManager $entityManager
+     */
     public function __construct(EntityManager $entityManager)
     {
         $this->em = $entityManager;
     }
 
-    public function getVariants($filter = [])
+    /**
+     * @param array $filter
+     * @return Variant[]|array
+     */
+    public function getVariants(array $filter = [])
     {
         return $this->em->getRepository('AppBundle:Variant')->findBy($filter);
     }
 
-    public function getVariant($filter = [])
+    /**
+     * @param array $filter
+     * @return Variant|null
+     */
+    public function getVariant(array $filter = [])
     {
         return $this->em->getRepository('AppBundle:Variant')->findOneBy($filter);
     }

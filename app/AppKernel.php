@@ -21,7 +21,9 @@ class AppKernel extends Kernel
             new Knp\DoctrineBehaviors\Bundle\DoctrineBehaviorsBundle(),
             new FOS\RestBundle\FOSRestBundle(),
             new JMS\SerializerBundle\JMSSerializerBundle(),
-            new \Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
+            new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
+            new Avegao\ChartjsBundle\AvegaoChartjsBundle(),
+            new Liuggio\ExcelBundle\LiuggioExcelBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

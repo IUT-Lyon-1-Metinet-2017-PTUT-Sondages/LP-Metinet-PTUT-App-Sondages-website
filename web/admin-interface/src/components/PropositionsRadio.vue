@@ -13,19 +13,21 @@
       </div>
 
       <!-- Titre de la proposition -->
-      <div class="col">
-        <input v-model="proposition.title"
+      <div class="col" :class="{'has-danger': proposition.title.error }">
+        <input v-model="proposition.title.value"
                :name="'poll[pages][' + pageIndex + '][questions][' + questionIndex + '][propositions][' +  propositionIndex + '][title]'"
+               :disabled="isSubmittingPoll"
+               maxlength="255"
                :placeholder="$t('proposition.placeholder.proposition_x', {x: propositionIndex + 1})"
-               class="form-control d-inline-block"
-               required="required">
+               class="form-control d-inline-block">
+        <div v-if="proposition.title.error" class="form-control-feedback">{{ proposition.title.error }}</div>
       </div>
 
       <!-- Bouton supprimer -->
       <div class="col col-auto ml-h">
         <button class="btn btn-outline-danger"
-                @click.prevent="question.propositions.splice(propositionIndex, 1)"
-                :disabled="question.propositions.length <= 1">&times;
+                @click.prevent="removeProposition(proposition)"
+                :disabled="isSubmittingPoll || question.propositions.length <= 1">&times;
         </button>
       </div>
     </div>
@@ -34,6 +36,8 @@
 
 <script>
   import {mapGetters} from 'vuex';
+  import Bus from '../bus/admin-add-poll';
+  import {REMOVE_PROPOSITION} from '../bus/events';
 
   export default {
     props: {
@@ -43,10 +47,15 @@
       questionIndex: {type: Number, required: true},
     },
     computed: {
-      ...mapGetters(['isEditingPoll'])
+      ...mapGetters(['isEditingPoll', 'isSubmittingPoll'])
     },
     data () {
       return {}
+    },
+    methods: {
+      removeProposition(proposition) {
+        Bus.$emit(REMOVE_PROPOSITION, proposition, this.question);
+      }
     }
   }
 </script>

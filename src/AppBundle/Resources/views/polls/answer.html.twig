@@ -1,4 +1,27 @@
 {% extends '::base.html.twig' %}
+{% trans_default_domain 'poll' %}
+
+{% block head_meta %}
+    <meta property="og:title" content="{{ poll.title }}" />
+    <meta property="og:description" content="{{ poll.description }}" />
+    <meta property="og:type" content="poll" />
+    <meta property="og:url" content="{{ url('answer_poll', {'token':poll.accessToken}) }}" />
+    <meta property="og:image" content="{{ absolute_url(asset('front/assets/img/logo.png')) }}" />
+    <meta property="og:locale" content="fr_FR" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="{{ poll.title }}" />
+    <meta name="twitter:description" content="{{ poll.description }}" />
+    <meta name="twitter:image" content="{{ absolute_url(asset('front/assets/img/logo.png')) }}" />
+{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('front/assets/css/kdt-inputs.css') }}" type="text/css">
+    <style>
+        form[name="appbundle_poll_view"] .card.error {
+            color: #d9534f;
+            border-color: #d9534f;
+        }
+    </style>
+{% endblock %}
 
 {% block title %}
     {{ poll.title }}
@@ -30,51 +53,63 @@
 {%- endblock widget_attributes -%}
 
 {% block choice_widget %}
-    <div class="row">
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-block">
-                    <h2 class="card-title text-center">{{ label }}</h2>
-                    <hr>
-                    <div class="card-text container">
-                        {% if expanded %}
-                            <div class="row">
-                                <div class="responsive-linear-scale">
-                                    {% for choice in choices %}
-                                        <div class="kdt-radio">
-                                            <input type="radio" id="{{ id ~ '_' ~ choice.data }}" {{ block('widget_attributes') }}{% if choice.value is defined %} value="{{ choice.value }}"{% endif %}>
-                                            <label for="{{ id ~ '_' ~ choice.data }}">{{ choice.label }}</label>
-                                        </div>
-                                    {% endfor %}
-                                </div>
-                            </div>
-                        {% else %}
+    {% set has_errors = errors is not empty %}
+    <div class="card mb-5 {{ has_errors ? 'error' : '' }}">
+        <div class="card-block">
+            <h2 class="card-title text-center">{{ label }}</h2>
+            <hr>
+            <div class="card-text container">
+                {% if expanded %}
+                    <div class="row">
+                        <div class="responsive-linear-scale">
                             {% for choice in choices %}
-                                <div class="row">
-                                    <div class="kdt-{% if multiple %}checkbox{% else %}radio{% endif %} kdt-{% if multiple %}checkbox{% else %}radio{% endif %}-aside">
-                                        <input type="{% if multiple %}checkbox{% else %}radio{% endif %}" id="{{ id ~ '_' ~ choice.data }}" {{ block('widget_attributes') }}{% if choice.value is defined %} value="{{ choice.value }}"{% endif %}>
-                                        <label for="{{ id ~ '_' ~ choice.data }}">{{ choice.label }}</label>
-                                    </div>
+                                <div class="kdt-radio kdt-radio-above">
+                                    <input type="radio"
+                                           id="{{ id ~ '_' ~ choice.data }}" {{ block('widget_attributes') }}
+                                            {% if choice.value is defined %} value="{{ choice.value }}"{% endif %}
+                                            {% if not multiple and choice.value == form.vars.data %} checked="checked"{% endif %}
+                                    >
+                                    <label for="{{ id ~ '_' ~ choice.data }}">{{ choice.label }}</label>
                                 </div>
                             {% endfor %}
-                        {% endif %}
+                        </div>
                     </div>
-                </div>
+                {% else %}
+                    {% for choice in choices %}
+                        <div class="row">
+                            <div class="kdt-{% if multiple %}checkbox{% else %}radio{% endif %}">
+                                <input type="{% if multiple %}checkbox{% else %}radio{% endif %}"
+                                       id="{{ id ~ '_' ~ choice.data }}" {{ block('widget_attributes') }}
+                                        {% if choice.value is defined %} value="{{ choice.value }}"{% endif %}
+                                        {% if multiple and choice.value in form.vars.data %} checked="checked"{% endif %}
+                                        {% if not multiple and choice.value == form.vars.data %} checked="checked"{% endif %}
+                                >
+                                <label for="{{ id ~ '_' ~ choice.data }}">{{ choice.label }}</label>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% endif %}
             </div>
         </div>
     </div>
 {% endblock %}
 
 {% block content %}
-    {{ form_start(pollView,{attr: {'novalidate':'novalidate'}}) }}
-        {% for page in poll.pages %}
-            <div class="row">
-                <div class="col"><h3 class="p-3">{{ page.title }}</h3></div>
-                <div class="col text-right"><h4>Page {{ loop.index }} sur {{ poll.pages|length }}</h4></div>
-            </div>
-            {% for question in page.questions %}
-                {{ form_widget(attribute(pollView, 'question' ~ question.id)) }}
-            {% endfor %}
+    {{ form_start(pollView, {attr: {'novalidate':'novalidate'}}) }}
+
+    {% for page in poll.pages %}
+        <h3 class="my-5">
+            {{ page.title }}
+            <small class="float-right">{{ 'page_x_on_y' | trans({'{x}': loop.index, '{y}': poll.pages | length}) }}</small>
+        </h3>
+        {% for question in page.questions %}
+            {{ form_widget(attribute(pollView, 'question' ~ question.id)) }}
         {% endfor %}
+    {% endfor %}
+
+    <div class="text-center">
+        {{ form_widget(pollView.submit_poll) }}
+    </div>
+
     {{ form_end(pollView) }}
 {% endblock %}

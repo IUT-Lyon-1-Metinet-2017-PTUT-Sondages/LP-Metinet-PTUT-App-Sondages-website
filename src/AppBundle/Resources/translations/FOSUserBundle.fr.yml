@@ -1,18 +1,35 @@
+update_profile: 'Modifier mon profil'
+update_a_profile: 'Modifier un profil'
+update_password: 'Modifier mon mot de passe'
+delete_account: 'Supprimer mon compte'
+
+profile:
+  show: 'Voir mon profil'
+  preview: 'Aperçu du profil'
+
 layout:
   login:
     title: 'Connexion'
     long: 'Connectez vous à votre compte'
     password:
       forgot: 'Mot de passe oublié ?'
+
   register:
     title: 'Créer votre compte'
     submit: 'S''inscrire !'
     explanation: 'Pour vous inscrire, veuillez utiliser votre adresse universitaire.'
   logged_in_as: 'Connecté en tant que %username%'
+
 resetting:
   request:
     title: 'Mot de passe oublié'
     text: 'Demandez un nouveau mot de passe'
     username: 'Adresse e-mail'
-update_profile: 'Modifier mon profil'
-update_password: 'Modifier mon mot de passe'
+
+form:
+  email: 'Adresse e-mail (Domaine de l''Université Lyon 1)'
+  first_name: 'Prénom'
+  last_name: 'Nom'
+
+  delete_account: 'Supprimer mon compte'
+  delete_account_confirmation: 'Je suis sûr de moi et je souhaite supprimer mon compte'
