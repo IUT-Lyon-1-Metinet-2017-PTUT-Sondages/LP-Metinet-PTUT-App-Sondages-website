@@ -10,3 +10,31 @@
 .spaced-logout-btn {
   padding: 10px;
 }
+
+// https://github.com/twbs/bootstrap/issues/20617
+
+@function breakpoint-infix-up($name, $breakpoints: $grid-breakpoints) {
+  @return if(breakpoint-max($name, $breakpoints) == null, "", "-#{$name}");
+}
+
+@each $breakpoint in map-keys($grid-breakpoints) {
+  @include media-breakpoint-down($breakpoint) {
+    $infix: breakpoint-infix-up($breakpoint, $grid-breakpoints);
+
+    .btn#{$infix}-block {
+      display: block;
+      width: 100%;
+      @each $breakpoint2 in map-keys($grid-breakpoints) {
+        $infix2: breakpoint-infix-up($breakpoint2, $grid-breakpoints);
+
+        + .btn#{$infix2}-block {
+          margin-top: $btn-block-spacing-y;
+        }
+
+        .btn#{$infix2}-block + & {
+          margin-top: $btn-block-spacing-y;
+        }
+      }
+    }
+  }
+}

@@ -6,7 +6,7 @@ admin_poll:
 
   polls_list: 'Liste des sondages'
   poll_results: 'Résultats du sondage'
-  create_new_poll: 'Créer un nouveau sondage'
+  create_poll: 'Créer un sondage'
 
   table:
     title: 'Titre'
@@ -73,6 +73,10 @@ sidebar:
   users_list: 'Liste des utilisateurs'
 
 front:
+  presentation: >
+    <p>salut</p>é
+    <p>blabla</p>
+
   poll:
     answer:
       thanks: 'Merci d''avoir répondu à ce sondage'

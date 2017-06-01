@@ -1,6 +1,8 @@
 {% extends '::base.html.twig' %}
+{% trans_default_domain 'AppBundle' %}
 
 {% block content %}
+    {{ 'front.presentation' | trans | raw }}
     <p>Page d'accueil à travailler</p>
 
     {% if app.user %}

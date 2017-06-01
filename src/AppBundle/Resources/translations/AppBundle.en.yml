@@ -6,7 +6,7 @@ admin_poll:
 
   polls_list: 'Polls list'
   poll_results: 'Poll results'
-  create_new_poll: 'Create a new poll'
+  create_poll: 'Create a poll'
 
   table:
     title: 'Title'
@@ -73,6 +73,10 @@ sidebar:
   users_list: 'Users list'
 
 front:
+  presentation: >
+    <p>hello</p>
+    <p>fofofoof</p>
+
   poll:
     answer:
       thanks: 'Thank you for completing this poll'
