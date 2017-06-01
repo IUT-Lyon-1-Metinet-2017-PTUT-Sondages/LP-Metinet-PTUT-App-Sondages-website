@@ -38,3 +38,9 @@
     }
   }
 }
+
+@include media-breakpoint-down(sm) {
+  .main .container-fluid {
+    padding: 0;
+  }
+}
