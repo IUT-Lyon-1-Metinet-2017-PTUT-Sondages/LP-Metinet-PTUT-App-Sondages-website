@@ -100,7 +100,7 @@
     {% for page in poll.pages %}
         <h3 class="my-5">
             {{ page.title }}
-            <small class="float-right">{{ 'page_x_on_y' | trans({'{x}': loop.index, '{y}': poll.pages | length}) }}</small>
+            <small class="float-right">{{ 'poll.page_x_on_y' | trans({'{x}': loop.index, '{y}': poll.pages | length}, 'AppBundle') }}</small>
         </h3>
         {% for question in page.questions %}
             {{ form_widget(attribute(pollView, 'question' ~ question.id)) }}
