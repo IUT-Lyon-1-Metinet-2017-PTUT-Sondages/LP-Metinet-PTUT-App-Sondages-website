@@ -96,3 +96,8 @@ footer {
 .responsive-linear-scale > div {
     flex: 1;
 }
+
+.card-info .card-header {
+    background-color: #4ebada;
+    border-color: #4ebada;
+}
