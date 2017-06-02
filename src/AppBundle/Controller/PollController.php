@@ -37,8 +37,8 @@ class PollController extends Controller
     public function indexAction(Request $request)
     {
         $paginator = $this->get('knp_paginator');
-        $service = $this->get('app.repository_service.poll');
-        $user = $this->getUser();
+        $service   = $this->get('app.repository_service.poll');
+        $user      = $this->getUser();
 
         if ($user->hasRole('ROLE_ADMIN')) {
             $entries = $service->getPolls([]);
@@ -148,6 +148,7 @@ class PollController extends Controller
 
         return $this->redirectToRoute('backoffice_polls');
     }
+
     /**
      * Send a mail
      * @Route("/backoffice/send-mail", name="backoffice_send_mail")
@@ -156,13 +157,13 @@ class PollController extends Controller
      */
     public function sendMailAction(Request $request)
     {
-        if($request->isXmlHttpRequest()) {
-            $mail = $request->get('email');
-            $id = $request->get('id');
+        if ($request->isXmlHttpRequest()) {
+            $mail        = $request->get('email');
+            $id          = $request->get('id');
             $mailService = $this->get('app.mailer_service');
-            $userMail = $this->getUser()->getEmail();
-            $response = $mailService->sharePoll($userMail, $mail,$id);
-            $response = new JsonResponse($response);
+            $userMail    = $this->getUser()->getEmail();
+            $response    = $mailService->sharePoll($userMail, $mail, $id);
+            $response    = new JsonResponse($response);
             return $response;
         } else {
             $response = new JsonResponse(false);
@@ -389,7 +390,7 @@ class PollController extends Controller
 
             foreach ($pages as $pageIndex => $page) {
                 /** @var Page $page */
-                if($page->getId() == $question['paId']) {
+                if ($page->getId() == $question['paId']) {
                     break;
                 }
             }
@@ -397,26 +398,50 @@ class PollController extends Controller
             $currentQuestionSheet = new \PHPExcel_Worksheet(
                 $phpExcelObject, sprintf('Page %d - Question %d', $pageIndex + 1, $questionIndex + 1)
             );
-            $currentQuestionSheet->setCellValue('A1', 'Proposition');
-            $currentQuestionSheet->setCellValue('B1', 'Quantité');
-            $currentQuestionSheet->setCellValue('C1', 'Pourcentage');
+            // Attach the worksheet to the file
+            $phpExcelObject->addSheet($currentQuestionSheet, $questionIndex);
+            $currentQuestionSheet->getColumnDimension('A')->setWidth(16);
+            $currentQuestionSheet->getColumnDimension('B')->setWidth(16);
+            $currentQuestionSheet->getColumnDimension('C')->setWidth(16);
+            $currentQuestionSheet->setCellValue('A1', $poll->getTitle());
+            $currentQuestionSheet->setCellValue('A2', 'Page n°' . $question ['paId']);
+            $currentQuestionSheet->setCellValue('A3', $question['qTitle']);
+            $currentQuestionSheet->setCellValue('A5', 'Proposition');
+            $currentQuestionSheet->setCellValue('B5', 'Quantité');
+            $currentQuestionSheet->setCellValue('C5', 'Pourcentage');
 
             $dataSeriesLabels = [];
             $dataSeriesValues = [];
             foreach ($question['props'] as $index => $proposition) {
                 if ($question['qType'] == 'Checkbox' || $question['qType'] == 'LinearScale') {
-                    array_push($dataSeriesLabels, new \PHPExcel_Chart_DataSeriesValues('String', "'" . $currentQuestionSheet->getTitle() . "'" . '!A' . ($index + 2), null, 1));
-                    array_push($dataSeriesValues, new \PHPExcel_Chart_DataSeriesValues('Number', "'" . $currentQuestionSheet->getTitle() . "'" . '!B' . ($index + 2), null, 1));
+                    array_push($dataSeriesLabels, new \PHPExcel_Chart_DataSeriesValues('String', "'" . $currentQuestionSheet->getTitle() . "'" . '!A' . ($index + 6), null, 1));
+                    array_push($dataSeriesValues, new \PHPExcel_Chart_DataSeriesValues('Number', "'" . $currentQuestionSheet->getTitle() . "'" . '!B' . ($index + 6), null, 1));
                 }
-                $currentQuestionSheet->setCellValue('A' . ($index + 2), $proposition['title']);
-                $currentQuestionSheet->setCellValue('B' . ($index + 2), $proposition['amount']);
+                $currentQuestionSheet->setCellValue('A' . ($index + 6), $proposition['title']);
+                $currentQuestionSheet->setCellValue('B' . ($index + 6), $proposition['amount']);
+                $currentQuestionSheet->getStyle('A' . ($index + 6))
+                    ->applyFromArray([
+                        'borders' => [
+                            'allborders' => [
+                                'style' => \PHPExcel_Style_Border::BORDER_THIN
+                            ]
+                        ]
+                    ]);
+                $currentQuestionSheet->getStyle('C' . ($index + 6))
+                    ->applyFromArray([
+                        'borders' => [
+                            'allborders' => [
+                                'style' => \PHPExcel_Style_Border::BORDER_THIN
+                            ]
+                        ]
+                    ]);
             }
 
             $xAxisTickValues = array(
-                new \PHPExcel_Chart_DataSeriesValues('String',"'" . $currentQuestionSheet->getTitle() . "'" . '!$B$1', NULL, 1),
+                new \PHPExcel_Chart_DataSeriesValues('String', "'" . $currentQuestionSheet->getTitle() . "'" . '!$B$1', NULL, 1),
             );
             if ($question['qType'] == 'Checkbox' || $question['qType'] == 'LinearScale') {
-                $series           = new \PHPExcel_Chart_DataSeries(
+                $series = new \PHPExcel_Chart_DataSeries(
                     \PHPExcel_Chart_DataSeries::TYPE_BARCHART,
                     \PHPExcel_Chart_DataSeries::GROUPING_CLUSTERED,
                     range(0, count($dataSeriesValues) - 1),
@@ -429,7 +454,7 @@ class PollController extends Controller
                 $legend   = new \PHPExcel_Chart_Legend(\PHPExcel_Chart_Legend::POSITION_RIGHT, null, false);
                 $title    = new \PHPExcel_Chart_Title('Graphique ' . $question['qTitle']);
 
-                $chart    = new \PHPExcel_Chart(
+                $chart = new \PHPExcel_Chart(
                     'chart' . $question['qTitle'],
                     $title,
                     $legend,
@@ -444,8 +469,8 @@ class PollController extends Controller
                 $chart->setBottomRightPosition('S30');
                 $currentQuestionSheet->addChart($chart);
             } elseif ($question['qType'] == 'Radio') {
-                $dataSeriesLabels = [new \PHPExcel_Chart_DataSeriesValues('String', "'" . $currentQuestionSheet->getTitle() . "'" . '!$A$2:$A$' . (count($question['props']) + 1), null, count($question['props']) + 1)];
-                $dataSeriesValues = [new \PHPExcel_Chart_DataSeriesValues('Number', "'" . $currentQuestionSheet->getTitle() . "'" . '!$B$2:$B$' . (count($question['props']) + 1), null, count($question['props']) + 1)];
+                $dataSeriesLabels = [new \PHPExcel_Chart_DataSeriesValues('String', "'" . $currentQuestionSheet->getTitle() . "'" . '!$A$6:$A$' . (count($question['props']) + 5), null, count($question['props']) + 1)];
+                $dataSeriesValues = [new \PHPExcel_Chart_DataSeriesValues('Number', "'" . $currentQuestionSheet->getTitle() . "'" . '!$B$6:$B$' . (count($question['props']) + 5), null, count($question['props']) + 1)];
                 $series           = new \PHPExcel_Chart_DataSeries(
                     \PHPExcel_Chart_DataSeries::TYPE_PIECHART,
                     null,
@@ -454,7 +479,7 @@ class PollController extends Controller
                     $dataSeriesLabels,
                     $dataSeriesValues
                 );
-                $layout = new \PHPExcel_Chart_Layout();
+                $layout           = new \PHPExcel_Chart_Layout();
                 $layout->setShowVal(true);
                 $layout->setShowPercent(true);
 
@@ -478,8 +503,35 @@ class PollController extends Controller
                 $currentQuestionSheet->addChart($chart);
             }
 
-            // Attach the worksheet to the file
-            $phpExcelObject->addSheet($currentQuestionSheet, $questionIndex);
+            $currentQuestionSheet->getStyle('A1')->applyFromArray(['font' => [
+                'bold' => true,
+                'size' => 22,
+            ]]);
+            $currentQuestionSheet->getStyle('A2')->applyFromArray(['font' => [
+                'bold' => true,
+                'size' => 18,
+            ]]);
+            $currentQuestionSheet->getStyle('A3')->applyFromArray(['font' => [
+                'bold' => true,
+                'size' => 16,
+            ]]);
+            $currentQuestionSheet->getStyle('A5:C5')
+                ->applyFromArray([
+                    'borders' => [
+                        'allborders' => [
+                            'style' => \PHPExcel_Style_Border::BORDER_THIN
+                        ]
+                    ],
+                    'font'    => [
+                        'color' => ['rgb' => 'FFFFFF']
+                    ]
+                ]);
+            $currentQuestionSheet->getStyle('A5:C5')->getFill()->applyFromArray([
+                'type'       => \PHPExcel_Style_Fill::FILL_SOLID,
+                'startcolor' => [
+                    'rgb' => '538DD5'
+                ]
+            ]);
         }
 
         // create the writer
