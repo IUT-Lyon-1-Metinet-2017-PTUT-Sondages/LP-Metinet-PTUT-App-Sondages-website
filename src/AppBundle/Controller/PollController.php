@@ -31,12 +31,14 @@ class PollController extends Controller
     /**
      * Display all user's polls, or all polls if current user is admin.
      * @Route("/backoffice/polls", name="backoffice_polls")
+     * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
+        $paginator = $this->get('knp_paginator');
         $service = $this->get('app.repository_service.poll');
-        $user    = $this->getUser();
+        $user = $this->getUser();
 
         if ($user->hasRole('ROLE_ADMIN')) {
             $entries = $service->getPolls([]);
@@ -44,8 +46,14 @@ class PollController extends Controller
             $entries = $service->getPolls(['u.email' => $user->getEmail()]);
         }
 
+        $pagination = $paginator->paginate(
+            $entries,
+            $request->query->getInt('page', 1),
+            20
+        );
+
         return $this->render('@App/backoffice/poll/index.html.twig', [
-            'entries' => $entries
+            'pagination' => $pagination
         ]);
     }
 

@@ -8,28 +8,38 @@
     <hr>
 
     <div class="row pb-1">
-        <div class="col">
-            <a target="_blank" href="{{ path('backoffice_polls_add') }}" class="btn btn-primary btn-lg btn-block">
+        <div class="col text-center">
+            <a target="_blank" href="{{ path('backoffice_polls_add') }}" class="btn btn-primary btn-lg">
                 <i class="fa fa-plus-circle"></i>&nbsp;{{ 'admin_poll.create_poll' | trans }}
             </a>
         </div>
     </div>
+
+    <div class="row justify-content-center">
+        {{ knp_pagination_render(pagination) }}
+    </div>
+
     <div class="row pb-1">
         <div class="col">
             <table class="table table-bordered table-striped table-condensed">
                 <thead>
                 <tr>
-                    <th>{{ 'admin_poll.table.title' | trans }}</th>
+                    <th{% if pagination.isSorted('a.title') %} class="sorted"{% endif %}>
+                        {{ knp_pagination_sortable(pagination, 'admin_poll.table.title' | trans, 'a.title') }}
+                    </th>
                     {% if is_granted('ROLE_ADMIN') %}
-                        <th class="hidden-sm-down">{{ 'admin_poll.table.author' | trans }}</th>
+                        <th class="hidden-sm-down {% if pagination.isSorted('a.user.email') %}sorted{% endif %}">
+                            {{ knp_pagination_sortable(pagination, 'admin_poll.table.author' | trans, 'a.user.email') }}
+                        </th>
                     {% endif %}
-                    <th>{{ 'admin_poll.table.is_published' | trans }}</th>
+                    <th>
+                        {{ 'admin_poll.table.state' | trans }}
+                    </th>
                     <th></th>
                 </tr>
                 </thead>
                 <tbody>
-                {% for entry in entries %}
-                    {% set poll = entry.0 %}
+                {% for poll in pagination %}
                     <tr>
                         <td>
                             <a target="_blank" href="{{ path('answer_poll', {'token':poll.accessToken}) }}">
@@ -37,16 +47,16 @@
                         </td>
                         {% if is_granted('ROLE_ADMIN') %}
                             <td class="hidden-sm-down">
-                                <a href="mailto:{{ entry.email }}?subject={{ 'admin_poll.table_values.about_the_poll' | trans({'{title}': poll.title}) }}">
-                                    {{ entry.email }}
+                                <a href="mailto:{{ poll.user.email }}?subject={{ 'admin_poll.table_values.about_the_poll' | trans({'{title}': poll.title}) }}">
+                                    {{ poll.user.email }}
                                 </a>
                             </td>
                         {% endif %}
                         <td>
                             {% if poll.published %}
-                                {{ 'admin_poll.table_values.yes' | trans }}
+                                {{ 'admin_poll.table_values.published' | trans }}
                             {% else %}
-                                {{ 'admin_poll.table_values.no' | trans }}
+                                {{ 'admin_poll.table_values.not_published' | trans }}
                             {% endif %}
                         </td>
                         <td>
@@ -73,7 +83,8 @@
                             {% else %}
                                 <a href="{{ path('backoffice_poll_results', {'id': poll.id}) }}"
                                    class="btn btn-success btn-xs-block">
-                                    <i class="fa fa-eye"></i>&nbsp;<span class="hidden-sm-down">{{ 'admin_poll.table_values.answers' | trans }}</span>
+                                    <i class="fa fa-eye"></i>&nbsp;<span
+                                            class="hidden-sm-down">{{ 'admin_poll.table_values.answers' | trans }}</span>
                                 </a>
 
                                 <button data-toggle="modal" data-target="#shareModal"
@@ -104,6 +115,12 @@
             </table>
         </div>
     </div>
+    <div class="row justify-content-center">
+        <div class="row justify-content-center">
+            {{ knp_pagination_render(pagination) }}
+        </div>
+    </div>
+
     <div class="modal fade" id="shareModal" tabindex="-1" role="dialog" aria-labelledby="shareModalLabel"
          aria-hidden="true">
         <div class="modal-dialog" role="document">
