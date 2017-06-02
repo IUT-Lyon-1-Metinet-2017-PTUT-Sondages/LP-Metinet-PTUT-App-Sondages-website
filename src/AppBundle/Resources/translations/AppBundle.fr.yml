@@ -9,11 +9,11 @@ admin_poll:
   table:
     title: 'Titre'
     author: 'Auteur'
-    is_published: 'Publié ?'
+    state: 'Etat'
 
   table_values:
-    yes: 'Oui'
-    no: 'Non'
+    published: 'Publié'
+    not_published: 'Non publié'
     edit: 'Éditer'
     publish: 'Publier'
     publish_confirmation: 'Voulez-vous vraiment publier ce sondage ? Il sera ensuite impossible de le dé-publier.'

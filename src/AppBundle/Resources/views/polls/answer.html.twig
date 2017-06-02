@@ -103,12 +103,10 @@
     {{ form_start(pollView, {attr: {'novalidate':'novalidate'}}) }}
 
     {% for page in poll.pages %}
-        {#<h3 class="my-5">#}
-        {#</h3>#}
         <div class="card card-info card-inverse">
             <div class="card-header">
                 {{ page.title }}
-                <small class="float-right">{{ 'page_x_on_y' | trans({'{x}': loop.index, '{y}': poll.pages | length}) }}</small>
+                <small class="float-right">{{ 'poll.page_x_on_y' | trans({'{x}': loop.index, '{y}': poll.pages | length}, 'AppBundle') }}</small>
             </div>
             <div class="card-block">
                 {{ page.description }}
