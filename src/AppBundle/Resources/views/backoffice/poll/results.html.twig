@@ -18,9 +18,9 @@
                 </div>
                 <div class="card-footer d-flex justify-content-center">
                     <button class="btn btn-default">
-                    <a href="{{ path('backoffice_poll_export', {'id': poll.id}) }}" >
-                        <i class="fa fa-file-excel-o" aria-hidden="true"></i> Exporter vers excel
-                    </a>
+                        <a href="{{ path('backoffice_poll_export', {'id': poll.id}) }}">
+                            <i class="fa fa-file-excel-o" aria-hidden="true"></i> Exporter vers excel
+                        </a>
                     </button>
                 </div>
             </div>
@@ -40,28 +40,39 @@
                             </span>
                         {% endif %}
                     </div>
-                    <div class="card-block row">
-                        <div class=" col-md-6 col-12">
-                            <table class="table table-bordered table-striped table-condensed table-sm">
-                                <thead>
-                                <tr>
-                                    <th></th>
-                                    <th>Proposition</th>
-                                    <th>Quantité</th>
-                                    <th>Pourcentage</th>
-                                </tr>
-                                </thead>
-                                <tbody class="chart-legend-{{ chart.chart.id }}" data-type="{{ chart.question.qType }}">
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="col-md-6 col-12 row">
-                            <div class="col-md-2 hidden-xs-down"></div>
-                            <div class="chart-wrapper col-md-10 col-12">
-                                {{ chartjs_render_html(chart.chart) }}
+                    <div class="card-block">
+                        <div class="row">
+                            <div class="col-md-1 hidden-lg-down">
+                            </div>
+                            <div class=" col-md-6 col-12">
+                                <table class="table table-bordered table-striped table-condensed table-sm">
+                                    <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>Proposition</th>
+                                        <th>Quantité</th>
+                                        <th>Pourcentage</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody class="chart-legend-{{ chart.chart.id }}" data-type="{{ chart.question.qType }}">
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-sm-2 hidden-md-up">
+                            </div>
+                            <div class="col-md-5 col-lg-4 col-sm-8 col-12">
+                                <div class="row">
+                                    <div class="col-md-2 hidden-xs-down"></div>
+                                    <div class="col-md-10 col-12">
+                                        <div class="chart-wrapper">
+                                            {{ chartjs_render_html(chart.chart) }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-1 hidden-xs-down">
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>
