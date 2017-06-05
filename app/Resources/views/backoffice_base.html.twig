@@ -37,7 +37,7 @@
 
     -->
 
-    <body class="{% block bodyclass %}{% endblock %}">
+    <body class="{% block bodyclass %}app header-fixed sidebar-fixed aside-menu-fixed aside-menu-hidden{% endblock %}">
         {% if is_granted('ROLE_USER') %}
             {% include '@App/backoffice/partial/_header.html.twig'%}
         {% endif %}
