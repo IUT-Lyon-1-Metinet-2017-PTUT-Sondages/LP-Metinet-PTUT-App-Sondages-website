@@ -22,12 +22,12 @@ class ProfileFormType extends AbstractType
     {
         $builder
             ->add('firstName', TextType::class, [
-                'label' => 'user.first_name',
-                'translation_domain' => 'FOSUserBundle',
+                'label' => 'users.first_name',
+                'translation_domain' => 'AppBundle',
             ])
             ->add('lastName', TextType::class, [
-                'label' => 'user.last_name',
-                'translation_domain' => 'FOSUserBundle',
+                'label' => 'users.last_name',
+                'translation_domain' => 'AppBundle',
             ])
             ->remove('email')
             ->remove('username');

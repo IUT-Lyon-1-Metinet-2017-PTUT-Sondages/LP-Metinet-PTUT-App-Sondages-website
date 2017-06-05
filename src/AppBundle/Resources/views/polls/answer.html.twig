@@ -1,5 +1,5 @@
 {% extends '::base.html.twig' %}
-{% trans_default_domain 'poll' %}
+{% trans_default_domain 'AppBundle' %}
 
 {% block head_meta %}
     <meta property="og:title" content="{{ poll.title }}" />
@@ -106,7 +106,7 @@
         <div class="card card-info card-inverse">
             <div class="card-header">
                 {{ page.title }}
-                <small class="float-right">{{ 'poll.page_x_on_y' | trans({'{x}': loop.index, '{y}': poll.pages | length}, 'AppBundle') }}</small>
+                <small class="float-right">{{ 'poll.page_x_on_y' | trans({'{x}': loop.index, '{y}': poll.pages | length}) }}</small>
             </div>
             <div class="card-block">
                 {{ page.description }}

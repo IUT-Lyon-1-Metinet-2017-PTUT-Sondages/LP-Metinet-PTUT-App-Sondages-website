@@ -21,12 +21,12 @@ class UserUpdateType extends AbstractType
         $builder
             ->setMethod('post')
             ->add('firstName', TextType::class, [
-                'label' => 'form.first_name',
-                'translation_domain' => 'FOSUserBundle',
+                'label' => 'users.first_name',
+                'translation_domain' => 'AppBundle',
             ])
             ->add('lastName', TextType::class, [
-                'label' => 'form.last_name',
-                'translation_domain' => 'FOSUserBundle',
+                'label' => 'users.last_name',
+                'translation_domain' => 'AppBundle',
             ])
             ->remove('email')
             ->remove('plainPassword')

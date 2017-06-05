@@ -1,5 +1,5 @@
 {% extends '::base.html.twig' %}
-{% trans_default_domain 'front' %}
+{% trans_default_domain 'AppBundle' %}
 
 {% block title %}
     {{ poll.title }}
@@ -15,7 +15,7 @@
             <div class="card">
                 <div class="card-block">
                     <h2 class="card-title text-center">
-                        {{ 'poll.answer.thanks'|trans }}
+                        {{ 'front.poll.answer.thanks' | trans }}
                         <br>
                         &#9786;
                     </h2>
