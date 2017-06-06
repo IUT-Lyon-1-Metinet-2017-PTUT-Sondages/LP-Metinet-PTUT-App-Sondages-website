@@ -4,6 +4,8 @@ return_to_homepage: 'Return to homepage'
 admin_poll:
   polls_list: 'Polls list'
   poll_results: 'Poll results'
+  poll_results_no_answers: 'This poll haven''t received any answer yet.'
+  no_polls: 'No poll have been found.'
   create_poll: 'Create a poll'
 
   table:

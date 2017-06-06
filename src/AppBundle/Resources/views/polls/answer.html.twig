@@ -2,23 +2,29 @@
 {% trans_default_domain 'AppBundle' %}
 
 {% block head_meta %}
-    <meta property="og:title" content="{{ poll.title }}" />
-    <meta property="og:description" content="{{ poll.description }}" />
-    <meta property="og:type" content="poll" />
-    <meta property="og:url" content="{{ url('answer_poll', {'token':poll.accessToken}) }}" />
-    <meta property="og:image" content="{{ absolute_url(asset('front/assets/img/logo.png')) }}" />
-    <meta property="og:locale" content="fr_FR" />
-    <meta name="twitter:card" content="summary" />
-    <meta name="twitter:title" content="{{ poll.title }}" />
-    <meta name="twitter:description" content="{{ poll.description }}" />
-    <meta name="twitter:image" content="{{ absolute_url(asset('front/assets/img/logo.png')) }}" />
+    <meta property="og:title" content="{{ poll.title }}"/>
+    <meta property="og:description" content="{{ poll.description }}"/>
+    <meta property="og:type" content="poll"/>
+    <meta property="og:url" content="{{ url('answer_poll', {'token':poll.accessToken}) }}"/>
+    <meta property="og:image" content="{{ absolute_url(asset('front/assets/img/logo.png')) }}"/>
+    <meta property="og:locale" content="fr_FR"/>
+    <meta name="twitter:card" content="summary"/>
+    <meta name="twitter:title" content="{{ poll.title }}"/>
+    <meta name="twitter:description" content="{{ poll.description }}"/>
+    <meta name="twitter:image" content="{{ absolute_url(asset('front/assets/img/logo.png')) }}"/>
 {% endblock %}
 {% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('CoreUI/bower_components/fontawesome/css/font-awesome.min.css') }}"
+          type="text/css"/>
     <link rel="stylesheet" href="{{ asset('front/assets/css/kdt-inputs.css') }}" type="text/css">
     <style>
         form[name="appbundle_poll_view"] .card.error {
             color: #d9534f;
             border-color: #d9534f;
+        }
+
+        .page {
+            display: none;
         }
     </style>
 {% endblock %}
@@ -102,24 +108,82 @@
     </div>
     {{ form_start(pollView, {attr: {'novalidate':'novalidate'}}) }}
 
-    {% for page in poll.pages %}
-        <div class="card card-info card-inverse">
-            <div class="card-header">
-                {{ page.title }}
-                <small class="float-right">{{ 'poll.page_x_on_y' | trans({'{x}': loop.index, '{y}': poll.pages | length}) }}</small>
+    {% for index, page in poll.pages %}
+        <div id="page-{{ index }}" class="page">
+            <div class="card card-info card-inverse">
+                <div class="card-header">
+                    {{ page.title }}
+                    <small class="float-right">{{ 'poll.page_x_on_y' | trans({'{x}': loop.index, '{y}': poll.pages | length}) }}</small>
+                </div>
+                <div class="card-block">
+                    {{ page.description }}
+                </div>
             </div>
-            <div class="card-block">
-                {{ page.description }}
-            </div>
+            {% for question in page.questions %}
+                <div class="question" data-page="{{ index }}">
+                    {{ form_widget(attribute(pollView, 'question' ~ question.id)) }}
+                </div>
+            {% endfor %}
+
+            {% if loop.last %}
+                <div class="text-center">
+                    <button type="button" class="btn btn-primary btn-lg"
+                            {% if pollView.submit_poll.vars.disabled %}disabled="disabled"{% endif %}>
+                        <i class="fa fa-send"></i>&nbsp;{{ 'poll.answer_to_poll' | trans }}
+                    </button>
+                </div>
+            {% else %}
+                <div class="text-center">
+                    <button type="button" class="btn btn-primary btn-lg next-page">
+                        <i class="fa fa-arrow-right"></i>&nbsp;{{ 'label_next' | trans({}, 'KnpPaginatorBundle') }}
+                    </button>
+                </div>
+            {% endif %}
         </div>
-        {% for question in page.questions %}
-            {{ form_widget(attribute(pollView, 'question' ~ question.id)) }}
-        {% endfor %}
     {% endfor %}
 
-    <div class="text-center">
-        {{ form_widget(pollView.submit_poll) }}
-    </div>
+    {{ form_end(pollView, {'render_rest': false}) }}
+{% endblock %}
 
-    {{ form_end(pollView) }}
+{% block javascripts %}
+    <script>
+      $(function () {
+        let currentPage = parseInt($('.card.error:first').parent('.question').attr('data-page'), 10) || 0;
+        let pagesCount = {{ poll.pages | length }};
+
+        hideOtherPages(() => {
+          showCurrentPage();
+        });
+
+        function showCurrentPage(cb = null, fadeIn = false) {
+          const page = $(`[id="page-${currentPage}"]`);
+
+          if (fadeIn) {
+            page.fadeIn(200, cb);
+          } else {
+            page.show(0, cb);
+          }
+        }
+
+        function hideOtherPages(cb = null, fadeOut = false) {
+          const pages = $(`.page:not([id="page-${currentPage}"])`);
+
+          if (fadeOut) {
+            pages.fadeOut(200, cb);
+          } else {
+            pages.hide(0, cb);
+          }
+        }
+
+        $('.next-page').on('click', function () {
+          currentPage += 1;
+
+          $(document.body).animate({scrollTop: 0}, () => {
+            hideOtherPages(() => {
+              showCurrentPage(null, true);
+            }, true)
+          });
+        });
+      });
+    </script>
 {% endblock %}

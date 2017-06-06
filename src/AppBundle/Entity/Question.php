@@ -33,6 +33,13 @@ class Question
     private $title;
 
     /**
+     * @var ChartType
+     * @ORM\ManyToOne(targetEntity="ChartType")
+     * @ORM\JoinColumn(name="chart_type_id", referencedColumnName="id", onDelete="CASCADE")
+     */
+    private $chartType;
+
+    /**
      * @var Poll
      * Many questions have One Poll.
      * @ORM\ManyToOne(targetEntity="Poll", inversedBy="questions")
@@ -164,5 +171,21 @@ class Question
         $this->page = $page;
 
         return $this;
+    }
+
+    /**
+     * @return ChartType
+     */
+    public function getChartType()
+    {
+        return $this->chartType;
+    }
+
+    /**
+     * @param ChartType $chartType
+     */
+    public function setChartType(ChartType $chartType)
+    {
+        $this->chartType = $chartType;
     }
 }

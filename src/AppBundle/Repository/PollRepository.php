@@ -13,12 +13,12 @@ class PollRepository extends EntityRepository
     public function findResultsFromPoll($id)
     {
         $sql = 'SELECT pa.id AS paId, q.id AS qId, q.title AS qTitle, pr.id AS propId, pr.title AS propTitle, COUNT(pr.id)
-AS amount, v.name AS qType FROM poll p
+AS amount, LOWER(ct.title) AS qType FROM poll p
 INNER JOIN question q ON q.poll_id = p.id
 INNER JOIN page pa ON q.page_id = pa.id
 INNER JOIN proposition pr ON pr.question_id = q.id
 INNER JOIN answer a ON a.proposition_id = pr.id
-INNER JOIN variant v ON pr.variant_id=v.id
+INNER JOIN chart_type ct ON q.chart_type_id=ct.id
 WHERE p.id = :id
 GROUP BY pr.id';
         $stmt = $this->getEntityManager()->getConnection()->prepare($sql);

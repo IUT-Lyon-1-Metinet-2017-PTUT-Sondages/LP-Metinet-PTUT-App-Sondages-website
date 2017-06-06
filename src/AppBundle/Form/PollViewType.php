@@ -81,9 +81,6 @@ class PollViewType extends AbstractType
         }
 
         $builder->add('submit_poll', SubmitType::class, [
-            'label' => 'poll.answer_to_poll',
-            'translation_domain' => 'AppBundle',
-            'attr' => ['class' => 'btn btn-lg btn-primary'],
             'disabled' => $shouldDisableInputs,
         ]);
     }

@@ -4,6 +4,8 @@ return_to_homepage: 'Retour à l''accueil'
 admin_poll:
   polls_list: 'Liste des sondages'
   poll_results: 'Résultats du sondage'
+  poll_results_no_answers: 'Ce sondage n''a pas encore reçu de réponse.'
+  no_polls: 'Aucun sondage n''a encore été créé.'
   create_poll: 'Créer un sondage'
 
   table:
