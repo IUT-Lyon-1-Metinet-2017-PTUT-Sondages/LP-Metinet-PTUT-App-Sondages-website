@@ -6,6 +6,8 @@ admin_poll:
   poll_results: 'Résultats du sondage'
   poll_results_no_answers: 'Ce sondage n''a pas encore reçu de réponse.'
   no_polls: 'Aucun sondage n''a encore été créé.'
+  no_archived_polls: 'Aucun sondage n''a été archivé.'
+  polls_archive_list: 'Sondages archivés'
   create_poll: 'Créer un sondage'
 
   table:
