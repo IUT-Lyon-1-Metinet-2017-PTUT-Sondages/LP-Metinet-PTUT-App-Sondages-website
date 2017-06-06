@@ -378,6 +378,11 @@ class PollController extends Controller
                     'title'  => $prop['propTitle'],
                     'amount' => $prop['amount'],
                 ];
+                if (key_exists('sum', $questionAnswers)) {
+                    $questionAnswers['sum'] += $prop['amount'];
+                } else {
+                    $questionAnswers['sum'] = $prop['amount'];
+                }
             }
 
             $questionsAnswersAfterTreatment[] = $questionAnswers;
@@ -419,7 +424,19 @@ class PollController extends Controller
                 }
                 $currentQuestionSheet->setCellValue('A' . ($index + 6), $proposition['title']);
                 $currentQuestionSheet->setCellValue('B' . ($index + 6), $proposition['amount']);
+                $currentQuestionSheet->getStyle('C' . ($index + 6))->getNumberFormat()->setFormatCode(\PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
+                $currentQuestionSheet->setCellValue(
+                    'C' . ($index + 6), intval($proposition['amount'])/$question['sum']
+                );
                 $currentQuestionSheet->getStyle('A' . ($index + 6))
+                    ->applyFromArray([
+                        'borders' => [
+                            'allborders' => [
+                                'style' => \PHPExcel_Style_Border::BORDER_THIN
+                            ]
+                        ]
+                    ]);
+                $currentQuestionSheet->getStyle('B' . ($index + 6))
                     ->applyFromArray([
                         'borders' => [
                             'allborders' => [
