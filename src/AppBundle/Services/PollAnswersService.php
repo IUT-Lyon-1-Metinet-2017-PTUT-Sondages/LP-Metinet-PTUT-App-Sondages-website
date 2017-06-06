@@ -35,10 +35,9 @@ class PollAnswersService
     }
 
     /**
-     * @param Poll  $poll
      * @param array $data
      */
-    public function registerAnswers(Poll $poll, array $data)
+    public function registerAnswers(array $data)
     {
         $sessionId = uniqid();
 

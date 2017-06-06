@@ -93,6 +93,10 @@ services:
         arguments: ["@app.repository_service.variant"]
         tags:
             - { name: form.type }
+    app.poll.results:
+        class: AppBundle\Services\PollResultsService
+        arguments: ["%graph_colors%", "@phpexcel"]
+
     #Mailer
     app.mailer_service:
         class: AppBundle\Services\MailerService
