@@ -14,9 +14,6 @@ class BackofficeController extends Controller
      */
     public function indexAction()
     {
-        $dataService = $this->get('app.repository_service.dashboard');
-        $data = $dataService->getDashboardData($this->getUser());
-
-        return $this->render('@App/backoffice/index.html.twig', ['data' => $data]);
+        return $this->redirectToRoute('backoffice_polls');
     }
 }

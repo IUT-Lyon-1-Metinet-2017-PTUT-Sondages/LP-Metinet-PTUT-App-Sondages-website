@@ -72,7 +72,6 @@ backoffice_home:
   nb_answers: 'Nombre de réponses aux sondages'
 
 sidebar:
-  homepage: 'Accueil Backoffice'
   add_poll: 'Ajouter un sondage'
   polls_list: 'Liste des sondages'
   users_list: 'Liste des utilisateurs'

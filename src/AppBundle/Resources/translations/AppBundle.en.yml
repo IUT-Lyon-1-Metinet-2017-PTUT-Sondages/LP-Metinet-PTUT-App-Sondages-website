@@ -72,7 +72,6 @@ backoffice_home:
   nb_answers: 'Number of poll answers'
 
 sidebar:
-  homepage: 'Backoffice homepage'
   add_poll: 'Add a poll'
   polls_list: 'Polls list'
   users_list: 'Users list'
