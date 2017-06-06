@@ -23,6 +23,8 @@ admin_poll:
     publish_confirmation: 'Voulez-vous vraiment publier ce sondage ? Il sera ensuite impossible de le dé-publier.'
     delete: 'Supprimer'
     delete_confirmation: 'Voulez-vous vraiment supprimer ce sondage ? Il sera ensuite impossible de le récupérer.'
+    archive: 'Archiver'
+    archive_confirmation: "Voulez-vous vraiment archiver ce sondage ? Il sera ensuite impossible d y répondre."
     answers: 'Réponses'
     share: 'Partager'
     about_the_poll: 'À propos du sondage « {title} »'

@@ -67,14 +67,15 @@
                                 {% endif %}
                             </td>
                             <td>
-                                <a href="{{ path('backoffice_poll_delete', {'id': poll.id}) }}"
-                                   onclick="return confirm('{{ 'admin_poll.table_values.delete_confirmation' | trans }}')"
-                                   class="btn btn-danger btn-xs-block">
-                                    <i class="fa fa-trash"></i>&nbsp;<span
-                                            class="hidden-sm-down">{{ 'admin_poll.table_values.delete' | trans }}</span>
-                                </a>
+
 
                                 {% if not poll.published %}
+                                    <a href="{{ path('backoffice_poll_archive_delete', {'id': poll.id}) }}"
+                                       onclick="return confirm('{{ 'admin_poll.table_values.delete_confirmation' | trans }}')"
+                                       class="btn btn-danger btn-xs-block">
+                                        <i class="fa fa-trash"></i>&nbsp;<span
+                                                class="hidden-sm-down">{{ 'admin_poll.table_values.delete' | trans }}</span>
+                                    </a>
                                     <a href="{{ path('backoffice_poll_edit', {'id': poll.id}) }}"
                                        class="btn btn-outline-primary btn-xs-block">
                                         <i class="fa fa-pencil"></i>&nbsp;<span
@@ -82,12 +83,18 @@
                                     </a>
 
                                     <a href="{{ path('backoffice_poll_publish', {'id': poll.id}) }}"
-                                       onclick="return confirm('{{ 'admin_poll.table_values.publish_confirmation' | trans }}')"
+                                       onclick='return confirm("{{ 'admin_poll.table_values.publish_confirmation' | trans }}")'
                                        class="btn btn-primary btn-xs-block">
                                         <i class="fa fa-bullhorn "></i>&nbsp;<span
                                                 class="hidden-sm-down">{{ 'admin_poll.table_values.publish' | trans }}</span>
                                     </a>
                                 {% else %}
+                                    <a href="{{ path('backoffice_poll_delete', {'id': poll.id}) }}"
+                                       onclick="return confirm('{{ 'admin_poll.table_values.archive_confirmation' | trans }}')"
+                                       class="btn btn-warning btn-xs-block">
+                                        <i class="fa fa-archive"></i>&nbsp;<span
+                                                class="hidden-sm-down">{{ 'admin_poll.table_values.delete' | trans }}</span>
+                                    </a>
                                     <a href="{{ path('backoffice_poll_results', {'id': poll.id}) }}"
                                        class="btn btn-success btn-xs-block">
                                         <i class="fa fa-eye"></i>&nbsp;<span
