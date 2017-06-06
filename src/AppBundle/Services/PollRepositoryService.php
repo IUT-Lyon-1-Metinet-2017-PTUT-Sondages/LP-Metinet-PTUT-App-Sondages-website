@@ -6,8 +6,10 @@ use AppBundle\Entity\Poll;
 use AppBundle\Entity\User;
 use AppBundle\Repository\PollRepository;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\Events;
 use JMS\Serializer\Serializer;
 use JMS\Serializer\SerializationContext;
+use Knp\DoctrineBehaviors\ORM\SoftDeletable\SoftDeletableSubscriber;
 
 /**
  * Class PollRepositoryService
@@ -28,12 +30,12 @@ class PollRepositoryService
     /**
      * PollRepositoryService constructor.
      * @param EntityManager $entityManager
-     * @param Serializer    $jms
+     * @param Serializer $serializer
      */
-    public function __construct(EntityManager $entityManager, Serializer $jms)
+    public function __construct(EntityManager $entityManager, Serializer $serializer)
     {
-        $this->em = $entityManager;
-        $this->jms = $jms;
+        $this->em  = $entityManager;
+        $this->jms = $serializer;
     }
 
     /**
@@ -54,6 +56,16 @@ class PollRepositoryService
     public function getPolls(array $filter = [])
     {
         return $this->em->getRepository('AppBundle:Poll')->findBy($filter);
+    }
+
+    /**
+     * @param array $filter
+     * @return Poll[]|array
+     */
+    public function getArchivedPolls(array $filter = [])
+    {
+        $this->em->getFilters()->disable('softdeleteable');
+        return $this->em->getRepository('AppBundle:Poll')->findDeletedBy($filter);
     }
 
     /**
@@ -93,9 +105,49 @@ class PollRepositoryService
      */
     public function deleteById($id)
     {
+
         $poll = $this->em->getRepository('AppBundle:Poll')->findOneBy(['id' => $id]);
         $this->em->remove($poll);
         $this->em->flush();
+    }
+
+    /**
+     * @param int $id
+     */
+    public function hardDeleteById($id)
+    {
+        // initiate an array for the removed listeners
+        $originalEventListeners = array();
+
+        // cycle through all registered event listeners
+        foreach ($this->em->getEventManager()->getListeners() as $eventName => $listeners) {
+            foreach ($listeners as $listener) {
+                if ($listener instanceof SoftDeletableSubscriber) {
+
+                    // store the event listener, that gets removed
+                    $originalEventListeners[Events::onFlush] = $listener;
+
+
+                    // remove the SoftDeletableSubscriber event listener
+                    $this->em->getEventManager()->removeEventListener($listener->getSubscribedEvents(), $listener);
+
+                }
+            }
+        }
+        $this->em->getFilters()->disable('softdeleteable');
+        $poll = $this->em->getRepository('AppBundle:Poll')->findOneBy(['id' => $id]);
+
+        // remove the entity
+        $this->em->remove($poll);
+        $this->em->flush();
+
+        // re-add the removed listener back to the event-manager
+        foreach ($originalEventListeners as $eventName => $listener) {
+            $this->em->getEventManager()->addEventListener($eventName, $listener);
+        }
+        $this->em->getFilters()->enable('softdeleteable');
+
+
     }
 
     /**
