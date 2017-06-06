@@ -81,4 +81,18 @@ GROUP BY pr.id';
 
         return $polls;
     }
+    public function findDeletedOneBy(array $criteria)
+    {
+        $polls = $this->createQueryBuilder('p');
+        $polls = $polls
+            ->where($polls->expr()->isNotNull('p.deletedAt'));
+
+        foreach ($criteria as $column => $value) {
+            $polls = $polls
+                ->where($column . '= :param')
+                ->setParameter('param', $value);
+        }
+
+        return $polls->getQuery()->getOneOrNullResult();
+    }
 }

@@ -31,7 +31,7 @@
                 {% for poll in pagination %}
                     <tr>
                         <td>
-                            <a target="_blank" href="{{ path('answer_poll', {'token':poll.accessToken}) }}">
+                            <a target="_blank" href="{{ path('answer_poll_archive', {'token':poll.accessToken}) }}">
                                 {{ poll.title }}&nbsp;<i class="fa fa-external-link" aria-hidden="true"></i></a>
                         </td>
                         {% if is_granted('ROLE_ADMIN') %}

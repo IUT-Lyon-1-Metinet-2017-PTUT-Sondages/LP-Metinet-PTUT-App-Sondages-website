@@ -78,6 +78,16 @@ class PollRepositoryService
     }
 
     /**
+     * @param array $filter
+     * @return null|Poll
+     */
+    public function getArchivedPoll(array $filter = [])
+    {
+        $this->em->getFilters()->disable('softdeleteable');
+        return $this->em->getRepository('AppBundle:Poll')->findDeletedOneBy($filter);
+    }
+
+    /**
      * @param int $id
      * @return array
      */
