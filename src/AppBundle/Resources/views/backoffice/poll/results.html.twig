@@ -6,26 +6,18 @@
 {% block mainclass %}main p-1 p-1-result{% endblock %}
 {% block main %}
 
-    <div class="row d-flex justify-content-center">
-        <div class="col-sm-offset-3 col-sm-6 col-md-offset-4 col-md-4">
-            <div class="card card-inverse card-info text-xs-center">
-                <div class="card-block">
-                    <blockquote class="card-blockquote">
-                        <h2 class="text-center">{{ 'admin_poll.poll_results' | trans }} : {{ poll.title }}</h2>
-                    </blockquote>
-                </div>
-                {% if charts|length %}
-                    <div class="card-footer d-flex justify-content-center">
-                        <button class="btn btn-default">
-                            <a href="{{ path('backoffice_poll_export', {'id': poll.id}) }}">
-                                <i class="fa fa-file-excel-o" aria-hidden="true"></i> Exporter vers excel
-                            </a>
-                        </button>
-                    </div>
-                {% endif %}
-            </div>
+    <h2 class="text-center">{{ 'admin_poll.poll_results' | trans }} : {{ poll.title }}</h2>
+
+    {% if charts | length %}
+        <div class="text-center">
+            <a class="btn btn-success btn-md-block mt-1 mt-lg-0"
+               href="{{ path('backoffice_poll_export', {'id': poll.id}) }}">
+                <i class="fa fa-file-excel-o" aria-hidden="true"></i>&nbsp;Exporter vers excel
+            </a>
         </div>
-    </div>
+    {% endif %}
+    <hr>
+
     <div class="row">
         {% if charts|length == 0 %}
             <div class="col-3 mx-auto">
@@ -60,7 +52,8 @@
                                         <th>Pourcentage</th>
                                     </tr>
                                     </thead>
-                                    <tbody class="chart-legend-{{ chart.chart.id }}" data-type="{{ chart.question.ctTitle }}">
+                                    <tbody class="chart-legend-{{ chart.chart.id }}"
+                                           data-type="{{ chart.question.ctTitle }}">
                                     </tbody>
                                 </table>
                             </div>
@@ -90,10 +83,10 @@
         <script src="{{ asset('CoreUI/bower_components/jquery/dist/jquery.min.js') }}"></script>
         <script src="{{ asset('CoreUI/bower_components/chart.js/dist/Chart.min.js') }}"></script>
         <script>
-            //            Chart.defaults.global.animation.duration = 0;
-            {% for chart in charts %}
-            {{ chartjs_render_js(chart.chart) }}
-            {% endfor %}
+          //            Chart.defaults.global.animation.duration = 0;
+          {% for chart in charts %}
+          {{ chartjs_render_js(chart.chart) }}
+          {% endfor %}
         </script>
         <!-- ChartJSEnd -->
     {% endblock %}
