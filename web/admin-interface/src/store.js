@@ -7,6 +7,7 @@ const state = {
   isEditingPoll: false,
   isSubmittingPoll: false,
   poll: {},
+  chartTypes: {},
   variants: {},
   formAction: '',
 };
@@ -23,6 +24,9 @@ const getters = {
   },
   formAction (state) {
     return state.formAction;
+  },
+  chartTypes (state) {
+    return state.chartTypes;
   },
   variants (state) {
     return state.variants;
@@ -57,6 +61,9 @@ const mutations = {
   },
   setVariants (state, variants) {
     state.variants = {...variants};
+  },
+  setChartTypes (state, chartTypes) {
+    state.chartTypes = {...chartTypes};
   },
   setFormAction(state, formAction) {
     state.formAction = formAction;

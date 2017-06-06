@@ -18,7 +18,7 @@
                type="hidden">
 
         <!-- Titre de la question -->
-        <div class="col-md-8 col-sm-6 form-group"
+        <div class="col-md-6 col-sm-12 form-group"
              :class="{'has-danger': question.title.error}">
           <input v-model="question.title.value"
                  :name="'poll[pages][' + pageIndex + '][questions][' + questionIndex + '][title]'"
@@ -30,13 +30,25 @@
         </div>
 
         <!-- Type de la question (variante) -->
-        <div class="col-md-4 col-sm-6 form-group">
+        <div class="col-md-3 col-sm-6 form-group">
           <select v-model="question.variant.name" class="form-control"
                   :name="'poll[pages][' + pageIndex + '][questions][' + questionIndex + '][variant][name]'"
                   :disabled="isSubmittingPoll"
                   :title="$t('question.type')">
             <option v-for="variant in variants" :value="variant">
               {{ $t('proposition.variants.types.' + variant) }}
+            </option>
+          </select>
+        </div>
+
+        <!-- Type de graphique -->
+        <div class="col-md-3 col-sm-6 form-group">
+          <select v-model="question.chart_type.title" class="form-control"
+                  :name="'poll[pages][' + pageIndex + '][questions][' + questionIndex + '][chart_type][title]'"
+                  :disabled="isSubmittingPoll"
+                  :title="$t('question.type')">
+            <option v-for="chartType in chartTypes " :value="chartType">
+              {{ $t('question.chart_types.' + chartType) }}
             </option>
           </select>
         </div>
@@ -73,7 +85,7 @@
       return {}
     },
     computed: {
-      ...mapGetters(['isEditingPoll', 'isSubmittingPoll', 'variants']),
+      ...mapGetters(['isEditingPoll', 'isSubmittingPoll', 'variants', 'chartTypes']),
       totalPageQuestions () {
         return this.page.questions.length;
       }

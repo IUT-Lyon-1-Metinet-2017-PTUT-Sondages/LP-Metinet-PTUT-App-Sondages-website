@@ -246,7 +246,7 @@ class PollController extends Controller
             /** @var PieDataSet|BarDataSet $dataSet */
             $dataSet = null;
             $options = [];
-            if ($question['qType'] == 'Checkbox' || $question['qType'] == 'LinearScale') {
+            if ($question['ctTitle'] === 'bar') {
                 $chart             = new BarChart();
                 $dataSet           = new BarDataSet();
                 $options['scales'] = [
@@ -258,7 +258,7 @@ class PollController extends Controller
                         ]
                     ]
                 ];
-            } elseif ($question['qType'] == 'Radio') {
+            } elseif ($question['ctTitle'] === 'pie') {
                 $chart   = new PieChart();
                 $dataSet = new PieDataSet();
             }
@@ -409,8 +409,11 @@ class PollController extends Controller
             $currentQuestionSheet->getColumnDimension('B')->setWidth(16);
             $currentQuestionSheet->getColumnDimension('C')->setWidth(16);
             $currentQuestionSheet->setCellValue('A1', $poll->getTitle());
+            $currentQuestionSheet->getRowDimension(1)->setRowHeight(30);
             $currentQuestionSheet->setCellValue('A2', 'Page n°' . $question ['paId']);
+            $currentQuestionSheet->getRowDimension(2)->setRowHeight(25);
             $currentQuestionSheet->setCellValue('A3', $question['qTitle']);
+            $currentQuestionSheet->getRowDimension(3)->setRowHeight(20);
             $currentQuestionSheet->setCellValue('A5', 'Proposition');
             $currentQuestionSheet->setCellValue('B5', 'Quantité');
             $currentQuestionSheet->setCellValue('C5', 'Pourcentage');
@@ -418,7 +421,7 @@ class PollController extends Controller
             $dataSeriesLabels = [];
             $dataSeriesValues = [];
             foreach ($question['props'] as $index => $proposition) {
-                if ($question['qType'] == 'Checkbox' || $question['qType'] == 'LinearScale') {
+                if ($question['ctTitle'] == 'bar') {
                     array_push($dataSeriesLabels, new \PHPExcel_Chart_DataSeriesValues('String', "'" . $currentQuestionSheet->getTitle() . "'" . '!A' . ($index + 6), null, 1));
                     array_push($dataSeriesValues, new \PHPExcel_Chart_DataSeriesValues('Number', "'" . $currentQuestionSheet->getTitle() . "'" . '!B' . ($index + 6), null, 1));
                 }
@@ -457,7 +460,7 @@ class PollController extends Controller
             $xAxisTickValues = array(
                 new \PHPExcel_Chart_DataSeriesValues('String', "'" . $currentQuestionSheet->getTitle() . "'" . '!$B$1', NULL, 1),
             );
-            if ($question['qType'] == 'Checkbox' || $question['qType'] == 'LinearScale') {
+            if ($question['ctTitle'] == 'bar') {
                 $series = new \PHPExcel_Chart_DataSeries(
                     \PHPExcel_Chart_DataSeries::TYPE_BARCHART,
                     \PHPExcel_Chart_DataSeries::GROUPING_CLUSTERED,
@@ -482,10 +485,10 @@ class PollController extends Controller
                     null
                 );
 
-                $chart->setTopLeftPosition('F1');
-                $chart->setBottomRightPosition('S30');
+                $chart->setTopLeftPosition('E5');
+                $chart->setBottomRightPosition('O35');
                 $currentQuestionSheet->addChart($chart);
-            } elseif ($question['qType'] == 'Radio') {
+            } elseif ($question['ctTitle'] == 'pie') {
                 $dataSeriesLabels = [new \PHPExcel_Chart_DataSeriesValues('String', "'" . $currentQuestionSheet->getTitle() . "'" . '!$A$6:$A$' . (count($question['props']) + 5), null, count($question['props']) + 1)];
                 $dataSeriesValues = [new \PHPExcel_Chart_DataSeriesValues('Number', "'" . $currentQuestionSheet->getTitle() . "'" . '!$B$6:$B$' . (count($question['props']) + 5), null, count($question['props']) + 1)];
                 $series           = new \PHPExcel_Chart_DataSeries(
@@ -515,8 +518,8 @@ class PollController extends Controller
                     null
                 );
 
-                $chart->setTopLeftPosition('F1');
-                $chart->setBottomRightPosition('S30');
+                $chart->setTopLeftPosition('E5');
+                $chart->setBottomRightPosition('O35');
                 $currentQuestionSheet->addChart($chart);
             }
 
@@ -550,6 +553,8 @@ class PollController extends Controller
                 ]
             ]);
         }
+
+        $phpExcelObject->setActiveSheetIndex(0);
 
         // create the writer
         /** @var \PHPExcel_Writer_Excel2007 $writer */

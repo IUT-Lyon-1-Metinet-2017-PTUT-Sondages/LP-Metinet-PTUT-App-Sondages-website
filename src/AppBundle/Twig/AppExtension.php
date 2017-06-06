@@ -2,8 +2,10 @@
 
 namespace AppBundle\Twig;
 
+use AppBundle\Entity\ChartType;
 use AppBundle\Entity\Variant;
 use AppBundle\Helper;
+use AppBundle\Services\ChartTypeRepositoryService;
 use AppBundle\Services\VariantRepositoryService;
 use Symfony\Bundle\FrameworkBundle\Translation\Translator;
 use Symfony\Component\PropertyAccess\PropertyAccess;
@@ -26,20 +28,28 @@ class AppExtension extends \Twig_Extension
     private $variantRepositoryService;
 
     /**
+     * @var ChartTypeRepositoryService
+     */
+    private $chartTypeRepositoryService;
+
+    /**
      * AppExtension constructor.
      * @param Helper $helper
      * @param Translator $translator
      * @param VariantRepositoryService $variantRepositoryService
+     * @param ChartTypeRepositoryService $chartTypeRepositoryService
      */
     public function __construct(
         Helper $helper,
         Translator $translator,
-        VariantRepositoryService $variantRepositoryService
+        VariantRepositoryService $variantRepositoryService,
+        ChartTypeRepositoryService $chartTypeRepositoryService
     )
     {
         $this->helper = $helper;
         $this->translator = $translator;
         $this->variantRepositoryService = $variantRepositoryService;
+        $this->chartTypeRepositoryService = $chartTypeRepositoryService;
     }
 
     /**
@@ -58,6 +68,13 @@ class AppExtension extends \Twig_Extension
             new \Twig_SimpleFunction(
                 'loadVariantsFromDatabase',
                 [$this, 'loadVariantsFromDatabaseFunction'],
+                [
+                    'is_safe' => ['html'],
+                ]
+            ),
+            new \Twig_SimpleFunction(
+                'loadChartTypesFromDatabase',
+                [$this, 'loadChartTypesFromDatabaseFunction'],
                 [
                     'is_safe' => ['html'],
                 ]
@@ -105,6 +122,27 @@ HEREDOC;
         return <<<HEREDOC
 <script>
     var VARIANTS = {$variants};
+</script>
+HEREDOC;
+    }
+    /**
+     * @return string
+     */
+    public function loadChartTypesFromDatabaseFunction()
+    {
+        $chartTypes = $this->chartTypeRepositoryService->all();
+        $chartTypes = array_map(function (ChartType $chartType) {
+            return [
+                'id' => $chartType->getId(),
+                'title' => $chartType->getTitle(),
+            ];
+        }, $chartTypes);
+        $chartTypes = array_column($chartTypes, 'title', 'id');
+        $chartTypes = json_encode($chartTypes);
+
+        return <<<HEREDOC
+<script>
+    var CHART_TYPES = {$chartTypes};
 </script>
 HEREDOC;
     }

@@ -6,7 +6,6 @@
 {% block mainclass %}main p-1 p-1-result{% endblock %}
 {% block main %}
 
-
     <div class="row d-flex justify-content-center">
         <div class="col-sm-offset-3 col-sm-6 col-md-offset-4 col-md-4">
             <div class="card card-inverse card-info text-xs-center">
@@ -40,7 +39,7 @@
                 <div class="card card-default">
                     <div class="card-header">
                         {{ chart.question.qTitle }}
-                        {% if chart.question.qType == 'LinearScale' %}
+                        {% if chart.question.ctTitle == 'bar' %}
                             <span class="pull-right">
                                 Moyenne des réponses au sondage : <strong
                                         class="average-linear-{{ chart.chart.id }}"></strong>
@@ -61,7 +60,7 @@
                                         <th>Pourcentage</th>
                                     </tr>
                                     </thead>
-                                    <tbody class="chart-legend-{{ chart.chart.id }}" data-type="{{ chart.question.qType }}">
+                                    <tbody class="chart-legend-{{ chart.chart.id }}" data-type="{{ chart.question.ctTitle }}">
                                     </tbody>
                                 </table>
                             </div>

@@ -17,6 +17,10 @@ services:
         class: AppBundle\Services\QuestionRepositoryService
         arguments: ["@doctrine.orm.entity_manager"]
 
+    app.repository_service.chart_type:
+        class: AppBundle\Services\ChartTypeRepositoryService
+        arguments: ["@doctrine.orm.entity_manager"]
+
     app.repository_service.variant:
         class: AppBundle\Services\VariantRepositoryService
         arguments: ["@doctrine.orm.entity_manager"]
@@ -36,7 +40,7 @@ services:
     # Validation & Validators
     app.validation_service:
         class: AppBundle\Services\ValidationService
-        arguments: ["@doctrine.orm.entity_manager","@validator","@app.repository_service.variant","@app.creation_service.poll"]
+        arguments: ["@doctrine.orm.entity_manager","@validator","@app.repository_service.chart_type", "@app.repository_service.variant","@app.creation_service.poll"]
 
     app.validator.variant:
            class: AppBundle\Validator\Constraints\IsExistingVariantValidator
@@ -51,7 +55,7 @@ services:
     app.twig_extension:
         class: AppBundle\Twig\AppExtension
         public: false
-        arguments: ["@app.helper", "@translator.default", "@app.repository_service.variant"]
+        arguments: ["@app.helper", "@translator.default", "@app.repository_service.variant", "@app.repository_service.chart_type"]
         tags:
           - {name: twig.extension}
 

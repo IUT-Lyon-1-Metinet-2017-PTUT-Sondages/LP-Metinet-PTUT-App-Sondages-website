@@ -50,6 +50,9 @@ admin_poll:
       add: 'Add a question'
       placeholder:
         title: 'Question''s title (required)'
+      chart_types:
+        Bar: 'Bar chart'
+        Pie: 'Pie chart'
 
     proposition:
       add: 'Add a proposition'

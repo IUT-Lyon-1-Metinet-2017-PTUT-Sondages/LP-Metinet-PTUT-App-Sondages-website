@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation\Groups;
 
 /**
  * ChartType
@@ -24,6 +25,7 @@ class ChartType
     /**
      * @var string
      *
+     * @Groups({"backOffice"})
      * @ORM\Column(name="title", type="string", length=255, unique=true)
      */
     private $title;

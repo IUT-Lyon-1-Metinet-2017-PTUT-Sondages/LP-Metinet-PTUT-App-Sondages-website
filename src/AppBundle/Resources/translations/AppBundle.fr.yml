@@ -50,6 +50,9 @@ admin_poll:
       add: 'Ajouter une question'
       placeholder:
         title: 'Titre de la question (requis)'
+      chart_types:
+        Bar: 'Diagramme en barre'
+        Pie: 'Diagramme circulaire'
 
     proposition:
       add: 'Ajouter une proposition'

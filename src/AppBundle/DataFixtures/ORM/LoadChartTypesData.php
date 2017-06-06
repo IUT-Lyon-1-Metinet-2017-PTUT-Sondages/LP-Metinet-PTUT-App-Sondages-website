@@ -20,7 +20,6 @@ class LoadChartTypesData extends AbstractFixture implements OrderedFixtureInterf
     public function load(ObjectManager $manager)
     {
         $chartTypes = [
-            'Line',
             'Bar',
             'Pie',
         ];

@@ -80,7 +80,7 @@
       }
     },
     computed: {
-      ...mapGetters(['isEditingPoll', 'isSubmittingPoll', 'poll', 'variants', 'formAction'])
+      ...mapGetters(['isEditingPoll', 'isSubmittingPoll', 'poll', 'variants', 'chartTypes', 'formAction'])
     },
     methods: {
       /**
@@ -207,6 +207,9 @@
             value: '',
             error: null,
           },
+          chart_type: {
+            title: this.chartTypes[Object.keys(this.chartTypes)[0]]
+          },
           variant: {
             name: this.variants[Object.keys(this.variants)[0]] // premier élément d'un objet
           },
@@ -266,6 +269,7 @@
       Bus.$on(Event.REMOVE_PROPOSITION, this.removeProposition);
 
       // Ajout dans le store...
+      'CHART_TYPES' in window && this.$store.commit('setChartTypes', window['CHART_TYPES']);
       'VARIANTS' in window && this.$store.commit('setVariants', window['VARIANTS']);
       'FORM_ACTION' in window && this.$store.commit('setFormAction', window['FORM_ACTION']);
       'IS_EDITING_POLL' in window && this.$store.commit('pollIsEditing');

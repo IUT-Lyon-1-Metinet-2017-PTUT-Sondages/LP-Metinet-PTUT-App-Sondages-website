@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="{{ asset('front/assets/css/kdt-inputs.css') }}" type="text/css"/>
 {% endblock %}
 
-{% block bodyclass %}app header-fixed sidebar-fixed aside-menu-fixed aside-menu-hidden{% endblock %}
 {% block main %}
     <div id="app"></div>
 {% endblock %}
@@ -15,6 +14,7 @@
 {% block javascripts %}
     {{ loadTranslationsForVueJS('AppBundle', '[admin_poll][form]') }}
     {{ loadVariantsFromDatabase() }}
+    {{ loadChartTypesFromDatabase() }}
 
     <script>
       var FORM_ACTION = "{{ path(app.request.get('_route'), {

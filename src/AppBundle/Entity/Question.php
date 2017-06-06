@@ -34,6 +34,7 @@ class Question
 
     /**
      * @var ChartType
+     * @Groups({"backOffice"})
      * @ORM\ManyToOne(targetEntity="ChartType")
      * @ORM\JoinColumn(name="chart_type_id", referencedColumnName="id", onDelete="CASCADE")
      */

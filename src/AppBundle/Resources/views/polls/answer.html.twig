@@ -127,7 +127,9 @@
 
             {% if loop.last %}
                 <div class="text-center">
-                    <button type="button" class="btn btn-primary btn-lg"
+                    <button type="submit" class="btn btn-primary btn-lg"
+                            id="{{ pollView.submit_poll.vars.id }}"
+                            name="{{ pollView.submit_poll.vars.full_name }}"
                             {% if pollView.submit_poll.vars.disabled %}disabled="disabled"{% endif %}>
                         <i class="fa fa-send"></i>&nbsp;{{ 'poll.answer_to_poll' | trans }}
                     </button>
@@ -142,6 +144,12 @@
         </div>
     {% endfor %}
 
+    {{ form_widget(pollView._token) }}
+
+    {#
+        Empêche de faire le rendu de pollView.submit_poll, car on veut mettre
+        une icône à ce bouton
+    #}
     {{ form_end(pollView, {'render_rest': false}) }}
 {% endblock %}
 
@@ -149,11 +157,9 @@
     <script>
       $(function () {
         let currentPage = parseInt($('.card.error:first').parent('.question').attr('data-page'), 10) || 0;
-        let pagesCount = {{ poll.pages | length }};
+        console.log(currentPage);
 
-        hideOtherPages(() => {
-          showCurrentPage();
-        });
+        showCurrentPage();
 
         function showCurrentPage(cb = null, fadeIn = false) {
           const page = $(`[id="page-${currentPage}"]`);

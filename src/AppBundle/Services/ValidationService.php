@@ -31,6 +31,11 @@ class ValidationService
     private $validator;
 
     /**
+     * @var ChartTypeRepositoryService
+     */
+    private $chartTypeRepositoryService;
+
+    /**
      * @var VariantRepositoryService
      */
     private $variantRepositoryService;
@@ -43,19 +48,22 @@ class ValidationService
     /**
      * ValidationService constructor.
      *
-     * @param EntityManager            $entityManager
-     * @param Validator                $validator
+     * @param EntityManager $entityManager
+     * @param Validator $validator
+     * @param ChartTypeRepositoryService $chartTypeRepositoryService
      * @param VariantRepositoryService $variantRepositoryService
-     * @param PollCreationService      $pollCreationService
+     * @param PollCreationService $pollCreationService
      */
     public function __construct(
         EntityManager $entityManager,
         Validator $validator,
+        ChartTypeRepositoryService $chartTypeRepositoryService,
         VariantRepositoryService $variantRepositoryService,
         PollCreationService $pollCreationService
     ) {
         $this->em = $entityManager;
         $this->validator = $validator;
+        $this->chartTypeRepositoryService = $chartTypeRepositoryService;
         $this->variantRepositoryService = $variantRepositoryService;
         $this->pollCreationService = $pollCreationService;
     }
@@ -122,6 +130,19 @@ class ValidationService
                             $this->validateQuestionAndThrowIfErrors($question);
                             $page->addQuestion($question);
 
+                            // Chart Type
+                            $chartType = $this->chartTypeRepositoryService->findOneBy([
+                                'title' => $questionFromRequest['chart_type']['title']
+                            ]);
+
+                            if(is_null($chartType)) {
+                                throw new ValidatorException($questionFromRequest['chart_type'], $question);
+                            } else {
+                                // TODO: Richard
+                                $question->setChartType($chartType);
+                            }
+
+                            // Variant
                             $variant = $this->variantRepositoryService->getVariant([
                                 'name' => $questionFromRequest['variant']['name'],
                             ]);
