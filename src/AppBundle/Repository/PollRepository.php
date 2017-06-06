@@ -61,4 +61,24 @@ GROUP BY pr.id';
 
         return $polls;
     }
+    public function findDeletedBy(array $criteria, array $orderBy = NULL, $limit = NULL, $offset = NULL)
+    {
+        $polls = $this->createQueryBuilder('p');
+        $polls = $polls
+            ->where($polls->expr()->isNotNull('p.deletedAt'));
+        foreach ($criteria as $column => $value) {
+            $polls = $polls
+                ->where($column . '= :param')
+                ->setParameter('param', $value);
+        }
+
+        $polls = $polls->groupBy('p.id')
+            ->add('orderBy', "p.{$orderBy[0]} {$orderBy[1]}")
+            ->setFirstResult($offset)
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+
+        return $polls;
+    }
 }
