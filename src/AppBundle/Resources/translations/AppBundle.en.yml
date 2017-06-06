@@ -6,6 +6,8 @@ admin_poll:
   poll_results: 'Poll results'
   poll_results_no_answers: 'This poll haven''t received any answer yet.'
   no_polls: 'No poll have been found.'
+  no_archived_polls: 'No poll have been archived.'
+  polls_archive_list: 'Archived polls'
   create_poll: 'Create a poll'
 
   table:
@@ -75,6 +77,7 @@ sidebar:
   add_poll: 'Add a poll'
   polls_list: 'Polls list'
   users_list: 'Users list'
+  polls_archive: 'Archived polls'
 
 front:
   presentation: >

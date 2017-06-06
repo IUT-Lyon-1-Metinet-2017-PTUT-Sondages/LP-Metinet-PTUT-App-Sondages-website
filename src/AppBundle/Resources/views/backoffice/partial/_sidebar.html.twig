@@ -8,9 +8,17 @@
                     <i class="icon-plus"></i>
                     {{ 'sidebar.add_poll' | trans }}
                 </a>
+            </li>
+            <li class="nav-item">
                 <a href="{{ path('backoffice_polls') }}" class="nav-link">
                     <i class="icon-list"></i>
                     {{ 'sidebar.polls_list' | trans }}
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ path('backoffice_polls_archive') }}" class="nav-link">
+                    <i class="icon-drawer"></i>
+                    {{ 'sidebar.polls_archive' | trans }}
                 </a>
             </li>
             {% if is_granted('ROLE_ADMIN') %}

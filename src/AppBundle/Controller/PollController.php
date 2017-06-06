@@ -190,11 +190,11 @@ class PollController extends Controller
     }
 
     /**
-     * Display a Poll's results by its id.
-     * @Route("/backoffice/polls/{id}/results", name="backoffice_poll_results")
-     * @param int $id
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
+ * Display a Poll's results by its id.
+ * @Route("/backoffice/polls/{id}/results", name="backoffice_poll_results")
+ * @param int $id
+ * @return \Symfony\Component\HttpFoundation\Response
+ */
     public function resultsAction($id)
     {
         /** @var PollRepositoryService $pollService */
