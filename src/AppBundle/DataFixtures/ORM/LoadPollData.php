@@ -90,12 +90,14 @@ class LoadPollData extends AbstractFixture implements OrderedFixtureInterface
     private function createQuestionsForPage(Poll $poll, Page $page)
     {
         $variants = $this->manager->getRepository('AppBundle:Variant')->findAll();
+        $chartTypes = $this->manager->getRepository('AppBundle:ChartType')->findAll();
 
         foreach ($variants as $variant) {
             $question = new Question();
             $question->setTitle(sprintf("Question de type %s", $variant->getName()));
             $question->setPoll($poll);
             $question->setPage($page);
+            $question->setChartType($chartTypes[array_rand($chartTypes)]);
             $page->addQuestion($question);
             $this->createPropositionsForQuestion($question, $variant);
 
