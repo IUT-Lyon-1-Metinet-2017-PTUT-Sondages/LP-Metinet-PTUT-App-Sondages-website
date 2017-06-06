@@ -27,14 +27,21 @@ class PollResultsService
     private $excelService;
 
     /**
+     * @var string scriptDirectory
+     */
+    private $scriptDirectory;
+
+    /**
      * PollResultsService constructor.
      * @param $chartColors
+     * @param $rootDir
      * @param $excelService
      */
-    public function __construct($chartColors, $excelService)
+    public function __construct($chartColors, $rootDir, $excelService)
     {
-        $this->chartColors  = $chartColors;
-        $this->excelService = $excelService;
+        $this->chartColors     = $chartColors;
+        $this->excelService    = $excelService;
+        $this->scriptDirectory = realpath($rootDir . '/../web/CoreUI/js/CustomChartLegend.js');
     }
 
     /**
@@ -44,37 +51,7 @@ class PollResultsService
     public function getChartsResults($questionsAnswers)
     {
         $charts                         = [];
-        $questionsAnswersAfterTreatment = [];
-        $checkId                        = -1;
-
-        foreach ($questionsAnswers as $questionAnswers) {
-            if ($checkId === $questionAnswers['qId']) {
-                continue;
-            }
-
-            $checkId = $questionAnswers['qId'];
-
-            $props = array_filter(
-                $questionsAnswers,
-                function ($a) use ($checkId) {
-                    return $a['qId'] === $checkId;
-                }
-            );
-
-            unset($questionAnswers['propId']);
-            unset($questionAnswers['propTitle']);
-            unset($questionAnswers['amount']);
-
-            foreach ($props as $j => $prop) {
-                $questionAnswers['props'][] = [
-                    'id'     => $prop['propId'],
-                    'title'  => $prop['propTitle'],
-                    'amount' => $prop['amount'],
-                ];
-            }
-
-            $questionsAnswersAfterTreatment[] = $questionAnswers;
-        }
+        $this->getAnswersCount($questionsAnswersAfterTreatment, $questionsAnswers);
 
         foreach ($questionsAnswersAfterTreatment as $question) {
             /** @var PieChart|BarChart $dataSet */
@@ -110,46 +87,7 @@ class PollResultsService
             $chart->setLabels($labels);
             $chart->generateData();
             $chart->setOptions(array_merge($options, [
-                    'legendCallback' =>
-                        '
-                        var text = [];
-                        var sum  = 0.0;
-                        var totalAnswer = chart.data.datasets[0].data.reduce((pv, cv) => pv + parseInt(cv, 10), 0);
-                        for (var i=0; i<chart.data.datasets[0].data.length; i++) {
-                            sum += parseInt(chart.data.labels[i], 10) * parseInt(chart.data.datasets[0].data[i], 10);
-                            text.push(\'<tr>\');
-                            text.push(\'<td width="16">\');
-                            text.push(\'<span style="display:block;width:16px;height:16px;background-color:\' + chart.data.datasets[0].backgroundColor[i] + \'"></span>\');
-                            text.push(\'</td>\');
-                            text.push(\'<td>\');
-                            text.push(chart.data.labels[i]);
-                            text.push(\'</td>\');
-                            text.push(\'<td>\');
-                            text.push(chart.data.datasets[0].data[i]);
-                            text.push(\'</td>\');
-                            text.push(\'<td>\');
-                            text.push(Math.round(chart.data.datasets[0].data[i] / totalAnswer * 10000)/100 + \'&nbsp;%\');
-                            text.push(\'</td>\');
-                            text.push(\'</tr>\');
-                        }
-                        text.push(\'<tr>\');
-                        text.push(\'<td>\');
-                        text.push(\'</td>\');
-                        text.push(\'<td>\');
-                        text.push(\'<span class="font-weight-bold">Total</span>\');
-                        text.push(\'</td>\');
-                        text.push(\'<td>\');
-                        text.push(totalAnswer);
-                        text.push(\'</td>\');
-                        text.push(\'<td>\');
-                        text.push(\'100&nbsp;%\');
-                        text.push(\'</td>\');
-                        text.push(\'</tr>\');
-                        var averageInput = jQuery(\'.average-linear-\' + chart.canvas.id);
-                        if(averageInput !== undefined) {
-                            averageInput.html(Math.round(sum/totalAnswer*100)/100);
-                        }
-                        return text.join(\'\');',
+                    'legendCallback' => file_get_contents($this->scriptDirectory),
                     'legend'         => ['display' => false]
                 ]
             ));
@@ -176,42 +114,7 @@ class PollResultsService
             ->setTitle($poll->getTitle())
             ->setSubject($poll->getTitle());
 
-        $questionsAnswersAfterTreatment = [];
-        $checkId                        = -1;
-
-        foreach ($questionsAnswers as $questionAnswers) {
-            if ($checkId === $questionAnswers['qId']) {
-                continue;
-            }
-
-            $checkId = $questionAnswers['qId'];
-
-            $props = array_filter(
-                $questionsAnswers,
-                function ($a) use ($checkId) {
-                    return $a['qId'] === $checkId;
-                }
-            );
-
-            unset($questionAnswers['propId']);
-            unset($questionAnswers['propTitle']);
-            unset($questionAnswers['amount']);
-
-            foreach ($props as $j => $prop) {
-                $questionAnswers['props'][] = [
-                    'id'     => $prop['propId'],
-                    'title'  => $prop['propTitle'],
-                    'amount' => $prop['amount'],
-                ];
-                if (key_exists('sum', $questionAnswers)) {
-                    $questionAnswers['sum'] += $prop['amount'];
-                } else {
-                    $questionAnswers['sum'] = $prop['amount'];
-                }
-            }
-
-            $questionsAnswersAfterTreatment[] = $questionAnswers;
-        }
+        $this->getAnswersCount($questionsAnswersAfterTreatment, $questionsAnswers);
 
         $phpExcelObject->removeSheetByIndex(0);
 
@@ -383,5 +286,43 @@ class PollResultsService
         $writer->setIncludeCharts(true);
         // create the response
         return $this->excelService->createStreamedResponse($writer);
+    }
+
+    private function getAnswersCount(&$questionsAnswersAfterTreatment, $questionsAnswers) {
+        $checkId = -1;
+
+        foreach ($questionsAnswers as $questionAnswers) {
+            if ($checkId === $questionAnswers['qId']) {
+                continue;
+            }
+
+            $checkId = $questionAnswers['qId'];
+
+            $props = array_filter(
+                $questionsAnswers,
+                function ($a) use ($checkId) {
+                    return $a['qId'] === $checkId;
+                }
+            );
+
+            unset($questionAnswers['propId']);
+            unset($questionAnswers['propTitle']);
+            unset($questionAnswers['amount']);
+
+            foreach ($props as $j => $prop) {
+                $questionAnswers['props'][] = [
+                    'id'     => $prop['propId'],
+                    'title'  => $prop['propTitle'],
+                    'amount' => $prop['amount'],
+                ];
+                if (key_exists('sum', $questionAnswers)) {
+                    $questionAnswers['sum'] += $prop['amount'];
+                } else {
+                    $questionAnswers['sum'] = $prop['amount'];
+                }
+            }
+
+            $questionsAnswersAfterTreatment[] = $questionAnswers;
+        }
     }
 }

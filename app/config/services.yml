@@ -95,7 +95,7 @@ services:
             - { name: form.type }
     app.poll.results:
         class: AppBundle\Services\PollResultsService
-        arguments: ["%graph_colors%", "@phpexcel"]
+        arguments: ["%graph_colors%", "%kernel.root_dir%", "@phpexcel"]
 
     #Mailer
     app.mailer_service:
