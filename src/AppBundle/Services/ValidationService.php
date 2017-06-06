@@ -130,7 +130,7 @@ class ValidationService
                             $this->validateQuestionAndThrowIfErrors($question);
                             $page->addQuestion($question);
 
-                            // Chart Type
+                            // We get the chartType from database
                             $chartType = $this->chartTypeRepositoryService->findOneBy([
                                 'title' => $questionFromRequest['chart_type']['title']
                             ]);
@@ -138,11 +138,12 @@ class ValidationService
                             if(is_null($chartType)) {
                                 throw new ValidatorException($questionFromRequest['chart_type'], $question);
                             } else {
-                                // TODO: Richard
+                                $this->validateChartTypeAndThrowIfErrors($chartType);
                                 $question->setChartType($chartType);
+
                             }
 
-                            // Variant
+                            // Here we get the variant from database
                             $variant = $this->variantRepositoryService->getVariant([
                                 'name' => $questionFromRequest['variant']['name'],
                             ]);
@@ -168,14 +169,15 @@ class ValidationService
                                     $this->validatePropositionAndThrowIfErrors($proposition);
                                     $question->addProposition($proposition);
 
-                                    $this->pollCreationService->createPoll(
-                                        $poll,
-                                        $page,
-                                        $question,
-                                        $proposition,
-                                        $user
-                                    );
+
                                 }
+                                $this->pollCreationService->createPoll(
+                                    $poll,
+                                    $page,
+                                    $question,
+                                    $proposition,
+                                    $user
+                                );
                             }
                         }
                     }
@@ -294,5 +296,19 @@ class ValidationService
     public function validateProposition(Proposition $proposition)
     {
         return $this->validator->validate($proposition);
+    }
+
+    private function validateChartTypeAndThrowIfErrors($chartType)
+    {
+        $errors = $this->validateChartType($chartType);
+
+        if (count($errors) > 0) {
+            throw new ValidationFailedException($errors);
+        }
+    }
+
+    private function validateChartType($chartType)
+    {
+        return $this->validator->validate($chartType);
     }
 }

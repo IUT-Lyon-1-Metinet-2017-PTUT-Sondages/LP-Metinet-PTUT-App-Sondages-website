@@ -37,7 +37,7 @@ class PollAnswersService
     /**
      * @param array $data
      */
-    public function registerAnswers(array $data)
+    public function registerAnswers($data)
     {
         $sessionId = uniqid();
 

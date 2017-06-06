@@ -4,12 +4,14 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * ChartType
  *
  * @ORM\Table(name="chart_type")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\ChartTypeRepository")
+ *
  */
 class ChartType
 {
@@ -27,6 +29,7 @@ class ChartType
      *
      * @Groups({"backOffice"})
      * @ORM\Column(name="title", type="string", length=255, unique=true)
+     * @Assert\NotBlank()
      */
     private $title;
 

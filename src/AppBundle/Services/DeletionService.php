@@ -33,16 +33,18 @@ class DeletionService
     /**
      * @param array $toDelete
      */
-    public function handleEntityDeletion(array $toDelete)
+    public function handleEntityDeletion($toDelete)
     {
-        foreach ($toDelete as $name => $arrayOfId) {
-            foreach ($arrayOfId as $id) {
-                $repository = $this->em->getRepository('AppBundle:' . $name);
-                $deletedEntity = $repository->findOneBy(['id' => $id]);
+        if(is_array($toDelete)) {
+            foreach ($toDelete as $name => $arrayOfId) {
+                foreach ($arrayOfId as $id) {
+                    $repository    = $this->em->getRepository('AppBundle:'.$name);
+                    $deletedEntity = $repository->findOneBy(['id' => $id]);
 
-                if (!is_null($deletedEntity)) {
-                    $this->em->remove($deletedEntity);
-                    $this->em->flush();
+                    if (!is_null($deletedEntity)) {
+                        $this->em->remove($deletedEntity);
+                        $this->em->flush();
+                    }
                 }
             }
         }

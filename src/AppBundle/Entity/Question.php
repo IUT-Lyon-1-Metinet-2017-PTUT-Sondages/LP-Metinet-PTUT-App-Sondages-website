@@ -37,6 +37,7 @@ class Question
      * @Groups({"backOffice"})
      * @ORM\ManyToOne(targetEntity="ChartType")
      * @ORM\JoinColumn(name="chart_type_id", referencedColumnName="id", onDelete="CASCADE")
+     * @Assert\Valid
      */
     private $chartType;
 
