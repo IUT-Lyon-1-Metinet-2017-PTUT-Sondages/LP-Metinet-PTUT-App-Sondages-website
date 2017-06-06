@@ -76,6 +76,7 @@ sidebar:
   add_poll: 'Add a poll'
   polls_list: 'Polls list'
   users_list: 'Users list'
+  polls_archive: 'Archived polls'
 
 front:
   presentation: >

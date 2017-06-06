@@ -76,6 +76,7 @@ sidebar:
   add_poll: 'Ajouter un sondage'
   polls_list: 'Liste des sondages'
   users_list: 'Liste des utilisateurs'
+  polls_archive: 'Sondages archivés'
 
 front:
   presentation: >
