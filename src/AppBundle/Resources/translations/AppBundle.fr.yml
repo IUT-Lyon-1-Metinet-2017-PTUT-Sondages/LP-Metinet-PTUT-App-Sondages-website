@@ -81,9 +81,29 @@ sidebar:
   polls_archive: 'Sondages archivés'
 
 front:
-  presentation: >
-    <p>salut</p>é
-    <p>blabla</p>
+  presentation:
+      description:
+          title: 'Présentation'
+          content: '<strong>Kodrastan</strong> est une application de gestion de sondage. Elle vous permet de <strong>rédiger</strong> et <strong>partager</strong> des sondages.
+          Une fois votre sondage publié vous pouvez <strong>accéder</strong> aux résultats et <strong>exporter</strong> les statistiques dans un fichier excel.
+          Lorsque votre sondage n''a plus lieu d''être accessible vous pouvez l''<strong>archiver</strong> afin que vous soyez le seul à pouvoir le consulter.'
+      inscription:
+          title: 'Inscription'
+          content: 'Pour vous inscrire sur l''application vous devez utiliser une <strong>adresse universitaire</strong> (lyon1) valide.'
+      step:
+          1: 'Après vous êtes connecté sur l''application vous arrivez sur la liste de vos sondages.
+          Depuis cette interface vous pouvez effectuer toute les <strong>actions</strong> liés à vos sondages : <strong>création, édition, publication, partage, réponses.</strong>'
+          2: 'Pour que votre sondage soit <strong>valide</strong> vous devrez fournir un <strong>titre</strong>, une <strong>description globale</strong> ainsi qu''un <strong>titre par page</strong>.
+          Pour chaque <strong>question</strong> vous devrez renseigner son <strong>intitulé</strong>. Ensuite vous aurez le choix entre plusieurs <strong>types de questions</strong> et de <strong>diagrammes</strong>.
+          <br><i class="fa fa-info-circle" aria-hidden="true"></i> Une proposition correspond à l''intitulé de la réponse.'
+          3: 'Vous avez le choix entre <strong>3 types</strong> de question : question à <strong>choix unique</strong>, question à <strong>choix multiple</strong> et question <strong>quantitative</strong>.
+          Dans le cas d''une question quantitative vous devez renseigner la <strong>valeur de départ</strong> et la <strong>valeur de fin</strong> (chaque valeur sera une proposition).
+          Le <strong>choix du diagramme</strong> vous permet de définir le <strong>rendu utilisé</strong> lors de la visualisation des réponses.'
+          4: 'Pour <strong>partager</strong> votre sondage vous avez le choix entre plusieurs méthodes :
+          par <strong>mail</strong>, via <strong>twitter</strong>, via <strong>facebook</strong> ou encore avec le <strong>lien</strong> de partage.'
+          5: 'La visualisation des <strong>réponses</strong> se fait sous forme de <strong>tableaux</strong> et de <strong>graphiques</strong>.
+          Un bouton est disponible pour <strong>exporter</strong> ces données dans un fichier <strong>Excel</strong>.'
+          6: 'Le fichier excel est composé d''<strong>une feuille de calcul par question</strong>. Vous y trouverez le tableau et le graphique des statistiques.'
 
   poll:
     answer:

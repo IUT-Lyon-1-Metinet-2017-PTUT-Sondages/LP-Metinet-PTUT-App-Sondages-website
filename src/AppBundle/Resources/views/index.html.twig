@@ -2,18 +2,89 @@
 {% trans_default_domain 'AppBundle' %}
 
 {% block content %}
-    {{ 'front.presentation' | trans | raw }}
-    <p>Page d'accueil à travailler</p>
+    <div class="row p-5">
+        <div class="col-6">
+            <h2 class="mb-3">
+                {{ 'front.presentation.description.title' | trans | raw }}
+            </h2>
+            <p class="text-justify">
+                {{ 'front.presentation.description.content' | trans | raw }}
+            </p>
+        </div>
+        <div class="col-6">
+            <h2 class="mb-3">
+                {{ 'front.presentation.inscription.title' | trans | raw }}
+            </h2>
+            <p class="text-justify">
+                {{ 'front.presentation.inscription.content' | trans | raw }}
+            </p>
+        </div>
+    </div>
+    <hr>
+    <div class="row p-5">
+        <div class="col-4">
+            <p class="text-justify">{{ 'front.presentation.step.1' | trans | raw }}</p>
+        </div>
+        <div class="col-8">
+            <img class="img-tuto" src="{{ asset('front/assets/img/tuto1.png') }}">
+        </div>
+    </div>
+
+    <div class="row p-5">
+        <div class="col-8">
+            <img class="img-tuto" src="{{ asset('front/assets/img/tuto2.png') }}">
+        </div>
+        <div class="col-4">
+            <p class="text-justify">{{ 'front.presentation.step.2' | trans | raw }}</p>
+        </div>
+    </div>
+
+    <div class="row p-5">
+        <div class="col-4">
+            <p class="text-justify">{{ 'front.presentation.step.3' | trans | raw }}</p>
+        </div>
+        <div class="col-8">
+            <img class="img-tuto" src="{{ asset('front/assets/img/tuto3.png') }}">
+        </div>
+    </div>
+
+    <div class="row p-5">
+        <div class="col-8">
+            <img class="img-tuto" src="{{ asset('front/assets/img/tuto4.png') }}">
+        </div>
+        <div class="col-4">
+            <p class="text-justify">{{ 'front.presentation.step.4' | trans | raw }}</p>
+        </div>
+    </div>
+
+
+    <div class="row p-5">
+        <div class="col-4">
+            <p class="text-justify">{{ 'front.presentation.step.5' | trans | raw }}</p>
+        </div>
+        <div class="col-8">
+            <img class="img-tuto" src="{{ asset('front/assets/img/tuto5.png') }}">
+        </div>
+    </div>
+
+    <div class="row p-5">
+        <div class="col-8">
+            <img class="img-tuto" src="{{ asset('front/assets/img/tuto6.png') }}">
+        </div>
+        <div class="col-4">
+            <p class="text-justify">{{ 'front.presentation.step.6' | trans | raw }}</p>
+        </div>
+    </div>
 
     {% if app.user %}
-        <a href="{{ path('backoffice') }}" class="btn btn-success">
+        <a href="{{ path('backoffice') }}" class="btn btn-success btn-success-custom btn-square">
             Accéder au backoffice
         </a>
     {% else %}
-        <a href="{{ path('fos_user_registration_register') }}" class="btn btn-primary">
+        <a href="{{ path('fos_user_registration_register') }}" class="btn btn-primary btn-primary-custom btn-square">
             {{ 'layout.register' | trans({}, 'FOSUserBundle') }}
         </a>
-        <a href="{{ path('fos_user_security_login') }}" class="btn btn-primary">
+        <a href="{{ path('fos_user_security_login') }}" class="btn btn-primary btn-primary-custom btn-square">
             {{ 'layout.login' | trans({}, 'FOSUserBundle') }}
         </a>
     {% endif %}
