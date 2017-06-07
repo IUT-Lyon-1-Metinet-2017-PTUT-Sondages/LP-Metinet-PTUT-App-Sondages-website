@@ -116,3 +116,12 @@ users:
   update: 'Update'
   delete_confirmation: 'Do you really want to delete this user?'
   delete: 'Delete'
+
+
+mails:
+  share_poll:
+    hello: 'Hello,'
+    please_complete_the_poll: 'Please complete the poll: '
+    link_to_poll: 'Link to poll'
+    cordially: 'Cordially,'
+    signature: 'Automatic Message Service - Kodrastan.'

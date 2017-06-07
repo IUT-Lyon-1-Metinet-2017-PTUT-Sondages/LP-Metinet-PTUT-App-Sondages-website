@@ -1,15 +1,20 @@
-<html>
-    <p>
-        Bonjour,
-    </p>
-    <p>
-        Merci de compléter ce sondage
-        <a href="{{ url }}" title="Liens vers le sondage">{{ url }}</a>
-    </p>
-    <p>
-        Cordialement,
-    </p>
-    <p>
-        Service de Messagerie Automatique - Kodrastan.
-    </p>
+{% trans_default_domain 'AppBundle' %}
+
+<!DOCTYPE html>
+<html lang="{{ app.request.locale }}">
+<head></head>
+<body>
+<p>
+    {{ 'mails.share_poll.hello' | trans }}
+</p>
+<p>
+    {{ 'mails.share_poll.please_complete_the_poll' | trans }}&nbsp;<a title="{{ 'mails.share_poll.link_to_poll' | trans }}" href="{{ url }}">{{ url }}</a>
+</p>
+<p>
+    {{ 'mails.share_poll.cordially' | trans }}
+</p>
+<p>
+    {{ 'mails.share_poll.signature' | trans }}
+</p>
+</body>
 </html>

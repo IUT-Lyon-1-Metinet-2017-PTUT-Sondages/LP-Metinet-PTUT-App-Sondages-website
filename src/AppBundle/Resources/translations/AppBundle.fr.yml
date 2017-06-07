@@ -117,3 +117,11 @@ users:
   update: 'Modifier'
   delete_confirmation: 'Voulez-vous vraiment supprimer cet utilisateur ?'
   delete: 'Supprimer'
+
+mails:
+  share_poll:
+    hello: 'Bonjour,'
+    please_complete_the_poll: 'Merci de compléter ce sondage : '
+    link_to_poll: 'Lien vers le sondage'
+    cordially: 'Cordialement,'
+    signature: 'Service de Messagerie automatique - Kodrastan.'
