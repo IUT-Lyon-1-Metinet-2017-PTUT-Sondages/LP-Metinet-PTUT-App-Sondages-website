@@ -112,12 +112,11 @@ class PollRepositoryService
     }
 
     /**
-     * @param int $id
+     * @param Poll $poll
+     * @internal param int $id
      */
-    public function deleteById($id)
+    public function delete(Poll $poll)
     {
-
-        $poll = $this->em->getRepository('AppBundle:Poll')->findOneBy(['id' => $id]);
         $this->em->remove($poll);
         $this->em->flush();
     }

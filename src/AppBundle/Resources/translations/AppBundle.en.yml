@@ -103,6 +103,9 @@ poll:
 
   message_preview_for_author: 'This is a preview of the final rendering of the poll, all interactions have been disabled.<br>The poll is only accessible for yourself at the moment.'
   error_message_preview_for_not_author: 'You do not have access to this poll yet.'
+  error_not_allowed_to_delete_poll: 'You are not allowed to delete this poll.'
+  error_not_allowed_to_delete_poll: 'You are not allowed to archive this poll.'
+
 
 users:
   users_list: 'Users list'

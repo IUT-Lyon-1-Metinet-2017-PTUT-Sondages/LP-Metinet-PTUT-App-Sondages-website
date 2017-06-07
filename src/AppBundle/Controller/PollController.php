@@ -131,10 +131,21 @@ class PollController extends Controller
      */
     public function deleteAction($id)
     {
+        $translator = $this->get('translator');
         $service = $this->get('app.repository_service.poll');
+        $poll = $service->getPoll(['id' => $id]);
+
+        if(is_null($poll)) {
+            return $this->redirectToRoute('backoffice_polls');
+        }
+
+        if(!($this->isGranted('ROLE_ADMIN') || $poll->getUser() === $this->getUser())) {
+            $this->addFlash('danger', $translator->trans('poll.error_not_allowed_to_delete_poll', [], 'AppBundle'));
+            return $this->redirectToRoute('backoffice_polls');
+        }
 
         try {
-            $service->deleteById($id);
+            $service->delete($poll);
         } catch (ORMInvalidArgumentException $e) {
             $this->addFlash('danger', $e->getMessage());
 

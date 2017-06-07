@@ -105,6 +105,8 @@ poll:
 
   message_preview_for_author: 'Ceci est un aperçu du rendu final du sondage, toute interaction a été désactivée.<br>Le sondage n''est pour l''instant uniquement accessible que par vous-même.'
   error_message_preview_for_not_author: 'Vous n''avez pas encore accès à ce sondage.'
+  error_not_allowed_to_delete_poll: 'Vous n''êtes pas autorisé à supprimer ce sondage.'
+  error_not_allowed_to_archive_poll: 'Vous n''êtes pas autorisé à archiver ce sondage.'
 
 users:
   users_list: 'Liste des utilisateurs'
