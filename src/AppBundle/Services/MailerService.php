@@ -87,6 +87,8 @@ class MailerService
 
             $mail->setFrom($this->mailerUser)
                 ->setTo($toEmail)
+                ->setCharset('utf-8')
+                ->setPriority(\Swift_Mime_SimpleMessage::PRIORITY_HIGH)
                 ->setSubject("[Kodrastan] " . $this->translator->trans('mails.share_poll.subject', [], 'AppBundle'))
                 ->setBody($bodyText)
                 ->addPart($bodyHtml, 'text/html');

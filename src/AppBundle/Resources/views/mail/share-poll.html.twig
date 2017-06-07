@@ -8,7 +8,7 @@
     {{ 'mails.share_poll.hello' | trans }}
 </p>
 <p>
-    {{ 'mails.share_poll.please_complete_the_poll' | trans({'%username%': user.username }) }}&nbsp;<a title="{{ 'mails.share_poll.link_to_poll' | trans }}" href="{{ url }}">{{ url }}</a>
+    {{ 'mails.share_poll.please_complete_the_poll' | trans({'%first_name%': user.firstName, '%last_name%': user.lastName}) }}&nbsp;<a title="{{ 'mails.share_poll.link_to_poll' | trans }}" href="{{ url }}">{{ url }}</a>
 </p>
 <p>
     {{ 'mails.share_poll.cordially' | trans }}

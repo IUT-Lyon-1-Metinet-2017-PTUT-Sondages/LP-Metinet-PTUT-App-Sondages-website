@@ -2,7 +2,7 @@
 
 {{ 'mails.share_poll.hello' | trans }}
 
-{{ 'mails.share_poll.please_complete_the_poll' | trans({'%username%': user.username }) }} {{ url }}.
+{{ 'mails.share_poll.please_complete_the_poll' | trans({'%first_name%': user.firstName, '%last_name%': user.lastName}) }} {{ url }}.
 
 {{ 'mails.share_poll.cordially' | trans }}
 

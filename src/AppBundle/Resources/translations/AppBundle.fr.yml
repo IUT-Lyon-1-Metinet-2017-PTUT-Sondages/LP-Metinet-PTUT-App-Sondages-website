@@ -122,7 +122,7 @@ mails:
   share_poll:
     subject: 'Prennez 2 minutes pour répondre à ce sondage'
     hello: 'Bonjour,'
-    please_complete_the_poll: 'L''utilisateur %username% voudrait que vous complétiez ce sondage : '
+    please_complete_the_poll: '%first_name% %last_name% voudrait que vous complétiez ce sondage :'
     link_to_poll: 'Lien vers le sondage'
     cordially: 'Cordialement,'
     signature: 'Service de Messagerie automatique - Kodrastan.'
