@@ -59,7 +59,10 @@
                 {% block main %}{% endblock %}
             </main>
         </div>
-        {% include '@App/backoffice/partial/_footer.html.twig' %}
+
+        {% if (includeFooter is defined and includeFooter == true) or (includeFooter is not defined) %}
+            {% include '@App/backoffice/partial/_footer.html.twig' %}
+        {% endif %}
 
          <!-- Bootstrap and necessary plugins -->
           <script src="{{ asset('CoreUI/bower_components/jquery/dist/jquery.min.js') }}"></script>

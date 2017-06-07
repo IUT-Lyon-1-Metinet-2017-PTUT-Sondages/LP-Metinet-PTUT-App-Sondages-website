@@ -1,5 +1,9 @@
 {% extends "::backoffice_base.html.twig" %}
 
+{% set includeFooter = false %}
+
+{% block bodyclass %}app header-fixed sidebar-hidden aside-menu-hidden{% endblock %}
+
 {% block title %}Kodastran Backoffice Login{% endblock %}
 
 {% block main %}
