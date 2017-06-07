@@ -39,6 +39,9 @@
                                 {{ knp_pagination_sortable(pagination, 'admin_poll.table.author' | trans, 'a.user.email') }}
                             </th>
                         {% endif %}
+                        <th class="hidden-sm-down {% if pagination.isSorted('a.user.created_at') %}sorted{% endif %}">
+                            {{ knp_pagination_sortable(pagination, 'admin_poll.table.created_at' | trans , 'a.user.email') }}
+                        </th>
                         <th>
                             {{ 'admin_poll.table.state' | trans }}
                         </th>
@@ -60,6 +63,9 @@
                                 </td>
                             {% endif %}
                             <td>
+                                {{ poll.createdAt | localizeddate('medium', 'medium', app.request.locale) }}
+                            </td>
+                            <td>
                                 {% if poll.published %}
                                     {{ 'admin_poll.table_values.published' | trans }}
                                 {% else %}
@@ -67,8 +73,6 @@
                                 {% endif %}
                             </td>
                             <td>
-
-
                                 {% if not poll.published %}
                                     <a href="{{ path('backoffice_poll_archive_delete', {'id': poll.id}) }}"
                                        onclick="return confirm('{{ 'admin_poll.table_values.delete_confirmation' | trans }}')"

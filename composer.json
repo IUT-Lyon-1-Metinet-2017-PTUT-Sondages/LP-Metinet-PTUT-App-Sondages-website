@@ -41,7 +41,8 @@
         "fzaninotto/faker": "^1.6",
         "saad-tazi/g-chart-bundle": "^2.0",
         "avegao/chartjs-bundle": "dev-master",
-        "liuggio/excelbundle": "^2.1"
+        "liuggio/excelbundle": "^2.1",
+        "dms/twig-extension-bundle": "^2.0"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",

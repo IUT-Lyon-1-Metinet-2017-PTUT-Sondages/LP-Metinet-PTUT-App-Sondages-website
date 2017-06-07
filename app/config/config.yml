@@ -127,3 +127,4 @@ knp_doctrine_behaviors:
 knp_paginator:
   template:
     pagination: KnpPaginatorBundle:Pagination:twitter_bootstrap_v4_pagination.html.twig
+

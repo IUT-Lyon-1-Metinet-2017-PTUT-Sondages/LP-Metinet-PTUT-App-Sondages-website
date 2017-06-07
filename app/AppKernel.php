@@ -24,6 +24,7 @@ class AppKernel extends Kernel
             new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
             new Avegao\ChartjsBundle\AvegaoChartjsBundle(),
             new Liuggio\ExcelBundle\LiuggioExcelBundle(),
+            new DMS\Bundle\TwigExtensionBundle\DMSTwigExtensionBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

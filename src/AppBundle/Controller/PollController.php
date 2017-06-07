@@ -36,9 +36,9 @@ class PollController extends Controller
         $user      = $this->getUser();
 
         if ($user->hasRole('ROLE_ADMIN')) {
-            $entries = $service->getPolls([]);
+            $entries = $service->getPolls([], ['createdAt', 'desc']);
         } else {
-            $entries = $service->getPolls(['p.user' => $user]);
+            $entries = $service->getPolls(['p.user' => $user], ['createdAt', 'desc']);
         }
 
         $pagination = $paginator->paginate(
