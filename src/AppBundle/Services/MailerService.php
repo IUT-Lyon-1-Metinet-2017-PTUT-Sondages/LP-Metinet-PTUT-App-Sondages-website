@@ -63,8 +63,8 @@ class MailerService
             $mail->setFrom($from)
                 ->setTo($to)
                 ->setSubject("[Kodrastan] " . $this->translator->trans('mails.share_poll.subject', [], 'AppBundle'))
-                ->addPart($bodyHtml, 'text/html')
-                ->addPart($bodyText, 'text/plain');
+                ->setBody($bodyText)
+                ->addPart($bodyHtml, 'text/html');
 
             $this->mailer->send($mail);
 
