@@ -120,6 +120,7 @@ users:
 
 mails:
   share_poll:
+    subject: 'Take 2 minutes to answer to this poll'
     hello: 'Hello,'
     please_complete_the_poll: 'Please complete the poll: '
     link_to_poll: 'Link to poll'

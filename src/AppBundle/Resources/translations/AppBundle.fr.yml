@@ -120,6 +120,7 @@ users:
 
 mails:
   share_poll:
+    subject: 'Prennez 2 minutes pour répondre à ce sondage'
     hello: 'Bonjour,'
     please_complete_the_poll: 'Merci de compléter ce sondage : '
     link_to_poll: 'Lien vers le sondage'
