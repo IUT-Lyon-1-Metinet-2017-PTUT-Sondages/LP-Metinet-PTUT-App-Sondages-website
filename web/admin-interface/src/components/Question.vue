@@ -62,7 +62,7 @@
 
       <!-- Bouton ajouter une proposition, si c'est pas une variant LinearScale-->
       <button-insert-here v-if="question.variant.name !== 'LinearScale'"
-                          @click.prevent="addProposition" :disabled="question.propositions.length > 12">
+                          @click.prevent="addProposition" :disabled="question.propositions.length >= 12">
         {{ $t('proposition.add') }}
       </button-insert-here>
     </div>
