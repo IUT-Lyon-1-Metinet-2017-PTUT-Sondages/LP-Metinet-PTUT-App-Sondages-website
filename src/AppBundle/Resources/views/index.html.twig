@@ -1,9 +1,10 @@
 {% extends '::base.html.twig' %}
+
 {% trans_default_domain 'AppBundle' %}
 
 {% block content %}
     <div class="text-justify">
-        <div class="row p-md-5 p-2">
+        <div class="row p-md-4 p-2">
             <div class="col-12 col-md-6">
                 <h2 class="mb-3">
                     {{ 'front.presentation.description.title' | trans | raw }}
@@ -22,7 +23,7 @@
             </div>
         </div>
         <hr>
-        <div class="row p-md-5 p-2">
+        <div class="row p-md-4 p-2">
             <div class="colcol-12 col-md-4">
                 <p class="text-justify">{{ 'front.presentation.step.1' | trans | raw }}</p>
             </div>
@@ -33,18 +34,18 @@
             </div>
         </div>
         <hr>
-        <div class="row p-md-5 p-2">
+        <div class="row p-md-4 p-2 flex-md-row-reverse">
+            <div class="col-12 col-md-4">
+                <p class="text-justify">{{ 'front.presentation.step.2' | trans | raw }}</p>
+            </div>
             <div class="col-12 col-md-8">
                 <a target="_blank" href="{{ asset('front/assets/img/tuto2.png') }}">
                     <img class="img-tuto" src="{{ asset('front/assets/img/tuto2.png') }}">
                 </a>
             </div>
-            <div class="col-12 col-md-4">
-                <p class="text-justify">{{ 'front.presentation.step.2' | trans | raw }}</p>
-            </div>
         </div>
         <hr>
-        <div class="row p-md-5 p-2">
+        <div class="row p-md-4 p-2">
             <div class="col-12 col-md-4">
                 <p class="text-justify">{{ 'front.presentation.step.3' | trans | raw }}</p>
             </div>
@@ -55,18 +56,33 @@
             </div>
         </div>
         <hr>
-        <div class="row p-md-5 p-2">
-            <div class="col-12 col-md-6">
-                <a target="_blank" href="{{ asset('front/assets/img/tuto4.png') }}">
-                    <img class="img-tuto" src="{{ asset('front/assets/img/tuto4.png') }}">
-                </a>
-            </div>
+        <div class="row p-md-4 p-2 flex-md-row-reverse">
             <div class="col-12 col-md-6">
                 <p class="text-justify">{{ 'front.presentation.step.4' | trans | raw }}</p>
             </div>
+            <div class="col-12 col-md-6">
+                <p>
+                    <a target="_blank" href="{{ asset('front/assets/img/tuto4.png') }}">
+                        <img class="img-tuto" src="{{ asset('front/assets/img/tuto4.png') }}">
+                    </a>
+                </p>
+
+                <p>
+                    <a target="_blank" href="{{ asset('front/assets/img/tuto4-1.png') }}">
+                        <img class="img-tuto" src="{{ asset('front/assets/img/tuto4-1.png') }}">
+                    </a>
+                </p>
+            </div>
+        </div>
+        <div class="row px-2 px-md-4">
+            <div class="col-12">
+                <a target="_blank" href="{{ asset('front/assets/img/tuto4-2.png') }}">
+                    <img class="img-tuto" src="{{ asset('front/assets/img/tuto4-2.png') }}">
+                </a>
+            </div>
         </div>
         <hr>
-        <div class="row p-md-5 p-2">
+        <div class="row p-md-4 p-2">
             <div class="col-12 col-md-4">
                 <p class="text-justify">{{ 'front.presentation.step.5' | trans | raw }}</p>
             </div>
@@ -77,14 +93,14 @@
             </div>
         </div>
         <hr>
-        <div class="row p-md-5 p-2">
+        <div class="row p-md-4 p-2 flex-md-row-reverse">
+            <div class="col-12 col-md-4">
+                <p class="text-justify">{{ 'front.presentation.step.6' | trans | raw }}</p>
+            </div>
             <div class="col-12 col-md-8">
                 <a target="_blank" href="{{ asset('front/assets/img/tuto6.png') }}">
                     <img class="img-tuto" src="{{ asset('front/assets/img/tuto6.png') }}">
                 </a>
-            </div>
-            <div class="col-12 col-md-4">
-                <p class="text-justify">{{ 'front.presentation.step.6' | trans | raw }}</p>
             </div>
         </div>
         <hr>
