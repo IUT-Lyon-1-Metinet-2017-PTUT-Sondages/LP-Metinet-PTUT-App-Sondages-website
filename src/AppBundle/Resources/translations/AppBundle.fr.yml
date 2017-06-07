@@ -100,7 +100,7 @@ front:
           <br><i class="fa fa-info-circle" aria-hidden="true"></i> Une proposition correspond à l''intitulé de la réponse.</p>'
           3: '<p>Vous avez le choix entre <strong>3 types</strong> de question&nbsp;:</p><ul><li>Question à <strong>choix unique</strong></li><li>Question à <strong>choix multiple</strong></li><li>Question <strong>quantitative</strong></li></ul>
           <p>Dans le cas d''une question quantitative vous devez renseigner la <strong>valeur de départ</strong> et la <strong>valeur de fin</strong> (chaque valeur sera une proposition).</p>
-          <p>Le <strong>choix du diagramme</strong> vous permet de définir le <strong>rendu utilisé</strong> lors de la visualisation des réponses.</p>'
+          <p>Le <strong>choix du diagramme</strong> vous permet de définir le <strong>rendu utilisé</strong> lors de la visualisation des réponses.</p><ul><li>Diagramme en barre</li><li>Diagramme en cercle</li></ul>'
           4: '<p>Pour <strong>partager</strong> votre sondage vous avez le choix entre plusieurs méthodes&nbsp;:</p>
           <ul><li>Par <strong>mail</strong></li><li>Via <strong>Twitter</strong></li><li>Via <strong>Facebook</strong></li><li>Ou encore avec le <strong>lien</strong> de partage.</li></ul>'
           5: '<p>La visualisation des <strong>réponses</strong> se fait sous forme de <strong>tableaux</strong> et de <strong>graphiques</strong>.</p>
