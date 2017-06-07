@@ -136,10 +136,10 @@ class PollResultsService
             $currentQuestionSheet->getColumnDimension('A')->setWidth(16);
             $currentQuestionSheet->getColumnDimension('B')->setWidth(16);
             $currentQuestionSheet->getColumnDimension('C')->setWidth(16);
-            $currentQuestionSheet->getColumnDimension('D')->setWidth(1);
+            $currentQuestionSheet->getColumnDimension('D')->setWidth(3);
             $currentQuestionSheet->getRowDimension('1')->setRowHeight(30);
-            $currentQuestionSheet->getRowDimension('2')->setRowHeight(20);
-            $currentQuestionSheet->getRowDimension('3')->setRowHeight(15);
+            $currentQuestionSheet->getRowDimension('2')->setRowHeight(25);
+            $currentQuestionSheet->getRowDimension('3')->setRowHeight(20);
             $currentQuestionSheet->setCellValue('A1', $poll->getTitle());
             $currentQuestionSheet->setCellValue('A2', 'Page ' . ($pageIndex + 1));
             $currentQuestionSheet->setCellValue('A3', $question['qTitle']);
@@ -282,6 +282,8 @@ class PollResultsService
                 ]
             ]);
         }
+
+        $phpExcelObject->setActiveSheetIndex(0);
 
         // create the writer
         /** @var \PHPExcel_Writer_Excel2007 $writer */
