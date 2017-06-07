@@ -136,8 +136,12 @@ class PollResultsService
             $currentQuestionSheet->getColumnDimension('A')->setWidth(16);
             $currentQuestionSheet->getColumnDimension('B')->setWidth(16);
             $currentQuestionSheet->getColumnDimension('C')->setWidth(16);
+            $currentQuestionSheet->getColumnDimension('D')->setWidth(1);
+            $currentQuestionSheet->getRowDimension('1')->setRowHeight(30);
+            $currentQuestionSheet->getRowDimension('2')->setRowHeight(20);
+            $currentQuestionSheet->getRowDimension('3')->setRowHeight(15);
             $currentQuestionSheet->setCellValue('A1', $poll->getTitle());
-            $currentQuestionSheet->setCellValue('A2', 'Page n°' . $question ['paId']);
+            $currentQuestionSheet->setCellValue('A2', 'Page ' . ($pageIndex + 1));
             $currentQuestionSheet->setCellValue('A3', $question['qTitle']);
             $currentQuestionSheet->setCellValue('A5', 'Proposition');
             $currentQuestionSheet->setCellValue('B5', 'Quantité');
@@ -210,8 +214,8 @@ class PollResultsService
                     null
                 );
 
-                $chart->setTopLeftPosition('F1');
-                $chart->setBottomRightPosition('S30');
+                $chart->setTopLeftPosition('E5');
+                $chart->setBottomRightPosition('O34');
                 $currentQuestionSheet->addChart($chart);
             } elseif ($question['ctTitle'] == 'pie') {
                 $dataSeriesLabels = [new \PHPExcel_Chart_DataSeriesValues('String', "'" . $currentQuestionSheet->getTitle() . "'" . '!$A$6:$A$' . (count($question['props']) + 5), null, count($question['props']) + 1)];
@@ -243,8 +247,8 @@ class PollResultsService
                     null
                 );
 
-                $chart->setTopLeftPosition('F1');
-                $chart->setBottomRightPosition('S30');
+                $chart->setTopLeftPosition('E5');
+                $chart->setBottomRightPosition('O34');
                 $currentQuestionSheet->addChart($chart);
             }
 
