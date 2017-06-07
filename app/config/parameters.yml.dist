@@ -24,4 +24,4 @@ parameters:
     recapatcha_api : https://www.google.com/recaptcha/api/siteverify?
     recaptcha_client_secret: 6Ld7_BsUAAAAAHsycsjsURaAytaEYx25rPwXalCV
     recaptcha_server_secret: 6Ld7_BsUAAAAAKWkM37zt4aA8x0441WPkQ9vFqRh
-    graph_colors: ['#3366CC',  '#DC3912', '#FF9900', '#109618', '#990099']
+    graph_colors: ['#3366CC','#DC3912','#FF9900','#109618','#990099','#2d0099','#005999','#009959','#739900','#993800','#00bcd4','#928992','#54a3b5']
