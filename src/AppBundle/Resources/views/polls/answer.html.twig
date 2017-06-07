@@ -125,7 +125,7 @@
 
             {% if loop.last %}
                 <div class="text-center">
-                    <button type="submit" class="btn btn-primary btn-lg"
+                    <button type="submit" class="btn btn-primary btn-lg btn-primary-custom btn-square"
                             id="{{ pollView.submit_poll.vars.id }}"
                             name="{{ pollView.submit_poll.vars.full_name }}"
                             {% if pollView.submit_poll.vars.disabled %}disabled="disabled"{% endif %}>
@@ -134,7 +134,7 @@
                 </div>
             {% else %}
                 <div class="text-center">
-                    <button type="button" class="btn btn-primary btn-lg next-page">
+                    <button type="button" class="btn btn-primary btn-lg next-page btn-primary-custom btn-square">
                         <i class="fa fa-arrow-right"></i>&nbsp;{{ 'label_next' | trans({}, 'KnpPaginatorBundle') }}
                     </button>
                 </div>
