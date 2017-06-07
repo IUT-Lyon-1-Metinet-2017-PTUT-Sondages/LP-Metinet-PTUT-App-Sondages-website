@@ -115,9 +115,11 @@
                     {{ page.title }}
                     <small class="float-right">{{ 'poll.page_x_on_y' | trans({'{x}': loop.index, '{y}': poll.pages | length}) }}</small>
                 </div>
-                <div class="card-block">
-                    {{ page.description }}
-                </div>
+                {% if page.description is not empty %}
+                    <div class="card-block">
+                        {{ page.description }}
+                    </div>
+                {% endif %}
             </div>
             {% for question in page.questions %}
                 <div class="question" data-page="{{ index }}">
