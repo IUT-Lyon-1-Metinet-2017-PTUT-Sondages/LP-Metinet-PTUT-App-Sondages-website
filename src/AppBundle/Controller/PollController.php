@@ -164,11 +164,11 @@ class PollController extends Controller
     public function sendMailAction(Request $request)
     {
         if ($request->isXmlHttpRequest()) {
-            $mail        = $request->get('email');
+            $toEmail     = $request->get('email');
             $id          = $request->get('id');
+            $user        = $this->getUser();
             $mailService = $this->get('app.mailer_service');
-            $userMail    = $this->getUser()->getEmail();
-            $response    = $mailService->sharePoll($userMail, $mail, $id);
+            $response    = $mailService->sharePoll($user, $toEmail, $id);
             $response    = new JsonResponse($response);
             return $response;
         } else {

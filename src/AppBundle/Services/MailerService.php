@@ -8,6 +8,7 @@
 
 namespace AppBundle\Services;
 
+use AppBundle\Entity\User;
 use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Translation\Translator;
 use Symfony\Component\Routing\Router;
@@ -21,6 +22,11 @@ use Symfony\Component\Translation\TranslatorInterface;
  */
 class MailerService
 {
+    /**
+     * @var string
+     */
+    private $mailerUser;
+
     private $mailer;
 
     /**
@@ -34,14 +40,16 @@ class MailerService
 
     /**
      * Mailer constructor.
+     * @param $mailerUser
      * @param \Swift_Mailer $mailer
      * @param TranslatorInterface $translator
      * @param EntityManager $entityManager
      * @param Router $router
      * @param EngineInterface $templating
      */
-    public function __construct(\Swift_Mailer $mailer, TranslatorInterface $translator, EntityManager $entityManager, Router $router, EngineInterface $templating)
+    public function __construct($mailerUser, \Swift_Mailer $mailer, TranslatorInterface $translator, EntityManager $entityManager, Router $router, EngineInterface $templating)
     {
+        $this->mailerUser = $mailerUser;
         $this->mailer = $mailer;
         $this->translator = $translator;
         $this->em = $entityManager;
@@ -49,7 +57,13 @@ class MailerService
         $this->templating = $templating;
     }
 
-    public function sharePoll($from, $to, $id)
+    /**
+     * @param User $fromUser
+     * @param string $toEmail
+     * @param int $id
+     * @return bool
+     */
+    public function sharePoll(User $fromUser, $toEmail, $id)
     {
         $poll = $this->em->getRepository('AppBundle:Poll')->findOneById($id);
 
@@ -58,11 +72,21 @@ class MailerService
             $url = $this->router->generate('answer_poll', ['token' => $token], UrlGeneratorInterface::ABSOLUTE_URL);
 
             $mail = \Swift_Message::newInstance();
-            $bodyHtml = $this->templating->render('AppBundle:mail:share-poll.html.twig', ['url' => $url]);
-            $bodyText = $this->templating->render('AppBundle:mail:share-poll.text.twig', ['url' => $url]);
 
-            $mail->setFrom($from)
-                ->setTo($to)
+            $bodyHtml = $this->templating->render('AppBundle:mail:share-poll.html.twig', [
+                'user' => $fromUser,
+                'url' => $url
+            ]);
+
+            $bodyText = $this->templating->render('AppBundle:mail:share-poll.text.twig', [
+                'user' => $fromUser,
+                'url' => $url
+            ]);
+
+            $fromUser->getUsername();
+
+            $mail->setFrom($this->mailerUser)
+                ->setTo($toEmail)
                 ->setSubject("[Kodrastan] " . $this->translator->trans('mails.share_poll.subject', [], 'AppBundle'))
                 ->setBody($bodyText)
                 ->addPart($bodyHtml, 'text/html');
@@ -70,12 +94,8 @@ class MailerService
             $this->mailer->send($mail);
 
             return true;
-
-
         }
+
         return false;
-
     }
-
-
 }
