@@ -50,6 +50,7 @@ class PollResultsService
      */
     public function getChartsResults($questionsAnswers)
     {
+        $questionsAnswersAfterTreatment = [];
         $charts                         = [];
         $this->getAnswersCount($questionsAnswersAfterTreatment, $questionsAnswers);
 
@@ -105,9 +106,9 @@ class PollResultsService
      */
     public function getExcelResults(Poll $poll, User $user, $questionsAnswers)
     {
-        $phpExcelObject = $this->excelService->createPHPExcelObject();
-
-        $pages = $poll->getPages();
+        $questionsAnswersAfterTreatment = [];
+        $phpExcelObject                 = $this->excelService->createPHPExcelObject();
+        $pages                          = $poll->getPages();
 
         $phpExcelObject->getProperties()
             ->setCreator($user->getFirstName() . ' ' . $user->getLastName())

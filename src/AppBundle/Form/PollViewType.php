@@ -57,7 +57,7 @@ class PollViewType extends AbstractType
             /** @var Proposition $proposition */
             foreach ($question->getPropositions() as $proposition) {
                 $variantId = $proposition->getVariant()->getId();
-                $choices[$proposition->getTitle()] = $proposition->getId();
+                $choices[$proposition->getId()] = $proposition->getTitle();
             }
 
             $inputType = $this->convertVariantToInputType($variantId);
