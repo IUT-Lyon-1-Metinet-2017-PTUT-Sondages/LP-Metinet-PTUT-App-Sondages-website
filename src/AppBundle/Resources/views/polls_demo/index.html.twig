@@ -1,0 +1,14 @@
+{% extends '::base.html.twig' %}
+
+{% block content %}
+    <div style="width: 450px; margin:auto">
+        <h2>Titre du sondage</h2>
+        <p>Description du songade... Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab cupiditate deleniti
+            eaque eius impedit laborum molestias non, perspiciatis placeat quas ratione rerum veniam voluptatem?
+            Corporis eaque facilis hic quasi unde?</p>
+        <br>
+        <div class="text-right">
+            <a href="{{ path('app_polldemo_page1') }}" class="btn btn-send">Répondre au sondage</a>
+        </div>
+    </div>
+{% endblock %}

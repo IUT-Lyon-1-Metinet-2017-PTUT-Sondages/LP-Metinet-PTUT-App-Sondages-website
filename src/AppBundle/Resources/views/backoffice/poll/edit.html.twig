@@ -1,0 +1,29 @@
+{% extends "::backoffice_base.html.twig" %}
+{% trans_default_domain 'AppBundle' %}
+
+{% block title %}{{ 'admin_poll.form.poll.updating' | trans }}{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('front/assets/css/kdt-inputs.css') }}" type="text/css"/>
+{% endblock %}
+
+{% block main %}
+    <div id="app"></div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ loadTranslationsForVueJS('AppBundle', '[admin_poll][form]') }}
+    {{ loadVariantsFromDatabase() }}
+    {{ loadChartTypesFromDatabase() }}
+
+    <script>
+      var FORM_ACTION = "{{ path(app.request.get('_route'), {
+          'id': app.request.get('id')
+      }) }}";
+      var POLL = JSON.parse({{ poll | json_encode | raw }});
+      var IS_EDITING_POLL = true;
+    </script>
+    <script src="{{ asset('admin-interface/dist/manifest.js') }}"></script>
+    <script src="{{ asset('admin-interface/dist/vendor.js') }}"></script>
+    <script src="{{ asset('admin-interface/dist/admin-add-poll.js') }}"></script>
+{% endblock %}

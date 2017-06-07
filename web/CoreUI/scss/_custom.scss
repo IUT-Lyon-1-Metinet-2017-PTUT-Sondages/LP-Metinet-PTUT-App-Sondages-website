@@ -1,0 +1,54 @@
+// Here you can add other styles
+.grecaptcha-badge {
+  display: none
+}
+
+.spaced-login-input {
+  padding: 5px
+}
+
+.spaced-logout-btn {
+  padding: 10px;
+}
+
+// https://github.com/twbs/bootstrap/issues/20617
+
+@function breakpoint-infix-up($name, $breakpoints: $grid-breakpoints) {
+  @return if(breakpoint-max($name, $breakpoints) == null, "", "-#{$name}");
+}
+
+@each $breakpoint in map-keys($grid-breakpoints) {
+  @include media-breakpoint-down($breakpoint) {
+    $infix: breakpoint-infix-up($breakpoint, $grid-breakpoints);
+
+    .btn#{$infix}-block {
+      display: block;
+      width: 100%;
+      @each $breakpoint2 in map-keys($grid-breakpoints) {
+        $infix2: breakpoint-infix-up($breakpoint2, $grid-breakpoints);
+
+        + .btn#{$infix2}-block {
+          margin-top: $btn-block-spacing-y;
+        }
+
+        .btn#{$infix2}-block + & {
+          margin-top: $btn-block-spacing-y;
+        }
+      }
+    }
+  }
+}
+
+@include media-breakpoint-down(sm) {
+  .main .container-fluid {
+    padding: 0;
+  }
+}
+
+@include media-breakpoint-down(xs) {
+  .p-1-result{
+    padding: 0 !important;
+  }
+}
+
+

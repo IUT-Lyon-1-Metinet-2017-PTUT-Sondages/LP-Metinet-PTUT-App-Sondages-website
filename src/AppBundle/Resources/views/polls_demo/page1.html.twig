@@ -1,0 +1,117 @@
+{% extends '::base.html.twig' %}
+
+{% block content %}
+
+    <div style="width: 700px; margin:auto">
+        <h2>Titre du sondage</h2>
+        <div class="row">
+            <div class="col"><h3 class="p-3">Titre de la page</h3></div>
+            <div class="col text-right"><h4>Page 1 sur 2</h4></div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-block">
+                        <h2 class="card-title text-center">Une question avec une proposition</h2>
+                        <hr>
+                        <div class="card-text container">
+                            <div class="row">
+                                <div class="kdt-radio kdt-radio-aside">
+                                    <input type="radio" name="optionsRadio" id="optionsRadio11">
+                                    <label for="optionsRadio11" style="display: inline-block">Une première
+                                        proposition</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="kdt-radio kdt-radio-aside">
+                                    <input type="radio" name="optionsRadio" id="optionsRadio12">
+                                    <label for="optionsRadio12" style="display: inline-block">Une deuxième
+                                        proposition</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="kdt-radio kdt-radio-aside">
+                                    <input type="radio" name="optionsRadio" id="optionsRadio13">
+                                    <label for="optionsRadio13" style="display: inline-block">Une dernière
+                                        proposition</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-block">
+                        <h2 class="card-title text-center">Une question avec plusieurs propositions</h2>
+                        <hr>
+                        <div class="card-text container">
+                            <div class="row">
+                                <div class="kdt-checkbox">
+                                    <input type="checkbox" name="optionsCheckbox1" id="optionsCheckbox1">
+                                    <label for="optionsCheckbox1">Une première proposition</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="kdt-checkbox">
+                                    <input type="checkbox" name="optionsCheckbox2" id="optionsCheckbox2">
+                                    <label for="optionsCheckbox2">Une deuxième proposition</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="kdt-checkbox">
+                                    <input type="checkbox" name="optionsCheckbox3" id="optionsCheckbox3">
+                                    <label for="optionsCheckbox3">Une dernière proposition</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-block">
+                        <h2 class="card-title text-center">Une question avec une échelle linéaire</h2>
+                        <hr>
+                        <div class="card-text">
+                            <div class="row">
+                                <div class="col-md-1 offset-md-4">
+                                    <div class="kdt-radio">
+                                        <input type="radio" name="optionsRadios2" id="optionsRadios21">
+                                        <label for="optionsRadios21">1</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-1">
+                                    <div class="kdt-radio">
+                                        <input type="radio" name="optionsRadios2" id="optionsRadios22">
+                                        <label for="optionsRadios22">2</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-1">
+                                    <div class="kdt-radio">
+                                        <input type="radio" name="optionsRadios2" id="optionsRadios23">
+                                        <label for="optionsRadios23">3</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-1">
+                                    <div class="kdt-radio">
+                                        <input type="radio" name="optionsRadios2" id="optionsRadios24">
+                                        <label for="optionsRadios24">4</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="text-right">
+            <a href="{{ path('app_polldemo_page2') }}" class="btn btn-primary">Page suivante</a>
+        </div>
+    </div>
+{% endblock %}

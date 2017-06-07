@@ -1,0 +1,49 @@
+{% extends "::backoffice_base.html.twig" %}
+{% trans_default_domain 'AppBundle' %}
+
+{% block title %}{{ 'users.users_list' | trans }}{% endblock %}
+
+{% block main %}
+    <h1 class="text-center pb-2">{{ 'users.users_list' | trans }}</h1>
+    <table class="table">
+        <thead>
+        <tr>
+            <th{% if pagination.isSorted('a.firstname') %} class="sorted"{% endif %}>
+                {{ knp_pagination_sortable(pagination, 'users.first_name' | trans, 'a.firstname') }}
+            </th>
+            <th{% if pagination.isSorted('a.lastname') %} class="sorted"{% endif %}>
+                {{ knp_pagination_sortable(pagination, 'users.last_name' | trans, 'a.lastname') }}
+            </th>
+            <th class="hidden-xs-down {% if pagination.isSorted('a.email') %}sorted{% endif %}">
+                {{ knp_pagination_sortable(pagination, 'users.email' | trans, 'a.email') }}
+            </th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+
+        {% for user in pagination %}
+            <tr>
+                <td>{{ user.firstname }}</td>
+                <td>{{ user.lastname }}</td>
+                <td class="hidden-xs-down">{{ user.email }}</td>
+                <td>
+                    <a href="{{ path('backoffice_users_update', {'id': user.id}) }}"
+                       class="btn btn-primary">
+                        <i class="fa fa-pencil"></i><span class="hidden-xs-down">&nbsp;{{ 'users.update' | trans }}</span>
+                    </a>
+                    {% if not user.hasRole('ROLE_ADMIN') %}
+                        <a href="{{ path('backoffice_users_delete', {'id': user.id}) }}"
+                           onclick="return confirm('{{ 'users.delete_confirmation' | trans }}');"
+                           class="btn btn-danger">
+                            <i class="fa fa-trash"></i><span class="hidden-xs-down">&nbsp;{{ 'users.delete' | trans }}</span>
+                        </a>
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    {{ knp_pagination_render(pagination) }}
+{% endblock %}

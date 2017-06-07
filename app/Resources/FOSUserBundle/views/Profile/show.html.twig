@@ -1,0 +1,10 @@
+{% extends "FOSUserBundle::layout.html.twig" %}
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block title %}{{ 'profile.preview' | trans }}{% endblock %}
+
+{% block bodyclass %}app header-fixed sidebar-fixed aside-menu-fixed aside-menu-hidden{% endblock %}
+
+{% block fos_user_content %}
+{% include "FOSUserBundle::Profile/show_content.html.twig" %}
+{% endblock fos_user_content %}

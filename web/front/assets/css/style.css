@@ -1,0 +1,131 @@
+@font-face {
+    font-family: 'Raleway-Bold';
+    src: url('../font/Raleway-Bold.ttf');
+}
+
+@font-face {
+    font-family: 'Raleway-Regular';
+    src: url('../font/Raleway-Regular.ttf');
+}
+
+@font-face {
+    font-family: 'Raleway-Light';
+    src: url('../font/Raleway-Light.ttf');
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    background-color: #e4e5e6;
+    margin-bottom: 200px;
+}
+
+header, footer {
+    width: 100%;
+    height: auto;
+    display: flex;
+    overflow: visible;
+    align-items: center;
+    justify-content: center;
+}
+
+header {
+    background-color: #263238;
+    margin-bottom: 50px;
+}
+
+.logo {
+    margin: 10px 24px 10px 10px;
+    height: 80px;
+}
+
+h1 {
+    font-family: 'Raleway-Bold', sans-serif;
+    color: #fff;
+}
+
+.card {
+    margin-bottom: 20px;
+}
+
+h2 {
+    font-family: 'Raleway-Regular', sans-serif;
+}
+
+hr {
+    margin-left: -1.25rem;
+    margin-right: -1.25rem;
+}
+
+.btn-send {
+    color: #fff;
+    background-color: #20a8d8;
+    border-color: #20a8d8;
+    border-radius: 0;
+    transition: all .2s ease-in-out;
+}
+
+.btn-send:hover {
+    color: #fff;
+    background-color: #2095d8;
+    border-color: #2095d8;
+}
+
+footer {
+    flex-direction: column;
+    background-color: #fff;
+    margin-top: 50px;
+    position: absolute;
+    height: 150px;
+    bottom: 0;
+}
+
+.logo-iut {
+    height: 80px;
+    margin: 10px;
+}
+
+.signature {
+    font-family: 'Raleway-Light', sans-serif;
+}
+
+
+.responsive-linear-scale > div {
+    flex: 1;
+}
+
+.card-info .card-header {
+    background-color: #4ebada;
+    border-color: #4ebada;
+}
+
+.btn-square {
+    border-radius: 0;
+}
+
+.btn-primary-custom {
+    background-color: #20a8d8;
+    border-color: #20a8d8;
+}
+
+.btn-primary-custom:hover {
+    background-color: #1985ac;
+    border-color: #187fa3;
+}
+
+.btn-success-custom {
+    background-color: #4dbd74;
+    border-color: #4dbd74;
+}
+
+.btn-success-custom:hover {
+    background-color: #3a9d5d;
+    border-color: #379558;
+}
+
+.img-tuto {
+    max-width:100%;
+}

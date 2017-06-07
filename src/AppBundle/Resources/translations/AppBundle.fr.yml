@@ -1,0 +1,148 @@
+homepage: 'Accueil'
+return_to_homepage: 'Retour à l''accueil'
+
+admin_poll:
+  polls_list: 'Liste des sondages'
+  poll_results: 'Résultats du sondage'
+  poll_results_no_answers: 'Ce sondage n''a pas encore reçu de réponse.'
+  no_polls: 'Aucun sondage n''a encore été créé.'
+  no_archived_polls: 'Aucun sondage n''a été archivé.'
+  polls_archive_list: 'Sondages archivés'
+  create_poll: 'Créer un sondage'
+
+  table:
+    title: 'Titre'
+    author: 'Auteur'
+    state: 'Etat'
+    created_at: 'Créé le'
+
+  table_values:
+    published: 'Publié'
+    not_published: 'Non publié'
+    edit: 'Éditer'
+    publish: 'Publier'
+    publish_confirmation: 'Voulez-vous vraiment publier ce sondage ? Il sera ensuite impossible de le dé-publier.'
+    delete: 'Supprimer'
+    delete_confirmation: 'Voulez-vous vraiment supprimer ce sondage ? Il sera ensuite impossible de le récupérer.'
+    archive: 'Archiver'
+    archive_confirmation: "Voulez-vous vraiment archiver ce sondage ? Il sera ensuite impossible d y répondre."
+    answers: 'Réponses'
+    share: 'Partager'
+    about_the_poll: 'À propos du sondage « {title} »'
+  
+  form:
+    loading: 'Chargement'
+
+    poll:
+      creation: 'Création d''un sondage'
+      create: 'Créer le sondage'
+      updating: 'Modification du sondage'
+      update: 'Modifier le sondage'
+      placeholder:
+        title: 'Titre du sondage (requis)'
+        description: 'Description du sondage (requis)'
+
+    page:
+      x_on_y: 'Page {x} sur {y}'
+      add: 'Ajouter une page'
+      placeholder:
+        title: 'Titre de la page (requis)'
+        description: 'Description de la page'
+
+    question:
+      x_on_y: 'Question {x} sur {y}'
+      type: 'Type de la question'
+      add: 'Ajouter une question'
+      placeholder:
+        title: 'Titre de la question (requis)'
+      chart_types:
+        Bar: 'Diagramme en barre'
+        Pie: 'Diagramme circulaire'
+
+    proposition:
+      add: 'Ajouter une proposition'
+      variants:
+        types:
+          Checkbox: 'Boutons à choix multiples'
+          Radio: 'Boutons à choix unique'
+          LinearScale: 'Échelle linéaire'
+        LinearScale:
+          to: 'à'
+      placeholder:
+        proposition_x: 'Proposition n°{x}'
+
+backoffice_home:
+  nb_registred_users: 'Nombre d''utilisateurs'
+  nb_polls: 'Nombre de sondages créés'
+  nb_answers: 'Nombre de réponses aux sondages'
+
+sidebar:
+  add_poll: 'Ajouter un sondage'
+  polls_list: 'Liste des sondages'
+  users_list: 'Liste des utilisateurs'
+  polls_archive: 'Sondages archivés'
+
+front:
+  presentation:
+      description:
+          title: 'Présentation'
+          content: '<p><strong>Kodrastan</strong> est une application de gestion de sondage. Elle vous permet de <strong>rédiger</strong> et <strong>partager</strong> des sondages.</p>
+          <p>Une fois votre sondage publié vous pouvez <strong>accéder</strong> aux résultats et <strong>exporter</strong> les statistiques dans un fichier excel.</p>
+          <p>Lorsque votre sondage n''a plus lieu d''être accessible vous pouvez l''<strong>archiver</strong> afin que vous soyez le seul à pouvoir le consulter.</p>'
+      inscription:
+          title: 'Inscription'
+          content: 'Pour vous inscrire sur l''application vous devez utiliser une <strong>adresse universitaire</strong> (lyon1) valide.'
+      step:
+          1: '<p>Après vous êtes connecté sur l''application vous arrivez sur la liste de vos sondages.</p>
+          <p>Depuis cette interface vous pouvez effectuer toute les <strong>actions</strong> liés à vos sondages : <strong>création, édition, publication, partage, réponses.</strong></p>'
+          2: '<p>Pour que votre sondage soit <strong>valide</strong> vous devrez fournir un <strong>titre</strong>, une <strong>description globale</strong> ainsi qu''un <strong>titre par page</strong>.</p>
+          <p>Pour chaque <strong>question</strong> vous devrez renseigner son <strong>intitulé</strong>. Ensuite vous aurez le choix entre plusieurs <strong>types de questions</strong> et de <strong>diagrammes</strong>.</p>
+          <br><i class="fa fa-info-circle" aria-hidden="true"></i> Une proposition correspond à l''intitulé de la réponse.</p>'
+          3: '<p>Vous avez le choix entre <strong>3 types</strong> de question&nbsp;:</p><ul><li>Question à <strong>choix unique</strong></li><li>Question à <strong>choix multiple</strong></li><li>Question <strong>quantitative</strong></li></ul>
+          <p>Dans le cas d''une question quantitative vous devez renseigner la <strong>valeur de départ</strong> et la <strong>valeur de fin</strong> (chaque valeur sera une proposition).</p>
+          <p>Le <strong>choix du diagramme</strong> vous permet de définir le <strong>rendu utilisé</strong> lors de la visualisation des réponses.</p><ul><li>Diagramme en barre</li><li>Diagramme en cercle</li></ul>'
+          4: '<p>Pour <strong>partager</strong> votre sondage vous avez le choix entre plusieurs méthodes&nbsp;:</p>
+          <ul><li>Par <strong>mail</strong></li><li>Via <strong>Twitter</strong></li><li>Via <strong>Facebook</strong></li><li>Ou encore avec le <strong>lien</strong> de partage.</li></ul>'
+          5: '<p>La visualisation des <strong>réponses</strong> se fait sous forme de <strong>tableaux</strong> et de <strong>graphiques</strong>.</p>
+          <p>Un bouton est disponible pour <strong>exporter</strong> ces données dans un fichier <strong>Excel</strong>.</p>'
+          6: '<p>Le fichier excel est composé d''<strong>une feuille de calcul par question</strong>.<br>Vous y trouverez le tableau et le graphique des statistiques.</p>'
+
+  poll:
+    answer:
+      thanks: 'Merci d''avoir répondu à ce sondage'
+    error:
+      not_found: 'Le sondage que vous recherchez n''existe pas'
+  error:
+    not_found:
+      message: 'Page introuvable'
+
+poll:
+  page_x_on_y: 'Page {x} sur {y}'
+  validation_error:
+    checkbox: 'Veuillez sélectionner un moins une proposition.'
+    radio: 'Veuillez sélectionner une proposition.'
+  answer_to_poll: 'Répondre'
+
+  message_preview_for_author: 'Ceci est un aperçu du rendu final du sondage, toute interaction a été désactivée.<br>Le sondage n''est pour l''instant uniquement accessible que par vous-même.'
+  error_message_preview_for_not_author: 'Vous n''avez pas encore accès à ce sondage.'
+  error_not_allowed_to_delete_poll: 'Vous n''êtes pas autorisé à supprimer ce sondage.'
+  error_not_allowed_to_archive_poll: 'Vous n''êtes pas autorisé à archiver ce sondage.'
+
+users:
+  users_list: 'Liste des utilisateurs'
+  first_name: 'Prénom'
+  last_name: 'Nom'
+  email: 'Adresse E-mail'
+
+  update: 'Modifier'
+  delete_confirmation: 'Voulez-vous vraiment supprimer cet utilisateur ?'
+  delete: 'Supprimer'
+
+mails:
+  share_poll:
+    subject: 'Prennez 2 minutes pour répondre à ce sondage'
+    hello: 'Bonjour,'
+    please_complete_the_poll: '%first_name% %last_name% voudrait que vous complétiez ce sondage :'
+    link_to_poll: 'Lien vers le sondage'
+    cordially: 'Cordialement,'
+    signature: 'Service de Messagerie automatique - Kodrastan.'
