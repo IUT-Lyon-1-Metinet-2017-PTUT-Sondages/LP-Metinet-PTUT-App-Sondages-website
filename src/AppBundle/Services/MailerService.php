@@ -9,10 +9,11 @@
 namespace AppBundle\Services;
 
 use Doctrine\ORM\EntityManager;
+use Symfony\Bundle\FrameworkBundle\Translation\Translator;
 use Symfony\Component\Routing\Router;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Templating\EngineInterface;
-use Symfony\Component\Translation\DataCollectorTranslator;
+use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * Class MailerService
@@ -34,12 +35,12 @@ class MailerService
     /**
      * Mailer constructor.
      * @param \Swift_Mailer $mailer
-     * @param DataCollectorTranslator $translator
+     * @param TranslatorInterface $translator
      * @param EntityManager $entityManager
      * @param Router $router
      * @param EngineInterface $templating
      */
-    public function __construct(\Swift_Mailer $mailer, DataCollectorTranslator $translator, EntityManager $entityManager, Router $router, EngineInterface $templating)
+    public function __construct(\Swift_Mailer $mailer, TranslatorInterface $translator, EntityManager $entityManager, Router $router, EngineInterface $templating)
     {
         $this->mailer = $mailer;
         $this->translator = $translator;
