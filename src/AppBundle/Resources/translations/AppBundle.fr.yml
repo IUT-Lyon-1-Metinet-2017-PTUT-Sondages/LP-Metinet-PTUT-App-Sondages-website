@@ -105,7 +105,7 @@ front:
           <ul><li>Par <strong>mail</strong></li><li>Via <strong>Twitter</strong></li><li>Via <strong>Facebook</strong></li><li>Ou encore avec le <strong>lien</strong> de partage.</li></ul>'
           5: '<p>La visualisation des <strong>réponses</strong> se fait sous forme de <strong>tableaux</strong> et de <strong>graphiques</strong>.</p>
           <p>Un bouton est disponible pour <strong>exporter</strong> ces données dans un fichier <strong>Excel</strong>.</p>'
-          6: '<p>Le fichier excel est composé d''<strong>une feuille de calcul par question</strong>.<br>Vous y trouverez le tableau et le graphique des statistiques.</p>'
+          6: '<p>Le fichier excel est composé d''<strong>une feuille de calcul par question</strong>.</p><p>Vous y trouverez le tableau et le graphique des statistiques.</p>'
 
   poll:
     answer:
