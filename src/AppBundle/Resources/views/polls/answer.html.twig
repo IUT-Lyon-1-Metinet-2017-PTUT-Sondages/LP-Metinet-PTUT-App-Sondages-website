@@ -75,7 +75,7 @@
                                             {% if choice.value is defined %} value="{{ choice.value }}"{% endif %}
                                             {% if not multiple and choice.value == form.vars.data %} checked="checked"{% endif %}
                                     >
-                                    <label for="{{ id ~ '_' ~ choice.value }}">{{ choice.data }}</label>
+                                    <label for="{{ id ~ '_' ~ choice.value }}">{{ choice.label }}</label>
                                 </div>
                             {% endfor %}
                         </div>
@@ -90,7 +90,7 @@
                                         {% if multiple and choice.value in form.vars.data %} checked="checked"{% endif %}
                                         {% if not multiple and choice.value == form.vars.data %} checked="checked"{% endif %}
                                 >
-                                <label for="{{ id ~ '_' ~ choice.value }}">{{ choice.data }}</label>
+                                <label for="{{ id ~ '_' ~ choice.value }}">{{ choice.label }}</label>
                             </div>
                         </div>
                     {% endfor %}

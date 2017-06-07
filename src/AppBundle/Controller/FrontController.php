@@ -51,7 +51,7 @@ class FrontController extends Controller
             if ($form->isValid()) {
                 $data = $form->getData();
                 $pollAnswersService = $this->get('app.poll.answers');
-                $pollAnswersService->registerAnswers($poll, $data);
+                $pollAnswersService->registerAnswers($data);
 
                 return $this->render('@App/polls/thanks.html.twig', [
                     'poll' => $poll,
