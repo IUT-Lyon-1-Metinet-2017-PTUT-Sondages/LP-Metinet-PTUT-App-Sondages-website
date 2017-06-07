@@ -31,7 +31,7 @@
                 <div class="card card-default">
                     <div class="card-header">
                         {{ chart.question.qTitle }}
-                        {% if chart.question.ctTitle == 'bar' %}
+                        {% if chart.question.qType == 'LinearScale' %}
                             <span class="pull-right">
                                 Moyenne des réponses au sondage : <strong
                                         class="average-linear-{{ chart.chart.id }}"></strong>

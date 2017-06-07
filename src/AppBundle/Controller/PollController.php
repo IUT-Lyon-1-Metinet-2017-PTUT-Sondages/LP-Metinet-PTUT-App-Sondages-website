@@ -210,7 +210,7 @@ class PollController extends Controller
     {
         /** @var PollRepositoryService $pollService */
         $pollService       = $this->get('app.repository_service.poll');
-        /** @var PollResultsService $pollResultService */
+        /** @var PollResultsService $pollResultsService */
         $pollResultsService = $this->get('app.poll.results');
         $poll              = $pollService->getPoll(['id' => $id]);
         $charts            = $pollResultsService->getChartsResults($pollService->getResults($id));
