@@ -39,8 +39,14 @@
                                 {{ knp_pagination_sortable(pagination, 'admin_poll.table.author' | trans, 'a.user.email') }}
                             </th>
                         {% endif %}
-                        <th class="hidden-sm-down {% if pagination.isSorted('a.user.created_at') %}sorted{% endif %}">
-                            {{ knp_pagination_sortable(pagination, 'admin_poll.table.created_at' | trans , 'a.user.email') }}
+                        <th class="hidden-sm-down">
+                            {{ 'admin_poll.table.created_at' | trans}}
+                        </th>
+                        <th class="hidden-sm-down">
+                            {{'admin_poll.table.updated_at' | trans  }}
+                        </th>
+                        <th class="hidden-sm-down">
+                            {{'admin_poll.table.deleted_at' | trans  }}
                         </th>
                         <th>
                             {{ 'admin_poll.table.state' | trans }}
@@ -64,6 +70,12 @@
                             {% endif %}
                             <td>
                                 {{ poll.createdAt | localizeddate('medium', 'medium', app.request.locale) }}
+                            </td>
+                            <td>
+                                {{ poll.updatedAt | localizeddate('medium', 'medium', app.request.locale) }}
+                            </td>
+                            <td>
+                                {{ poll.deletedAt | localizeddate('medium', 'medium', app.request.locale) }}
                             </td>
                             <td>
                                 {% if poll.published %}

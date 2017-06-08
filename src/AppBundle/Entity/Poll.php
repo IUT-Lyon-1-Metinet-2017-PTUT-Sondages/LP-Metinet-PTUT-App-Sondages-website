@@ -17,8 +17,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Poll
 {
-    use ORMBehaviors\Sluggable\Sluggable,
-        ORMBehaviors\SoftDeletable\SoftDeletable,
+    use ORMBehaviors\SoftDeletable\SoftDeletable,
         ORMBehaviors\Timestampable\Timestampable;
     /**
      * @var int

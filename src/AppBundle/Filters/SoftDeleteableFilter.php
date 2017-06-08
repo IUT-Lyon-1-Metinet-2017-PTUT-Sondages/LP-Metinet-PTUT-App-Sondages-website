@@ -37,10 +37,15 @@ class SoftDeleteableFilter extends SQLFilter
             return '';
         }
 
-        $connection = $this->getEntityManager()->getConnection();
+        $connection       = $this->getEntityManager()
+                                 ->getConnection();
         $databasePlatform = $connection->getDatabasePlatform();
-        $column = $targetEntity->getQuotedColumnName('deletedAt', $databasePlatform);
-        $addCondSql = $databasePlatform->getIsNullExpression($targetTableAlias . '.' . $column);
+        $column           = $targetEntity->getQuotedColumnName('deletedAt', $databasePlatform);
+
+        $addCondSql = $databasePlatform->getIsNullExpression($targetTableAlias.'.'.$column);
+
+        $now        = $databasePlatform->getNowExpression();
+        $addCondSql = "({$addCondSql} OR {$targetTableAlias}.{$column} > {$now})";
 
         return $addCondSql;
     }

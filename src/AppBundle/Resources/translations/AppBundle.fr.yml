@@ -15,6 +15,8 @@ admin_poll:
     author: 'Auteur'
     state: 'Etat'
     created_at: 'Créé le'
+    updated_at: 'Dernière mise à jour'
+    deleted_at: 'Date d''archivage'
 
   table_values:
     published: 'Publié'
