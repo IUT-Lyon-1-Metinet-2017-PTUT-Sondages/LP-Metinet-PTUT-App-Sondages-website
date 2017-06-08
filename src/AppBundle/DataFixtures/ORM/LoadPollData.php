@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures\ORM;
 
+use AppBundle\Entity\ChartType;
 use AppBundle\Entity\Page;
 use AppBundle\Entity\Poll;
 use AppBundle\Entity\Proposition;
@@ -35,14 +36,14 @@ class LoadPollData extends AbstractFixture implements OrderedFixtureInterface
                     'questions' => [
                         [
                             'title' => 'Sur une échelle de 1 à 10, les cours reçus au sein de la formation sont-ils pertinents ?',
-                            'variant_type' => 'LinearScale',
-                            'chart_type' => 'Pie',
+                            'variant_type' => Variant::LINEAR_SCALE,
+                            'chart_type' => ChartType::PIE,
                             'propositions' => [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
                         ],
                         [
                             'title' => 'Votre alternance était-elle en adéquation avec la formation ?',
-                            'variant_type' => 'Radio',
-                            'chart_type' => 'Bar',
+                            'variant_type' => Variant::RADIO,
+                            'chart_type' => ChartType::BAR,
                             'propositions' => [
                                 'Oui, tout à fait',
                                 'Plus ou moins',
@@ -51,8 +52,8 @@ class LoadPollData extends AbstractFixture implements OrderedFixtureInterface
                         ],
                         [
                             'title' => 'Sélectionnez les cours qui vont ont plu',
-                            'variant_type' => 'Checkbox',
-                            'chart_type' => 'Pie',
+                            'variant_type' => Variant::CHECKBOX,
+                            'chart_type' => ChartType::PIE,
                             'propositions' => [
                                 'UML',
                                 'Java',
@@ -74,8 +75,8 @@ class LoadPollData extends AbstractFixture implements OrderedFixtureInterface
                     'questions' => [
                         [
                             'title' => 'Quel est votre avis sur le restaurant universitaire ?',
-                            'variant_type' => 'Radio',
-                            'chart_type' => 'Bar',
+                            'variant_type' => Variant::RADIO,
+                            'chart_type' => ChartType::BAR,
                             'propositions' => [
                                 'Très satisfait',
                                 'Moyennement satisfait',
@@ -85,8 +86,8 @@ class LoadPollData extends AbstractFixture implements OrderedFixtureInterface
                         ],
                         [
                             'title' => 'Quel est votre avis sur la journée d\'intégration ?',
-                            'variant_type' => 'Radio',
-                            'chart_type' => 'Pie',
+                            'variant_type' => Variant::RADIO,
+                            'chart_type' => ChartType::PIE,
                             'propositions' => [
                                 'Très satisfait',
                                 'Moyennement satisfait',
@@ -96,14 +97,14 @@ class LoadPollData extends AbstractFixture implements OrderedFixtureInterface
                         ],
                         [
                             'title' => 'Sur une échelle de 1 à 10 quel est votre avis sur les infrastructures ?',
-                            'chart_type' => 'Bar',
-                            'variant_type' => 'LinearScale',
+                            'chart_type' => ChartType::BAR,
+                            'variant_type' => Variant::LINEAR_SCALE,
                             'propositions' => [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
                         ],
                         [
                             'title' => 'Sur une échelle de 1 à 10 quel est votre avis sur le matériel informatique ?',
-                            'chart_type' => 'Pie',
-                            'variant_type' => 'LinearScale',
+                            'chart_type' => ChartType::PIE,
+                            'variant_type' => Variant::LINEAR_SCALE,
                             'propositions' => [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
                         ],
                     ]
@@ -121,8 +122,8 @@ class LoadPollData extends AbstractFixture implements OrderedFixtureInterface
                     'questions' => [
                         [
                             'title' => 'Qu\'avez-vous pensé des fonctionnalités ?',
-                            'variant_type' => 'Radio',
-                            'chart_type' => 'Bar',
+                            'variant_type' => Variant::RADIO,
+                            'chart_type' => ChartType::BAR,
                             'propositions' => [
                                 'Très bien',
                                 'Pas mal',
@@ -131,8 +132,8 @@ class LoadPollData extends AbstractFixture implements OrderedFixtureInterface
                         ],
                         [
                             'title' => 'Avez-vous remarqué des erreurs/bugs dans l\'interface ?',
-                            'variant_type' => 'Radio',
-                            'chart_type' => 'Pie',
+                            'variant_type' => Variant::RADIO,
+                            'chart_type' => ChartType::PIE,
                             'propositions' => [
                                 'Oui',
                                 'Non',
@@ -146,20 +147,20 @@ class LoadPollData extends AbstractFixture implements OrderedFixtureInterface
                     'questions' => [
                         [
                             'title' => 'Sur une échelle de 1 à 5 quel est votre avis sur la fluidité de l\'application ?',
-                            'chart_type' => 'Bar',
-                            'variant_type' => 'LinearScale',
+                            'chart_type' => ChartType::BAR,
+                            'variant_type' => Variant::LINEAR_SCALE,
                             'propositions' => [1, 2, 3, 4, 5],
                         ],
                         [
                             'title' => 'Sur une échelle de 1 à 5 quel est votre avis sur la clareté des informations ?',
-                            'chart_type' => 'Pie',
-                            'variant_type' => 'LinearScale',
+                            'chart_type' => ChartType::PIE,
+                            'variant_type' => Variant::LINEAR_SCALE,
                             'propositions' => [1, 2, 3, 4, 5],
                         ],
                         [
                             'title' => 'Avez-vous remarqué des erreurs/bugs dans l\'interface ?',
-                            'variant_type' => 'Radio',
-                            'chart_type' => 'Bar',
+                            'variant_type' => Variant::RADIO,
+                            'chart_type' => ChartType::BAR,
                             'propositions' => [
                                 'Simple et efficace',
                                 'A revoir',
@@ -182,8 +183,8 @@ class LoadPollData extends AbstractFixture implements OrderedFixtureInterface
                     'questions' => [
                         [
                             'title' => 'Possédez-vous déjà un ou plusieurs objets connectés de santé ?',
-                            'variant_type' => 'Radio',
-                            'chart_type' => 'Pie',
+                            'variant_type' => Variant::RADIO,
+                            'chart_type' => ChartType::PIE,
                             'propositions' => [
                                 "Oui, depuis longtemps",
                                 "Oui, depuis peu",
@@ -193,14 +194,14 @@ class LoadPollData extends AbstractFixture implements OrderedFixtureInterface
                         ],
                         [
                             'title' => 'Globalement, êtes-vous satisfait(e) de cet/ces objet(s) connecté(s) de santé ?',
-                            'variant_type' => 'LinearScale',
-                            'chart_type' => 'Bar',
+                            'variant_type' => Variant::LINEAR_SCALE,
+                            'chart_type' => ChartType::BAR,
                             'propositions' => [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
                         ],
                         [
                             'title' => 'A quelle fréquence utilisez-vous cet objet connecté de santé ?',
-                            'variant_type' => 'Radio',
-                            'chart_type' => 'Pie',
+                            'variant_type' => Variant::RADIO,
+                            'chart_type' => ChartType::PIE,
                             'propositions' => [
                                 'Plusieurs fois par jour',
                                 '1 fois par jour',
@@ -211,8 +212,8 @@ class LoadPollData extends AbstractFixture implements OrderedFixtureInterface
                         ],
                         [
                             'title' => 'Parmi les objets connectés de santé de la liste ci-dessous, le(s)quel(s) possédez-vous ?',
-                            'variant_type' => 'Checkbox',
-                            'chart_type' => 'Bar',
+                            'variant_type' => Variant::CHECKBOX,
+                            'chart_type' => ChartType::BAR,
                             'propositions' => [
                                 'Un bracelet connecté',
                                 'Une montre connectée',
@@ -290,87 +291,5 @@ class LoadPollData extends AbstractFixture implements OrderedFixtureInterface
     public function getOrder()
     {
         return 3;
-    }
-
-    /**
-     * @param User $user
-     */
-    private function createPollsForUser(User $user)
-    {
-        for ($i = 0; $i < 2; $i++) {
-            $poll = new Poll();
-            $poll->setTitle(sprintf('Sondage n°%d de %s', $i, $user->getFirstName()));
-            $poll->setDescription("La description du sondage");
-            $poll->setUser($user);
-            $user->addPoll($poll);
-
-            $this->createPagesForPoll($poll);
-
-            $this->manager->persist($poll);
-            $this->manager->persist($user);
-        }
-    }
-
-    /**
-     * @param Poll $poll
-     */
-    private function createPagesForPoll(Poll $poll)
-    {
-        for ($i = 0; $i < 2; $i++) {
-            $page = new Page();
-            $page->setTitle(sprintf("La page n°%d", $i));
-            $page->setDescription(sprintf("La description de la page n°%d", $i));
-            $page->setPoll($poll);
-            $poll->addPage($page);
-            $this->createQuestionsForPage($poll, $page);
-
-            $this->manager->persist($page);
-            $this->manager->persist($poll);
-        }
-    }
-
-    /**
-     * @param Poll $poll
-     * @param Page $page
-     */
-    private function createQuestionsForPage(Poll $poll, Page $page)
-    {
-        $variants = $this->manager->getRepository('AppBundle:Variant')->findAll();
-        $chartTypes = $this->manager->getRepository('AppBundle:ChartType')->findAll();
-
-        foreach ($variants as $variant) {
-            $question = new Question();
-            $question->setTitle(sprintf("Question de type %s", $variant->getName()));
-            $question->setPoll($poll);
-            $question->setPage($page);
-            $question->setChartType($chartTypes[array_rand($chartTypes)]);
-            $page->addQuestion($question);
-            $this->createPropositionsForQuestion($question, $variant);
-
-            $this->manager->persist($question);
-        }
-    }
-
-    /**
-     * @param Question $question
-     * @param Variant $variant
-     */
-    private function createPropositionsForQuestion(Question $question, Variant $variant)
-    {
-        for ($i = 0; $i < 5; $i++) {
-            $proposition = new Proposition();
-            $proposition->setTitle(sprintf("Proposition n°%d", $i));
-
-            if ($variant->getName() === 'LinearScale') {
-                $proposition->setTitle($i);
-            }
-
-            $proposition->setQuestion($question);
-            $proposition->setVariant($variant);
-            $question->addProposition($proposition);
-
-            $this->manager->persist($proposition);
-            $this->manager->persist($question);
-        }
     }
 }

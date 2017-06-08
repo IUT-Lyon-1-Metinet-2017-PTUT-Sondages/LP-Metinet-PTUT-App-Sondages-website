@@ -60,9 +60,11 @@ step_fix_permissions () {
 step_symfony () {
     run cd "${ROOT}"
     run ${COMPOSER} install
-    run ${PHP} "${ROOT}/bin/console" doctrine:database:create --if-not-exists
-    run ${PHP} "${ROOT}/bin/console" doctrine:schema:update --force
-    run ${PHP} "${ROOT}/bin/console" doctrine:fixtures:load
+    run ${PHP} "bin/console" doctrine:database:create --if-not-exists
+    run ${PHP} "bin/console" doctrine:schema:update --force
+    run ${PHP} "bin/console" doctrine:fixtures:load -n \
+         --fixtures src/AppBundle/DataFixtures/ORM/LoadChartTypesData.php \
+         --fixtures src/AppBundle/DataFixtures/ORM/LoadVariantData.php
 }
 
 step_coreui () {
