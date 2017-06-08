@@ -15,6 +15,9 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class ChartType
 {
+    const BAR = 'Bar';
+    const PIE = 'Pie';
+
     /**
      * @var int
      *

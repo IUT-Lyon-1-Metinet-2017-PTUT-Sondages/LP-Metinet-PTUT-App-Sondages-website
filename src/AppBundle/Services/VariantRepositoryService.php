@@ -48,7 +48,7 @@ class VariantRepositoryService
      */
     public function getCheckboxType()
     {
-        return $this->em->getRepository('AppBundle:Variant')->findOneBy(['name' => 'Checkbox']);
+        return $this->em->getRepository('AppBundle:Variant')->findOneBy(['name' => Variant::CHECKBOX]);
     }
 
     /**
@@ -56,7 +56,7 @@ class VariantRepositoryService
      */
     public function getRadioType()
     {
-        return $this->em->getRepository('AppBundle:Variant')->findOneBy(['name' => 'Radio']);
+        return $this->em->getRepository('AppBundle:Variant')->findOneBy(['name' => Variant::RADIO]);
     }
 
     /**
@@ -64,6 +64,6 @@ class VariantRepositoryService
      */
     public function getLinearScaleType()
     {
-        return $this->em->getRepository('AppBundle:Variant')->findOneBy(['name' => 'LinearScale']);
+        return $this->em->getRepository('AppBundle:Variant')->findOneBy(['name' => Variant::LINEAR_SCALE]);
     }
 }

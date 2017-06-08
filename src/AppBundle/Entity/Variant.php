@@ -14,6 +14,10 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Variant
 {
+    const RADIO = 'Radio';
+    const CHECKBOX = 'Checkbox';
+    const LINEAR_SCALE = 'LinearScale';
+
     /**
      * @var int
      * @Groups({"backOffice"})
