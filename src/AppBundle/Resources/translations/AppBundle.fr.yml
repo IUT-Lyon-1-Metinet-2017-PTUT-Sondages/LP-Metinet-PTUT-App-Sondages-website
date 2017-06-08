@@ -10,6 +10,8 @@ admin_poll:
   polls_archive_list: 'Sondages archivés'
   create_poll: 'Créer un sondage'
 
+  archive:
+    info: "Les sondages listés ci-dessous ne sont accessible que par vous. Aucune réponse ne peut-etre ajouté."
   table:
     title: 'Titre'
     author: 'Auteur'
