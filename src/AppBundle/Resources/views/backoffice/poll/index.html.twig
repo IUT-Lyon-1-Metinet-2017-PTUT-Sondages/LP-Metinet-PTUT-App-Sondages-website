@@ -40,13 +40,13 @@
                             </th>
                         {% endif %}
                         <th class="hidden-sm-down">
-                            {{ 'admin_poll.table.created_at' | trans}}
+                            {{ 'admin_poll.table.created_at' | trans }}
                         </th>
                         <th class="hidden-sm-down">
-                            {{'admin_poll.table.updated_at' | trans  }}
+                            {{ 'admin_poll.table.updated_at' | trans }}
                         </th>
                         <th class="hidden-sm-down">
-                            {{'admin_poll.table.deleted_at' | trans  }}
+                            {{ 'admin_poll.table.deleted_at' | trans }}
                         </th>
                         <th>
                             {{ 'admin_poll.table.state' | trans }}
@@ -75,7 +75,11 @@
                                 {{ poll.updatedAt | localizeddate('medium', 'medium', app.request.locale) }}
                             </td>
                             <td>
+                                {% if poll.deletedAt is not null %}
                                 {{ poll.deletedAt | localizeddate('medium', 'medium', app.request.locale) }}
+                                {% else %}
+                                -
+                                {% endif %}
                             </td>
                             <td>
                                 {% if poll.published %}

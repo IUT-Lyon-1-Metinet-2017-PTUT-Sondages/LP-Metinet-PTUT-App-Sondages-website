@@ -72,7 +72,7 @@ GROUP BY pr.id';
                 ->setParameter('param', $value);
         }
 
-        $polls = $polls->andWhere($polls->expr()->isNotNull('p.deletedAt'));
+        $polls = $polls->andWhere('p.deletedAt <= CURRENT_TIMESTAMP()');
 
         $polls = $polls->groupBy('p.id')
             ->add('orderBy', "p.{$orderBy[0]} {$orderBy[1]}")
@@ -86,8 +86,7 @@ GROUP BY pr.id';
     public function findDeletedOneBy(array $criteria)
     {
         $polls = $this->createQueryBuilder('p');
-        $polls = $polls
-            ->where($polls->expr()->isNotNull('p.deletedAt'));
+        $polls = $polls->andWhere('p.deletedAt <= CURRENT_TIMESTAMP()');
 
         foreach ($criteria as $column => $value) {
             $polls = $polls
