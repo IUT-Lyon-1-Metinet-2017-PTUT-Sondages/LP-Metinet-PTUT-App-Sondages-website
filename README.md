@@ -19,21 +19,12 @@ $ git clone https://github.com/IUT-Lyon-1-Metinet-2017-PTUT-Sondages/website.git
 
 Il est situé à la racine du projet `deploy.sh`, il vous demandera les renseignements nécessaires au bon fonctionnement de l'aplication (serveur smtp/serveur mysql) et installera les librairies nécessaires
 
-Pour lancer :
-
+Afficher l'aide :
 ```bash
-$ chmod +x deploy.sh
-$ ./deploy.sh
+$ ./deploy.sh --help
 ```
 
-### Configurer le Virtual Host
-
-Utiliser l'un des fichiers de configuration de Virtual Host fourni dans l'application.
-
-Apache :
-
-...
-
-nginx :
-
-...
+Lancer toutes les étapes de déploiement :
+```bash
+$ ./deploy.sh --all
+```
