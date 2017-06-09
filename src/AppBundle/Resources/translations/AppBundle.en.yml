@@ -103,6 +103,9 @@ poll:
 
   message_preview_for_author: 'This is a preview of the final rendering of the poll, all interactions have been disabled.<br>The poll is only accessible for yourself at the moment.'
   error_message_preview_for_not_author: 'You do not have access to this poll yet.'
+  error_not_allowed_to_delete_poll: 'You are not allowed to delete this poll.'
+  error_not_allowed_to_delete_poll: 'You are not allowed to archive this poll.'
+
 
 users:
   users_list: 'Users list'
@@ -113,3 +116,13 @@ users:
   update: 'Update'
   delete_confirmation: 'Do you really want to delete this user?'
   delete: 'Delete'
+
+
+mails:
+  share_poll:
+    subject: 'Take 2 minutes to answer to this poll'
+    hello: 'Hello,'
+    please_complete_the_poll: '%first_name% %last_name% wants you to fill this poll:'
+    link_to_poll: 'Link to poll'
+    cordially: 'Cordially,'
+    signature: 'Automatic Message Service - Kodrastan.'

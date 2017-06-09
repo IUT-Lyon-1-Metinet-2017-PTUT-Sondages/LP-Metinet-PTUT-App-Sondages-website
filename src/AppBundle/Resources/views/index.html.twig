@@ -1,20 +1,138 @@
 {% extends '::base.html.twig' %}
+
 {% trans_default_domain 'AppBundle' %}
 
 {% block content %}
-    {{ 'front.presentation' | trans | raw }}
-    <p>Page d'accueil à travailler</p>
+    <div class="text-justify">
+        <div class="row p-md-4 p-2">
+            <div class="col-12 col-md-6">
+                <h2 class="mb-3">
+                    {{ 'front.presentation.description.title' | trans | raw }}
+                </h2>
+                <p class="text-justify">
+                    {{ 'front.presentation.description.content' | trans | raw }}
+                </p>
+            </div>
+            <div class="col-12 col-md-6">
+                <h2 class="mb-3">
+                    {{ 'front.presentation.inscription.title' | trans | raw }}
+                </h2>
+                <p class="text-justify">
+                    {{ 'front.presentation.inscription.content' | trans | raw }}
+                </p>
+            </div>
+            <div class="col-12">
+                <hr>
+            </div>
+        </div>
+        <div class="row p-md-4 p-2">
+            <div class="colcol-12 col-md-4">
+                <p class="text-justify">{{ 'front.presentation.step.1' | trans | raw }}</p>
+            </div>
+            <div class="12col-12 col-md-8">
+                <a target="_blank" href="{{ asset('front/assets/img/tuto1.png') }}">
+                    <img class="img-tuto" src="{{ asset('front/assets/img/tuto1.png') }}">
+                </a>
+            </div>
+            <div class="col-12">
+                <hr>
+            </div>
+        </div>
+        <div class="row p-md-4 p-2 flex-md-row-reverse">
+            <div class="col-12 col-md-4">
+                <p class="text-justify">{{ 'front.presentation.step.2' | trans | raw }}</p>
+            </div>
+            <div class="col-12 col-md-8">
+                <a target="_blank" href="{{ asset('front/assets/img/tuto2.png') }}">
+                    <img class="img-tuto" src="{{ asset('front/assets/img/tuto2.png') }}">
+                </a>
+            </div>
+            <div class="col-12">
+                <hr>
+            </div>
+        </div>
+        <div class="row p-md-4 p-2">
+            <div class="col-12 col-md-4">
+                <p class="text-justify">{{ 'front.presentation.step.3' | trans | raw }}</p>
+            </div>
+            <div class="col-12 col-md-8">
+                <a target="_blank" href="{{ asset('front/assets/img/tuto3.png') }}">
+                    <img class="img-tuto" src="{{ asset('front/assets/img/tuto3.png') }}">
+                </a>
+            </div>
+            <div class="col-12">
+                <hr>
+            </div>
+        </div>
+        <div class="row p-md-4 p-2 flex-md-row-reverse">
+            <div class="col-12 col-md-6">
+                <p class="text-justify">{{ 'front.presentation.step.4' | trans | raw }}</p>
+            </div>
+            <div class="col-12 col-md-6">
+                <p>
+                    <a target="_blank" href="{{ asset('front/assets/img/tuto4.png') }}">
+                        <img class="img-tuto" src="{{ asset('front/assets/img/tuto4.png') }}">
+                    </a>
+                </p>
 
-    {% if app.user %}
-        <a href="{{ path('backoffice') }}" class="btn btn-success">
-            Accéder au backoffice
-        </a>
-    {% else %}
-        <a href="{{ path('fos_user_registration_register') }}" class="btn btn-primary">
-            {{ 'layout.register' | trans({}, 'FOSUserBundle') }}
-        </a>
-        <a href="{{ path('fos_user_security_login') }}" class="btn btn-primary">
-            {{ 'layout.login' | trans({}, 'FOSUserBundle') }}
-        </a>
-    {% endif %}
+                <p>
+                    <a target="_blank" href="{{ asset('front/assets/img/tuto4-1.png') }}">
+                        <img class="img-tuto" src="{{ asset('front/assets/img/tuto4-1.png') }}">
+                    </a>
+                </p>
+            </div>
+        </div>
+        <div class="row px-2 px-md-4">
+            <div class="col-12">
+                <a target="_blank" href="{{ asset('front/assets/img/tuto4-2.png') }}">
+                    <img class="img-tuto" src="{{ asset('front/assets/img/tuto4-2.png') }}">
+                </a>
+            </div>
+            <div class="col-12">
+                <hr>
+            </div>
+        </div>
+        <div class="row p-md-4 p-2">
+            <div class="col-12 col-md-4">
+                <p class="text-justify">{{ 'front.presentation.step.5' | trans | raw }}</p>
+            </div>
+            <div class="col-12 col-md-8">
+                <a target="_blank" href="{{ asset('front/assets/img/tuto5.png') }}">
+                    <img class="img-tuto" src="{{ asset('front/assets/img/tuto5.png') }}">
+                </a>
+            </div>
+            <div class="col-12">
+                <hr>
+            </div>
+        </div>
+        <div class="row p-md-4 p-2 flex-md-row-reverse">
+            <div class="col-12 col-md-4">
+                <p class="text-justify">{{ 'front.presentation.step.6' | trans | raw }}</p>
+            </div>
+            <div class="col-12 col-md-8">
+                <a target="_blank" href="{{ asset('front/assets/img/tuto6.png') }}">
+                    <img class="img-tuto" src="{{ asset('front/assets/img/tuto6.png') }}">
+                </a>
+            </div>
+            <div class="col-12">
+                <hr>
+            </div>
+        </div>
+        <div class="text-center">
+            {% if app.user %}
+                <a href="{{ path('backoffice') }}" class="btn btn-lg btn-success btn-success-custom btn-square">
+                    Accéder au backoffice
+                </a>
+            {% else %}
+                <a href="{{ path('fos_user_registration_register') }}"
+                   class="btn btn-lg btn-primary btn-primary-custom btn-square">
+                    {{ 'layout.register' | trans({}, 'FOSUserBundle') }}
+                </a>
+                <a href="{{ path('fos_user_security_login') }}"
+                   class="btn btn-lg btn-primary btn-primary-custom btn-square">
+                    {{ 'layout.login' | trans({}, 'FOSUserBundle') }}
+                </a>
+            {% endif %}
+        </div>
+    </div>
 {% endblock %}

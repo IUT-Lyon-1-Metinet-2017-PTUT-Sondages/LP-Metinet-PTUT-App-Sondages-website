@@ -13,12 +13,13 @@ class PollRepository extends EntityRepository
     public function findResultsFromPoll($id)
     {
         $sql = 'SELECT pa.id AS paId, q.id AS qId, q.title AS qTitle, pr.id AS propId, pr.title AS propTitle, COUNT(pr.id)
-AS amount, LOWER(ct.title) AS ctTitle FROM poll p
+AS amount, LOWER(ct.title) AS ctTitle, v.name as qType FROM poll p
 INNER JOIN question q ON q.poll_id = p.id
 INNER JOIN page pa ON q.page_id = pa.id
 INNER JOIN proposition pr ON pr.question_id = q.id
 INNER JOIN answer a ON a.proposition_id = pr.id
 INNER JOIN chart_type ct ON q.chart_type_id=ct.id
+INNER JOIN variant v ON pr.variant_id=v.id
 WHERE p.id = :id
 GROUP BY pr.id';
         $stmt = $this->getEntityManager()->getConnection()->prepare($sql);
@@ -42,50 +43,60 @@ GROUP BY pr.id';
         return $query->getQuery()->getSingleScalarResult();
     }
 
-    public function findBy(array $criteria, array $orderBy = NULL, $limit = NULL, $offset = NULL)
+    public function findBy(array $criteria, array $orderBy = NULL, $limit = NULL, $offset = NULL, $hydrate = true)
     {
-        $polls = $this->createQueryBuilder('p');
+        $qb = $this->createQueryBuilder('p');
 
         foreach ($criteria as $column => $value) {
-            $polls = $polls
+            $qb = $qb
                 ->where($column . '= :param')
                 ->setParameter('param', $value);
         }
 
-        $polls = $polls->groupBy('p.id')
-            ->add('orderBy', "p.{$orderBy[0]} {$orderBy[1]}")
+        $qb = $qb->groupBy('p.id')
+            ->add('orderBy', "{$orderBy[0]} {$orderBy[1]}")
             ->setFirstResult($offset)
-            ->setMaxResults($limit)
-            ->getQuery()
-            ->getResult();
+            ->setMaxResults($limit);
 
-        return $polls;
+        if ($hydrate) {
+            return $qb
+                ->getQuery()
+                ->getResults();
+        }
+
+        return $qb;
     }
-    public function findDeletedBy(array $criteria, array $orderBy = NULL, $limit = NULL, $offset = NULL)
+
+    public function findDeletedBy(array $criteria, array $orderBy = NULL, $limit = NULL, $offset = NULL, $hydrate = true)
     {
-        $polls = $this->createQueryBuilder('p');
-        $polls = $polls
-            ->where($polls->expr()->isNotNull('p.deletedAt'));
+        $qb = $this->createQueryBuilder('p');
+
         foreach ($criteria as $column => $value) {
-            $polls = $polls
+            $qb = $qb
                 ->where($column . '= :param')
                 ->setParameter('param', $value);
         }
 
-        $polls = $polls->groupBy('p.id')
-            ->add('orderBy', "p.{$orderBy[0]} {$orderBy[1]}")
-            ->setFirstResult($offset)
-            ->setMaxResults($limit)
-            ->getQuery()
-            ->getResult();
+        $qb = $qb->andWhere('p.deletedAt <= CURRENT_TIMESTAMP()');
 
-        return $polls;
+        $qb = $qb->groupBy('p.id')
+            ->add('orderBy', "{$orderBy[0]} {$orderBy[1]}")
+            ->setFirstResult($offset)
+            ->setMaxResults($limit);
+
+        if($hydrate) {
+            return $qb
+                ->getQuery()
+                ->getResult();
+        }
+
+        return $qb;
     }
+
     public function findDeletedOneBy(array $criteria)
     {
         $polls = $this->createQueryBuilder('p');
-        $polls = $polls
-            ->where($polls->expr()->isNotNull('p.deletedAt'));
+        $polls = $polls->andWhere('p.deletedAt <= CURRENT_TIMESTAMP()');
 
         foreach ($criteria as $column => $value) {
             $polls = $polls

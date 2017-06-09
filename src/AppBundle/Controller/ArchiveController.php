@@ -26,10 +26,15 @@ class ArchiveController extends Controller
         $service   = $this->get('app.repository_service.poll');
         $user      = $this->getUser();
 
+        $order = [
+            $request->query->get('sort', 'p.createdAt'),
+            $request->query->get('direction', 'desc'),
+        ];
+
         if ($user->hasRole('ROLE_ADMIN')) {
-            $entries = $service->getArchivedPolls([]);
+            $entries = $service->getArchivedPolls([], $order, false);
         } else {
-            $entries = $service->getArchivedPolls(['p.user' => $user]);
+            $entries = $service->getArchivedPolls(['p.user' => $user], $order, false);
         }
 
         $pagination = $paginator->paginate(
@@ -42,9 +47,35 @@ class ArchiveController extends Controller
             'pagination' => $pagination
         ]);
     }
+
+    /**
+     * Archive a Poll by its id
+     * @Route("/backoffice/archives/{id}/archive", name="backoffice_poll_archive")
+     * @param $id
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function archiveAction($id) {
+        $translator = $this->get('translator');
+        $service = $this->get('app.repository_service.poll');
+        $poll = $service->getPoll(['id' => $id]);
+
+        if(is_null($poll)) {
+            return $this->redirectToRoute('backoffice_polls');
+        }
+
+        if(!($this->isGranted('ROLE_ADMIN') || $poll->getUser() === $this->getUser())) {
+            $this->addFlash('danger', $translator->trans('poll.error_not_allowed_to_archive_poll', [], 'AppBundle'));
+            return $this->redirectToRoute('backoffice_polls');
+        }
+
+        $service->delete($poll);
+
+        return $this->redirectToRoute('backoffice_polls');
+    }
+
     /**
      * Delete a Poll by its id.
-     * @Route("/backoffice/polls/archive/{id}/delete", name="backoffice_poll_archive_delete")
+     * @Route("/backoffice/archives/{id}/delete", name="backoffice_poll_archive_delete")
      * @param int $id
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */

@@ -14,8 +14,6 @@
     <meta name="twitter:image" content="{{ absolute_url(asset('front/assets/img/logo.png')) }}"/>
 {% endblock %}
 {% block stylesheets %}
-    <link rel="stylesheet" href="{{ asset('CoreUI/bower_components/fontawesome/css/font-awesome.min.css') }}"
-          type="text/css"/>
     <link rel="stylesheet" href="{{ asset('front/assets/css/kdt-inputs.css') }}" type="text/css">
     <style>
         form[name="appbundle_poll_view"] .card.error {
@@ -129,7 +127,7 @@
 
             {% if loop.last %}
                 <div class="text-center">
-                    <button type="submit" class="btn btn-primary btn-lg"
+                    <button type="submit" class="btn btn-primary btn-lg btn-primary-custom btn-square"
                             id="{{ pollView.submit_poll.vars.id }}"
                             name="{{ pollView.submit_poll.vars.full_name }}"
                             {% if pollView.submit_poll.vars.disabled %}disabled="disabled"{% endif %}>
@@ -138,7 +136,7 @@
                 </div>
             {% else %}
                 <div class="text-center">
-                    <button type="button" class="btn btn-primary btn-lg next-page">
+                    <button type="button" class="btn btn-primary btn-lg next-page btn-primary-custom btn-square">
                         <i class="fa fa-arrow-right"></i>&nbsp;{{ 'label_next' | trans({}, 'KnpPaginatorBundle') }}
                     </button>
                 </div>

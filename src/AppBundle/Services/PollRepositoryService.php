@@ -52,21 +52,24 @@ class PollRepositoryService
     /**
      * @param array $filter
      * @param null $orderBy
+     * @param bool $hydrate
      * @return Poll[]|array
      */
-    public function getPolls(array $filter = [], $orderBy = null)
+    public function getPolls(array $filter = [], $orderBy = null, $hydrate = true)
     {
-        return $this->em->getRepository('AppBundle:Poll')->findBy($filter, $orderBy);
+        return $this->em->getRepository('AppBundle:Poll')->findBy($filter, $orderBy, null, null, $hydrate);
     }
 
     /**
      * @param array $filter
+     * @param array $order
+     * @param bool $hydrate
      * @return Poll[]|array
      */
-    public function getArchivedPolls(array $filter = [])
+    public function getArchivedPolls(array $filter = [], array $order, $hydrate = true)
     {
         $this->em->getFilters()->disable('softdeleteable');
-        return $this->em->getRepository('AppBundle:Poll')->findDeletedBy($filter);
+        return $this->em->getRepository('AppBundle:Poll')->findDeletedBy($filter, $order, null, null, $hydrate);
     }
 
     /**
@@ -112,12 +115,11 @@ class PollRepositoryService
     }
 
     /**
-     * @param int $id
+     * @param Poll $poll
+     * @internal param int $id
      */
-    public function deleteById($id)
+    public function delete(Poll $poll)
     {
-
-        $poll = $this->em->getRepository('AppBundle:Poll')->findOneBy(['id' => $id]);
         $this->em->remove($poll);
         $this->em->flush();
     }

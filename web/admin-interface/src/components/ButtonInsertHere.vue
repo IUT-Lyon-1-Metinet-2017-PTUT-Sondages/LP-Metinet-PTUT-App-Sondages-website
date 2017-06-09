@@ -1,6 +1,6 @@
 <template>
   <div class="text-center">
-    <button @click="emit($event)" :disabled="isSubmittingPoll" class="btn btn-outline-primary" :class="classes">
+    <button @click="emit($event)" :disabled="disabled || isSubmittingPoll" class="btn btn-outline-primary" :class="classes">
       <i class="fa fa-plus-circle"></i>
       <slot></slot>
     </button>
@@ -12,7 +12,8 @@
   export default {
     props: {
       size: {type: String, default: ''},
-      block: {type: Boolean, default: false}
+      block: {type: Boolean, default: false},
+      disabled: {type: Boolean, default: false}
     },
     data()  {
       return {
