@@ -44,6 +44,7 @@ class UsersController extends Controller
     {
         /** @var UserManager $userManager */
         $userManager = $this->get('fos_user.user_manager');
+
         /** @var User $user */
         $user = $userManager->findUserBy(['id' => $id]);
 
@@ -56,19 +57,23 @@ class UsersController extends Controller
         $form = $this->createForm(UserUpdateType::class);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted()) {
-            if ($form->isValid()) {
-                $data = $form->getData();
-                $user->setFirstName($data['firstName']);
-                $user->setLastName($data['lastName']);
-                $userManager->updateUser($user);
-                $this->addFlash('success', "L'utilisateur a bien été modifié");
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+            $user->setFirstName($data['firstName']);
+            $user->setLastName($data['lastName']);
+            $user->setEmail($data['email']);
+            $userManager->updateUser($user);
+            $this->addFlash('success', "L'utilisateur a bien été modifié");
 
-                return $this->redirectToRoute('backoffice_users');
-            }
+            return $this->redirectToRoute('backoffice_users');
         } else {
-            $form->setData($user);
+            $form->setData([
+                'firstName' => $user->getFirstName(),
+                'lastName' => $user->getLastName(),
+                'email' => $user->getEmail()
+            ]);
         }
+
 
         return $this->render('@App/backoffice/users/update.html.twig', [
             'form' => $form->createView(),

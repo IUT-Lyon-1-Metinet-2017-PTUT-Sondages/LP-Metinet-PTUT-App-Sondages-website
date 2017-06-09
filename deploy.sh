@@ -64,7 +64,8 @@ step_symfony () {
     run ${PHP} "bin/console" doctrine:schema:update --force
     run ${PHP} "bin/console" doctrine:fixtures:load -n \
          --fixtures src/AppBundle/DataFixtures/ORM/LoadChartTypesData.php \
-         --fixtures src/AppBundle/DataFixtures/ORM/LoadVariantData.php
+         --fixtures src/AppBundle/DataFixtures/ORM/LoadVariantData.php \
+         --fixtures src/AppBundle/DataFixtures/ORM/LoadValidDomains.php
 }
 
 step_coreui () {
