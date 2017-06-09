@@ -21,6 +21,14 @@ class ProfileFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('firstName', TextType::class, [
+                'label' => 'users.first_name',
+                'translation_domain' => 'AppBundle',
+            ])
+            ->add('lastName', TextType::class, [
+                'label' => 'users.last_name',
+                'translation_domain' => 'AppBundle',
+            ])
             ->remove('email')
             ->remove('username');
     }
