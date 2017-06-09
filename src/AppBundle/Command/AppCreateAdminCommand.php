@@ -18,7 +18,10 @@ class AppCreateAdminCommand extends ContainerAwareCommand
         $this
             ->setName('app:create-admin')
             ->setDescription('Créer un nouvel administrateur')
-            ->addArgument('email', InputArgument::REQUIRED, "Une adresse e-mail appartenant au domaine de l'Université Lyon 1.");
+            ->addArgument('prenom', InputArgument::REQUIRED, "Prénom")
+            ->addArgument('nom', InputArgument::REQUIRED, "Nom")
+            ->addArgument('email', InputArgument::REQUIRED, "Une adresse e-mail")
+        ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -29,9 +32,11 @@ class AppCreateAdminCommand extends ContainerAwareCommand
         $validator = $this->getContainer()->get('validator');
 
         // Credentials
+        $firstName = $input->getArgument('prenom');
+        $lastName = $input->getArgument('nom');
         $email = $input->getArgument('email');
 
-        if(filter_var($email, FILTER_VALIDATE_EMAIL) === false) {
+        if (filter_var($email, FILTER_VALIDATE_EMAIL) === false) {
             $io->error("Merci de rentrer une adresse e-mail au format valide.");
             return;
         }
@@ -47,6 +52,8 @@ class AppCreateAdminCommand extends ContainerAwareCommand
 
         $admin = new User();
         $admin->setRoles(['ROLE_ADMIN']);
+        $admin->setFirstName($firstName);
+        $admin->setLastName($lastName);
         $admin->setEmail($email);
         $admin->setEnabled(true);
         $admin->setPlainPassword($password);
