@@ -52,11 +52,12 @@ class PollRepositoryService
     /**
      * @param array $filter
      * @param null $orderBy
+     * @param bool $hydrate
      * @return Poll[]|array
      */
-    public function getPolls(array $filter = [], $orderBy = null)
+    public function getPolls(array $filter = [], $orderBy = null, $hydrate = true)
     {
-        return $this->em->getRepository('AppBundle:Poll')->findBy($filter, $orderBy);
+        return $this->em->getRepository('AppBundle:Poll')->findBy($filter, $orderBy, null, null, $hydrate);
     }
 
     /**

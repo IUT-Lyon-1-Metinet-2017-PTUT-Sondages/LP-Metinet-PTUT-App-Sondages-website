@@ -32,13 +32,18 @@ class PollController extends Controller
     public function indexAction(Request $request)
     {
         $paginator = $this->get('knp_paginator');
-        $service   = $this->get('app.repository_service.poll');
-        $user      = $this->getUser();
+        $service = $this->get('app.repository_service.poll');
+        $user = $this->getUser();
+
+        $order = [
+            $request->query->get('sort', 'p.createdAt'),
+            $request->query->get('direction', 'desc'),
+        ];
 
         if ($user->hasRole('ROLE_ADMIN')) {
-            $entries = $service->getPolls([], ['createdAt', 'desc']);
+            $entries = $service->getPolls([], $order, false);
         } else {
-            $entries = $service->getPolls(['p.user' => $user], ['createdAt', 'desc']);
+            $entries = $service->getPolls(['p.user' => $user], $order, false);
         }
 
         $pagination = $paginator->paginate(
