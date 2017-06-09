@@ -9,8 +9,8 @@
                     <p class="text-muted">{{ 'layout.register.title' | trans }}</p>
 
                     {{ form_start(form, {'method': 'post', 'action': path('fos_user_registration_register'), 'attr': {'class': 'fos_user_registration_register', 'id': 'fos_user_registration_register'}}) }}
-                    {{ form_row(form.firstname) }}
-                    {{ form_row(form.lastname) }}
+                    {{ form_row(form.firstName) }}
+                    {{ form_row(form.lastName) }}
                     {{ form_row(form.email) }}
                     {{ form_row(form.plainPassword) }}
                     <button type="submit"

@@ -20,12 +20,12 @@ class RegistrationType extends AbstractType
     {
         $builder
             ->remove('username')
-            ->add('firstname', TextType::class, [
-                'label' => 'register.user.firstname',
+            ->add('firstName', TextType::class, [
+                'label' => 'users.first_name',
                 'translation_domain' => 'AppBundle',
             ])
-            ->add('lastname', TextType::class, [
-                'label' => 'register.user.lastname',
+            ->add('lastName', TextType::class, [
+                'label' => 'users.last_name',
                 'translation_domain' => 'AppBundle',
             ])
         ;
