@@ -172,7 +172,3 @@ config:
   edit:
     mail_regexp: 'Format de l''email à utiliser lors de l''inscription'
     submit: 'Ajouter ce format'
-register:
-  user:
-    firstname: 'Prénom'
-    lastname: 'Nom'
