@@ -22,7 +22,7 @@ class UsersController extends Controller
         $paginator = $this->get('knp_paginator');
 
         $pagination = $paginator->paginate(
-            $userManager->findUsersAndSortBy(['email' => 'desc']),
+            $userManager->findUsersAndSortBy(['roles' => 'desc']),
             $request->query->getInt('page', 1),
             20
         );
