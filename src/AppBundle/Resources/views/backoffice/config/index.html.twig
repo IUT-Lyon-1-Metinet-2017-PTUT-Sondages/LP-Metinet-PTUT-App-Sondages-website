@@ -1,0 +1,70 @@
+{% extends "::backoffice_base.html.twig" %}
+{% trans_default_domain 'AppBundle' %}
+
+{% block title %}{{ 'config.title' | trans }}{% endblock %}
+
+{% form_theme form _self %}
+
+{%- block form_errors -%}
+    {%- if errors|length > 0 -%}
+        <div class="alert alert-danger">
+            {%- for error in errors -%}
+                {{ error.message }}<br>
+            {%- endfor -%}
+        </div>
+    {%- endif -%}
+{%- endblock form_errors -%}
+
+{% block main %}
+    <h1 class="text-center">Configuration de l'application</h1>
+    <hr>
+    <div class="row justify-content-center">
+        <div class="col-md-4 p-1">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>
+                        {{ 'config.valid_domain.domain' | trans }}
+                    </th>
+                    <th>
+                        {{ 'config.actions' | trans }}
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+
+                {% for validDomain in validDomains %}
+                    <tr>
+                        <td>{{ validDomain.domain }}</td>
+                        <td>
+                            <a href="{{ path('backoffice_config_delete', {'id': validDomain.id}) }}"
+                            onclick="return confirm('{{ 'config.valid_domain.delete_confirmation' | trans }}');"
+                            class="btn btn-danger {% if validDomains|length == 1 %}disabled{% endif %}">
+                                <i class="fa fa-trash"></i><span class="hidden-xs-down">&nbsp;{{ 'config.valid_domain.delete' | trans }}</span>
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <hr>
+    <div class="row justify-content-center">
+        <div class="col-md-4 p-1">
+            {{ form_start(form) }}
+            <div class="pb-1">
+                {{ form_errors(form.domain) }}
+                {{ form_label(form.domain) }}
+                <div class="input-group">
+                    <span class="input-group-addon" id="basic-addon1">@</span>
+                    {{ form_widget(form.domain) }}
+                </div>
+            </div>
+            <div class="text-center">
+                {{ form_row(form.submit) }}
+            </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}

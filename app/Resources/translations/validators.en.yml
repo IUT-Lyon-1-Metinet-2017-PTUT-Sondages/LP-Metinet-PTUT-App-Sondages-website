@@ -1,0 +1,3 @@
+valid_domain:
+  validation:
+    message: 'Your email must match one of the formats configured by the administrator of the application.'

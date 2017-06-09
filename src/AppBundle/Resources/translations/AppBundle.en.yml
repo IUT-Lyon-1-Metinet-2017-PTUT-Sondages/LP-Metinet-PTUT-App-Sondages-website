@@ -138,3 +138,8 @@ mails:
     link_to_poll: 'Link to poll'
     cordially: 'Cordially,'
     signature: 'Automatic Message Service - Kodrastan.'
+
+register:
+  user:
+    firstname: 'Firstname'
+    lastname: 'Lastname'

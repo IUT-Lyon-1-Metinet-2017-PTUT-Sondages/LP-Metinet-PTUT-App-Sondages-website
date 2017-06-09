@@ -8,6 +8,7 @@ use FOS\UserBundle\Model\User as BaseUser;
 use JMS\Serializer\Annotation\ExclusionPolicy;
 use JMS\Serializer\Annotation\Expose;
 use Symfony\Component\Validator\Constraints as Assert;
+use AppBundle\Validator\Constraints as CustomAssert;
 
 /**
  * @ExclusionPolicy("all")
@@ -40,6 +41,12 @@ class User extends BaseUser
     protected $firstName;
 
     /**
+     * @inheritdoc
+     * @CustomAssert\IsValidDomain()
+     */
+    protected $email;
+
+    /**
      * @var string
      * @Expose
      * @ORM\Column(type="string", length=100)
@@ -67,8 +74,10 @@ class User extends BaseUser
      */
     public function setEmail($email)
     {
-        $this->fillNamesByEmail($email);
         parent::setEmail($email);
+        $parts = explode('@', $email);
+        $username = $parts[0];
+        $this->setUsername($username);
 
         return $this;
     }
@@ -140,29 +149,5 @@ class User extends BaseUser
     public function getPolls()
     {
         return $this->polls;
-    }
-
-    /**
-     * @param string $email
-     */
-    private function fillNamesByEmail($email)
-    {
-        if (strpos($email, '@') === false) {
-            return;
-        }
-
-        $parts = explode('@', $email);
-        $username = $parts[0];
-        $this->setUsername($username);
-
-        if (strpos($username, '.') === false) {
-            return;
-        }
-
-        list($firstName, $lastName) = explode('.', $username);
-        $firstName = ucfirst(strtolower($firstName));
-        $lastName = ucfirst(strtolower($lastName));
-        $this->setFirstName($firstName);
-        $this->setLastName($lastName);
     }
 }

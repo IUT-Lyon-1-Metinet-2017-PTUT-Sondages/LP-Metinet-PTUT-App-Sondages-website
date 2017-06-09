@@ -90,6 +90,7 @@ sidebar:
   polls_list: 'Liste des sondages'
   users_list: 'Liste des utilisateurs'
   polls_archive: 'Sondages archivés'
+  config: 'Configuration'
 
 front:
   presentation:
@@ -160,3 +161,18 @@ mails:
     link_to_poll: 'Lien vers le sondage'
     cordially: 'Cordialement,'
     signature: 'Service de Messagerie automatique - Kodrastan.'
+
+config:
+  valid_domain:
+    domain: 'Domaine valide'
+    delete: 'Supprimer'
+    delete_confirmation: 'Voulez-vous vraiment supprimer ce nom de domaine ?'
+  title: 'Configuration'
+  actions: 'Actions'
+  edit:
+    mail_regexp: 'Format de l''email à utiliser lors de l''inscription'
+    submit: 'Ajouter ce format'
+register:
+  user:
+    firstname: 'Prénom'
+    lastname: 'Nom'

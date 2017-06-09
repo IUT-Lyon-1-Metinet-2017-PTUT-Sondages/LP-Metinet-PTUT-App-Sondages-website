@@ -52,6 +52,12 @@ services:
         tags:
            - {name: validator.constraint_validator}
 
+    app.validator.valid_domain:
+           class: AppBundle\Validator\Constraints\IsValidDomainValidator
+           arguments: ["@doctrine.orm.entity_manager"]
+           tags:
+               - {name: validator.constraint_validator}
+
     # API
     app.api.auth_service:
         class: AppBundle\Services\ApiAuthService

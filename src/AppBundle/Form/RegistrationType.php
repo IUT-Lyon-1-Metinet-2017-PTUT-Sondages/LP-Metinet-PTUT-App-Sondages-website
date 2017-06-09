@@ -4,6 +4,7 @@ namespace AppBundle\Form;
 
 use FOS\UserBundle\Form\Type\RegistrationFormType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 /**
@@ -17,7 +18,17 @@ class RegistrationType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->remove('username');
+        $builder
+            ->remove('username')
+            ->add('firstname', TextType::class, [
+                'label' => 'register.user.firstname',
+                'translation_domain' => 'AppBundle',
+            ])
+            ->add('lastname', TextType::class, [
+                'label' => 'register.user.lastname',
+                'translation_domain' => 'AppBundle',
+            ])
+        ;
     }
 
     /**
