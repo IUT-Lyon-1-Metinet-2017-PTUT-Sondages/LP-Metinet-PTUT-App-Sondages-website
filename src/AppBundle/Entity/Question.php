@@ -64,7 +64,6 @@ class Question
      * One question has Many propositions.
      * @ORM\OneToMany(targetEntity="Proposition", mappedBy="question", cascade={"persist", "remove"})
      * @Assert\Valid
-     * @KodrastanAssert\DuplicateProposition
      */
     private $propositions;
 

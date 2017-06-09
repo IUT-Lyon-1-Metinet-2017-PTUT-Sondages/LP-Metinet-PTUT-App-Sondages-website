@@ -48,12 +48,6 @@ services:
         tags:
            - {name: validator.constraint_validator}
 
-    app.validator.proposition:
-        class: AppBundle\Validator\Constraints\DuplicatePropositionValidator
-        arguments: ["@doctrine.orm.entity_manager"]
-        tags:
-            - {name: validator.constraint_validator}
-
     # API
     app.api.auth_service:
         class: AppBundle\Services\ApiAuthService
