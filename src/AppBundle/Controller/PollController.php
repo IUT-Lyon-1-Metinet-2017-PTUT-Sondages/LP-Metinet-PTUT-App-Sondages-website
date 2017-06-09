@@ -75,7 +75,7 @@ class PollController extends Controller
                 return new JsonResponse($e->getErrors());
             } catch (InvalidVariantException $e) {
                 return new JsonResponse([
-                    'message'  => $e->getMessage(),
+                    'message' => $e->getMessage(),
                     'question' => $e->getQuestion(),
                 ]);
             }
@@ -107,7 +107,7 @@ class PollController extends Controller
         }
 
         $validationService = $this->get('app.validation_service');
-        $deletionService   = $this->get('app.deletion_service');
+        $deletionService = $this->get('app.deletion_service');
 
         if ($request->getMethod() == 'POST') {
             try {
@@ -117,7 +117,7 @@ class PollController extends Controller
                 return new JsonResponse($e->getErrors());
             } catch (InvalidVariantException $e) {
                 return new JsonResponse([
-                    'message'  => $e->getMessage(),
+                    'message' => $e->getMessage(),
                     'question' => $e->getQuestion(),
                 ]);
             }
@@ -140,11 +140,11 @@ class PollController extends Controller
         $service = $this->get('app.repository_service.poll');
         $poll = $service->getPoll(['id' => $id]);
 
-        if(is_null($poll)) {
+        if (is_null($poll)) {
             return $this->redirectToRoute('backoffice_polls');
         }
 
-        if(!($this->isGranted('ROLE_ADMIN') || $poll->getUser() === $this->getUser())) {
+        if (!($this->isGranted('ROLE_ADMIN') || $poll->getUser() === $this->getUser())) {
             $this->addFlash('danger', $translator->trans('poll.error_not_allowed_to_delete_poll', [], 'AppBundle'));
             return $this->redirectToRoute('backoffice_polls');
         }
@@ -169,12 +169,12 @@ class PollController extends Controller
     public function sendMailAction(Request $request)
     {
         if ($request->isXmlHttpRequest()) {
-            $toEmail     = $request->get('email');
-            $id          = $request->get('id');
-            $user        = $this->getUser();
+            $toEmail = $request->get('email');
+            $id = $request->get('id');
+            $user = $this->getUser();
             $mailService = $this->get('app.mailer_service');
-            $response    = $mailService->sharePoll($user, $toEmail, $id);
-            $response    = new JsonResponse($response);
+            $response = $mailService->sharePoll($user, $toEmail, $id);
+            $response = new JsonResponse($response);
             return $response;
         } else {
             $response = new JsonResponse(false);
@@ -206,22 +206,22 @@ class PollController extends Controller
     }
 
     /**
- * Display a Poll's results by its id.
- * @Route("/backoffice/polls/{id}/results", name="backoffice_poll_results")
- * @param int $id
- * @return \Symfony\Component\HttpFoundation\Response
- */
+     * Display a Poll's results by its id.
+     * @Route("/backoffice/polls/{id}/results", name="backoffice_poll_results")
+     * @param int $id
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
     public function resultsAction($id)
     {
         /** @var PollRepositoryService $pollService */
-        $pollService       = $this->get('app.repository_service.poll');
+        $pollService = $this->get('app.repository_service.poll');
         /** @var PollResultsService $pollResultsService */
         $pollResultsService = $this->get('app.poll.results');
-        $poll              = $pollService->getPoll(['id' => $id]);
-        $charts            = $pollResultsService->getChartsResults($pollService->getResults($id));
+        $poll = $pollService->getPoll(['id' => $id]);
+        $charts = $pollResultsService->getChartsResults($pollService->getResults($id));
 
         return $this->render('@App/backoffice/poll/results.html.twig', [
-            'poll'   => $poll,
+            'poll' => $poll,
             'charts' => $charts,
         ]);
     }
@@ -238,11 +238,11 @@ class PollController extends Controller
         $user = $this->getUser();
         /** @var PollRepositoryService $pollService */
         $pollService = $this->get('app.repository_service.poll');
-        $poll        = $pollService->getPoll(['id' => $id]);
+        $poll = $pollService->getPoll(['id' => $id]);
 
         /** @var PollResultsService $pollResultsService */
         $pollResultsService = $this->get('app.poll.results');
-        $response           = $pollResultsService->getExcelResults($poll, $user, $pollService->getResults($id));
+        $response = $pollResultsService->getExcelResults($poll, $user, $pollService->getResults($id));
 
         // adding headers
         $dispositionHeader = $response->headers->makeDisposition(
