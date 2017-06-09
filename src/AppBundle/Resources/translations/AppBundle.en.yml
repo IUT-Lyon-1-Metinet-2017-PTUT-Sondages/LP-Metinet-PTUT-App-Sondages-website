@@ -15,6 +15,9 @@ admin_poll:
     author: 'Author'
     state: 'State'
     created_at: 'Created at'
+    updated_at: 'Last modification'
+    deleted_at: 'Archived at'
+    will_be_deleted_at: 'Will be archived at'
 
   table_values:
     published: 'Published'

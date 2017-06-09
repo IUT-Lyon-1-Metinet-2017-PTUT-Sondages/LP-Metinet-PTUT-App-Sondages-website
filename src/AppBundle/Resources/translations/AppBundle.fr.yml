@@ -18,7 +18,8 @@ admin_poll:
     state: 'Etat'
     created_at: 'Créé le'
     updated_at: 'Dernière mise à jour'
-    deleted_at: 'Date d''archivage'
+    deleted_at: 'Archivé le'
+    will_be_deleted_at: 'Sera archivé le'
 
   table_values:
     published: 'Publié'
