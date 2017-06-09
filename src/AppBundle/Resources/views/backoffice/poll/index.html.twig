@@ -34,11 +34,6 @@
                         <th{% if pagination.isSorted('p.title') %} class="sorted"{% endif %}>
                             {{ knp_pagination_sortable(pagination, 'admin_poll.table.title' | trans, 'p.title') }}
                         </th>
-                        {% if is_granted('ROLE_ADMIN') %}
-                            <th class="hidden-sm-down">
-                                {{ 'admin_poll.table.author' | trans }}
-                            </th>
-                        {% endif %}
                         <th class="hidden-sm-down{% if pagination.isSorted('p.createdAt') %} sorted{% endif %}">
                             {{ knp_pagination_sortable(pagination, 'admin_poll.table.created_at' | trans, 'p.createdAt') }}
                         </th>
@@ -48,6 +43,11 @@
                         <th>
                             {{ 'admin_poll.table.state' | trans }}
                         </th>
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <th class="hidden-sm-down">
+                                {{ 'admin_poll.table.author' | trans }}
+                            </th>
+                        {% endif %}
                         <th></th>
                     </tr>
                     </thead>
@@ -58,13 +58,6 @@
                                 <a target="_blank" href="{{ path('answer_poll', {'token':poll.accessToken}) }}">
                                     {{ poll.title }}&nbsp;<i class="fa fa-external-link" aria-hidden="true"></i></a>
                             </td>
-                            {% if is_granted('ROLE_ADMIN') %}
-                                <td class="hidden-sm-down">
-                                    <a href="mailto:{{ poll.user.email }}?subject={{ 'admin_poll.table_values.about_the_poll' | trans({'{title}': poll.title}) }}">
-                                        {{ poll.user.email }}
-                                    </a>
-                                </td>
-                            {% endif %}
                             <td>
                                 {{ poll.createdAt | localizeddate('medium', 'medium', app.request.locale) }}
                             </td>
@@ -78,6 +71,13 @@
                                     {{ 'admin_poll.table_values.not_published' | trans }}
                                 {% endif %}
                             </td>
+                            {% if is_granted('ROLE_ADMIN') %}
+                                <td class="hidden-sm-down">
+                                    <a href="mailto:{{ poll.user.email }}?subject={{ 'admin_poll.table_values.about_the_poll' | trans({'{title}': poll.title}) }}">
+                                        {{ poll.user.email }}
+                                    </a>
+                                </td>
+                            {% endif %}
                             <td>
                                 {% if not poll.published %}
                                     <a href="{{ path('backoffice_poll_delete', {'id': poll.id}) }}"
