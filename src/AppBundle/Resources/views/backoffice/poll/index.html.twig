@@ -45,9 +45,6 @@
                         <th class="hidden-sm-down">
                             {{ knp_pagination_sortable(pagination, 'admin_poll.table.updated_at' | trans, 'p.updatedAt') }}
                         </th>
-                        <th class="hidden-sm-down">
-                            {{ knp_pagination_sortable(pagination, 'admin_poll.table.deleted_at' | trans, 'p.deletedAt') }}
-                        </th>
                         <th>
                             {{ 'admin_poll.table.state' | trans }}
                         </th>
@@ -73,13 +70,6 @@
                             </td>
                             <td>
                                 {{ poll.updatedAt | localizeddate('medium', 'medium', app.request.locale) }}
-                            </td>
-                            <td>
-                                {% if poll.deletedAt is not null %}
-                                {{ poll.deletedAt | localizeddate('medium', 'medium', app.request.locale) }}
-                                {% else %}
-                                -
-                                {% endif %}
                             </td>
                             <td>
                                 {% if poll.published %}
