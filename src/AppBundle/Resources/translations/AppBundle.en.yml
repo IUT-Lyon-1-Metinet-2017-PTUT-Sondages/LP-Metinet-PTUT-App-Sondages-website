@@ -1,6 +1,10 @@
 homepage: 'Homepage'
 return_to_homepage: 'Return to homepage'
 
+roles:
+  ROLE_ADMIN: 'Administrator'
+  ROLE_USER: 'User'
+
 admin_poll:
   polls_list: 'Polls list'
   poll_results: 'Poll results'
@@ -115,6 +119,7 @@ users:
   first_name: 'First name'
   last_name: 'Last name'
   email: 'E-mail address'
+  roles: 'Roles'
 
   update: 'Update'
   delete_confirmation: 'Do you really want to delete this user?'

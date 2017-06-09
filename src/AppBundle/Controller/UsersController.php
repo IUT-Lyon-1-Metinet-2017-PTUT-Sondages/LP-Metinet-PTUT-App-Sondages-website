@@ -18,11 +18,11 @@ class UsersController extends Controller
      */
     public function indexAction(Request $request)
     {
-        $userManager = $this->get('fos_user.user_manager');
+        $userManager = $this->get('app.user_manager');
         $paginator = $this->get('knp_paginator');
 
         $pagination = $paginator->paginate(
-            $userManager->findUsers(),
+            $userManager->findUsersAndSortBy(['email' => 'desc']),
             $request->query->getInt('page', 1),
             20
         );

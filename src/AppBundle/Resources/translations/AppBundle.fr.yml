@@ -1,6 +1,10 @@
 homepage: 'Accueil'
 return_to_homepage: 'Retour à l''accueil'
 
+roles:
+  ROLE_ADMIN: 'Administrateur'
+  ROLE_USER: 'Utilisateur'
+
 admin_poll:
   polls_list: 'Liste des sondages'
   poll_results: 'Résultats du sondage'
@@ -138,6 +142,7 @@ users:
   first_name: 'Prénom'
   last_name: 'Nom'
   email: 'Adresse E-mail'
+  roles: 'Roles'
 
   update: 'Modifier'
   delete_confirmation: 'Voulez-vous vraiment supprimer cet utilisateur ?'
