@@ -42,14 +42,6 @@ class UserUpdateType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function getParent()
-    {
-        return RegistrationType::class;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function getBlockPrefix()
     {
         return 'app_user_update';

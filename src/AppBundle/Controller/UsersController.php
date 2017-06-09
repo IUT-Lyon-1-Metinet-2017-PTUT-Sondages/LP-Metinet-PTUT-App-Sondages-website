@@ -58,10 +58,9 @@ class UsersController extends Controller
 
         if ($form->isSubmitted()) {
             if ($form->isValid()) {
-                /** @var User $data */
                 $data = $form->getData();
-                $user->setFirstName($data->getFirstName());
-                $user->setLastName($data->getLastName());
+                $user->setFirstName($data['firstName']);
+                $user->setLastName($data['lastName']);
                 $userManager->updateUser($user);
                 $this->addFlash('success', "L'utilisateur a bien été modifié");
 
