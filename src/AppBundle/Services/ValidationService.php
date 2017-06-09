@@ -94,6 +94,11 @@ class ValidationService
         if (($pollFromRequest = $request->get('poll')) !== null) {
             /** @var Poll $poll */
             $poll = $this->findIfExistOrCreateNew($pollFromRequest, Poll::class);
+            
+            if(!is_null($poll->getId())) {
+                $poll->updateTimestamps();
+            }
+
             $poll->setTitle($pollFromRequest['title']);
             $poll->setDescription($pollFromRequest['description']);
             $this->validatePollAndThrowIfErrors($poll);
