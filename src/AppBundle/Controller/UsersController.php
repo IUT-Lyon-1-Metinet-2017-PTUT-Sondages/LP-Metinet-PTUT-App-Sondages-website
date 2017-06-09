@@ -62,7 +62,7 @@ class UsersController extends Controller
                 $user->setLastName($data->getLastName());
                 $userManager->updateUser($user);
                 $this->addFlash('success', "L'utilisateur a bien été modifié");
-                
+
                 return $this->redirectToRoute('backoffice_users');
             }
         } else {
@@ -72,6 +72,49 @@ class UsersController extends Controller
         return $this->render('@App/backoffice/users/update.html.twig', [
             'form' => $form->createView(),
         ]);
+    }
+
+    /**
+     * @Route("/backoffice/users/elevating_to_admin/{id}", name="backoffice_users_elevating_to_admin", requirements={"id": "\d+"})
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function elevatingToAdmin(Request $request)
+    {
+        //TODO: déconnecter l'user
+
+        $userManager = $this->get('fos_user.user_manager');
+
+        $user = $userManager->findUserBy(['id' => $request->get('id')]);
+        $user->addRole('ROLE_ADMIN');
+        $userManager->updateUser($user);
+
+        if (!$request->headers->has('referer')) {
+            return $this->redirectToRoute('backoffice_users');
+        }
+
+        return $this->redirect($request->headers->get('referer'));
+    }
+
+    /**
+     * @Route("/backoffice/users/lowering_to_user/{id}", name="backoffice_users_lowering_to_user", requirements={"id": "\d+"})
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function loweringToUser(Request $request)
+    {
+        //TODO: déconnecter l'user
+        $userManager = $this->get('fos_user.user_manager');
+
+        $user = $userManager->findUserBy(['id' => $request->get('id')]);
+        $user->removeRole('ROLE_ADMIN');
+        $userManager->updateUser($user);
+
+        if (!$request->headers->has('referer')) {
+            return $this->redirectToRoute('backoffice_users');
+        }
+
+        return $this->redirect($request->headers->get('referer'));
     }
 
     /**

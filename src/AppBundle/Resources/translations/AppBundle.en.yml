@@ -122,6 +122,10 @@ users:
   roles: 'Roles'
 
   update: 'Update'
+  users.lowering_to_user_confirmation: ''
+  users.lowering_to_user: 'Lowering to normal user'
+  users.elevating_to_admin_confirmation: ''
+  users.elevating_to_admin: 'Elevate to administrator'
   delete_confirmation: 'Do you really want to delete this user?'
   delete: 'Delete'
 

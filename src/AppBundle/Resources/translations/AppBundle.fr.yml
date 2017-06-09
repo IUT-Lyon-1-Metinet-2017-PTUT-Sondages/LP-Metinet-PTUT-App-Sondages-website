@@ -145,6 +145,10 @@ users:
   roles: 'Roles'
 
   update: 'Modifier'
+  lowering_to_user_confirmation: 'Êtes-vous sûr de vouloir enlever le rôle d\''administrateur a cet utilisateur ?'
+  lowering_to_user: 'Abaisser en utilisateur normal'
+  elevating_to_admin_confirmation: 'Êtes-vous sûr de vouloir élever cet utilisateur en administrateur ?'
+  elevating_to_admin: 'Élever en administrateur'
   delete_confirmation: 'Voulez-vous vraiment supprimer cet utilisateur ?'
   delete: 'Supprimer'
 

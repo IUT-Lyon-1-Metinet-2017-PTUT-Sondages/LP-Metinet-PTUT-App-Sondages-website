@@ -40,7 +40,21 @@
                        class="btn btn-primary">
                         <i class="fa fa-pencil"></i><span class="hidden-xs-down">&nbsp;{{ 'users.update' | trans }}</span>
                     </a>
-                    {% if not user.hasRole('ROLE_ADMIN') %}
+                    {% if user.hasRole('ROLE_ADMIN') %}
+                        {% if app.user != user %}
+                            <a href="{{ path('backoffice_users_lowering_to_user', {'id': user.id}) }}"
+                               onclick="return confirm('{{ 'users.lowering_to_user_confirmation' | trans | escape}}');"
+                               class="btn btn-secondary">
+                                <i class="fa fa-level-down"></i>&nbsp;<span class="hidden-xs-down">{{ 'users.lowering_to_user' | trans }}</span>
+                            </a>
+                        {% endif %}
+                    {% else %}
+                        <a href="{{ path('backoffice_users_elevating_to_admin', {'id': user.id}) }}"
+                           onclick="return confirm('{{ 'users.elevating_to_admin_confirmation' | trans | escape}}');"
+                           class="btn btn-secondary">
+                            <i class="fa fa-level-up"></i>&nbsp;<span class="hidden-xs-down">{{ 'users.elevating_to_admin' | trans }}</span>
+                        </a>
+
                         <a href="{{ path('backoffice_users_delete', {'id': user.id}) }}"
                            onclick="return confirm('{{ 'users.delete_confirmation' | trans }}');"
                            class="btn btn-danger">
