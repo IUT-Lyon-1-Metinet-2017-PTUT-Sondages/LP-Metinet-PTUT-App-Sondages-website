@@ -12,6 +12,8 @@ use Symfony\Component\Validator\Constraint;
 
 /**
  * @Annotation
+ * Class IsExistingVariant
+ * @package AppBundle\Validator\Constraints
  */
 class IsExistingVariant extends Constraint
 {

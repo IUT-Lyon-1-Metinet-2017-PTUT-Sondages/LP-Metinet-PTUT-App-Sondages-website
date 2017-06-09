@@ -29,6 +29,8 @@ security:
         - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/backoffice/users/, role: ROLE_ADMIN }
         - { path: ^/backoffice/users$, role: ROLE_ADMIN }
+        - { path: ^/backoffice/config/, role: ROLE_ADMIN }
+        - { path: ^/backoffice/config$, role: ROLE_ADMIN }
         - { path: ^/backoffice/user/, role: ROLE_USER }
         - { path: ^/backoffice/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/backoffice/, role: ROLE_USER }

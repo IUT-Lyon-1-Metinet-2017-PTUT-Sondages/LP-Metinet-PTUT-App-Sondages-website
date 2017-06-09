@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\User;
 use AppBundle\Form\UserUpdateType;
+use FOS\UserBundle\Doctrine\UserManager;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -41,6 +42,7 @@ class UsersController extends Controller
      */
     public function updateAction(Request $request, $id)
     {
+        /** @var UserManager $userManager */
         $userManager = $this->get('fos_user.user_manager');
         /** @var User $user */
         $user = $userManager->findUserBy(['id' => $id]);
