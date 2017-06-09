@@ -39,10 +39,10 @@
                                 {{ 'admin_poll.table.author' | trans }}
                             </th>
                         {% endif %}
-                        <th class="hidden-sm-down">
+                        <th class="hidden-sm-down{% if pagination.isSorted('p.createdAt') %} sorted{% endif %}">
                             {{ knp_pagination_sortable(pagination, 'admin_poll.table.created_at' | trans, 'p.createdAt') }}
                         </th>
-                        <th class="hidden-sm-down">
+                        <th class="hidden-sm-down{% if pagination.isSorted('p.updatedAt') %} sorted{% endif %}">
                             {{ knp_pagination_sortable(pagination, 'admin_poll.table.updated_at' | trans, 'p.updatedAt') }}
                         </th>
                         <th>
