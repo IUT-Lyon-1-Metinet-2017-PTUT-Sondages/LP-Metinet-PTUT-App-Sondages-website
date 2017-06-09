@@ -1,6 +1,10 @@
 homepage: 'Accueil'
 return_to_homepage: 'Retour à l''accueil'
 
+roles:
+  ROLE_ADMIN: 'Administrateur'
+  ROLE_USER: 'Utilisateur'
+
 admin_poll:
   polls_list: 'Liste des sondages'
   poll_results: 'Résultats du sondage'
@@ -10,11 +14,16 @@ admin_poll:
   polls_archive_list: 'Sondages archivés'
   create_poll: 'Créer un sondage'
 
+  archive:
+    info: "Les sondages listés ci-dessous ne sont accessible que par vous. Aucune réponse ne peut-etre ajouté."
   table:
     title: 'Titre'
     author: 'Auteur'
     state: 'Etat'
     created_at: 'Créé le'
+    updated_at: 'Dernière mise à jour'
+    deleted_at: 'Archivé le'
+    will_be_deleted_at: 'Sera archivé le'
 
   table_values:
     published: 'Publié'
@@ -133,8 +142,13 @@ users:
   first_name: 'Prénom'
   last_name: 'Nom'
   email: 'Adresse E-mail'
+  roles: 'Roles'
 
   update: 'Modifier'
+  lowering_to_user_confirmation: 'Êtes-vous sûr de vouloir enlever le rôle d\''administrateur a cet utilisateur ?'
+  lowering_to_user: 'Abaisser en utilisateur normal'
+  elevating_to_admin_confirmation: 'Êtes-vous sûr de vouloir élever cet utilisateur en administrateur ?'
+  elevating_to_admin: 'Élever en administrateur'
   delete_confirmation: 'Voulez-vous vraiment supprimer cet utilisateur ?'
   delete: 'Supprimer'
 

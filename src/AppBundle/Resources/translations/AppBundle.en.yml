@@ -1,6 +1,10 @@
 homepage: 'Homepage'
 return_to_homepage: 'Return to homepage'
 
+roles:
+  ROLE_ADMIN: 'Administrator'
+  ROLE_USER: 'User'
+
 admin_poll:
   polls_list: 'Polls list'
   poll_results: 'Poll results'
@@ -15,6 +19,9 @@ admin_poll:
     author: 'Author'
     state: 'State'
     created_at: 'Created at'
+    updated_at: 'Last modification'
+    deleted_at: 'Archived at'
+    will_be_deleted_at: 'Will be archived at'
 
   table_values:
     published: 'Published'
@@ -112,8 +119,13 @@ users:
   first_name: 'First name'
   last_name: 'Last name'
   email: 'E-mail address'
+  roles: 'Roles'
 
   update: 'Update'
+  users.lowering_to_user_confirmation: ''
+  users.lowering_to_user: 'Lowering to normal user'
+  users.elevating_to_admin_confirmation: ''
+  users.elevating_to_admin: 'Elevate to administrator'
   delete_confirmation: 'Do you really want to delete this user?'
   delete: 'Delete'
 

@@ -5,6 +5,10 @@ parameters:
 
 services:
     # Repositories service
+    app.user_manager:
+      class: AppBundle\Services\UserManager
+      arguments: ["@doctrine.orm.entity_manager"]
+
     app.repository_service.poll:
         class: AppBundle\Services\PollRepositoryService
         arguments: ["@doctrine.orm.entity_manager","@jms_serializer"]
@@ -43,13 +47,15 @@ services:
         arguments: ["@doctrine.orm.entity_manager","@validator","@app.repository_service.chart_type", "@app.repository_service.variant","@app.creation_service.poll"]
 
     app.validator.variant:
-           class: AppBundle\Validator\Constraints\IsExistingVariantValidator
-           arguments: ["@app.repository_service.variant"]
+        class: AppBundle\Validator\Constraints\IsExistingVariantValidator
+        arguments: ["@doctrine.orm.entity_manager"]
+        tags:
+           - {name: validator.constraint_validator}
 
     # API
     app.api.auth_service:
-          class: AppBundle\Services\ApiAuthService
-          arguments: ["@request_stack", "%api_token%"]
+        class: AppBundle\Services\ApiAuthService
+        arguments: ["@request_stack", "%api_token%"]
 
     # Twig
     app.twig_extension:

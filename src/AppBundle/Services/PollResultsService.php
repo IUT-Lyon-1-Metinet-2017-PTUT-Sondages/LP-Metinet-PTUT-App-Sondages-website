@@ -202,7 +202,7 @@ class PollResultsService
                 $series->setPlotDirection(\PHPExcel_Chart_DataSeries::DIRECTION_COL);
                 $plotArea = new \PHPExcel_Chart_PlotArea(null, array($series));
                 $legend   = new \PHPExcel_Chart_Legend(\PHPExcel_Chart_Legend::POSITION_RIGHT, null, false);
-                $title    = new \PHPExcel_Chart_Title('Graphique ' . $question['qTitle']);
+                $title    = new \PHPExcel_Chart_Title($question['qTitle']);
 
                 $chart = new \PHPExcel_Chart(
                     'chart' . $question['qTitle'],

@@ -5,7 +5,7 @@
 
 {% block main %}
     <h1 class="text-center pb-2">{{ 'users.users_list' | trans }}</h1>
-    <table class="table">
+    <table class="table  table-striped table-condensed">
         <thead>
         <tr>
             <th{% if pagination.isSorted('a.firstname') %} class="sorted"{% endif %}>
@@ -16,6 +16,9 @@
             </th>
             <th class="hidden-xs-down {% if pagination.isSorted('a.email') %}sorted{% endif %}">
                 {{ knp_pagination_sortable(pagination, 'users.email' | trans, 'a.email') }}
+            </th>
+            <th class="hidden-xs-down">
+                {{ 'users.roles' | trans }}
             </th>
             <th></th>
         </tr>
@@ -28,11 +31,30 @@
                 <td>{{ user.lastname }}</td>
                 <td class="hidden-xs-down">{{ user.email }}</td>
                 <td>
+                    {% for role in user.roles %}
+                        {{ ('roles.' ~ role) | trans }}{% if not loop.last %}, {% endif %}
+                    {% endfor %}
+                </td>
+                <td>
                     <a href="{{ path('backoffice_users_update', {'id': user.id}) }}"
                        class="btn btn-primary">
                         <i class="fa fa-pencil"></i><span class="hidden-xs-down">&nbsp;{{ 'users.update' | trans }}</span>
                     </a>
-                    {% if not user.hasRole('ROLE_ADMIN') %}
+                    {% if user.hasRole('ROLE_ADMIN') %}
+                        {% if app.user != user %}
+                            <a href="{{ path('backoffice_users_lowering_to_user', {'id': user.id}) }}"
+                               onclick="return confirm('{{ 'users.lowering_to_user_confirmation' | trans | escape}}');"
+                               class="btn btn-secondary">
+                                <i class="fa fa-level-down"></i>&nbsp;<span class="hidden-xs-down">{{ 'users.lowering_to_user' | trans }}</span>
+                            </a>
+                        {% endif %}
+                    {% else %}
+                        <a href="{{ path('backoffice_users_elevating_to_admin', {'id': user.id}) }}"
+                           onclick="return confirm('{{ 'users.elevating_to_admin_confirmation' | trans | escape}}');"
+                           class="btn btn-secondary">
+                            <i class="fa fa-level-up"></i>&nbsp;<span class="hidden-xs-down">{{ 'users.elevating_to_admin' | trans }}</span>
+                        </a>
+
                         <a href="{{ path('backoffice_users_delete', {'id': user.id}) }}"
                            onclick="return confirm('{{ 'users.delete_confirmation' | trans }}');"
                            class="btn btn-danger">

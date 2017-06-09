@@ -6,11 +6,10 @@ namespace AppBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-use AppBundle\Validator\Constraints as AcmeAssert;
-use Knp\DoctrineBehaviors\Model as ORMBehaviors;
 use JMS\Serializer\Annotation\ExclusionPolicy;
 use JMS\Serializer\Annotation\Expose;
 use JMS\Serializer\Annotation\Groups;
+use AppBundle\Validator\Constraints as KodrastanAssert;
 
 /**
  * Proposition
@@ -64,8 +63,7 @@ class Proposition
      * @Groups({"backOffice"})
      * @ORM\ManyToOne(targetEntity="Variant", inversedBy="propositions")
      * @ORM\JoinColumn(name="variant_id", referencedColumnName="id", onDelete="CASCADE")
-     // @ AcmeAssert\IsExistingVariant
-     // Type error: Argument 1 passed to AppBundle\Validator\Constraints\IsExistingVariantValidator::__construct() must be an instance of AppBundle\Services\VariantRepositoryService, none given, called in /home/kocal/Dev/Sites/LP-Metinet-PTUT-App-Sondages/website/vendor/symfony/symfony/src/Symfony/Bundle/FrameworkBundle/Validator/ConstraintValidatorFactory.php on line 77
+     * @KodrastanAssert\IsExistingVariant
      */
     private $variant;
 

@@ -8,25 +8,25 @@
 
 namespace AppBundle\Validator\Constraints;
 
-use AppBundle\Repository\VariantRepository;
-use AppBundle\Services\VariantRepositoryService;
+use Doctrine\ORM\EntityManager;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 
 class IsExistingVariantValidator extends ConstraintValidator
 {
     /**
-     * @var VariantRepository
+     * @var EntityManager
      */
-    private $variantRepositoryService;
+    protected $em;
+
 
     /**
      * IsExistingVariantValidator constructor.
-     * @param VariantRepositoryService $variantRepositoryService
+     * @param EntityManager $entityManager
      */
-    public function __construct(VariantRepositoryService $variantRepositoryService)
+    public function __construct(EntityManager $entityManager)
     {
-        $this->variantRepositoryService = $variantRepositoryService;
+        $this->em = $entityManager;
     }
 
     /**
@@ -35,7 +35,8 @@ class IsExistingVariantValidator extends ConstraintValidator
      */
     public function validate($value, Constraint $constraint)
     {
-        $variant = $this->variantRepositoryService->findBy(['name' => $value]);
+
+        $variant = $this->em->getRepository('AppBundle:Variant')->findBy(['name' => $value->getName()]);
         if (!$variant) {
             $this->context->buildViolation($constraint->message)->addViolation();
         }

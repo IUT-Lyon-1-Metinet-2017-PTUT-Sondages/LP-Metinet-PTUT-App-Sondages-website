@@ -11,6 +11,8 @@ use AppBundle\Entity\Variant;
 use AppBundle\Exception\ValidationFailedException;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Validator\ConstraintViolation;
+use Symfony\Component\Validator\ConstraintViolationList;
 use Symfony\Component\Validator\Exception\ValidatorException;
 use Symfony\Component\Validator\Validator\ValidatorInterface as Validator;
 
@@ -94,6 +96,11 @@ class ValidationService
         if (($pollFromRequest = $request->get('poll')) !== null) {
             /** @var Poll $poll */
             $poll = $this->findIfExistOrCreateNew($pollFromRequest, Poll::class);
+            
+            if(!is_null($poll->getId())) {
+                $poll->updateTimestamps();
+            }
+
             $poll->setTitle($pollFromRequest['title']);
             $poll->setDescription($pollFromRequest['description']);
             $this->validatePollAndThrowIfErrors($poll);
@@ -157,19 +164,21 @@ class ValidationService
                             if (isset($questionFromRequest['propositions'])
                                 && ($propositionsFromRequest = $questionFromRequest['propositions']) !== null
                             ) {
+
+
                                 foreach ($propositionsFromRequest as $propositionFromRequest) {
+                                    $currentTitle = $propositionFromRequest['title'];
                                     /** @var Proposition $proposition */
                                     $proposition = $this->findIfExistOrCreateNew(
                                         $propositionFromRequest,
                                         Proposition::class
                                     );
-                                    $proposition->setTitle($propositionFromRequest['title']);
+                                    $proposition->setTitle($currentTitle);
                                     $proposition->setVariant($variant);
                                     $proposition->setQuestion($question);
                                     $this->validatePropositionAndThrowIfErrors($proposition);
+
                                     $question->addProposition($proposition);
-
-
                                 }
                                 $this->pollCreationService->createPoll(
                                     $poll,

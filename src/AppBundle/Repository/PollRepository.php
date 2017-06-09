@@ -43,51 +43,60 @@ GROUP BY pr.id';
         return $query->getQuery()->getSingleScalarResult();
     }
 
-    public function findBy(array $criteria, array $orderBy = NULL, $limit = NULL, $offset = NULL)
+    public function findBy(array $criteria, array $orderBy = NULL, $limit = NULL, $offset = NULL, $hydrate = true)
     {
-        $polls = $this->createQueryBuilder('p');
+        $qb = $this->createQueryBuilder('p');
 
         foreach ($criteria as $column => $value) {
-            $polls = $polls
+            $qb = $qb
                 ->where($column . '= :param')
                 ->setParameter('param', $value);
         }
 
-        $polls = $polls->groupBy('p.id')
-            ->add('orderBy', "p.{$orderBy[0]} {$orderBy[1]}")
+        $qb = $qb->groupBy('p.id')
+            ->add('orderBy', "{$orderBy[0]} {$orderBy[1]}")
             ->setFirstResult($offset)
-            ->setMaxResults($limit)
-            ->getQuery()
-            ->getResult();
+            ->setMaxResults($limit);
 
-        return $polls;
+        if ($hydrate) {
+            return $qb
+                ->getQuery()
+                ->getResults();
+        }
+
+        return $qb;
     }
-    public function findDeletedBy(array $criteria, array $orderBy = NULL, $limit = NULL, $offset = NULL)
+
+    public function findDeletedBy(array $criteria, array $orderBy = NULL, $limit = NULL, $offset = NULL, $hydrate = true)
     {
-        $polls = $this->createQueryBuilder('p');
+        $qb = $this->createQueryBuilder('p');
 
         foreach ($criteria as $column => $value) {
-            $polls = $polls
+            $qb = $qb
                 ->where($column . '= :param')
                 ->setParameter('param', $value);
         }
 
-        $polls = $polls->andWhere($polls->expr()->isNotNull('p.deletedAt'));
+        $qb = $qb->andWhere('p.deletedAt <= CURRENT_TIMESTAMP()');
 
-        $polls = $polls->groupBy('p.id')
-            ->add('orderBy', "p.{$orderBy[0]} {$orderBy[1]}")
+        $qb = $qb->groupBy('p.id')
+            ->add('orderBy', "{$orderBy[0]} {$orderBy[1]}")
             ->setFirstResult($offset)
-            ->setMaxResults($limit)
-            ->getQuery()
-            ->getResult();
+            ->setMaxResults($limit);
 
-        return $polls;
+        if($hydrate) {
+            return $qb
+                ->getQuery()
+                ->getResult();
+        }
+
+        return $qb;
     }
+
     public function findDeletedOneBy(array $criteria)
     {
         $polls = $this->createQueryBuilder('p');
-        $polls = $polls
-            ->where($polls->expr()->isNotNull('p.deletedAt'));
+        $polls = $polls->andWhere('p.deletedAt <= CURRENT_TIMESTAMP()');
 
         foreach ($criteria as $column => $value) {
             $polls = $polls

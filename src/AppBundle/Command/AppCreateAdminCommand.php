@@ -30,6 +30,12 @@ class AppCreateAdminCommand extends ContainerAwareCommand
 
         // Credentials
         $email = $input->getArgument('email');
+
+        if(filter_var($email, FILTER_VALIDATE_EMAIL) === false) {
+            $io->error("Merci de rentrer une adresse e-mail au format valide.");
+            return;
+        }
+
         $password = $io->askHidden("Mot de passe ?", function ($password) {
             if (empty($password)) {
                 throw new \RuntimeException("Le mot de passe ne peut être vide.");
@@ -44,11 +50,6 @@ class AppCreateAdminCommand extends ContainerAwareCommand
         $admin->setEmail($email);
         $admin->setEnabled(true);
         $admin->setPlainPassword($password);
-
-        foreach ($validator->validate($admin) as $error) {
-            $io->error($error->getMessage());
-            return;
-        }
 
         try {
             $userManager->updateUser($admin);
